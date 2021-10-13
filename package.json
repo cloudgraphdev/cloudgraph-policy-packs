@@ -1,0 +1,57 @@
+{
+  "name": "@cloudgraph/policy-pack-aws-demo",
+  "description": "Policy pack implementing demo controls for AWS",
+  "version": "0.0.0",
+  "author": "AutoCloud",
+  "license": "MPL-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest",
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-demo/issues",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@autocloud/eslint-config": "^0.1.0",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/git": "^10.0.0",
+    "@semantic-release/gitlab": "^7.0.3",
+    "@semantic-release/npm": "^8.0.0",
+    "@types/pino": "^6.3.11",
+    "chai": "^4.3.4",
+    "husky": "^4.3.0",
+    "lint-staged": "^11.2.3",
+    "mocha": "^9.1.2",
+    "semantic-release": "^18.0.0",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.4"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://www.cloudgraph.dev/",
+  "keywords": [
+    "cloudgraph"
+  ],
+  "repository": "github:cloudgraphdev/policy-pack-aws-demo",
+  "scripts": {
+    "lint": "eslint --config .eslintrc.json --ext .js,.ts ./",
+    "lint:fix": "eslint --fix --config .eslintrc.json --ext .js,.ts ./"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,graphql,json}": [
+      "yarn lint:fix",
+      "git add --force"
+    ]
+  }
+}
