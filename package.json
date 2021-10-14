@@ -13,8 +13,12 @@
   "types": "lib/index.d.ts",
   "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-demo/issues",
   "dependencies": {
+    "@cloudgraph/sdk": "0.3.10",
     "chalk": "^4.1.2",
-    "tslib": "^1"
+    "jsonpath": "^1.1.1",
+    "lodash": "^4.17.21",
+    "tslib": "^1",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
@@ -22,14 +26,25 @@
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/gitlab": "^7.0.3",
     "@semantic-release/npm": "^8.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/jsonpath": "^0.2.0",
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^15.12.4",
     "@types/pino": "^6.3.11",
-    "chai": "^4.3.4",
-    "husky": "^4.3.0",
-    "lint-staged": "^11.2.3",
-    "mocha": "^9.1.2",
-    "semantic-release": "^18.0.0",
-    "ts-node": "^10.3.0",
-    "typescript": "^4.4.4"
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "cpx": "^1.5.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.0",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.1.1",
+    "prettier": "^2.3.2",
+    "semantic-release": "^17.4.4",
+    "shx": "^0.3.3",
+    "ts-jest": "^27.0.4"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -40,6 +55,10 @@
   ],
   "repository": "github:cloudgraphdev/policy-pack-aws-demo",
   "scripts": {
+    "build": "yarn prepublish",
+    "prepare": "npx husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks",
+    "prepublish": "rm -rf lib && tsc",
+    "test": "NODE_ENV=test jest",
     "lint": "eslint --config .eslintrc.json --ext .js,.ts ./",
     "lint:fix": "eslint --fix --config .eslintrc.json --ext .js,.ts ./"
   },
