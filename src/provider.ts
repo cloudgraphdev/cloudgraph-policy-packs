@@ -28,8 +28,7 @@ export interface RuleFinding {
   ruleId: string
   resourceId: string
   result: 'FAIL' | 'PASS' | 'MISSING'
-  // connections ...
-  // securityGroup: [{id: data.resource.id}]
+  [key: string]: any
 }
 
 export default class RulesProvider {
@@ -96,9 +95,7 @@ export default class RulesProvider {
     for (const rule of this.rules) {
       try {
         const { data } = (await cli.query(rule.gql)) as any
-        console.log('executing rule with data', rule, data)
         const result = await this.processRule(rule, data)
-        console.log('result: ', result)
         findings.push(...result)
       } catch (error) {
         console.error(error)
@@ -199,7 +196,7 @@ export default class RulesProvider {
       data.resource.__typename &&
       this.typenameToFieldMap[data.resource.__typename]
     if (connField) {
-      ;(finding as any)[connField] = [{ id: data.resource.id }]
+      finding[connField] = [{ id: data.resource.id }]
     }
     return finding
   }
@@ -210,11 +207,11 @@ export default class RulesProvider {
    */
   private highlightPath(data: any, path: PathComponent[]) {
     let curr = data // we can write the data, as next time we'll set the same fields
-    for (let j = 1; j < path.length; j + 1) {
+    for (let j = 1; j < path.length; j++) {
       const segment = path[j]
       if (Array.isArray(curr)) {
         // this is an array, we store in []._ the alias of this resource position in the array
-        ;(curr as any)['@'] = curr[segment as number]
+        (curr as any)['@'] = curr[segment as number]
       }
       curr = curr[segment]
     }

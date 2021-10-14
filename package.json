@@ -56,6 +56,7 @@
   "repository": "github:cloudgraphdev/policy-pack-aws-demo",
   "scripts": {
     "build": "yarn prepublish",
+    "prepack": "rm -rf lib && tsc -b",
     "prepare": "npx husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks",
     "prepublish": "rm -rf lib && tsc",
     "test": "NODE_ENV=test jest",
