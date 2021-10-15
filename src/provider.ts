@@ -26,6 +26,7 @@ export enum RuleResult {
 export interface RuleFinding {
   id: string
   ruleId: string
+  ruleDescription: string
   resourceId: string
   result: 'FAIL' | 'PASS' | 'MISSING'
   [key: string]: any
@@ -98,7 +99,7 @@ export default class RulesProvider {
         const result = await this.processRule(rule, data)
         findings.push(...result)
       } catch (error) {
-        console.error(error)
+        // console.error(error)
       }
     }
 
@@ -128,7 +129,7 @@ export default class RulesProvider {
     const evaluator = this.getRuleEvaluator(rule)
 
     if (!evaluator) {
-      console.warn('cant process rule - unrecognized pattern', rule)
+      // console.warn('cant process rule - unrecognized pattern', rule)
       return []
     }
 
@@ -138,20 +139,20 @@ export default class RulesProvider {
       const { path, value: resource } = resourcePaths[i]
       if (!resource.id) {
         // @NOTE: we'll support more complex rules in the future where you dont need a resource upfront
-        console.warn('Resource must have an id', resourcePaths[i])
+        // console.warn('Resource must have an id', resourcePaths[i])
         continue
       }
       if (dedupeIds[resource.id]) {
-        console.warn('Resource is duplicated, skipping', resource.id)
+        // console.warn('Resource is duplicated, skipping', resource.id)
         continue // eslint-disable-line no-continue
       }
       dedupeIds[resource.id] = 1
 
       if (path[0] !== '$') {
-        console.log(
-          'Is this case possible? how do we process it?',
-          resourcePaths[i]
-        )
+        // console.log(
+        //   'Is this case possible? how do we process it?',
+        //   resourcePaths[i]
+        // )
         continue
       }
       const processedData = this.highlightPath(data, path)
@@ -161,7 +162,7 @@ export default class RulesProvider {
         resourcePath: jsonpath.stringify(path),
       })
       if (ruleResult) {
-        res.push(ruleResult)
+        res.push({  ...ruleResult, ruleDescription: rule.description })
       }
     }
     return res
