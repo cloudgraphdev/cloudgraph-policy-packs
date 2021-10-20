@@ -26,7 +26,6 @@
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/gitlab": "^7.0.3",
     "@semantic-release/npm": "^8.0.0",
-    "@types/jest": "^26.0.24",
     "@types/jsonpath": "^0.2.0",
     "@types/lodash": "^4.14.170",
     "@types/node": "^15.12.4",
@@ -39,12 +38,10 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.0",
-    "jest": "^27.0.6",
     "lint-staged": "^11.1.1",
     "prettier": "^2.3.2",
     "semantic-release": "^17.4.4",
-    "shx": "^0.3.3",
-    "ts-jest": "^27.0.4"
+    "shx": "^0.3.3"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -59,7 +56,6 @@
     "prepack": "rm -rf lib && tsc -b",
     "prepare": "npx husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks",
     "prepublish": "rm -rf lib && tsc",
-    "test": "NODE_ENV=test jest",
     "lint": "eslint --config .eslintrc.json --ext .js,.ts ./",
     "lint:fix": "eslint --fix --config .eslintrc.json --ext .js,.ts ./"
   },
