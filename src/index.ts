@@ -64,7 +64,6 @@ export default {
       conditions: {
         or: [
           {
-            // @TODO - add a and passwordEnabled
             value: { daysAgo: {}, path: '@.passwordLastUsed' },
             greaterThan: 90,
           },
@@ -74,6 +73,62 @@ export default {
               value: { daysAgo: {}, path: '[*].lastUsedDate' },
               greaterThan: 90,
             },
+          },
+        ],
+      },
+    },
+    {
+      id: 'r3',
+      description:
+        'AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)',
+      gql: `{
+        queryawsIamUser {
+          id
+          __typename
+          passwordLastUsed
+          mfaDevices {
+            serialNumber
+          }
+        }
+      }`,
+      resource: 'queryawsIamUser[*]',
+      conditions: {
+        and: [
+          { notEqual: '', path: '@.passwordLastUsed' },
+          {
+            path: '@.mfaDevices',
+            array_all: { path: '[*]', greaterThan: 0 },
+          },
+        ],
+      },
+    },
+    {
+      id: 'r4',
+      description:
+        'AWS CIS 1.4 Ensure access keys are rotated every 90 days or less',
+      gql: `{
+        queryawsIamUser {
+          id
+           __typename
+          accessKeyData {
+            status
+            lastUsedDate
+          }
+        }
+      }`,
+      resource: 'queryawsIamUser[*]',
+      conditions: {
+        and: [
+          {
+            path: '@.accessKeyData',
+            array_any: {
+              value: { daysAgo: {}, path: '[*].lastUsedDate' },
+              greaterThan: 90,
+            },
+          },
+          {
+            path: '@.accessKeyData',
+            array_any: { equal: 'Active', path: '[*].status' },
           },
         ],
       },
