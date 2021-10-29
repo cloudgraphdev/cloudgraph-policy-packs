@@ -150,5 +150,22 @@ export default {
         equal: true,
       },
     },
+    {
+      id: 'r6',
+      description:
+        'AWS CIS 1.6  Ensure IAM password policy requires at least one lowercase letter',
+      gql: `{
+        queryawsIamPasswordPolicy {
+          id
+          __typename
+          requireLowercaseCharacters
+        }
+      }`,
+      resource: 'queryawsIamPasswordPolicy[*]',
+      conditions: {
+        path: '@.requireLowercaseCharacters',
+        equal: true,
+      },
+    },
   ],
 }
