@@ -147,7 +147,7 @@ export default {
       resource: 'queryawsIamPasswordPolicy[*]',
       conditions: {
         path: '@.requireUppercaseCharacters',
-        equal: true,
+        equal: false,
       },
     },
     {
@@ -164,7 +164,7 @@ export default {
       resource: 'queryawsIamPasswordPolicy[*]',
       conditions: {
         path: '@.requireLowercaseCharacters',
-        equal: true,
+        equal: false,
       },
     },
     {
@@ -181,7 +181,24 @@ export default {
       resource: 'queryawsIamPasswordPolicy[*]',
       conditions: {
         path: '@.requireSymbols',
-        equal: true,
+        equal: false,
+      },
+    },
+    {
+      id: 'r8',
+      description:
+        'AWS CIS 1.8  Ensure IAM password policy requires at least one number',
+      gql: `{
+        queryawsIamPasswordPolicy {
+          id
+          __typename
+          requireNumbers
+        }
+      }`,
+      resource: 'queryawsIamPasswordPolicy[*]',
+      conditions: {
+        path: '@.requireNumbers',
+        equal: false,
       },
     },
   ],
