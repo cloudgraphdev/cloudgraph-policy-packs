@@ -167,5 +167,22 @@ export default {
         equal: true,
       },
     },
+    {
+      id: 'r7',
+      description:
+        'AWS CIS 1.7  Ensure IAM password policy requires at least one symbol',
+      gql: `{
+        queryawsIamPasswordPolicy {
+          id
+          __typename
+          requireSymbols
+        }
+      }`,
+      resource: 'queryawsIamPasswordPolicy[*]',
+      conditions: {
+        path: '@.requireSymbols',
+        equal: true,
+      },
+    },
   ],
 }
