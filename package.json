@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-aws-demo",
   "description": "Policy pack implementing demo controls for AWS",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "publishConfig": {
