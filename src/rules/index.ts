@@ -6,6 +6,7 @@ import Aws_CIS_120_16 from './aws-cis-1.2.0-1.6'
 import Aws_CIS_120_17 from './aws-cis-1.2.0-1.7'
 import Aws_CIS_120_18 from './aws-cis-1.2.0-1.8'
 import Aws_CIS_120_19 from './aws-cis-1.2.0-1.9'
+import Aws_CIS_120_110 from './aws-cis-1.2.0-1.10'
 
 export default [
   Aws_CIS_120_12,
@@ -16,4 +17,5 @@ export default [
   Aws_CIS_120_17,
   Aws_CIS_120_18,
   Aws_CIS_120_19,
+  Aws_CIS_120_110,
 ]
