@@ -1,7 +1,7 @@
 {
-  "name": "@cloudgraph/policy-pack-aws-demo",
-  "description": "Policy pack implementing demo controls for AWS",
-  "version": "1.0.0",
+  "name": "@cloudgraph/policy-pack-aws-cis-1.2.0",
+  "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.2.0 Benchmark",
+  "version": "0.0.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "publishConfig": {
@@ -11,13 +11,14 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-demo/issues",
+  "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
   "dependencies": {
     "tslib": "^1",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
+    "@cloudgraph/sdk": "^0.5.0",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/gitlab": "^7.0.3",
@@ -44,7 +45,7 @@
   "keywords": [
     "cloudgraph"
   ],
-  "repository": "github:cloudgraphdev/policy-pack-aws-demo",
+  "repository": "github:cloudgraphdev/policy-pack-aws-cis-1.2.0",
   "scripts": {
     "build": "yarn prepublish",
     "prepack": "rm -rf lib && tsc -b",
