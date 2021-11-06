@@ -1,14 +1,160 @@
-import CloudGraph from '@cloudgraph/sdk'
+import cuid from 'cuid'
+import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
-import { Rule, RuleResult } from '@cloudgraph/sdk/dist/src/rules-engine/types'
-import RulesProvider from '../../sdk/dist/src/rules-engine'
-
+import Aws_CIS_120_15 from '../src/rules/aws-cis-1.2.0-1.5'
+import Aws_CIS_120_16 from '../src/rules/aws-cis-1.2.0-1.6'
+import Aws_CIS_120_17 from '../src/rules/aws-cis-1.2.0-1.7'
+import Aws_CIS_120_18 from '../src/rules/aws-cis-1.2.0-1.8'
 import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
-  let rulesEngine: RulesProvider
+  let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine([Aws_CIS_120_19 as Rule], {}, '')
+    rulesEngine = new CloudGraph.RulesEngine()
+  })
+
+  describe('AWS CIS 1.5  Ensure IAM password policy requires at least one uppercase letter', () => {
+    test('Should fail given a password policy without required uppercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_15 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one uppercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_15 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.6  Ensure IAM password policy requires at least one lowercase letter', () => {
+    test('Should fail given a password policy without required lowercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireLowercaseCharacters: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_16 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one lowercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireLowercaseCharacters: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_16 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.7  Ensure IAM password policy requires at least one symbol', () => {
+    test('Should fail given a password policy without required symbols', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireSymbols: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_17 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one symbols', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireSymbols: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_17 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.8  Ensure IAM password policy requires at least one number', () => {
+    test('Should fail given a password policy without required numbers', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireNumbers: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_18 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one number', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireNumbers: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_18 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
   })
 
   describe('AWS CIS 1.9 Ensure IAM password policy requires minimum length of 14 or greater', () => {
@@ -16,36 +162,34 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       const data = {
         queryawsIamPasswordPolicy: [
           {
-            id: 'iam:region:aws-global-account:632941798677-aws-iam-password-policy-ckvmuy28g0000ats15vhwgane',
-            __typename: 'awsIamPasswordPolicy',
+            id: cuid(),
             minimumPasswordLength: 13,
           },
         ],
       }
 
-      const result = await rulesEngine.processRule(
+      const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_19 as Rule,
-        { data } as any
+        { ...data } as any
       )
-      expect(result).toBe(RuleResult.DOESNT_MATCH)
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
     })
 
     test('Should pass given a password policy length of 14', async () => {
       const data = {
         queryawsIamPasswordPolicy: [
           {
-            id: 'iam:region:aws-global-account:632941798677-aws-iam-password-policy-ckvmuy28g0000ats15vhwgane',
-            __typename: 'awsIamPasswordPolicy',
+            id: cuid(),
             minimumPasswordLength: 14,
           },
         ],
       }
 
-      const result = await rulesEngine.processRule(
+      const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_19 as Rule,
-        { data } as any
+        { ...data } as any
       )
-      expect(result).toBe(RuleResult.MATCHES)
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
     })
   })
 })
