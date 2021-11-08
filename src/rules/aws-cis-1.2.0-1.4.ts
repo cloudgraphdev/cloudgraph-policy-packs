@@ -8,24 +8,22 @@ export default {
        __typename
       accessKeyData {
         status
-        lastUsedDate
+        createDate
       }
     }
   }`,
   resource: 'queryawsIamUser[*]',
   conditions: {
-    and: [
-      {
-        path: '@.accessKeyData',
-        array_any: {
-          value: { daysAgo: {}, path: '[*].lastUsedDate' },
+    path: '@.accessKeyData',
+    array_any: {
+      and: [
+        {
+          value: { daysAgo: {}, path: '[*].createDate' },
           greaterThan: 90,
         },
-      },
-      {
-        path: '@.accessKeyData',
-        array_any: { equal: 'Active', path: '[*].status' },
-      },
-    ],
+
+        { path: '[*].status', equal: 'Active' },
+      ],
+    },
   },
 }

@@ -1,6 +1,9 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
+import Aws_CIS_120_12 from '../src/rules/aws-cis-1.2.0-1.2'
+import Aws_CIS_120_13 from '../src/rules/aws-cis-1.2.0-1.3'
+import Aws_CIS_120_14 from '../src/rules/aws-cis-1.2.0-1.4'
 import Aws_CIS_120_15 from '../src/rules/aws-cis-1.2.0-1.5'
 import Aws_CIS_120_16 from '../src/rules/aws-cis-1.2.0-1.6'
 import Aws_CIS_120_17 from '../src/rules/aws-cis-1.2.0-1.7'
@@ -11,6 +14,168 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine()
+  })
+
+  describe('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
+    test('Should fail when a user has an active password without an mfa device register', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '2021-04-07T17:20:19.000Z',
+            mfaDevices: [],
+          },
+        ],
+      }
+
+      const processedRules = await rulesEngine.processRule(
+        Aws_CIS_120_12 as Rule,
+        { ...data } as any
+      )
+      const result = processedRules.some(
+        processedRule => processedRule.result === CloudGraph.Result.FAIL
+      )
+      expect(result).toBeTruthy()
+    })
+
+    test('Should pass when a user has an active password with an mfa device register', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '2021-04-07T17:20:19.000Z',
+            mfaDevices: [
+              {
+                serialNumber: cuid(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const processedRules = await rulesEngine.processRule(
+        Aws_CIS_120_12 as Rule,
+        { ...data } as any
+      )
+
+      const result = processedRules.every(
+        processedRule => processedRule.result === CloudGraph.Result.PASS
+      )
+      expect(result).toBeTruthy()
+    })
+  })
+
+  describe('AWS CIS 1.3 Ensure credentials unused for 90 days or greater are disabled', () => {
+    test('Should fail given an access key unused for more than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+              {
+                lastUsedDate: '2021-05-27T20:29:00.000Z',
+              },
+              {
+                lastUsedDate: '2021-05-12T15:09:00.000Z',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_13 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should fail given a passwoord unused for more than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '2021-05-27T20:29:00.000Z',
+            accessKeyData: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_13 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given an access key unused for less than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+              {
+                lastUsedDate: new Date().toISOString(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_13 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.4 Ensure access keys are rotated every 90 days or less', () => {
+    test('Should fail given a user with an active access key created for more than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeyData: [
+              {
+                status: 'Active',
+                createDate: '2021-05-26T19:43:52.000Z',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_14 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a user with an active access key created for less than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeyData: [
+              {
+                status: 'Active',
+                createDate: new Date().toISOString(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_14 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
   })
 
   describe('AWS CIS 1.5  Ensure IAM password policy requires at least one uppercase letter', () => {

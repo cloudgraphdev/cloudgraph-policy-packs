@@ -8,7 +8,6 @@ export default {
       __typename
       passwordLastUsed
       accessKeyData {
-        accessKeyId
         lastUsedDate
       }
     }
