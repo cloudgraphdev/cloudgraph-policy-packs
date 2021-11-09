@@ -13,9 +13,8 @@
   "types": "lib/index.d.ts",
   "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
   "devDependencies": {
-    "tslib": "^1",
-    "typescript": "^4.3.5",
     "@autocloud/eslint-config": "^0.1.0",
+    "@cloudgraph/sdk": "^0.5.1",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/gitlab": "^7.0.3",
@@ -37,7 +36,9 @@
     "prettier": "^2.3.2",
     "semantic-release": "^17.4.4",
     "shx": "^0.3.3",
-    "ts-jest": "^27.0.4"
+    "ts-jest": "^27.0.4",
+    "tslib": "^1",
+    "typescript": "^4.3.5"
   },
   "engines": {
     "node": ">=14.0.0"
