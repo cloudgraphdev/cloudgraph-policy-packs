@@ -10,6 +10,7 @@ import Aws_CIS_120_17 from '../src/rules/aws-cis-1.2.0-1.7'
 import Aws_CIS_120_18 from '../src/rules/aws-cis-1.2.0-1.8'
 import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
 import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
+import Aws_CIS_120_111 from '../src/rules/aws-cis-1.2.0-1.11'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -392,6 +393,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_110 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.11 Ensure IAM password policy expires passwords within 90 days or less', () => {
+    test('Should fail given a password that expires after 90 days or more', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            maxPasswordAge: 180,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_111 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass given a password that expires within 90 days or less', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_111 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
