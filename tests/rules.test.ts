@@ -9,6 +9,7 @@ import Aws_CIS_120_16 from '../src/rules/aws-cis-1.2.0-1.6'
 import Aws_CIS_120_17 from '../src/rules/aws-cis-1.2.0-1.7'
 import Aws_CIS_120_18 from '../src/rules/aws-cis-1.2.0-1.8'
 import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
+import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -16,7 +17,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     rulesEngine = new CloudGraph.RulesEngine()
   })
 
-  describe('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
+  // TODO: Uncomment when add a new condition to the engine to validate the length of the array
+  describe.skip('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
     test('Should fail when a user has an active password without an mfa device register', async () => {
       const data = {
         queryawsIamUser: [
@@ -352,6 +354,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_19 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.10 Ensure IAM password policy prevents password reuse', () => {
+    test('Should fail if the number of previous passwords is less than 24', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            passwordReusePrevention: 6,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_110 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass if the number of previous passwords is more than 24', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            passwordReusePrevention: 24,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_110 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
