@@ -19,7 +19,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   })
 
   // TODO: Uncomment when add a new condition to the engine to validate the length of the array
-  describe.skip('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
+  describe('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
     test('Should fail when a user has an active password without an mfa device register', async () => {
       const data = {
         queryawsIamUser: [
@@ -31,14 +31,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         ],
       }
 
-      const processedRules = await rulesEngine.processRule(
+      const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_12 as Rule,
         { ...data } as any
       )
-      const result = processedRules.some(
-        processedRule => processedRule.result === CloudGraph.Result.FAIL
-      )
-      expect(result).toBeTruthy()
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
     })
 
     test('Should pass when a user has an active password with an mfa device register', async () => {
@@ -56,15 +54,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         ],
       }
 
-      const processedRules = await rulesEngine.processRule(
+      const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_12 as Rule,
         { ...data } as any
       )
 
-      const result = processedRules.every(
-        processedRule => processedRule.result === CloudGraph.Result.PASS
-      )
-      expect(result).toBeTruthy()
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
     })
   })
 

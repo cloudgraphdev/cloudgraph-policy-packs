@@ -18,7 +18,7 @@ export default {
       { notEqual: '', path: '@.passwordLastUsed' },
       {
         path: '@.mfaDevices',
-        array_all: { path: '[*]', greaterThan: 0 },
+        isEmpty: true,
       },
     ],
   },
