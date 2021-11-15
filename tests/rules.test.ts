@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
+import Aws_CIS_120_11 from '../src/rules/aws-cis-1.2.0-1.1'
 import Aws_CIS_120_12 from '../src/rules/aws-cis-1.2.0-1.2'
 import Aws_CIS_120_13 from '../src/rules/aws-cis-1.2.0-1.3'
 import Aws_CIS_120_14 from '../src/rules/aws-cis-1.2.0-1.4'
@@ -19,8 +20,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine()
   })
+  describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days (Scored)", () => {
+    test('Should fail when a root account uses his password in the last 30 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '2021-04-07T17:20:19.000Z',
+          },
+        ],
+      }
 
-  // TODO: Uncomment when add a new condition to the engine to validate the length of the array
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_11 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass when a root account does not uses his password in the last 30 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_11 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
   describe('AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)', () => {
     test('Should fail when a user has an active password without an mfa device register', async () => {
       const data = {

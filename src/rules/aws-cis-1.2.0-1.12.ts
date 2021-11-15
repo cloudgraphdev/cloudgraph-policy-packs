@@ -3,7 +3,7 @@ export default {
   description:
     'AWS CIS 1.12  Ensure no root account access key exists (Scored)',
   gql: `{
-    queryawsIamUser {
+    queryawsIamUser(filter: { name: { eq: "root" } }) {
       id
       __typename
       accessKeysActive
