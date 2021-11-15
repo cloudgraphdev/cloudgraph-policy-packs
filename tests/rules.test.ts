@@ -11,6 +11,7 @@ import Aws_CIS_120_18 from '../src/rules/aws-cis-1.2.0-1.8'
 import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
 import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
 import Aws_CIS_120_111 from '../src/rules/aws-cis-1.2.0-1.11'
+import Aws_CIS_120_112 from '../src/rules/aws-cis-1.2.0-1.12'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -426,6 +427,42 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_111 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.12  Ensure no root account access key exists (Scored)', () => {
+    test('Should fail when a root account has at least one access key active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeysActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_112 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass when a root account does not have any access key active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeysActive: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_112 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)

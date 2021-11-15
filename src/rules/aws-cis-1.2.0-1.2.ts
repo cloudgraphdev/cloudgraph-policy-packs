@@ -14,12 +14,7 @@ export default {
   }`,
   resource: 'queryawsIamUser[*]',
   conditions: {
-    and: [
-      { notEqual: '', path: '@.passwordLastUsed' },
-      {
-        path: '@.mfaDevices',
-        isEmpty: true,
-      },
-    ],
+    path: '@.mfaDevices',
+    isEmpty: true,
   },
 }
