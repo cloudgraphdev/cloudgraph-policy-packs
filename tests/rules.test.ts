@@ -14,6 +14,7 @@ import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
 import Aws_CIS_120_111 from '../src/rules/aws-cis-1.2.0-1.11'
 import Aws_CIS_120_112 from '../src/rules/aws-cis-1.2.0-1.12'
 import Aws_CIS_120_113 from '../src/rules/aws-cis-1.2.0-1.13'
+import Aws_CIS_120_116 from '../src/rules/aws-cis-1.2.0-1.16'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -541,6 +542,46 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.16 Ensure IAM policies are attached only to groups or roles (Scored)', () => {
+    test('Should fail when a user has attached policies directly', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            iamAttachedPolicies: [{ arn: cuid() }],
+            inlinePolicies: ['inline_test'],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_116 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass when a user does not have attached policies directly', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            iamAttachedPolicies: [],
+            inlinePolicies: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_116 as Rule,
+        { ...data } as any
+      )
+
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
     })
   })
