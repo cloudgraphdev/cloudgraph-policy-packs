@@ -12,6 +12,7 @@ import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
 import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
 import Aws_CIS_120_111 from '../src/rules/aws-cis-1.2.0-1.11'
 import Aws_CIS_120_112 from '../src/rules/aws-cis-1.2.0-1.12'
+import Aws_CIS_120_113 from '../src/rules/aws-cis-1.2.0-1.13'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -463,6 +464,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_112 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+  })
+
+  describe("AWS CIS 1.13 Ensure MFA is enabled for the 'root' account", () => {
+    test('Should fail when a root account has not a mfa device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_113 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should pass when a root account has a mfa device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
