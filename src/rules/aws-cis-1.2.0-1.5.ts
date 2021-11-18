@@ -10,6 +10,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamPasswordPolicy[*]',
+  severity: 'warning',
   conditions: {
     path: '@.requireUppercaseCharacters',
     equal: false,

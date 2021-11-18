@@ -10,6 +10,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'danger',
   conditions: {
     path: '@.accessKeysActive',
     equal: true,
