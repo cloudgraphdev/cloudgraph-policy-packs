@@ -13,6 +13,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'warning',
   conditions: {
     path: '@.mfaDevices',
     isEmpty: true,

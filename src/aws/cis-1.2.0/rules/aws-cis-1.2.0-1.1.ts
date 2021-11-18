@@ -10,6 +10,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'danger',
   conditions: {
     value: { daysAgo: {}, path: '@.passwordLastUsed' },
     greaterThan: 30,
