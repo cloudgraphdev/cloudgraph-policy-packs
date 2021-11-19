@@ -40,6 +40,7 @@
   },
   "scripts": {
     "lerna:init": "lerna init",
+    "lerna:publish": "lerna run publish --stream",
     "lerna:test": "lerna run test --parallel",
     "lerna:version": "lerna version"
   },

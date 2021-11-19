@@ -47,6 +47,7 @@
     "build": "yarn prepublish",
     "prepack": "rm -rf lib && tsc -b",
     "prepublish": "rm -rf lib && tsc",
+    "publish": "lerna publish",
     "test": "NODE_ENV=test jest"
   },
   "gitHead": "4bfb02fe26cf5782fdd791c841c2df5ba4568a69"
