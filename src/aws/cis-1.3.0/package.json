@@ -45,10 +45,10 @@
   ],
   "scripts": {
     "build": "yarn prepublish",
-    "prepack": "rm -rf lib && tsc -b",
-    "prepublish": "rm -rf lib && tsc",
+    "prepack": "rm -rf dist && tsc -b",
+    "prepublish": "rm -rf dist && tsc",
     "publish": "lerna publish",
     "test": "NODE_ENV=test jest"
   },
-  "gitHead": "20f7d934a6a2fe4328b79e2a3f8e515675d348d2"
+  "gitHead": "000bea2cfe8ea81f21d8a1e9017350bb63f7fb73"
 }
