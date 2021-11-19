@@ -14,3 +14,8 @@ yalc.lock
 /src/plugins
 /cg
 /dgraph
+*copy*
+.pnp*
+*.bak
+.yarn
+.yarnrc*

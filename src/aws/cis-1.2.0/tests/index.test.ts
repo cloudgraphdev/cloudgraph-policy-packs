@@ -1,21 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
-import Aws_CIS_120_11 from '../src/rules/aws-cis-1.2.0-1.1'
-import Aws_CIS_120_12 from '../src/rules/aws-cis-1.2.0-1.2'
-import Aws_CIS_120_13 from '../src/rules/aws-cis-1.2.0-1.3'
-import Aws_CIS_120_14 from '../src/rules/aws-cis-1.2.0-1.4'
-import Aws_CIS_120_15 from '../src/rules/aws-cis-1.2.0-1.5'
-import Aws_CIS_120_16 from '../src/rules/aws-cis-1.2.0-1.6'
-import Aws_CIS_120_17 from '../src/rules/aws-cis-1.2.0-1.7'
-import Aws_CIS_120_18 from '../src/rules/aws-cis-1.2.0-1.8'
-import Aws_CIS_120_19 from '../src/rules/aws-cis-1.2.0-1.9'
-import Aws_CIS_120_110 from '../src/rules/aws-cis-1.2.0-1.10'
-import Aws_CIS_120_111 from '../src/rules/aws-cis-1.2.0-1.11'
-import Aws_CIS_120_112 from '../src/rules/aws-cis-1.2.0-1.12'
-import Aws_CIS_120_113 from '../src/rules/aws-cis-1.2.0-1.13'
-import Aws_CIS_120_114 from '../src/rules/aws-cis-1.2.0-1.14'
-import Aws_CIS_120_116 from '../src/rules/aws-cis-1.2.0-1.16'
+import Aws_CIS_120_11 from '../rules/aws-cis-1.2.0-1.1'
+import Aws_CIS_120_12 from '../rules/aws-cis-1.2.0-1.2'
+import Aws_CIS_120_13 from '../rules/aws-cis-1.2.0-1.3'
+import Aws_CIS_120_14 from '../rules/aws-cis-1.2.0-1.4'
+import Aws_CIS_120_15 from '../rules/aws-cis-1.2.0-1.5'
+import Aws_CIS_120_16 from '../rules/aws-cis-1.2.0-1.6'
+import Aws_CIS_120_17 from '../rules/aws-cis-1.2.0-1.7'
+import Aws_CIS_120_18 from '../rules/aws-cis-1.2.0-1.8'
+import Aws_CIS_120_19 from '../rules/aws-cis-1.2.0-1.9'
+import Aws_CIS_120_110 from '../rules/aws-cis-1.2.0-1.10'
+import Aws_CIS_120_111 from '../rules/aws-cis-1.2.0-1.11'
+import Aws_CIS_120_112 from '../rules/aws-cis-1.2.0-1.12'
+import Aws_CIS_120_113 from '../rules/aws-cis-1.2.0-1.13'
+import Aws_CIS_120_114 from '../rules/aws-cis-1.2.0-1.14'
+import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine

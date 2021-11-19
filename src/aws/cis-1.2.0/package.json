@@ -1,14 +1,15 @@
 {
-  "name": "policy-packs",
-  "packageManager": "yarn@3.1.0",
-  "private": true,
-  "workspaces": [
-    "src/**/*"
-  ],
+  "name": "@cloudgraph/policy-pack-aws-cis-1.2.0",
+  "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.2.0 Benchmark",
+  "version": "0.0.20",
+  "author": "AutoCloud",
+  "license": "MPL-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
     "@cloudgraph/sdk": "^0.5.3",
-    "@qiwi/multi-semantic-release": "^3.17.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/gitlab": "^6.2.2",
@@ -38,12 +39,15 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "homepage": "https://www.cloudgraph.dev/",
+  "keywords": [
+    "cloudgraph"
+  ],
   "scripts": {
-    "lerna:init": "lerna init",
-    "lerna:test": "lerna run test --parallel",
-    "lerna:version": "lerna version"
+    "build": "yarn prepublish",
+    "prepack": "rm -rf lib && tsc -b",
+    "prepublish": "rm -rf lib && tsc",
+    "test": "NODE_ENV=test jest"
   },
-  "dependencies": {
-    "lerna": "^4.0.0"
-  }
+  "gitHead": "4bfb02fe26cf5782fdd791c841c2df5ba4568a69"
 }
