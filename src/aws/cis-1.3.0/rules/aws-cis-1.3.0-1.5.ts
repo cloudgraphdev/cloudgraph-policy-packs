@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.2.0-1.5',
+  id: 'aws-cis-1.3.0-1.5',
   description:
     'AWS CIS 1.5  Ensure IAM password policy requires at least one uppercase letter',
   gql: `{

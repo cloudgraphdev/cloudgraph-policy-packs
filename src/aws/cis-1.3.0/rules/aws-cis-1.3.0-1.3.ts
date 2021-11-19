@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.2.0-1.3',
+  id: 'aws-cis-1.3.0-1.3',
   description:
     'AWS CIS 1.3 Ensure credentials unused for 90 days or greater are disabled',
   gql: `{

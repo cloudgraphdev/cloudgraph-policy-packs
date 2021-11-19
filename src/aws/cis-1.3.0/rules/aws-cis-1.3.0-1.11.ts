@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.2.0-1.11',
+  id: 'aws-cis-1.3.0-1.11',
   description:
     'AWS CIS 1.11 Ensure IAM password policy expires passwords within 90 days or less',
   gql: `{

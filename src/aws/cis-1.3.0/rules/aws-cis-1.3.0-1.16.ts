@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.2.0-1.16',
+  id: 'aws-cis-1.3.0-1.16',
   description:
     'AWS CIS 1.16 Ensure IAM policies are attached only to groups or roles (Scored)',
   gql: `{

@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.2.0-1.4',
+  id: 'aws-cis-1.3.0-1.4',
   description:
     'AWS CIS 1.4 Ensure access keys are rotated every 90 days or less',
   gql: `{
