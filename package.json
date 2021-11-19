@@ -42,7 +42,8 @@
     "lerna:init": "lerna init",
     "lerna:publish": "lerna publish from-package --registry https://gitlab.com/api/v4/projects/30427310/packages/npm/ --legacy-auth QV7iNeFwXm6s9Efxar3f",
     "lerna:test": "lerna run test --parallel",
-    "lerna:version": "lerna version"
+    "lerna:version": "lerna version",
+    "release": "multi-semantic-release --debug --no-ci"
   },
   "dependencies": {
     "lerna": "^4.0.0"

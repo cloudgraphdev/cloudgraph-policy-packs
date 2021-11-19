@@ -50,5 +50,5 @@
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   },
-  "gitHead": "f5f887d9c54647774f87d1dd20e8f8e2051c8355"
+  "gitHead": "1f4872267753b84167673a4e54f7587c0d415a41"
 }

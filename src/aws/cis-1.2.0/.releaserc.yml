@@ -15,12 +15,11 @@ plugins:
       - CHANGELOG.md
       - package.json
   - - "@semantic-release/npm"
-    - npmPublish: true
+    - npmPublish: false
   - "@semantic-release/gitlab"
 verifyConditions:
   - "@semantic-release/changelog"
   - "@semantic-release/gitlab"
-  - "@semantic-release/npm"
 prepare:
   - "@semantic-release/changelog"
   - "@semantic-release/npm"
@@ -28,7 +27,6 @@ prepare:
     - message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/gitlab"
-  - "@semantic-release/npm"
 release:
    noCi: true
 success: false
