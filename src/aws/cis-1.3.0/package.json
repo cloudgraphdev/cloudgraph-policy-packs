@@ -4,8 +4,8 @@
   "version": "0.0.20",
   "author": "AutoCloud",
   "license": "MPL-2.0",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
