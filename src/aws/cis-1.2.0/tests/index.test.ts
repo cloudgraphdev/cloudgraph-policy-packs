@@ -30,6 +30,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            passwordEnabled: true,
             passwordLastUsed: '2021-04-07T17:20:19.000Z',
           },
         ],
@@ -48,7 +49,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '',
+            passwordEnabled: true,
+            passwordLastUsed: new Date().toISOString(),
           },
         ],
       }
@@ -68,8 +70,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '2021-04-07T17:20:19.000Z',
-            mfaDevices: [],
+            passwordEnabled: true,
+            mfaActive: false,
           },
         ],
       }
@@ -87,12 +89,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '2021-04-07T17:20:19.000Z',
-            mfaDevices: [
-              {
-                serialNumber: cuid(),
-              },
-            ],
+            passwordEnabled: true,
+            mfaActive: true,
           },
         ],
       }
@@ -182,7 +180,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                createDate: '2021-05-26T19:43:52.000Z',
+                lastRotated: '2021-05-26T19:43:52.000Z',
               },
             ],
           },
@@ -204,7 +202,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                createDate: new Date().toISOString(),
+                lastRotated: new Date().toISOString(),
               },
             ],
           },
@@ -424,7 +422,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             __typename: 'awsIamPasswordPolicy',
-            passwordReusePrevention: 24,
+            passwordReusePrevention: 25,
           },
         ],
       }

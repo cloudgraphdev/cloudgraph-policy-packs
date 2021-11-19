@@ -8,7 +8,7 @@ export default {
        __typename
       accessKeyData {
         status
-        createDate
+        lastRotated
       }
     }
   }`,
@@ -19,8 +19,8 @@ export default {
     array_any: {
       and: [
         {
-          value: { daysAgo: {}, path: '[*].createDate' },
-          greaterThan: 90,
+          value: { daysAgo: {}, path: '[*].lastRotated' },
+          lessThanInclusive: 90,
         },
 
         { path: '[*].status', equal: 'Active' },

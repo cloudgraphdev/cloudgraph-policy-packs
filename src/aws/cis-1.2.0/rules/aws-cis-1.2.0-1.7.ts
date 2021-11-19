@@ -13,6 +13,6 @@ export default {
   severity: 'warning',
   conditions: {
     path: '@.requireSymbols',
-    equal: false,
+    equal: true,
   },
 }

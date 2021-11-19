@@ -13,6 +13,6 @@ export default {
   severity: 'warning',
   conditions: {
     path: '@.passwordReusePrevention',
-    lessThan: 24,
+    greaterThan: 24,
   },
 }
