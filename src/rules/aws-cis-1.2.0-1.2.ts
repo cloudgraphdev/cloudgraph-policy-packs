@@ -6,16 +6,22 @@ export default {
     queryawsIamUser {
       id
       __typename
-      passwordLastUsed
-      mfaDevices {
-        serialNumber
-      }
+      passwordEnabled
+      mfaActive
     }
   }`,
   resource: 'queryawsIamUser[*]',
   severity: 'warning',
   conditions: {
-    path: '@.mfaDevices',
-    isEmpty: true,
+    and: [
+      {
+        path: '@.passwordEnabled',
+        equal: true,
+      },
+      {
+        path: '@.mfaActive',
+        equal: true,
+      },
+    ],
   },
 }

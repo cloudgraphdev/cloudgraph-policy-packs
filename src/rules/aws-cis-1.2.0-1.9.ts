@@ -13,6 +13,6 @@ export default {
   severity: 'warning',
   conditions: {
     path: '@.minimumPasswordLength',
-    lessThan: 14,
+    greaterThanInclusive: 14,
   },
 }

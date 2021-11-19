@@ -13,6 +13,6 @@ export default {
   severity: 'warning',
   conditions: {
     path: '@.requireUppercaseCharacters',
-    equal: false,
+    equal: true,
   },
 }

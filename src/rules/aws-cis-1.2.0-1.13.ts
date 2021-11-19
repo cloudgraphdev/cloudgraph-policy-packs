@@ -13,6 +13,6 @@ export default {
   severity: 'danger',
   conditions: {
     path: '@.mfaActive',
-    equal: false,
+    equal: true,
   },
 }

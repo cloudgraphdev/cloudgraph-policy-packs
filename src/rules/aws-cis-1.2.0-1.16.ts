@@ -18,11 +18,11 @@ export default {
     and: [
       {
         path: '@.iamAttachedPolicies',
-        isEmpty: false,
+        isEmpty: true,
       },
       {
         path: '@.inlinePolicies',
-        isEmpty: false,
+        isEmpty: true,
       },
     ],
   },

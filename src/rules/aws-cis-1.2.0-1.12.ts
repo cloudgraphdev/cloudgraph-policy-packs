@@ -13,6 +13,6 @@ export default {
   severity: 'danger',
   conditions: {
     path: '@.accessKeysActive',
-    equal: true,
+    equal: false,
   },
 }

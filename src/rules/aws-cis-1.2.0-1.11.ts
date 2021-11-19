@@ -13,6 +13,6 @@ export default {
   severity: 'warning',
   conditions: {
     path: '@.maxPasswordAge',
-    greaterThan: 90,
+    lessThanInclusive: 90,
   },
 }
