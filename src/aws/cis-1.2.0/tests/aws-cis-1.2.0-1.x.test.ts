@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
