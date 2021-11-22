@@ -10,8 +10,9 @@ export default {
     }
   }`,
   resource: 'queryawsIamPasswordPolicy[*]',
+  severity: 'warning',
   conditions: {
     path: '@.requireNumbers',
-    equal: false,
+    equal: true,
   },
 }

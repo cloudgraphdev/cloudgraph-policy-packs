@@ -8,18 +8,19 @@ export default {
        __typename
       accessKeyData {
         status
-        createDate
+        lastRotated
       }
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'warning',
   conditions: {
     path: '@.accessKeyData',
     array_any: {
       and: [
         {
-          value: { daysAgo: {}, path: '[*].createDate' },
-          greaterThan: 90,
+          value: { daysAgo: {}, path: '[*].lastRotated' },
+          lessThanInclusive: 90,
         },
 
         { path: '[*].status', equal: 'Active' },

@@ -1,23 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
-import Aws_CIS_120_11 from '../rules/aws-cis-1.3.0-1.1'
-import Aws_CIS_120_12 from '../rules/aws-cis-1.3.0-1.2'
-import Aws_CIS_120_13 from '../rules/aws-cis-1.3.0-1.3'
-import Aws_CIS_120_14 from '../rules/aws-cis-1.3.0-1.4'
-import Aws_CIS_120_15 from '../rules/aws-cis-1.3.0-1.5'
-import Aws_CIS_120_16 from '../rules/aws-cis-1.3.0-1.6'
-import Aws_CIS_120_17 from '../rules/aws-cis-1.3.0-1.7'
-import Aws_CIS_120_18 from '../rules/aws-cis-1.3.0-1.8'
-import Aws_CIS_120_19 from '../rules/aws-cis-1.3.0-1.9'
-import Aws_CIS_120_110 from '../rules/aws-cis-1.3.0-1.10'
-import Aws_CIS_120_111 from '../rules/aws-cis-1.3.0-1.11'
-import Aws_CIS_120_112 from '../rules/aws-cis-1.3.0-1.12'
-import Aws_CIS_120_113 from '../rules/aws-cis-1.3.0-1.13'
-import Aws_CIS_120_114 from '../rules/aws-cis-1.3.0-1.14'
-import Aws_CIS_120_116 from '../rules/aws-cis-1.3.0-1.16'
+import Aws_CIS_130_11 from '../rules/aws-cis-1.3.0-1.1'
+import Aws_CIS_130_12 from '../rules/aws-cis-1.3.0-1.2'
+import Aws_CIS_130_13 from '../rules/aws-cis-1.3.0-1.3'
+import Aws_CIS_130_14 from '../rules/aws-cis-1.3.0-1.4'
+import Aws_CIS_130_15 from '../rules/aws-cis-1.3.0-1.5'
+import Aws_CIS_130_16 from '../rules/aws-cis-1.3.0-1.6'
+import Aws_CIS_130_17 from '../rules/aws-cis-1.3.0-1.7'
+import Aws_CIS_130_18 from '../rules/aws-cis-1.3.0-1.8'
+import Aws_CIS_130_19 from '../rules/aws-cis-1.3.0-1.9'
+import Aws_CIS_130_110 from '../rules/aws-cis-1.3.0-1.10'
+import Aws_CIS_130_111 from '../rules/aws-cis-1.3.0-1.11'
+import Aws_CIS_130_112 from '../rules/aws-cis-1.3.0-1.12'
+import Aws_CIS_130_113 from '../rules/aws-cis-1.3.0-1.13'
+import Aws_CIS_130_114 from '../rules/aws-cis-1.3.0-1.14'
+import Aws_CIS_130_116 from '../rules/aws-cis-1.3.0-1.16'
 
 describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
   let rulesEngine: Engine
@@ -30,13 +28,14 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            passwordEnabled: true,
             passwordLastUsed: '2021-04-07T17:20:19.000Z',
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_11 as Rule,
+        Aws_CIS_130_11 as Rule,
         { ...data } as any
       )
 
@@ -48,13 +47,14 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '',
+            passwordEnabled: true,
+            passwordLastUsed: new Date().toISOString(),
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_11 as Rule,
+        Aws_CIS_130_11 as Rule,
         { ...data } as any
       )
 
@@ -68,14 +68,14 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '2021-04-07T17:20:19.000Z',
-            mfaDevices: [],
+            passwordEnabled: true,
+            mfaActive: false,
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_12 as Rule,
+        Aws_CIS_130_12 as Rule,
         { ...data } as any
       )
 
@@ -87,18 +87,14 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            passwordLastUsed: '2021-04-07T17:20:19.000Z',
-            mfaDevices: [
-              {
-                serialNumber: cuid(),
-              },
-            ],
+            passwordEnabled: true,
+            mfaActive: true,
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_12 as Rule,
+        Aws_CIS_130_12 as Rule,
         { ...data } as any
       )
 
@@ -126,7 +122,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_13 as Rule,
+        Aws_CIS_130_13 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -144,7 +140,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_13 as Rule,
+        Aws_CIS_130_13 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -166,7 +162,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_13 as Rule,
+        Aws_CIS_130_13 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -182,7 +178,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                createDate: '2021-05-26T19:43:52.000Z',
+                lastRotated: '2021-05-26T19:43:52.000Z',
               },
             ],
           },
@@ -190,7 +186,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_14 as Rule,
+        Aws_CIS_130_14 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -204,7 +200,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                createDate: new Date().toISOString(),
+                lastRotated: new Date().toISOString(),
               },
             ],
           },
@@ -212,7 +208,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_14 as Rule,
+        Aws_CIS_130_14 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -231,7 +227,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_15 as Rule,
+        Aws_CIS_130_15 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -248,7 +244,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_15 as Rule,
+        Aws_CIS_130_15 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -267,7 +263,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_16 as Rule,
+        Aws_CIS_130_16 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -284,7 +280,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_16 as Rule,
+        Aws_CIS_130_16 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -303,7 +299,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_17 as Rule,
+        Aws_CIS_130_17 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -320,7 +316,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_17 as Rule,
+        Aws_CIS_130_17 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -339,7 +335,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_18 as Rule,
+        Aws_CIS_130_18 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -356,7 +352,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_18 as Rule,
+        Aws_CIS_130_18 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -375,7 +371,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_19 as Rule,
+        Aws_CIS_130_19 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -392,7 +388,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_19 as Rule,
+        Aws_CIS_130_19 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -412,7 +408,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_110 as Rule,
+        Aws_CIS_130_110 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -424,13 +420,13 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
           {
             id: cuid(),
             __typename: 'awsIamPasswordPolicy',
-            passwordReusePrevention: 24,
+            passwordReusePrevention: 25,
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_110 as Rule,
+        Aws_CIS_130_110 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -450,7 +446,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_111 as Rule,
+        Aws_CIS_130_111 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -468,7 +464,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_111 as Rule,
+        Aws_CIS_130_111 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -487,7 +483,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_112 as Rule,
+        Aws_CIS_130_112 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -504,7 +500,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_112 as Rule,
+        Aws_CIS_130_112 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -524,7 +520,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_113 as Rule,
+        Aws_CIS_130_113 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -542,7 +538,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_113 as Rule,
+        Aws_CIS_130_113 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -562,7 +558,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_114 as Rule,
+        Aws_CIS_130_114 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
@@ -580,7 +576,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_114 as Rule,
+        Aws_CIS_130_114 as Rule,
         { ...data } as any
       )
       expect(processedRule.result).toBe(CloudGraph.Result.PASS)
@@ -600,7 +596,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_116 as Rule,
+        Aws_CIS_130_116 as Rule,
         { ...data } as any
       )
 
@@ -619,7 +615,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_116 as Rule,
+        Aws_CIS_130_116 as Rule,
         { ...data } as any
       )
 

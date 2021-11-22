@@ -10,8 +10,9 @@ export default {
     }
   }`,
   resource: 'queryawsIamPasswordPolicy[*]',
+  severity: 'warning',
   conditions: {
     path: '@.requireSymbols',
-    equal: false,
+    equal: true,
   },
 }

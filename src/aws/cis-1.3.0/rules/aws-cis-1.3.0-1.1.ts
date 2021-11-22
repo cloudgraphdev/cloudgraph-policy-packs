@@ -7,11 +7,21 @@ export default {
       id
       __typename
       passwordLastUsed
+      passwordEnabled
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'danger',
   conditions: {
-    value: { daysAgo: {}, path: '@.passwordLastUsed' },
-    greaterThan: 30,
+    and: [
+      {
+        path: '@.passwordEnabled',
+        equal: true,
+      },
+      {
+        value: { daysAgo: {}, path: '@.passwordLastUsed' },
+        lessThanInclusive: 30,
+      },
+    ],
   },
 }

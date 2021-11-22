@@ -13,15 +13,16 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'warning',
   conditions: {
     and: [
       {
         path: '@.iamAttachedPolicies',
-        isEmpty: false,
+        isEmpty: true,
       },
       {
         path: '@.inlinePolicies',
-        isEmpty: false,
+        isEmpty: true,
       },
     ],
   },

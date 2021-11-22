@@ -10,8 +10,9 @@ export default {
     }
   }`,
   resource: 'queryawsIamPasswordPolicy[*]',
+  severity: 'warning',
   conditions: {
     path: '@.maxPasswordAge',
-    greaterThan: 90,
+    lessThanInclusive: 90,
   },
 }

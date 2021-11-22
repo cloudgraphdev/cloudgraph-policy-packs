@@ -13,17 +13,18 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
+  severity: 'warning',
   conditions: {
     or: [
       {
         value: { daysAgo: {}, path: '@.passwordLastUsed' },
-        greaterThan: 90,
+        lessThanInclusive: 90,
       },
       {
         path: '@.accessKeyData',
         array_any: {
           value: { daysAgo: {}, path: '[*].lastUsedDate' },
-          greaterThan: 90,
+          lessThanInclusive: 90,
         },
       },
     ],

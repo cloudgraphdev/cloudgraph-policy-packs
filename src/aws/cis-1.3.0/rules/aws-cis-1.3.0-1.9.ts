@@ -10,8 +10,9 @@ export default {
     }
   }`,
   resource: 'queryawsIamPasswordPolicy[*]',
+  severity: 'warning',
   conditions: {
     path: '@.minimumPasswordLength',
-    lessThan: 14,
+    greaterThanInclusive: 14,
   },
 }
