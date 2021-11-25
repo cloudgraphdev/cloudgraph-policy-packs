@@ -2,6 +2,7 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
+import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -70,6 +71,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.2 Ensure CloudTrail log file validation is enabled', () => {
+    test('Should pass when a trail has log file validation enabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            logFileValidationEnabled: 'Yes',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_22 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+
+    test('Should pass when a trail has log file validation disabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            logFileValidationEnabled: 'No',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_22 as Rule,
         { ...data } as any
       )
 
