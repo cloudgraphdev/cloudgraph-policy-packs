@@ -10,7 +10,7 @@ export default {
       keyRotationEnabled
     }
   }`,
-  resource: 'queryawsCloudtrail[*]',
+  resource: 'queryawsKms[*]',
   severity: 'warning',
   conditions: {
     or: [

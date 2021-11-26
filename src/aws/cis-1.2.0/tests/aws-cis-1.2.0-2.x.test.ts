@@ -7,6 +7,7 @@ import Aws_CIS_120_24 from '../rules/aws-cis-1.2.0-2.4'
 import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
 import Aws_CIS_120_27 from '../rules/aws-cis-1.2.0-2.7'
 import Aws_CIS_120_28 from '../rules/aws-cis-1.2.0-2.8'
+import Aws_CIS_120_29 from '../rules/aws-cis-1.2.0-2.9'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -268,7 +269,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   describe('AWS CIS 2.8 Ensure rotation for customer created CMKs is enabled (Scored)', () => {
     test('Should pass when rotation is enabled with customer as a manager', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsKms: [
           {
             id: cuid(),
             keyManager: 'CUSTOMER',
@@ -287,7 +288,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should pass when rotation is enabled with AWS as a manager', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsKms: [
           {
             id: cuid(),
             keyManager: 'AWS',
@@ -306,7 +307,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should pass when rotation is disabled with customer as a manager', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsKms: [
           {
             id: cuid(),
             keyManager: 'CUSTOMER',
@@ -325,7 +326,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when rotation is disabled with AWS as a manager', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsKms: [
           {
             id: cuid(),
             keyManager: 'AWS',
@@ -336,6 +337,48 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_28 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.9 Ensure VPC flow logging is enabled in all VPCs (Scored)', () => {
+    test('Should pass when flow logging is enabled for each VPC', async () => {
+      const data = {
+        queryawsVpc: [
+          {
+            id: cuid(),
+            flowLogs: [
+              {
+                resourceId: cuid(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_29 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+
+    test('Should fail when flow logging is disabled on one VPC', async () => {
+      const data = {
+        queryawsVpc: [
+          {
+            id: cuid(),
+            flowLogs: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_29 as Rule,
         { ...data } as any
       )
 
