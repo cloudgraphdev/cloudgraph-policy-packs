@@ -5,6 +5,7 @@ import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
 import Aws_CIS_120_24 from '../rules/aws-cis-1.2.0-2.4'
 import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
+import Aws_CIS_120_27 from '../rules/aws-cis-1.2.0-2.7'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -218,6 +219,44 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_26 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.7 Ensure CloudTrail logs are encrypted at rest using KMS CMKs', () => {
+    test('Should pass when cloudtrail logs are encrypted using a KMS key', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            kmsKeyId: cuid(),
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_27 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+
+    test('Should fail when cloudtrail logs are not encrypted', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            kmsKeyId: null,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_27 as Rule,
         { ...data } as any
       )
 
