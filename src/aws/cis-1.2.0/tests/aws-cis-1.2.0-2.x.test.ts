@@ -6,6 +6,7 @@ import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
 import Aws_CIS_120_24 from '../rules/aws-cis-1.2.0-2.4'
 import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
 import Aws_CIS_120_27 from '../rules/aws-cis-1.2.0-2.7'
+import Aws_CIS_120_28 from '../rules/aws-cis-1.2.0-2.8'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -257,6 +258,84 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_27 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.8 Ensure rotation for customer created CMKs is enabled (Scored)', () => {
+    test('Should pass when rotation is enabled with customer as a manager', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            keyManager: 'CUSTOMER',
+            keyRotationEnabled: 'Yes',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_28 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+
+    test('Should pass when rotation is enabled with AWS as a manager', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            keyManager: 'AWS',
+            keyRotationEnabled: 'Yes',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_28 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+    })
+
+    test('Should pass when rotation is disabled with customer as a manager', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            keyManager: 'CUSTOMER',
+            keyRotationEnabled: 'No',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_28 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+    })
+
+    test('Should fail when rotation is disabled with AWS as a manager', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            keyManager: 'AWS',
+            keyRotationEnabled: 'No',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_28 as Rule,
         { ...data } as any
       )
 
