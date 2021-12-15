@@ -9,7 +9,7 @@
   "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
-    "@cloudgraph/sdk": "^0.5.4",
+    "@cloudgraph/sdk": "^0.6.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/gitlab": "^6.2.2",
