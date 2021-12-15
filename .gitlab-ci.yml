@@ -47,7 +47,7 @@ build:
     - if: $CI_COMMIT_BRANCH
       when: always
   script:
-    - yarn prepack
+    - yarn workspaces run prepack
 
 test:
   image: node:16-alpine
@@ -55,7 +55,7 @@ test:
   rules:
     - when: always
   script:
-    - yarn test
+    - yarn workspaces run test
 
 semantic release:
   image: node:16-alpine

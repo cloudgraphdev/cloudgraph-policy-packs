@@ -1,7 +1,7 @@
 *-debug.log
 *-error.log
 /.nyc_output
-/dist
+**/dist
 /lib
 /package-lock.json
 /tmp
@@ -14,3 +14,8 @@ yalc.lock
 /src/plugins
 /cg
 /dgraph
+*copy*
+.pnp*
+*.bak
+.yarn
+.yarnrc*

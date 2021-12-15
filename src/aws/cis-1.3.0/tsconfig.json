@@ -3,8 +3,8 @@
     "declaration": true,
     "importHelpers": true,
     "module": "commonjs",
-    "outDir": "lib",
-    "rootDir": "src",
+    "outDir": "dist",
+    "rootDir": "./",
     "strict": true,
     "target": "es2020",
     "lib": ["esnext.array", "ES2020.Promise"],
@@ -14,8 +14,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "src/**/*"
+    "**/*"
   ],
-  "exclude": ["dist", "src/aws/cis-1.2.0/tests"]
-
+  "exclude": ["dist", "./tests"]
 }
