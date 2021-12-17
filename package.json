@@ -6,44 +6,23 @@
     "src/**/*"
   ],
   "devDependencies": {
-    "@autocloud/eslint-config": "^0.1.0",
-    "@cloudgraph/sdk": "^0.5.4",
     "@qiwi/multi-semantic-release": "^3.17.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/gitlab": "^6.2.2",
     "@semantic-release/npm": "^7.1.3",
-    "@types/jest": "^27.0.3",
-    "@types/node": "^15.12.4",
-    "@types/pino": "^6.3.11",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "@typescript-eslint/parser": "^4.28.5",
-    "cpx": "^1.5.0",
-    "cuid": "^2.1.8",
-    "eslint": "^7.25.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^7.0.0",
-    "jest": "^27.0.6",
-    "lint-staged": "^11.1.1",
-    "prettier": "^2.3.2",
-    "semantic-release": "^17.4.4",
-    "shx": "^0.3.3",
-    "ts-jest": "^27.0.4",
-    "tslib": "^1",
-    "typescript": "^4.3.5"
+    "semantic-release": "^17.4.4"
   },
   "engines": {
     "node": ">=14.0.0"
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+
   "scripts": {
-    "lerna:init": "lerna init",
-    "lerna:publish": "lerna publish from-package --registry https://gitlab.com/api/v4/projects/30427310/packages/npm/ --legacy-auth QV7iNeFwXm6s9Efxar3f",
-    "lerna:test": "lerna run test --parallel",
-    "lerna:version": "lerna version",
-    "release": "multi-semantic-release --debug --no-ci"
+    "release": "multi-semantic-release"
   },
   "dependencies": {
     "lerna": "^4.0.0"
