@@ -1,21 +1,46 @@
+# NPM Cruft
+/package-lock.json
+node_modules
+
+# Yarn 2 Assets
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+# Error logs
 *-debug.log
 *-error.log
-/.nyc_output
+
+# Temp files
+/tmp
+*.bak
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Sensitive Files
+.env
+!.env.example
+
+# Build outputs
 **/dist
 /lib
-/package-lock.json
-/tmp
-node_modules
+*copy*
+
+# CloudGraph
+/.nyc_output
 .cloud-graphrc.json
 aws_*.json
-/.vscode
-/.yalc
-yalc.lock
 /src/plugins
 /cg
 /dgraph
-*copy*
-.pnp*
-*.bak
-.yarn
-.yarnrc*
+
+# General Cruft
+.DS_Store
+/.vscode
+/.yalc
+yalc.lock
