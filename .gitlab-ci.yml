@@ -1,6 +1,15 @@
 ---
 .configure-registry: &configure-registry
   - apk --quiet --no-progress --update --no-cache add git openssh
+#  Production settings to deploy to NPM instead of Gitlab
+#
+#  [1] Edit .yarnrc.yml as noted at the top of that file
+#  [2] Update the pipeline configuration:
+#    - Uncomment the line below (line 10) to set the NPM_TOKEN
+#    - Remove the line below that (line 11) to remove the GITLAB_TOKEN references
+#    - Uncomment lines 99 - 117 to enable Slack notifications of package publishing
+#    - Remove this comment
+#  - sed -i "s/%NPM_TOKEN%/$NPM_TOKEN/g" .yarnrc.yml
   - sed -i "s/%GITLAB_TOKEN%/$GITLAB_TOKEN/g" .yarnrc.yml
   - NODE_ENV=cicd yarn install
 default:
