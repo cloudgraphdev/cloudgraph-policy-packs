@@ -20,7 +20,6 @@
     "semi": false,
     "singleQuote": true
   },
-
   "scripts": {
     "release": "multi-semantic-release"
   },
