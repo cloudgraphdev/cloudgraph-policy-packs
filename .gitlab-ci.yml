@@ -9,8 +9,9 @@
 #    - Remove the line below that (line 11) to remove the GITLAB_TOKEN references
 #    - Uncomment lines 99 - 117 to enable Slack notifications of package publishing
 #    - Remove this comment
-#  - sed -i "s/%NPM_TOKEN%/$NPM_TOKEN/g" .yarnrc.yml
-  - sed -i "s/%GITLAB_TOKEN%/$GITLAB_TOKEN/g" .yarnrc.yml
+#  - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
+  - sed -i "s/\$GITLAB_TOKEN/$GITLAB_TOKEN/g" .yarnrc.yml
+
   - NODE_ENV=cicd yarn install
 default:
   image: node:16-alpine
@@ -28,6 +29,7 @@ workflow:
 
 variables:
   NPM_TOKEN: ${NPM_TOKEN}
+  GITLAB_TOKEN: ${GITLAB_TOKEN}
 
 stages:
   - test
