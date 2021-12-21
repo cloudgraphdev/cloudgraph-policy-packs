@@ -1,7 +1,7 @@
 {
   "name": "policy-packs",
   "packageManager": "yarn@3.1.1",
-  "private": true,
+  "private": false,
   "workspaces": [
     "src/**/*"
   ],
