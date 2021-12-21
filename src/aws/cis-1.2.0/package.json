@@ -7,6 +7,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
+  "private": false,
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
     "@cloudgraph/sdk": "^0.6.1",
