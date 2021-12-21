@@ -6,9 +6,9 @@
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "github:cloudgraphdev/cloudgraph-policy-pack-aws-cis-1.2.0",
+  "repository": "github:cloudgraphdev/cloudgraph-policy-packs",
   "bugs": {
-    "url": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues"
+    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs/issues"
   },
   "publishConfig": {
     "access": "public"
