@@ -41,7 +41,7 @@ lint:
   image: node:16-alpine
   stage: test
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^chore\(release\)/
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: always
@@ -52,7 +52,7 @@ test:
   image: node:16-alpine
   stage: test
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^chore\(release\)/
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - when: always
   script:
@@ -62,7 +62,7 @@ release:
   image: node:16-alpine
   stage: release
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^chore\(release\)/
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always

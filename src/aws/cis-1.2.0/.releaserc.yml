@@ -24,7 +24,7 @@ prepare:
   - "@semantic-release/changelog"
   - "@semantic-release/npm"
   - - "@semantic-release/git"
-    - message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+    - message: "chore(publish): ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/gitlab"
 release:
