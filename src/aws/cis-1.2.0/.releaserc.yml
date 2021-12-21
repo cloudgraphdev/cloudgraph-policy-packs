@@ -31,4 +31,8 @@ release:
    noCi: true
 success: false
 fail: false
+repository":
+  type: git
+  url: git@gitlab.com:auto-cloud/cloudgraph/policy-packs.git
+  directory: src/aws/cis-1.2.0
 tagFormat: "${version}"
