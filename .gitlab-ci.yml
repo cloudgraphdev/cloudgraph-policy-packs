@@ -2,6 +2,7 @@
 .configure-registry: &configure-registry
   - apk --quiet --no-progress --update --no-cache add git openssh
   - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
+  - cat .yarnrc.yml
 
   - NODE_ENV=cicd yarn install
 default:
@@ -86,7 +87,6 @@ publish:
   script:
     - export NPM_TAG=`./.cicd/release_tag.js $CI_COMMIT_TAG`
     - export WORKSPACE_NAME=`./.cicd/workspace_name.js $CI_COMMIT_TAG`
-    - cat .yarnrc.yml
     - yarn workspace $WORKSPACE_NAME publish --tag $NPM_TAG
 
 .curlcmd: &curlcmd >
