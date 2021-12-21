@@ -6,11 +6,15 @@
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bugs": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues",
+  "repository": "github:cloudgraphdev/cloudgraph-policy-pack-aws-cis-1.2.0",
+  "bugs": {
+    "url": "https://github.com/cloudgraphdev/policy-pack-aws-cis-1.2.0/issues"
+  },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "tag": "latest",
     "access": "public"
+  },
+  "directories": {
+    "test": "tests"
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
@@ -52,6 +56,5 @@
     "prepublish": "rm -rf dist && tsc",
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
-  },
-  "gitHead": "1f4872267753b84167673a4e54f7587c0d415a41"
+  }
 }
