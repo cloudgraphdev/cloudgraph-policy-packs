@@ -48,16 +48,15 @@ lint:
   script:
     - yarn workspaces foreach run lint
 
-# CIS 1.3.0 tests failing
-# test:
-#   image: node:16-alpine
-#   stage: test
-#   rules:
-#     - if: $CI_COMMIT_MESSAGE =~ /^chore\(release\)/
-#       when: never
-#     - when: always
-#   script:
-#     - yarn workspaces foreach run test
+test:
+  image: node:16-alpine
+  stage: test
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(release\)/
+      when: never
+    - when: always
+  script:
+    - yarn workspaces foreach run test
 
 release:
   image: node:16-alpine
