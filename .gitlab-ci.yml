@@ -1,17 +1,9 @@
 ---
 .configure-registry: &configure-registry
   - apk --quiet --no-progress --update --no-cache add git openssh
-  - |
-    {
-      echo "//registry.npmjs.com/:_authToken=${NPM_TOKEN}"
-      echo "@cloudgraph:registry=https://registry.npmjs.com/"
-    } | tee -a .npmrc
-  - |
-    {
-      echo "\"@cloudgraph:registry\" \"https://registry.npmjs.com/\""
-      echo "\"//registry.npmjs.com/:_authToken\" \"${NPM_TOKEN}\""
-    } | tee -a .yarnrc
-  - NODE_ENV=cicd yarn install --frozen-lockfile --cache-folder .npm --prefer-offline
+  - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
+
+  - NODE_ENV=cicd yarn install
 default:
   image: node:16-alpine
   before_script:
@@ -19,8 +11,8 @@ default:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - .npm/
-      - lib/
+      - "**/dist/"
+    policy: pull-push
 
 workflow:
   rules:
@@ -28,42 +20,47 @@ workflow:
 
 variables:
   NPM_TOKEN: ${NPM_TOKEN}
+  GITLAB_TOKEN: ${GITLAB_TOKEN}
 
 stages:
-  - build
   - test
   - release
   - publish
   - notify
 
-build:
+lint:
   image: node:16-alpine
-  stage: build
+  stage: test
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE =~ /^chore\(release\)/'
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: always
   script:
-    - yarn workspaces run prepack
+    - yarn workspaces foreach run lint
 
 test:
   image: node:16-alpine
   stage: test
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
+      when: never
     - when: always
   script:
-    - yarn workspaces run test
+    - yarn workspaces foreach run test
 
-semantic release:
+release:
   image: node:16-alpine
   stage: release
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE =~ /^chore\(release\)/'
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+    - if: $CI_COMMIT_BRANCH == "alpha"
+      when: always
+    - if: $CI_COMMIT_BRANCH == "beta"
+      when: always
   variables:
     # Set git commit identity
     GIT_AUTHOR_NAME: 'AutoCloud Deploy Bot'
@@ -76,7 +73,20 @@ semantic release:
   before_script:
     - *configure-registry
   script:
-    - npx semantic-release -r $CI_PROJECT_URL
+    - yarn release
+
+publish:
+  image: node:16-alpine
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: always
+    - if: $CI_COMMIT_BRANCH
+      when: never
+  script:
+    - export NPM_TAG=`./.cicd/release_tag.js $CI_COMMIT_TAG`
+    - export WORKSPACE_NAME=`./.cicd/workspace_name.js $CI_COMMIT_TAG`
+    - yarn workspace $WORKSPACE_NAME publish --tag $NPM_TAG
 
 .curlcmd: &curlcmd >
   curl
