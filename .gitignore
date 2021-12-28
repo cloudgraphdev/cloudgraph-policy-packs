@@ -32,12 +32,17 @@ node_modules
 *copy*
 
 # CloudGraph
-/.nyc_output
 .cloud-graphrc.json
 aws_*.json
 /src/plugins
 /cg
 /dgraph
+
+# Testing
+/.nyc_output
+/coverage
+/test/.testConfigDir
+/test/.testData
 
 # General Cruft
 .DS_Store

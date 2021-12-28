@@ -22,8 +22,5 @@
   },
   "scripts": {
     "release": "multi-semantic-release"
-  },
-  "dependencies": {
-    "lerna": "^4.0.0"
   }
 }
