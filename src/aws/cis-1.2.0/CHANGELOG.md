@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.1.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.1.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.1.1) (2021-12-30)
+
+
+### Bug Fixes
+
+* Exported 2.x rules ([483552e](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/483552ebb3b9dbc01c5306e33a2b720216b94ab4))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.1.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.0.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.1.0) (2021-12-30)
 
 
