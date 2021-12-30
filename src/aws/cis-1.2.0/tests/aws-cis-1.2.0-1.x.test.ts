@@ -29,7 +29,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             passwordEnabled: true,
-            passwordLastUsed: '2021-04-07T17:20:19.000Z',
+            passwordLastUsed: '2021-04-08T17:20:19.000Z',
           },
         ],
       }
