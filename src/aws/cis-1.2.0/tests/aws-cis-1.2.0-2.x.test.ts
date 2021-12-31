@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
+import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
@@ -31,7 +31,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when a trail has set multi region as true with all read-write type and include management events false', async () => {
@@ -55,7 +55,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail when a trail has set multi region as true with all read-write type and include management events true', async () => {
@@ -79,7 +79,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -99,7 +99,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail when a trail has log file validation disabled', async () => {
@@ -117,7 +117,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -140,7 +140,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail when a trail has cloudwatch logs integrated with a delivery date more than a day', async () => {
@@ -161,7 +161,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
     test('Should pass when a trail does not have cloudwatch logs integrated', async () => {
       const data = {
@@ -178,7 +178,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -202,7 +202,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test("Should fail when a trail's bucket has access logging disabled", async () => {
@@ -224,7 +224,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -244,7 +244,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail when cloudtrail logs are not encrypted', async () => {
@@ -262,7 +262,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -283,7 +283,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when rotation is enabled with AWS as a manager', async () => {
@@ -302,7 +302,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when rotation is disabled with customer as a manager', async () => {
@@ -321,7 +321,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should fail when rotation is disabled with AWS as a manager', async () => {
@@ -340,7 +340,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -364,7 +364,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail when flow logging is disabled on one VPC', async () => {
@@ -382,7 +382,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 })
