@@ -33,3 +33,6 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 3.12 | Ensure a log metric filter and alarm exist for changes to network gateways (Scored)                    |
 | AWS CIS 3.13 | Ensure a log metric filter and alarm exist for route table changes (Scored)                            |
 | AWS CIS 3.14 | Ensure a log metric filter and alarm exist for VPC changes (Scored)                                    |
+| AWS CIS 4.1  | Ensure no security groups allow ingress from 0.0.0.0/0 to port 22 (Scored)                             |
+| AWS CIS 4.2  | Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389 (Scored)                           |
+| AWS CIS 4.3  | Ensure the default security group of every VPC restricts all traffic (Scored)                          |
