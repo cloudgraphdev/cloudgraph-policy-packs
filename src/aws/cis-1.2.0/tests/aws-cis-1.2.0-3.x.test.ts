@@ -122,9 +122,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 metric: 'KmsDeletionCount',
                 arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:KmsDeletionAlarm',
-                actions: [
-                  'arn:aws:sns:us-east-1:111111111111:...',
-                ],
+                actions: ['arn:aws:sns:us-east-1:111111111111:...'],
                 sns: [
                   {
                     arn: 'arn:aws:sns:us-east-1:111111111111:...',
@@ -139,9 +137,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 metric: 'DummyNameCount',
                 arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:DummyAlarm',
-                actions: [
-                  'arn:aws:sns:us-east-1:111111111111:...',
-                ],
+                actions: ['arn:aws:sns:us-east-1:111111111111:...'],
                 sns: [
                   {
                     arn: 'arn:aws:sns:us-east-1:111111111111:...',
