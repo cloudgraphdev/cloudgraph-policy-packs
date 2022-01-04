@@ -478,7 +478,7 @@ __metadata:
   resolution: "@cloudgraph/policy-pack-aws-cis-1.2.0@workspace:src/aws/cis-1.2.0"
   dependencies:
     "@autocloud/eslint-config": ^0.1.0
-    "@cloudgraph/sdk": ^0.6.1
+    "@cloudgraph/sdk": ^0.7.0
     "@types/jest": ^27.0.3
     "@types/node": ^15.12.4
     "@types/pino": ^6.3.11
@@ -500,16 +500,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cloudgraph/sdk@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "@cloudgraph/sdk@npm:0.6.1::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.6.1.tgz"
+"@cloudgraph/sdk@npm:^0.7.0":
+  version: 0.7.1
+  resolution: "@cloudgraph/sdk@npm:0.7.1::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.7.1.tgz"
   dependencies:
+    "@graphql-tools/load-files": ^6.5.3
+    "@graphql-tools/merge": ^8.2.1
+    chalk: ^4.1.1
     date-fns: ^2.25.0
+    graphql: ^16.2.0
     inquirer: ^8.1.2
     jsonpath: ^1.1.1
     lodash: ^4.17.21
     ora: ^5.4.1
-  checksum: a61358f7d3590601b77313cbff3a2c970b73c3500f52f8dba0ba652a486f21294459f70dbe9ffe131c0e0282f8c85ef84a9cf993ea9fcd09a78782bc007afbb2
+  checksum: 8aa585ab4acec3fb2e8befe5b9398b78af7ac791b03f3a6a2b29c09b2795b6f6e27d172a14592b4178d8bd3a5697db9458018baccedf0b3f0aead04c0251f615
   languageName: node
   linkType: hard
 
@@ -534,6 +538,42 @@ __metadata:
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
   checksum: d05081e0887a49c178b75ee3067bd6ee086f73c154d121b854fb2e044e8a89cb1cbb6de3a0dd93a519b80f0531fda68b099dd7256205f7fbb3490324342f2217
+  languageName: node
+  linkType: hard
+
+"@graphql-tools/load-files@npm:^6.5.3":
+  version: 6.5.3
+  resolution: "@graphql-tools/load-files@npm:6.5.3"
+  dependencies:
+    globby: 11.0.4
+    tslib: ~2.3.0
+    unixify: 1.0.0
+  peerDependencies:
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 4eb7997ce17e9f01d11dbb054aea084e7ad77ccd3c260a6b6147e24287c86366f9e4bd56b66988d875b4bc40f3f1b67a7be8ae9a51f7196087797ed22d697d07
+  languageName: node
+  linkType: hard
+
+"@graphql-tools/merge@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "@graphql-tools/merge@npm:8.2.1"
+  dependencies:
+    "@graphql-tools/utils": ^8.5.1
+    tslib: ~2.3.0
+  peerDependencies:
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: b2c126fc697ad1cf0fb2c09d3766d791ba6243a318edfa24932b558628244f822b9454bd47cd98f5a7eee90caca264573695c582e10730b7a67785fea21c346c
+  languageName: node
+  linkType: hard
+
+"@graphql-tools/utils@npm:^8.5.1":
+  version: 8.5.5
+  resolution: "@graphql-tools/utils@npm:8.5.5"
+  dependencies:
+    tslib: ~2.3.0
+  peerDependencies:
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: e23c78ba268d1e56546b96c7bd0e4df36cbeac4941c6e1547d6e59f0b8d5312e937f788efd03a5ab21701ac348d2f567cb92acac27171ddf77c57de483fa5902
   languageName: node
   linkType: hard
 
@@ -5778,6 +5818,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"graphql@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "graphql@npm:16.2.0"
+  checksum: 204b5c9991b82561651a28b13dbb2e0e67514171a6a8c045ca4a527b944087344a14519d0426d661b49f2305584b390591abadc82b942f7b65e64e05cb31a584
+  languageName: node
+  linkType: hard
+
 "handlebars@npm:^4.7.6":
   version: 4.7.7
   resolution: "handlebars@npm:4.7.7"
@@ -8712,7 +8759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-path@npm:^2.0.0, normalize-path@npm:^2.0.1":
+"normalize-path@npm:^2.0.0, normalize-path@npm:^2.0.1, normalize-path@npm:^2.1.1":
   version: 2.1.1
   resolution: "normalize-path@npm:2.1.1"
   dependencies:
@@ -11584,6 +11631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:~2.3.0":
+  version: 2.3.1
+  resolution: "tslib@npm:2.3.1"
+  checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
+  languageName: node
+  linkType: hard
+
 "tsutils@npm:^3.21.0":
   version: 3.21.0
   resolution: "tsutils@npm:3.21.0"
@@ -11827,6 +11881,15 @@ __metadata:
   version: 2.0.0
   resolution: "universalify@npm:2.0.0"
   checksum: 2406a4edf4a8830aa6813278bab1f953a8e40f2f63a37873ffa9a3bc8f9745d06cc8e88f3572cb899b7e509013f7f6fcc3e37e8a6d914167a5381d8440518c44
+  languageName: node
+  linkType: hard
+
+"unixify@npm:1.0.0":
+  version: 1.0.0
+  resolution: "unixify@npm:1.0.0"
+  dependencies:
+    normalize-path: ^2.1.1
+  checksum: 3be30e48579fc6c7390bd59b4ab9e745fede0c164dfb7351cf710bd1dbef8484b1441186205af6bcb13b731c0c88caf9b33459f7bf8c89e79c046e656ae433f0
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
+import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_11 from '../rules/aws-cis-1.2.0-1.1'
 import Aws_CIS_120_12 from '../rules/aws-cis-1.2.0-1.2'
@@ -39,7 +39,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account does not uses his password in the last 30 days', async () => {
@@ -58,7 +58,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -79,7 +79,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a user has an active password with an mfa device register', async () => {
@@ -98,7 +98,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -125,7 +125,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should fail given a passwoord unused for more than 90 days', async () => {
@@ -143,7 +143,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given an access key unused for less than 90 days', async () => {
@@ -165,7 +165,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -189,7 +189,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_14 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a user with an active access key created for less than 90 days', async () => {
@@ -211,7 +211,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_14 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -230,7 +230,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_15 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one uppercase letter', async () => {
@@ -247,7 +247,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_15 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -266,7 +266,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_16 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one lowercase letter', async () => {
@@ -283,7 +283,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_16 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -302,7 +302,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_17 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one symbols', async () => {
@@ -319,7 +319,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_17 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -338,7 +338,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_18 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one number', async () => {
@@ -355,7 +355,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_18 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -374,7 +374,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_19 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy length of 14', async () => {
@@ -391,7 +391,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_19 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -411,7 +411,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_110 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass if the number of previous passwords is more than 24', async () => {
@@ -429,7 +429,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_110 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -449,7 +449,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_111 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password that expires within 90 days or less', async () => {
@@ -467,7 +467,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_111 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -486,7 +486,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_112 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account does not have any access key active', async () => {
@@ -503,7 +503,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_112 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -523,7 +523,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account has a mfa device active', async () => {
@@ -541,7 +541,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -561,7 +561,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_114 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account has a mfa hardware device active', async () => {
@@ -579,7 +579,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_114 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -600,7 +600,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a user does not have attached policies directly', async () => {
@@ -619,7 +619,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 })
