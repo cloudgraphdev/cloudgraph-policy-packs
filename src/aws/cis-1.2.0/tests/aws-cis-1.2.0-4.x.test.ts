@@ -1,14 +1,35 @@
+/* eslint-disable max-len */
 import cuid from 'cuid'
 import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
+import { Result } from '@cloudgraph/sdk/dist/src/rules-engine/types'
+
 import Aws_CIS_120_41 from '../rules/aws-cis-1.2.0-4.1'
 import Aws_CIS_120_42 from '../rules/aws-cis-1.2.0-4.2'
 import Aws_CIS_120_43 from '../rules/aws-cis-1.2.0-4.3'
-import { Result } from '@cloudgraph/sdk/dist/src/rules-engine/types'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
+
+export interface InboundRulesEntity {
+  toPort?: number
+  fromPort?: number
+  source: string
+}
+export interface OutboundRulesEntity {
+  toPort?: number
+  fromPort?: number
+  destination: string
+}
+export interface QueryawsSecurityGroupEntity {
+  id: string
+  inboundRules?: InboundRulesEntity[]
+  outboundRules?: OutboundRulesEntity[]
+}
+export interface CIS4xQueryResponse {
+  queryawsSecurityGroup: QueryawsSecurityGroupEntity[]
+}
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -17,12 +38,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   })
   describe('AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22', () => {
     const test41Rule = async (
-      fromPort: number | null,
-      toPort: number | null,
+      fromPort: number | undefined,
+      toPort: number | undefined,
       sourceAddress: string,
       expectedResult: Result,
-      includeRandomValidData: boolean = false
-    ) => {
+      includeRandomValidData = false
+    ): Promise<void> => {
       // Arrange
       const validInboundRule = {
         toPort: 123,
@@ -30,14 +51,14 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         source: '10.10.10.10/16',
       }
 
-      const data = {
+      const data: CIS4xQueryResponse = {
         queryawsSecurityGroup: [
           {
             id: cuid(),
             inboundRules: [
               {
-                toPort: toPort,
-                fromPort: fromPort,
+                toPort,
+                fromPort,
                 source: sourceAddress,
               },
             ],
@@ -46,7 +67,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       }
 
       if (includeRandomValidData) {
-        data.queryawsSecurityGroup[0].inboundRules.push(validInboundRule)
+        data.queryawsSecurityGroup[0].inboundRules?.push(validInboundRule)
         data.queryawsSecurityGroup.push({
           id: cuid(),
           inboundRules: [validInboundRule, validInboundRule],
@@ -56,7 +77,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_41 as Rule,
-        { ...data } as any
+        { ...data }
       )
 
       // Asserts
@@ -118,11 +139,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
 
     test('Security Issue when there is an inbound rule with IPv4 wilcard address and no port range is specified', async () => {
-      await test41Rule(null, null, ipV4WildcardAddress, CloudGraph.Result.PASS)
+      await test41Rule(
+        undefined,
+        undefined,
+        ipV4WildcardAddress,
+        CloudGraph.Result.PASS
+      )
     })
 
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and no port range is specified', async () => {
-      await test41Rule(null, null, ipV6WildcardAddress, CloudGraph.Result.PASS)
+      await test41Rule(
+        undefined,
+        undefined,
+        ipV6WildcardAddress,
+        CloudGraph.Result.PASS
+      )
     })
 
     test('Security Issue when there is an inbound rule with IPv4 wilcard address and port range includes the port 22', async () => {
@@ -136,12 +167,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
   describe('AWS CIS 4.2 Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389', () => {
     const test42Rule = async (
-      fromPort: number | null,
-      toPort: number | null,
+      fromPort: number | undefined,
+      toPort: number | undefined,
       sourceAddress: string,
       expectedResult: Result,
-      includeRandomValidData: boolean = false
-    ) => {
+      includeRandomValidData = false
+    ): Promise<void> => {
       // Arrange
       const validInboundRule = {
         toPort: 123,
@@ -149,14 +180,14 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         source: '10.10.10.10/16',
       }
 
-      const data = {
+      const data: CIS4xQueryResponse = {
         queryawsSecurityGroup: [
           {
             id: cuid(),
             inboundRules: [
               {
-                toPort: toPort,
-                fromPort: fromPort,
+                toPort,
+                fromPort,
                 source: sourceAddress,
               },
             ],
@@ -165,7 +196,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       }
 
       if (includeRandomValidData) {
-        data.queryawsSecurityGroup[0].inboundRules.push(validInboundRule)
+        data.queryawsSecurityGroup[0].inboundRules?.push(validInboundRule)
         data.queryawsSecurityGroup.push({
           id: cuid(),
           inboundRules: [validInboundRule, validInboundRule],
@@ -175,7 +206,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_42 as Rule,
-        { ...data } as any
+        { ...data }
       )
 
       // Asserts
@@ -237,11 +268,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
 
     test('Security Issue when there is an inbound rule with IPv4 wilcard address and no port range is specified', async () => {
-      await test42Rule(null, null, ipV4WildcardAddress, CloudGraph.Result.PASS)
+      await test42Rule(
+        undefined,
+        undefined,
+        ipV4WildcardAddress,
+        CloudGraph.Result.PASS
+      )
     })
 
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and no port range is specified', async () => {
-      await test42Rule(null, null, ipV6WildcardAddress, CloudGraph.Result.PASS)
+      await test42Rule(
+        undefined,
+        undefined,
+        ipV6WildcardAddress,
+        CloudGraph.Result.PASS
+      )
     })
 
     test('Security Issue when there is an inbound rule with IPv4 wilcard address and port range includes the port 3389', async () => {
@@ -258,24 +299,24 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       ingressSource: string,
       egressDestination: string,
       expectedResult: Result
-    ) => {
+    ): Promise<void> => {
       // Arrange
-      const data = {
+      const data: CIS4xQueryResponse = {
         queryawsSecurityGroup: [
           {
             id: cuid(),
-            inboundRules: [] as any[],
-            outboundRules: [] as any[],
+            inboundRules: [],
+            outboundRules: [],
           },
         ],
       }
       if (ingressSource) {
-        data.queryawsSecurityGroup[0].inboundRules.push({
+        data.queryawsSecurityGroup[0].inboundRules?.push({
           source: ingressSource as string,
         })
       }
       if (egressDestination) {
-        data.queryawsSecurityGroup[0].outboundRules.push({
+        data.queryawsSecurityGroup[0].outboundRules?.push({
           destination: egressDestination as string,
         })
       }
@@ -283,7 +324,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_43 as Rule,
-        { ...data } as any
+        { ...data }
       )
 
       // Asserts
