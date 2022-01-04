@@ -20,7 +20,7 @@ import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine()
+    rulesEngine = new CloudGraph.RulesEngine('aws', 'CIS')
   })
   describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days (Scored)", () => {
     test('Should fail when a root account uses his password in the last 30 days', async () => {
