@@ -11,6 +11,7 @@ import Aws_CIS_120_29 from '../rules/aws-cis-1.2.0-2.9'
 import Aws_CIS_120_36 from '../rules/aws-cis-1.2.0-3.6'
 import Aws_CIS_120_37 from '../rules/aws-cis-1.2.0-3.7'
 import Aws_CIS_120_38 from '../rules/aws-cis-1.2.0-3.8'
+import Aws_CIS_120_39 from '../rules/aws-cis-1.2.0-3.9'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -1417,6 +1418,368 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         )
 
         expect(processedRule.result).toBe(Result.PASS)
+      }
+    )
+  })
+
+  describe('AWS CIS 3.9 Ensure a log metric filter and alarm exist for AWS Config configuration changes (Scored)', () => {
+    test(
+      'Should pass when a trail has set multi region as Yes' +
+        ' and has set status isLogging as true' +
+        ' and has set eventSelectors readWriteType as All and includeManagementEvents as true' +
+        ' and has set a cloudwatch sns subscription' +
+        ' and has set filterPattern as ' +
+        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+        ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+        ' ||($.eventName=PutConfigurationRecorder)) }',
+      async () => {
+        const data = {
+          queryawsCloudtrail: [
+            {
+              id: cuid(),
+              isMultiRegionTrail: 'Yes',
+              status: {
+                isLogging: true,
+              },
+              eventSelectors: [
+                {
+                  id: cuid(),
+                  readWriteType: 'All',
+                  includeManagementEvents: true,
+                },
+              ],
+              cloudwatchLog: [
+                {
+                  metricFilters: [
+                    {
+                      logGroupName: cuid(),
+                      filterPattern:
+                        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                        ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                        ' ||($.eventName=PutConfigurationRecorder)) }',
+                    },
+                  ],
+                  cloudwatch: [
+                    {
+                      sns: [
+                        {
+                          arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+
+        const [processedRule] = await rulesEngine.processRule(
+          Aws_CIS_120_39 as Rule,
+          { ...data } as any
+        )
+
+        expect(processedRule.result).toBe(Result.PASS)
+      }
+    )
+
+    test('Should fail when a trail has set multi region as false', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'No',
+            status: {
+              isLogging: true,
+            },
+            eventSelectors: [
+              {
+                id: cuid(),
+                readWriteType: 'All',
+                includeManagementEvents: true,
+              },
+            ],
+            cloudwatchLog: [
+              {
+                metricFilters: [
+                  {
+                    logGroupName: cuid(),
+                    filterPattern:
+                      '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                  },
+                ],
+                cloudwatch: [
+                  {
+                    sns: [
+                      {
+                        arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_39 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set status isLogging as false', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: false,
+            },
+            eventSelectors: [
+              {
+                id: cuid(),
+                readWriteType: 'All',
+                includeManagementEvents: true,
+              },
+            ],
+            cloudwatchLog: [
+              {
+                metricFilters: [
+                  {
+                    logGroupName: cuid(),
+                    filterPattern:
+                      '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                  },
+                ],
+                cloudwatch: [
+                  {
+                    sns: [
+                      {
+                        arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_39 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has not set readWriteType as All', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: true,
+            },
+            eventSelectors: [
+              {
+                id: cuid(),
+                readWriteType: 'Read',
+                includeManagementEvents: true,
+              },
+            ],
+            cloudwatchLog: [
+              {
+                metricFilters: [
+                  {
+                    logGroupName: cuid(),
+                    filterPattern:
+                      '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                  },
+                ],
+                cloudwatch: [
+                  {
+                    sns: [
+                      {
+                        arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_39 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set includeManagementEvents as false', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: true,
+            },
+            eventSelectors: [
+              {
+                id: cuid(),
+                readWriteType: 'All',
+                includeManagementEvents: false,
+              },
+            ],
+            cloudwatchLog: [
+              {
+                metricFilters: [
+                  {
+                    logGroupName: cuid(),
+                    filterPattern:
+                      '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                  },
+                ],
+                cloudwatch: [
+                  {
+                    sns: [
+                      {
+                        arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_39 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has not set a cloudwatch sns subscription', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: true,
+            },
+            eventSelectors: [
+              {
+                id: cuid(),
+                readWriteType: 'All',
+                includeManagementEvents: false,
+              },
+            ],
+            cloudwatchLog: [
+              {
+                metricFilters: [
+                  {
+                    logGroupName: cuid(),
+                    filterPattern:
+                      '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                  },
+                ],
+                cloudwatch: [
+                  {
+                    sns: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_39 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test(
+      'Should fail when a trail has set a filter pattern that does not match with the following:' +
+        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
+        ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+        ' ||($.eventName=PutConfigurationRecorder)) }',
+      async () => {
+        const data = {
+          queryawsCloudtrail: [
+            {
+              id: cuid(),
+              isMultiRegionTrail: 'Yes',
+              status: {
+                isLogging: true,
+              },
+              eventSelectors: [
+                {
+                  id: cuid(),
+                  readWriteType: 'All',
+                  includeManagementEvents: true,
+                },
+              ],
+              cloudwatchLog: [
+                {
+                  metricFilters: [
+                    {
+                      logGroupName: cuid(),
+                      filterPattern:
+                        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)',
+                    },
+                  ],
+                  cloudwatch: [
+                    {
+                      sns: [
+                        {
+                          arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+
+        const [processedRule] = await rulesEngine.processRule(
+          Aws_CIS_120_39 as Rule,
+          { ...data } as any
+        )
+
+        expect(processedRule.result).toBe(Result.FAIL)
       }
     )
   })
