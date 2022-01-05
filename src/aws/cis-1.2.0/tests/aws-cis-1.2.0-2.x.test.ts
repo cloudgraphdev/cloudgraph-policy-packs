@@ -13,7 +13,7 @@ import Aws_CIS_120_36 from '../rules/aws-cis-1.2.0-3.6'
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine()
+    rulesEngine = new CloudGraph.RulesEngine('aws', 'CIS')
   })
   describe('AWS CIS 2.1 Ensure CloudTrail is enabled in all regions', () => {
     test('Should pass when a trail has set multi region as false', async () => {
@@ -416,7 +416,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                        '{ ($.eventName = ConsoleLogin) && ($.errorMessage = "Failed authentication") }',
+                        '{($.eventName=ConsoleLogin) && ( $.errorMessage = "Failed authentication" )}',
                     },
                   ],
                   cloudwatch: [
@@ -439,7 +439,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           { ...data } as any
         )
 
-        expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+        expect(processedRule.result).toBe(Result.PASS)
       }
     )
 
@@ -488,7 +488,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should fail when a trail has not set readWriteType as All', async () => {
@@ -536,7 +536,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should fail when a trail has set includeManagementEvents as false', async () => {
@@ -584,10 +584,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail when a trail has not set a cloudwatch sns subscription', async () => {
+    test('Should fail when a trail has set a cloudwatch sns subscription that not start with the prefix arn:aws:*', async () => {
       const data = {
         queryawsCloudtrail: [
           {
@@ -614,7 +614,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
                 cloudwatch: [
                   {
-                    sns: [],
+                    arn: 'sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
                   },
                 ],
               },
@@ -628,7 +628,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test(
@@ -679,7 +679,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           { ...data } as any
         )
 
-        expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+        expect(processedRule.result).toBe(Result.FAIL)
       }
     )
   })

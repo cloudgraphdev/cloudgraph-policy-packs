@@ -478,7 +478,7 @@ __metadata:
   resolution: "@cloudgraph/policy-pack-aws-cis-1.2.0@workspace:src/aws/cis-1.2.0"
   dependencies:
     "@autocloud/eslint-config": ^0.1.0
-    "@cloudgraph/sdk": ^0.7.0
+    "@cloudgraph/sdk": ^0.9.0
     "@types/jest": ^27.0.3
     "@types/node": ^15.12.4
     "@types/pino": ^6.3.11
@@ -500,9 +500,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cloudgraph/sdk@npm:^0.7.0":
-  version: 0.7.1
-  resolution: "@cloudgraph/sdk@npm:0.7.1::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.7.1.tgz"
+"@cloudgraph/sdk@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@cloudgraph/sdk@npm:0.9.0::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.9.0.tgz"
   dependencies:
     "@graphql-tools/load-files": ^6.5.3
     "@graphql-tools/merge": ^8.2.1
@@ -513,7 +513,7 @@ __metadata:
     jsonpath: ^1.1.1
     lodash: ^4.17.21
     ora: ^5.4.1
-  checksum: 8aa585ab4acec3fb2e8befe5b9398b78af7ac791b03f3a6a2b29c09b2795b6f6e27d172a14592b4178d8bd3a5697db9458018baccedf0b3f0aead04c0251f615
+  checksum: e3b2ee650c43bf28db3801bbd9fc1a9588de9c5b19a0ffac1ef5d98e94e764d5a503429e3594eaf01e5a21e2ca88070b2c61a88f98d3a8f70ff9bcd2d37c1996
   languageName: node
   linkType: hard
 

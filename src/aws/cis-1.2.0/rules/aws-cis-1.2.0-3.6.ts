@@ -59,8 +59,7 @@ export default {
           path: '[*].metricFilters',
           array_any: {
             path: '[*].filterPattern',
-            equal:
-              '{ ($.eventName = ConsoleLogin) && ($.errorMessage = "Failed authentication") }',
+            match: /\{\s*\(\s*\$.eventName\s*=\s*ConsoleLogin\s*\)\s*&&\s*\(\s*\$.errorMessage\s*=\s*"Failed authentication"\s*\)\s*\}/,
           },
         },
       },
@@ -72,7 +71,7 @@ export default {
             path: '[*].sns',
             array_any: {
               path: '[*].arn',
-              notEqual: null,
+              match: /^arn:aws:.*$/,
             },
           },
         },
