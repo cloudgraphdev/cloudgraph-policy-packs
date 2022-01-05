@@ -59,7 +59,7 @@ export default {
           path: '[*].metricFilters',
           array_any: {
             path: '[*].filterPattern',
-            match: /\{\s*\(\s*\$.eventName\s*=\s*ConsoleLogin\s*\)\s*&&\s*\(\s*\$.errorMessage\s*=\s*"Failed authentication"\s*\)\s*\}/,
+            match: /{\s*\(\s*\$.eventName\s*=\s*ConsoleLogin\s*\)\s*&&\s*\(\s*\$.errorMessage\s*=\s*"Failed authentication"\s*\)\s*\}/,
           },
         },
       },

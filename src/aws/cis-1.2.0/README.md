@@ -28,4 +28,7 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 |   AWS CIS 2.7          |         Ensure CloudTrail logs are encrypted at rest using KMS CMKs
 |  AWS CIS 2.8         |     Ensure rotation for customer created CMKs is enabled (Scored)                                     |
 |   AWS CIS 2.9        |         Ensure VPC flow logging is enabled in all VPCs (Scored)                                     |
-|   AWS CIS 3.6        |    AWS CIS 3.6 Ensure a log metric filter and alarm exist for AWS Management Console authentication failures (Scored)
+|   AWS CIS 3.6        |    AWS CIS 3.6 Ensure a log metric filter and alarm exist for AWS Management Console authentication failures (Scored)               |
+|   AWS CIS 3.7        |    AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs (Scored)     |
+|   AWS CIS 3.8        |    AWS CIS 3.8 Ensure a log metric filter and alarm exist for S3 bucket policy changes (Scored)                                     |
+|   AWS CIS 3.9        |    AWS CIS 3.9 Ensure a log metric filter and alarm exist for AWS Config configuration changes (Scored)                             |
