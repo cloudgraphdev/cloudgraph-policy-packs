@@ -59,8 +59,8 @@ export default {
           path: '[*].metricFilters',
           array_any: {
             path: '[*].filterPattern',
-            equal:
-              '{($.eventSource = kms.amazonaws.com) && (($.eventName = DisableKey)||($.eventName = ScheduleKeyDeletion)) }',
+            match:
+              /{\s*\(\s*\$.eventSource\s*=\s*kms.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*DisableKey\s*\)\s*\||\s*\(\s*\$.eventName\s*=\s*ScheduleKeyDeletion\s*\)\s*\)}/,
           },
         },
       },
@@ -72,7 +72,7 @@ export default {
             path: '[*].sns',
             array_any: {
               path: '[*].arn',
-              notEqual: null,
+              match: /^arn:aws:.*$/,
             },
           },
         },
