@@ -1454,8 +1454,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
-                        ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                        '{ ($.eventSource=config.amazonaws.com)&&(($.eventName=StopConfigurationRecorder)' +
+                        ' || ($.eventName = DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
                         ' ||($.eventName=PutConfigurationRecorder)) }',
                     },
                   ],
@@ -1683,7 +1683,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail when a trail has not set a cloudwatch sns subscription', async () => {
+    test('Should fail when a trail has set a cloudwatch sns subscription that not start with the prefix arn:aws:*', async () => {
       const data = {
         queryawsCloudtrail: [
           {
@@ -1712,7 +1712,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
                 cloudwatch: [
                   {
-                    sns: [],
+                    arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
                   },
                 ],
               },
@@ -1756,7 +1756,9 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                        '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)',
+                      '{ ($.eventSource = config.any.com) && (($.eventName=StopConfigurationRecorder)' +
+                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                      ' ||($.eventName=PutConfigurationRecorder)) }',
                     },
                   ],
                   cloudwatch: [

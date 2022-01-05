@@ -59,10 +59,8 @@ export default {
           path: '[*].metricFilters',
           array_any: {
             path: '[*].filterPattern',
-            equal:
-              '{ ($.eventSource = config.amazonaws.com) && (($.eventName=StopConfigurationRecorder)' +
-              ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
-              ' ||($.eventName=PutConfigurationRecorder)) }',
+            // eslint-disable-next-line max-len
+            match:/{\s*\(\s*\$.eventSource\s*=\s*config.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*StopConfigurationRecorder\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteDeliveryChannel\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutDeliveryChannel\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutConfigurationRecorder\s*\)\s*\)\s*}/,
           },
         },
       },
@@ -74,7 +72,7 @@ export default {
             path: '[*].sns',
             array_any: {
               path: '[*].arn',
-              notEqual: null,
+              match: /^arn:aws:.*$/,
             },
           },
         },

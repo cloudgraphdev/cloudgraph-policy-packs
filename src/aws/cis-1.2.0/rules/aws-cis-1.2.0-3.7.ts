@@ -60,7 +60,7 @@ export default {
           array_any: {
             path: '[*].filterPattern',
             match:
-              /{\s*\(\s*\$.eventSource\s*=\s*kms.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*DisableKey\s*\)\s*\||\s*\(\s*\$.eventName\s*=\s*ScheduleKeyDeletion\s*\)\s*\)}/,
+              /{\s*\(\s*\$.eventSource\s*=\s*kms.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*DisableKey\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*ScheduleKeyDeletion\s*\)\s*\)\s*}/,
           },
         },
       },

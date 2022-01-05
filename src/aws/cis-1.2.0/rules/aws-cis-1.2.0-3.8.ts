@@ -60,7 +60,7 @@ export default {
           array_any: {
             path: '[*].filterPattern',
             // eslint-disable-next-line max-len
-            match: /{\s*\(\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*PutBucketAcl\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*PutBucketPolicy\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*PutBucketCors\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*PutBucketLifecycle\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*PutBucketReplication\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*DeleteBucketCors\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*\)\s*||\s*\(\s*\$.eventName\s*=\s*DeleteBucketReplication\s*\)\s*\)\s*}/,
+            match: /{\s*\(\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*PutBucketAcl\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketPolicy\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketCors\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketLifecycle\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketReplication\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketCors\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketReplication\s*\)\s*\)\s*}/,
           },
         },
       },
