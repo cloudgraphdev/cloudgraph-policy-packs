@@ -5,6 +5,7 @@ import Aws_CIS_120_31 from '../rules/aws-cis-1.2.0-3.1'
 import Aws_CIS_120_32 from '../rules/aws-cis-1.2.0-3.2'
 import Aws_CIS_120_33 from '../rules/aws-cis-1.2.0-3.3'
 import Aws_CIS_120_34 from '../rules/aws-cis-1.2.0-3.4'
+import Aws_CIS_120_35 from '../rules/aws-cis-1.2.0-3.5'
 import Aws_CIS_120_310 from '../rules/aws-cis-1.2.0-3.10'
 import Aws_CIS_120_311 from '../rules/aws-cis-1.2.0-3.11'
 import Aws_CIS_120_312 from '../rules/aws-cis-1.2.0-3.12'
@@ -20,6 +21,9 @@ const Aws_CIS_120_33_Filter_Pattern =
 const Aws_CIS_120_34_Filter_Pattern =
   // eslint-disable-next-line max-len
   '{ ($.eventName = DeleteGroupPolicy) || ($.eventName = DeleteRolePolicy) || ($.eventName = DeleteUserPolicy) || ($.eventName = PutGroupPolicy) || ($.eventName = PutRolePolicy) || ($.eventName = PutUserPolicy) || ($.eventName = CreatePolicy) || ($.eventName = DeletePolicy) || ($.eventName=CreatePolicyVersion) || ($.eventName=DeletePolicyVersion) || ($.eventName=AttachRolePolicy) || ($.eventName=DetachRolePolicy) || ($.eventName=AttachUserPolicy) || ($.eventName = DetachUserPolicy) || ($.eventName = AttachGroupPolicy) || ($.eventName = DetachGroupPolicy)}'
+const Aws_CIS_120_35_Filter_Pattern =
+  // eslint-disable-next-line max-len
+  '{ ($.eventName = CreateTrail) || ($.eventName = UpdateTrail) || ($.eventName = DeleteTrail) || ($.eventName = StartLogging) || ($.eventName = StopLogging) }'
 const Aws_CIS_120_310_Filter_Pattern =
   // eslint-disable-next-line max-len
   '{ ($.eventName = AuthorizeSecurityGroupIngress) || ($.eventName = AuthorizeSecurityGroupEgress) || ($.eventName = RevokeSecurityGroupIngress) || ($.eventName = RevokeSecurityGroupEgress) || ($.eventName = CreateSecurityGroup) || ($.eventName = DeleteSecurityGroup) }'
@@ -361,6 +365,54 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
         []
       await test34Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 3.5 Ensure a log metric filter and alarm exist for CloudTrail configuration changes (Scored)', () => {
+    const test35Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_35 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      await test35Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one condition', async () => {
+      const data = get3xValidResponse('{ ($.eventName = CreateTrail) }')
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+        []
+      await test35Rule(data, Result.FAIL)
     })
   })
 
