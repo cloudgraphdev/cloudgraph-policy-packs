@@ -216,7 +216,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test31Rule(data, Result.FAIL)
     })
@@ -264,7 +264,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test32Rule(data, Result.FAIL)
     })
@@ -314,7 +314,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test33Rule(data, Result.FAIL)
     })
@@ -362,7 +362,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test34Rule(data, Result.FAIL)
     })
@@ -410,7 +410,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[0].sns[0].subscriptions =
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test35Rule(data, Result.FAIL)
     })

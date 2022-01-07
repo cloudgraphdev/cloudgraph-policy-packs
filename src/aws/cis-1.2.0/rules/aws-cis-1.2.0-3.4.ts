@@ -21,8 +21,12 @@ export default {
           id
           filterName
           filterPattern
+          metricTransformations {
+            metricName
+          }
         }
         cloudwatch {
+          metric
           arn
           actions
           sns {
@@ -61,92 +65,84 @@ export default {
       },
       {
         path: '@.cloudwatchLog',
+        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
         array_any: {
-          path: '[*].metricFilters',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*CreatePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeletePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*CreatePolicyVersion/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeletePolicyVersion/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachGroupPolicy/,
-              },
-            ],
-          },
-        },
-      },
-      {
-        path: '@.cloudwatchLog',
-        array_any: {
-          path: '[*].cloudwatch',
-          array_any: {
-            path: '[*].sns',
-            array_any: {
-              path: '[*].subscriptions',
+          and: [
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DeleteGroupPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DeleteRolePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DeleteUserPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*PutGroupPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*PutRolePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*PutUserPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*CreatePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DeletePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*CreatePolicyVersion/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DeletePolicyVersion/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*AttachRolePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DetachRolePolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*AttachUserPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DetachUserPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*AttachGroupPolicy/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.eventName)\s*=\s*DetachGroupPolicy/,
+            },
+            {
+              path: '[*].sns',
               array_any: {
-                path: '[*].arn',
-                notEqual: null,
+                path: '[*].subscriptions',
+                array_any: {
+                  path: '[*].arn',
+                  match: /^arn:aws:.*$/,
+                },
               },
             },
-          },
+          ],
         },
       },
     ],

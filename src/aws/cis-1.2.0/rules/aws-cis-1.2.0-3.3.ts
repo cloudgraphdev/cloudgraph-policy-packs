@@ -21,8 +21,12 @@ export default {
           id
           filterName
           filterPattern
+          metricTransformations {
+            metricName
+          }
         }
         cloudwatch {
+          metric
           arn
           actions
           sns {
@@ -61,30 +65,26 @@ export default {
       },
       {
         path: '@.cloudwatchLog',
+        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
         array_any: {
-          path: '[*].metricFilters',
-          array_any: {
-            path: '[*].filterPattern',
-            match:
-              // eslint-disable-next-line max-len
-              /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/,
-          },
-        },
-      },
-      {
-        path: '@.cloudwatchLog',
-        array_any: {
-          path: '[*].cloudwatch',
-          array_any: {
-            path: '[*].sns',
-            array_any: {
-              path: '[*].subscriptions',
+          and: [
+            {
+              path: '[*].filterPattern',
+              match:
+                // eslint-disable-next-line max-len
+                /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/,
+            },
+            {
+              path: '[*].sns',
               array_any: {
-                path: '[*].arn',
-                notEqual: null,
+                path: '[*].subscriptions',
+                array_any: {
+                  path: '[*].arn',
+                  match: /^arn:aws:.*$/,
+                },
               },
             },
-          },
+          ],
         },
       },
     ],

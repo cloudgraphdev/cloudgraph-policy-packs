@@ -21,8 +21,12 @@ export default {
           id
           filterName
           filterPattern
+          metricTransformations {
+            metricName
+          }
         }
         cloudwatch {
+          metric
           arn
           actions
           sns {
@@ -61,37 +65,28 @@ export default {
       },
       {
         path: '@.cloudwatchLog',
+        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
         array_any: {
-          path: '[*].metricFilters',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match: /(\$.errorCode)\s*=\s*"UnauthorizedOperation"/
-
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.errorCode)\s*=\s*"AccessDenied"/
-              }
-            ]
-          },
-        },
-      },
-      {
-        path: '@.cloudwatchLog',
-        array_any: {
-          path: '[*].cloudwatch',
-          array_any: {
-            path: '[*].sns',
-            array_any: {
-              path: '[*].subscriptions',
+          and: [
+            {
+              path: '[*].filterPattern',
+              match: /(\$.errorCode)\s*=\s*"UnauthorizedOperation"/,
+            },
+            {
+              path: '[*].filterPattern',
+              match: /(\$.errorCode)\s*=\s*"AccessDenied"/,
+            },
+            {
+              path: '[*].sns',
               array_any: {
-                path: '[*].arn',
-                notEqual: null,
+                path: '[*].subscriptions',
+                array_any: {
+                  path: '[*].arn',
+                  match: /^arn:aws:.*$/,
+                },
               },
             },
-          },
+          ],
         },
       },
     ],
