@@ -58,9 +58,48 @@ export default {
         array_any: {
           path: '[*].metricFilters',
           array_any: {
-            path: '[*].filterPattern',
-            // eslint-disable-next-line max-len
-            match: /{\s*\(\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*PutBucketAcl\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketPolicy\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketCors\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketLifecycle\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutBucketReplication\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketCors\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteBucketReplication\s*\)\s*\)\s*}/,
+            and: [
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutBucketAcl\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutBucketPolicy\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutBucketCors\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutBucketLifecycle\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutBucketReplication\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DeleteBucketCors\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DeleteBucketReplication\s*/,
+              },
+            ],
           },
         },
       },
@@ -71,8 +110,11 @@ export default {
           array_any: {
             path: '[*].sns',
             array_any: {
-              path: '[*].arn',
-              match: /^arn:aws:.*$/,
+              path: '[*].subscriptions',
+              array_any: {
+                path: '[*].arn',
+                match: /^arn:aws:.*$/,
+              },
             },
           },
         },

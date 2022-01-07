@@ -419,7 +419,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                        '{($.eventName=ConsoleLogin) && ( $.errorMessage = "Failed authentication" )}',
+                        '{ ($.eventName = ConsoleLogin) && ($.errorMessage = "Failed authentication") }',
                     },
                   ],
                   cloudwatch: [
@@ -427,6 +427,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -476,6 +481,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -524,6 +534,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -572,6 +587,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -617,7 +637,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
                 cloudwatch: [
                   {
-                    arn: 'sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                    arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                    subscriptions: [
+                      {
+                        arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                      },
+                    ],
                   },
                 ],
               },
@@ -667,6 +692,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -728,6 +758,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                         sns: [
                           {
                             arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                            subscriptions: [
+                              {
+                                arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -777,6 +812,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -825,6 +865,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -873,6 +918,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -921,6 +971,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -939,7 +994,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         expect(processedRule.result).toBe(Result.FAIL)
       })
 
-      test('Should fail when a trail has not set a cloudwatch sns subscription', async () => {
+      test('Should fail when a trail has set a cloudwatch sns subscription that not start with the prefix arn:aws:*', async () => {
         const data = {
           queryawsCloudtrail: [
             {
@@ -966,7 +1021,16 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                   ],
                   cloudwatch: [
                     {
-                      sns: [],
+                      sns: [
+                        {
+                          arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -1016,6 +1080,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                         sns: [
                           {
                             arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                            subscriptions: [
+                              {
+                                arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -1082,6 +1151,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -1135,6 +1209,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1187,6 +1266,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1239,6 +1323,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1291,6 +1380,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1342,7 +1436,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                   {
                     sns: [
                       {
-                        arn: 'sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        arn: 'arn:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1390,11 +1489,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                      '{ ($.eventSource = any.com) && (($.eventName = PutBucketAcl)' +
-                      ' || ($.eventName = PutBucketPolicy) || ($.eventName = PutBucketCors)' +
-                      ' || ($.eventName = PutBucketLifecycle) || ($.eventName = PutBucketReplication)' +
-                      ' || ($.eventName = DeleteBucketPolicy) || ($.eventName = DeleteBucketCors)' +
-                      ' || ($.eventName = DeleteBucketLifecycle) || ($.eventName = DeleteBucketReplication)) }',
+                        '{ ($.eventSource = any.com) && (($.eventName = PutBucketAcl)' +
+                        ' || ($.eventName = PutBucketPolicy) || ($.eventName = PutBucketCors)' +
+                        ' || ($.eventName = PutBucketLifecycle) || ($.eventName = PutBucketReplication)' +
+                        ' || ($.eventName = DeleteBucketPolicy) || ($.eventName = DeleteBucketCors)' +
+                        ' || ($.eventName = DeleteBucketLifecycle) || ($.eventName = DeleteBucketReplication)) }',
                     },
                   ],
                   cloudwatch: [
@@ -1402,6 +1501,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -1464,6 +1568,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -1515,6 +1624,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1565,6 +1679,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1615,6 +1734,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1665,6 +1789,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     sns: [
                       {
                         arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                        subscriptions: [
+                          {
+                            arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                          },
+                        ],
                       },
                     ],
                   },
@@ -1712,7 +1841,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
                 cloudwatch: [
                   {
-                    arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                    arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                    subscriptions: [
+                      {
+                        arn: 'aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                      },
+                    ],
                   },
                 ],
               },
@@ -1756,9 +1890,9 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                     {
                       logGroupName: cuid(),
                       filterPattern:
-                      '{ ($.eventSource = config.any.com) && (($.eventName=StopConfigurationRecorder)' +
-                      ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
-                      ' ||($.eventName=PutConfigurationRecorder)) }',
+                        '{ ($.eventSource = config.any.com) && (($.eventName=StopConfigurationRecorder)' +
+                        ' || ($.eventName=DeleteDeliveryChannel) || ($.eventName=PutDeliveryChannel)' +
+                        ' ||($.eventName=PutConfigurationRecorder)) }',
                     },
                   ],
                   cloudwatch: [
@@ -1766,6 +1900,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                       sns: [
                         {
                           arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping',
+                          subscriptions: [
+                            {
+                              arn: 'arn:aws:sns:us-east-1:632941798677:autocloud-sandbox-public-role-ping:35d8e1e5-b2b9-4589-ab79-f06b4f28f83e',
+                            },
+                          ],
                         },
                       ],
                     },

@@ -58,9 +58,28 @@ export default {
         array_any: {
           path: '[*].metricFilters',
           array_any: {
-            path: '[*].filterPattern',
-            // eslint-disable-next-line max-len
-            match:/{\s*\(\s*\$.eventSource\s*=\s*config.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*StopConfigurationRecorder\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*DeleteDeliveryChannel\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutDeliveryChannel\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*PutConfigurationRecorder\s*\)\s*\)\s*}/,
+            and: [
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventSource\s*=\s*config.amazonaws.com\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*StopConfigurationRecorder\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DeleteDeliveryChannel\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutDeliveryChannel\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*PutConfigurationRecorder\s*/,
+              },
+            ],
           },
         },
       },
@@ -71,8 +90,11 @@ export default {
           array_any: {
             path: '[*].sns',
             array_any: {
-              path: '[*].arn',
-              match: /^arn:aws:.*$/,
+              path: '[*].subscriptions',
+              array_any: {
+                path: '[*].arn',
+                match: /^arn:aws:.*$/,
+              },
             },
           },
         },

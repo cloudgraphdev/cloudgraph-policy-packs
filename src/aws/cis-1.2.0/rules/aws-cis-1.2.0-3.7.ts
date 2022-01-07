@@ -58,9 +58,20 @@ export default {
         array_any: {
           path: '[*].metricFilters',
           array_any: {
-            path: '[*].filterPattern',
-            match:
-              /{\s*\(\s*\$.eventSource\s*=\s*kms.amazonaws.com\s*\)\s*&&\s*\(\s*\(\s*\$.eventName\s*=\s*DisableKey\s*\)\s*\|\|\s*\(\s*\$.eventName\s*=\s*ScheduleKeyDeletion\s*\)\s*\)\s*}/,
+            and: [
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventSource\s*=\s*kms.amazonaws.com\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*DisableKey\s*/,
+              },
+              {
+                path: '[*].filterPattern',
+                match: /\s*\$.eventName\s*=\s*ScheduleKeyDeletion\s*/,
+              },
+            ],
           },
         },
       },
@@ -71,8 +82,11 @@ export default {
           array_any: {
             path: '[*].sns',
             array_any: {
-              path: '[*].arn',
-              match: /^arn:aws:.*$/,
+              path: '[*].subscriptions',
+              array_any: {
+                path: '[*].arn',
+                match: /^arn:aws:.*$/,
+              },
             },
           },
         },
