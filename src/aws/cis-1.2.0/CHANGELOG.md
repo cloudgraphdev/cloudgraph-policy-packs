@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.3.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.1) (2022-01-10)
+
+
+### Bug Fixes
+
+* Added missed bracket to rule 4.3 ([4da9d1b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/4da9d1b21f89838fdf636bebeecdeda674f328e2))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.3.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.2.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.0) (2022-01-10)
 
 
