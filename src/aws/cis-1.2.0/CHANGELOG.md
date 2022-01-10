@@ -1,3 +1,21 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.3.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.2.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.0) (2022-01-10)
+
+
+### Bug Fixes
+
+* Fixed rule 1.1 using not operator ([7ec5463](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/7ec5463c358c5e66cc406980bbbb4fb5777192a2))
+* Updated rules with new sdk operators ([69b0bf2](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/69b0bf242ff7539319f881162cb5644b0d2244a6))
+
+
+### Features
+
+* Included 3.10, 3.11, 3.12, 3.13, 3.14 rules for cis 1.2.0 ([5c63238](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/5c63238385141c19640153cfeab4a28a414e7108))
+* Included rule 3.1 for AWS CIS ([bd8afc8](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bd8afc8d5b2a8c158c7d67b0d80cc87708d13669))
+* Included rule 3.2 for AWS CIS ([c4d59a9](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/c4d59a907293655245847d54f78f175df0186c73))
+* Included rule 3.3 for AWS CIS ([d2f3482](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/d2f34822054e7d21ed7707dc01d34679dd41a4f2))
+* Included rule 3.4 for AWS CIS ([079fd77](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/079fd773fb82f94e4e4f4fc16ea939a68575d54a))
+* Included rule 3.5 for AWS CIS ([37f1bc3](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/37f1bc335a4eb92d3014f9e921eeaae053af9d46))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.2.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.1.2...@cloudgraph/policy-pack-aws-cis-1.2.0@0.2.0) (2022-01-10)
 
 
