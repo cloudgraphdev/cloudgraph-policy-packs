@@ -1,12 +1,29 @@
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
+import Aws_CIS_120_31 from '../rules/aws-cis-1.2.0-3.1'
+import Aws_CIS_120_32 from '../rules/aws-cis-1.2.0-3.2'
+import Aws_CIS_120_33 from '../rules/aws-cis-1.2.0-3.3'
+import Aws_CIS_120_34 from '../rules/aws-cis-1.2.0-3.4'
+import Aws_CIS_120_35 from '../rules/aws-cis-1.2.0-3.5'
 import Aws_CIS_120_310 from '../rules/aws-cis-1.2.0-3.10'
 import Aws_CIS_120_311 from '../rules/aws-cis-1.2.0-3.11'
 import Aws_CIS_120_312 from '../rules/aws-cis-1.2.0-3.12'
 import Aws_CIS_120_313 from '../rules/aws-cis-1.2.0-3.13'
 import Aws_CIS_120_314 from '../rules/aws-cis-1.2.0-3.14'
 
+const Aws_CIS_120_31_Filter_Pattern =
+  '{ ($.errorCode =  "UnauthorizedOperation") || ($.errorCode = "AccessDenied") }'
+const Aws_CIS_120_32_Filter_Pattern =
+  '{ ($.errorCode = "ConsoleLogin") || ($.additionalEventData.MFAUsed != "Yes")  }'
+const Aws_CIS_120_33_Filter_Pattern =
+  '{ $.userIdentity.type = "Root" && $.userIdentity.invokedBy NOT EXISTS && $.eventType != "AwsServiceEvent" }'
+const Aws_CIS_120_34_Filter_Pattern =
+  // eslint-disable-next-line max-len
+  '{ ($.eventName = DeleteGroupPolicy) || ($.eventName = DeleteRolePolicy) || ($.eventName = DeleteUserPolicy) || ($.eventName = PutGroupPolicy) || ($.eventName = PutRolePolicy) || ($.eventName = PutUserPolicy) || ($.eventName = CreatePolicy) || ($.eventName = DeletePolicy) || ($.eventName=CreatePolicyVersion) || ($.eventName=DeletePolicyVersion) || ($.eventName=AttachRolePolicy) || ($.eventName=DetachRolePolicy) || ($.eventName=AttachUserPolicy) || ($.eventName = DetachUserPolicy) || ($.eventName = AttachGroupPolicy) || ($.eventName = DetachGroupPolicy)}'
+const Aws_CIS_120_35_Filter_Pattern =
+  // eslint-disable-next-line max-len
+  '{ ($.eventName = CreateTrail) || ($.eventName = UpdateTrail) || ($.eventName = DeleteTrail) || ($.eventName = StartLogging) || ($.eventName = StopLogging) }'
 const Aws_CIS_120_310_Filter_Pattern =
   // eslint-disable-next-line max-len
   '{ ($.eventName = AuthorizeSecurityGroupIngress) || ($.eventName = AuthorizeSecurityGroupEgress) || ($.eventName = RevokeSecurityGroupIngress) || ($.eventName = RevokeSecurityGroupEgress) || ($.eventName = CreateSecurityGroup) || ($.eventName = DeleteSecurityGroup) }'
@@ -122,9 +139,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 metric: 'KmsDeletionCount',
                 arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:KmsDeletionAlarm',
-                actions: [
-                  'arn:aws:sns:us-east-1:111111111111:...',
-                ],
+                actions: ['arn:aws:sns:us-east-1:111111111111:...'],
                 sns: [
                   {
                     arn: 'arn:aws:sns:us-east-1:111111111111:...',
@@ -139,9 +154,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 metric: 'DummyNameCount',
                 arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:DummyAlarm',
-                actions: [
-                  'arn:aws:sns:us-east-1:111111111111:...',
-                ],
+                actions: ['arn:aws:sns:us-east-1:111111111111:...'],
                 sns: [
                   {
                     arn: 'arn:aws:sns:us-east-1:111111111111:...',
@@ -159,6 +172,250 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       },
     ],
   })
+  describe('AWS CIS 3.1 Ensure a log metric filter and alarm exist for unauthorized API calls (Scored)', () => {
+    const test31Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_31 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
+      await test31Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test31Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test31Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test31Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one error code', async () => {
+      const data = get3xValidResponse(
+        '{ ($.errorCode =  "UnauthorizedOperation") }'
+      )
+      await test31Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_31_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+        []
+      await test31Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 3.2 Ensure a log metric filter and alarm exist for Management Console sign-in without MFA (Scored)', () => {
+    const test32Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_32 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
+      await test32Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test32Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test32Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test32Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one error code', async () => {
+      const data = get3xValidResponse('{ ($.errorCode = "ConsoleLogin") }')
+      await test32Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_32_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+        []
+      await test32Rule(data, Result.FAIL)
+    })
+  })
+
+  describe("AWS CIS 3.3  Ensure a log metric filter and alarm exist for usage of 'root' account (Score)", () => {
+    const test33Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_33 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
+      await test33Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test33Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test33Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test33Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one condition', async () => {
+      const data = get3xValidResponse(
+        '{ $.userIdentity.type = "Root" || $.userIdentity.invokedBy NOT EXISTS }'
+      )
+      await test33Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_33_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+        []
+      await test33Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 3.4 Ensure a log metric filter and alarm exist for IAM policy changes (Score)', () => {
+    const test34Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_34 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
+      await test34Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test34Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test34Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test34Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one condition', async () => {
+      const data = get3xValidResponse('{ ($.eventName = DeleteGroupPolicy) }')
+      await test34Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_34_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+        []
+      await test34Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 3.5 Ensure a log metric filter and alarm exist for CloudTrail configuration changes (Scored)', () => {
+    const test35Rule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_35 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      await test35Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when isLogging is false', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].status.isLogging = false
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors readWriteType is not All', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+        false
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when metricFilters filterPattern just contains one condition', async () => {
+      const data = get3xValidResponse('{ ($.eventName = CreateTrail) }')
+      await test35Rule(data, Result.FAIL)
+    })
+    test('Security Issue when cloudwatch sns suscription is not found', async () => {
+      const data = get3xValidResponse(Aws_CIS_120_35_Filter_Pattern)
+      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+        []
+      await test35Rule(data, Result.FAIL)
+    })
+  })
+
   describe('AWS CIS 3.10 Ensure a log metric filter and alarm exist for security group changes (Scored)', () => {
     const test310Rule = async (
       data: CIS3xQueryResponse,

@@ -28,6 +28,11 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 2.7  | Ensure CloudTrail logs are encrypted at rest using KMS CMKs                                            |
 | AWS CIS 2.8  | Ensure rotation for customer created CMKs is enabled (Scored)                                          |
 | AWS CIS 2.9  | Ensure VPC flow logging is enabled in all VPCs (Scored)                                                |
+| AWS CIS 3.1  | Ensure a log metric filter and alarm exist for unauthorized API calls (Scored)                         |
+| AWS CIS 3.2  | Ensure a log metric filter and alarm exist for Management Console sign-in without MFA (Scored)         |
+| AWS CIS 3.3  | Ensure a log metric filter and alarm exist for usage of 'root' account (Score)                         |
+| AWS CIS 3.4  | Ensure a log metric filter and alarm exist for IAM policy changes (Score)                              |
+| AWS CIS 3.5  | Ensure a log metric filter and alarm exist for CloudTrail configuration changes (Scored)               |
 | AWS CIS 3.10 | Ensure a log metric filter and alarm exist for security group changes (Scored)                         |
 | AWS CIS 3.11 | Ensure a log metric filter and alarm exist for changes to Network Access Control Lists (NACL) (Scored) |
 | AWS CIS 3.12 | Ensure a log metric filter and alarm exist for changes to network gateways (Scored)                    |
