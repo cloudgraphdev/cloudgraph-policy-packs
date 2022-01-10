@@ -13,6 +13,7 @@ export default {
       outboundRules{
         destination
       }
+    }
   }`,
   resource: 'queryawsSecurityGroup[*]',
   severity: 'danger',
