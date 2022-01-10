@@ -1,3 +1,10 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.4.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.4.0) (2022-01-10)
+
+
+### Features
+
+* cis 3.6, 3.7, 3.8, 3.9 rules for cis 1.2.0 ([9fe01f3](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/9fe01f366e0498ea77acc3c55fa0e8905a3dc9c6))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.3.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.3.1) (2022-01-10)
 
 
