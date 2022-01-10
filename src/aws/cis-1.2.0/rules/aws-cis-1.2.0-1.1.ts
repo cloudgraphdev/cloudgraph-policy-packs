@@ -13,15 +13,17 @@ export default {
   resource: 'queryawsIamUser[*]',
   severity: 'danger',
   conditions: {
-    and: [
-      {
-        path: '@.passwordEnabled',
-        equal: true,
-      },
-      {
-        value: { daysAgo: {}, path: '@.passwordLastUsed' },
-        lessThanInclusive: 30,
-      },
-    ],
+    not: {
+      and: [
+        {
+          path: '@.passwordEnabled',
+          equal: true,
+        },
+        {
+          value: { daysAgo: {}, path: '@.passwordLastUsed' },
+          lessThanInclusive: 30,
+        },
+      ],
+    },
   },
 }

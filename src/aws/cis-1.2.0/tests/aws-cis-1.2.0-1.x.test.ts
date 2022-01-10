@@ -39,7 +39,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.FAIL)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when a root account does not uses his password in the last 30 days', async () => {
@@ -58,7 +58,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.PASS)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
