@@ -11,7 +11,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
-  severity: 'danger',
+  severity: 'high',
   conditions: {
     path: '@.mfaActive',
     equal: true,

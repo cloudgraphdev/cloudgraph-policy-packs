@@ -12,7 +12,7 @@ export default {
     }
   }`,
   resource: 'queryawsCloudtrail[*]',
-  severity: 'warning',
+  severity: 'medium',
   conditions: {
     path: '@.s3',
     array_any: {

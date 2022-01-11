@@ -10,7 +10,7 @@ export default {
     }
   }`,
   resource: 'queryawsCloudtrail[*]',
-  severity: 'warning',
+  severity: 'medium',
   conditions: {
     path: '@.kmsKeyId',
     notEqual: null,

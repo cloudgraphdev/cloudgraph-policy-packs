@@ -13,7 +13,7 @@ export default {
     }
   }`,
   resource: 'queryawsIamUser[*]',
-  severity: 'warning',
+  severity: 'medium',
   conditions: {
     and: [
       {
