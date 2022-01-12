@@ -500,6 +500,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0":
+  version: 0.0.0-use.local
+  resolution: "@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0"
+  dependencies:
+    "@autocloud/eslint-config": ^0.1.0
+    "@cloudgraph/sdk": ^0.10.0
+    "@types/jest": ^27.4.0
+    "@types/node": ^17.0.8
+    "@types/pino": ^6.3.11
+    "@typescript-eslint/eslint-plugin": ^4.28.5
+    "@typescript-eslint/parser": ^4.28.5
+    cpx: ^1.5.0
+    cuid: ^2.1.8
+    eslint: ^7.25.0
+    eslint-config-airbnb-base: 14.2.1
+    eslint-config-prettier: ^6.11.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    jest: ^27.0.6
+    prettier: ^2.5.1
+    shx: ^0.3.3
+    ts-jest: ^27.0.4
+    tslib: ^1
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@cloudgraph/sdk@npm:^0.10.0":
   version: 0.10.0
   resolution: "@cloudgraph/sdk@npm:0.10.0::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.10.0.tgz"
@@ -2415,6 +2442,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jest@npm:^27.4.0":
+  version: 27.4.0
+  resolution: "@types/jest@npm:27.4.0"
+  dependencies:
+    jest-diff: ^27.0.0
+    pretty-format: ^27.0.0
+  checksum: d2350267f954f9a2e4a15e5f02fbf19a77abfb9fd9e57a954de1fb0e9a0d3d5f8d3646ac7d9c42aeb4b4d828d2e70624ec149c85bb50a48634a54eed8429e1f8
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.7":
   version: 7.0.9
   resolution: "@types/json-schema@npm:7.0.9"
@@ -2470,6 +2507,13 @@ __metadata:
   version: 15.14.9
   resolution: "@types/node@npm:15.14.9"
   checksum: 49f7f0522a3af4b8389aee660e88426490cd54b86356672a1fedb49919a8797c00d090ec2dcc4a5df34edc2099d57fc2203d796c4e7fbd382f2022ccd789eee7
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^17.0.8":
+  version: 17.0.8
+  resolution: "@types/node@npm:17.0.8"
+  checksum: f4cadeb9e602027520abc88c77142697e33cf6ac98bb02f8b595a398603cbd33df1f94d01c055c9f13cde0c8eaafc5e396ca72645458d42b4318b845bc7f1d0f
   languageName: node
   linkType: hard
 
@@ -10611,6 +10655,15 @@ __metadata:
   bin:
     prettier: bin-prettier.js
   checksum: aad1b35b73e7c14596d389d90977a83dad0db689ba5802a0ef319c357b7867f55b885db197972aa6a56c30f53088c9f8e0d7f7930ae074c275a4e9cbe091d21d
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "prettier@npm:2.5.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
   languageName: node
   linkType: hard
 
