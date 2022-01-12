@@ -5,6 +5,7 @@ import 'jest'
 
 import Gcp_CIS_120_36 from '../rules/gcp-cis-1.2.0-3.6'
 import Gcp_CIS_120_37 from '../rules/gcp-cis-1.2.0-3.7'
+import Gcp_CIS_120_38 from '../rules/gcp-cis-1.2.0-3.8'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -20,8 +21,20 @@ export interface QuerygcpFirewall {
   direction: string
   allowed?: Allowed[]
 }
+
+export interface GcpNetworkSubnet {
+  purpose: string
+  enableFlowLogs: boolean | null
+}
+
+export interface QuerygcpNetwork {
+  id: string
+  subnet?: GcpNetworkSubnet[]
+}
+
 export interface CIS3xQueryResponse {
-  querygcpFirewall: QuerygcpFirewall[]
+  querygcpFirewall?: QuerygcpFirewall[]
+  querygcpNetwork?: QuerygcpNetwork[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -226,6 +239,85 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
 
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and port range includes the port 3986', async () => {
       await test37Rule(0, 4000, ipV6WildcardAddress, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 3.8 Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network', () => {
+    const test38Rule = async (
+      subnets: GcpNetworkSubnet[],
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpNetwork: [
+          {
+            id: cuid(),
+            subnet: subnets,
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_38 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when all PRIVATE subnets have enableFlowLogs set to true', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: null,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: false,
+        },
+      ]
+      await test38Rule(subnets, Result.PASS)
+    })
+
+    test('Security Issue when at least 1 PRIVATE subnet has enableFlowLogs set to false', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: false,
+        },
+      ]
+      await test38Rule(subnets, Result.FAIL)
+    })
+    test('Security Issue when at least 1 PRIVATE subnet has enableFlowLogs set to null', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: null,
+        },
+      ]
+      await test38Rule(subnets, Result.FAIL)
     })
   })
 })
