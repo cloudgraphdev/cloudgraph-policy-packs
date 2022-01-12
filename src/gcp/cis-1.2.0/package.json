@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-gcp-cis-1.2.0",
   "description": "Policy pack implementing CIS Google Cloud Platform Foundations 1.2.0 Benchmark",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
