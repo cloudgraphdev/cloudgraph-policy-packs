@@ -12,7 +12,7 @@ export default {
     }
   }`,
   resource: 'queryawsVpc[*]',
-  severity: 'warning',
+  severity: 'medium',
   conditions: {
     path: '@.flowLogs',
     isEmpty: false,

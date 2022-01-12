@@ -11,7 +11,7 @@ export default {
     }
   }`,
   resource: 'queryawsKms[*]',
-  severity: 'warning',
+  severity: 'medium',
   conditions: {
     or: [
       {

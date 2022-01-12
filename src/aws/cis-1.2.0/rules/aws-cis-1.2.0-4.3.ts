@@ -16,7 +16,7 @@ export default {
     }
   }`,
   resource: 'queryawsSecurityGroup[*]',
-  severity: 'danger',
+  severity: 'high',
   conditions: {
     not: {
       or: [
