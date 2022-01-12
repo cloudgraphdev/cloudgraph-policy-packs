@@ -16,7 +16,7 @@ export default {
     }
   }`,
   resource: 'querygcpFirewall[*]',
-  severity: 'warning',
+  severity: 'high',
   conditions: {
     not: {
       path: '@',

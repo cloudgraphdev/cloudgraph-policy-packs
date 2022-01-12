@@ -13,7 +13,7 @@ export default {
     }
   }`,
   resource: 'querygcpNetwork[*]',
-  severity: 'warning',
+  severity: 'high',
   conditions: {
     path: '@.subnet',
     array_all: {
