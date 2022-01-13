@@ -15,3 +15,9 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 3.7 | Ensure that RDP access is restricted from the internet                       |
 | GCP CIS 3.8 | Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network       |
 | GCP CIS 3.10 | Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses |
+| GCP CIS 4.1  | Ensure that instances are not configured to use the default service account                                                                                         |
+| GCP CIS 4.2  | Ensure that instances are not configured to use the default service account with full access to all Cloud APIs                                                      |
+| GCP CIS 4.3  | Ensure "Block Project-wide SSH keys" is enabled for VM instances                                                                                                    |
+| GCP CIS 4.5  | Ensure 'Enable connecting to serial ports' is not enabled for VM Instance                                                                                           |
+| GCP CIS 4.6  | Ensure that IP forwarding is not enabled on Instances                                                                                                               |
+| GCP CIS 4.7  | Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK)                                                                        |
