@@ -3,6 +3,11 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
+import Gcp_CIS_120_31 from '../rules/gcp-cis-1.2.0-3.1'
+import Gcp_CIS_120_32 from '../rules/gcp-cis-1.2.0-3.2'
+import Gcp_CIS_120_33 from '../rules/gcp-cis-1.2.0-3.3'
+import Gcp_CIS_120_34 from '../rules/gcp-cis-1.2.0-3.4'
+import Gcp_CIS_120_35 from '../rules/gcp-cis-1.2.0-3.5'
 import Gcp_CIS_120_36 from '../rules/gcp-cis-1.2.0-3.6'
 import Gcp_CIS_120_37 from '../rules/gcp-cis-1.2.0-3.7'
 import Gcp_CIS_120_38 from '../rules/gcp-cis-1.2.0-3.8'
@@ -31,11 +36,26 @@ export interface GcpNetworkSubnet {
 export interface QuerygcpNetwork {
   id: string
   subnet?: GcpNetworkSubnet[]
+  name?: string
+  ipV4Range?: string | null
+}
+
+export interface DnssecConfigDefaultKeySpecs {
+  keyType: string
+  algorithm: string
+}
+
+export interface QuerygcpDnsManagedZone {
+  id: string
+  visibility?: string
+  dnssecConfigState?: string
+  dnssecConfigDefaultKeySpecs?: DnssecConfigDefaultKeySpecs[]
 }
 
 export interface CIS3xQueryResponse {
   querygcpFirewall?: QuerygcpFirewall[]
   querygcpNetwork?: QuerygcpNetwork[]
+  querygcpDnsManagedZone?: QuerygcpDnsManagedZone[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -43,6 +63,222 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
   })
+  describe('GCP CIS 3.1 Ensure that the default network does not exist in a project', () => {
+    const test31Rule = async (
+      networkName: string,
+      expectedResult: Result,
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpNetwork: [
+          {
+            id: cuid(),
+            name  : networkName
+          }
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_31 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a network name that is not equal to default', async () => {
+      await test31Rule('test-network', Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with a network name that is equal to default', async () => {
+      await test31Rule('default', Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 3.2 Ensure legacy networks do not exist for a project', () => {
+    const test32Rule = async (
+      networkIpV4Range: string | null,
+      expectedResult: Result,
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpNetwork: [
+          {
+            id: cuid(),
+            ipV4Range: networkIpV4Range
+          }
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_32 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a not set ipV4Range', async () => {
+      await test32Rule(null, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with a not set ipV4Range', async () => {
+      await test32Rule('192.168.0.0/16', Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 3.3 Ensure that DNSSEC is enabled for Cloud DNS', () => {
+    const test33Rule = async (
+      visibility: string,
+      dnssecConfigState: string,
+      expectedResult: Result,
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpDnsManagedZone: [
+          {
+            id: cuid(),
+            visibility,
+            dnssecConfigState
+          }
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_33 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with visibility public and dnssecConfigState is enabled', async () => {
+      await test33Rule('public', 'on', Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with visibility private and dnssecConfigState is not enabled', async () => {
+      await test33Rule('private', 'off', Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with visibility public and dnssecConfigState is not enabled', async () => {
+      await test33Rule('public', 'off', Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 3.4 Ensure that RSASHA1 is not used for the key-signing key in Cloud DNS DNSSEC', () => {
+    const test34Rule = async (
+      visibility: string,
+      keyType: string,
+      algorithm: string,
+      expectedResult: Result,
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpDnsManagedZone: [
+          {
+            id: cuid(),
+            visibility,
+            dnssecConfigDefaultKeySpecs : [
+              {
+                keyType: 'keySigning',
+                algorithm: 'rsasha512'
+              },
+              {
+                keyType: 'keyTest',
+                algorithm: 'rsasha1'
+              },
+              {
+                keyType,
+                algorithm
+              }
+            ]
+          }
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_34 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with visibility public and keyType keySigning and algorithm type different to rsasha1', async () => {
+      await test34Rule('public', 'keySigning', 'rsasha256', Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with visibility private and keyType keySigning and algorithm type rsasha1', async () => {
+      await test34Rule('private', 'keySigning', 'rsasha256', Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with visibility public and keyType keySigning and algorithm type rsasha1', async () => {
+      await test34Rule('public', 'keySigning', 'rsasha1', Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 3.5 Ensure that RSASHA1 is not used for the zone-signing key in Cloud DNS DNSSEC', () => {
+    const test35Rule = async (
+      visibility: string,
+      keyType: string,
+      algorithm: string,
+      expectedResult: Result,
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS3xQueryResponse = {
+        querygcpDnsManagedZone: [
+          {
+            id: cuid(),
+            visibility,
+            dnssecConfigDefaultKeySpecs : [
+              {
+                keyType: 'zoneSigning',
+                algorithm: 'rsasha512'
+              },
+              {
+                keyType: 'keyTest',
+                algorithm: 'rsasha1'
+              },
+              {
+                keyType,
+                algorithm
+              }
+            ]
+          }
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_35 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with visibility public and keyType zoneSigning and algorithm type different to rsasha1', async () => {
+      await test35Rule('public', 'zoneSigning', 'rsasha256', Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with visibility private and keyType zoneSigning and algorithm type rsasha1', async () => {
+      await test35Rule('private', 'zoneSigning', 'rsasha256', Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with visibility public and keyType zoneSigning and algorithm type rsasha1', async () => {
+      await test35Rule('public', 'zoneSigning', 'rsasha1', Result.FAIL)
+    })
+  })
+
   describe('GCP CIS 3.6 Ensure that SSH access is restricted from the internet', () => {
     const test36Rule = async (
       fromPort: number | undefined,
