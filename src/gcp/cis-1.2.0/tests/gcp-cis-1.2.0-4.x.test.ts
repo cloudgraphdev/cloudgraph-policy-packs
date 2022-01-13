@@ -73,6 +73,7 @@ export interface QuerygcpVmInstance {
   serviceAccounts?: ServiceAccount[]
   disks?: Disk[]
 }
+
 export interface CIS4xQueryResponse {
   querygcpVmInstance?: QuerygcpVmInstance[]
 }
