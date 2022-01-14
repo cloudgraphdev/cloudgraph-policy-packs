@@ -21,3 +21,4 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 4.5  | Ensure 'Enable connecting to serial ports' is not enabled for VM Instance                                                                                           |
 | GCP CIS 4.6  | Ensure that IP forwarding is not enabled on Instances                                                                                                               |
 | GCP CIS 4.7  | Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK)                                                                        |
+| GCP CIS 5.2  | Ensure that Cloud Storage buckets have uniform bucket-level access enabled                                                                                          |
