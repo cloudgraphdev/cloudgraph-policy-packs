@@ -28,3 +28,4 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 4.8  | Ensure Compute instances are launched with Shielded VM enabled                                                                                                      |
 | GCP CIS 4.9  | Ensure that Compute instances do not have public IP addresses                                                                                                       |
 | GCP CIS 4.11 | Ensure that Compute instances have Confidential Computing enabled                                                                                                   |
+| GCP CIS 5.2  | Ensure that Cloud Storage buckets have uniform bucket-level access enabled                                                                                          |

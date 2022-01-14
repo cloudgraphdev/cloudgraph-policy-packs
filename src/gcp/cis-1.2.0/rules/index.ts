@@ -20,6 +20,7 @@ import Gcp_CIS_120_47 from './gcp-cis-1.2.0-4.7'
 import Gcp_CIS_120_48 from './gcp-cis-1.2.0-4.8'
 import Gcp_CIS_120_49 from './gcp-cis-1.2.0-4.9'
 import Gcp_CIS_120_411 from './gcp-cis-1.2.0-4.11'
+import Gcp_CIS_120_52 from './gcp-cis-1.2.0-5.2'
 
 export default [
   Gcp_CIS_120_29,
@@ -44,4 +45,5 @@ export default [
   Gcp_CIS_120_48,
   Gcp_CIS_120_49,
   Gcp_CIS_120_411,
+  Gcp_CIS_120_52,
 ]
