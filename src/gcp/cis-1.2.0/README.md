@@ -6,6 +6,8 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 
 | Rule         | Description                                                                                                                                                         |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GCP CIS 2.2  | Ensure that sinks are configured for all log entries                                                                                                                |
+| GCP CIS 2.3  | Ensure that retention policies on log buckets are configured using Bucket Lock                                                                                      |
 | GCP CIS 2.9  | Ensure that the log metric filter and alerts exist for VPC network changes                                                                                          |
 | GCP CIS 2.10 | Ensure that the log metric filter and alerts exist for Cloud Storage IAM permission changes                                                                         |
 | GCP CIS 2.11 | Ensure that the log metric filter and alerts exist for SQL instance configuration changes                                                                           |
