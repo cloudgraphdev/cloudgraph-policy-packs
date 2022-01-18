@@ -63,15 +63,15 @@ export interface ConfidentialInstanceConfig {
 export interface QuerygcpVmInstance {
   id: string
   name?: string
-  shieldedInstanceConfig?: ShieldedInstanceConfig
-  confidentialInstanceConfig?: ConfidentialInstanceConfig
-  networkInterfaces?: NetworkInterfaces[]
   canIpForward?: boolean
   project?: Project[]
   labels?: Label[]
   metadata?: Metadata
   serviceAccounts?: ServiceAccount[]
   disks?: Disk[]
+  shieldedInstanceConfig?: ShieldedInstanceConfig
+  confidentialInstanceConfig?: ConfidentialInstanceConfig
+  networkInterfaces?: NetworkInterfaces[]
 }
 
 export interface CIS4xQueryResponse {
