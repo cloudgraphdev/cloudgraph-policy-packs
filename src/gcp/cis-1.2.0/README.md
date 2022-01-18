@@ -19,3 +19,6 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 3.7 | Ensure that RDP access is restricted from the internet                       |
 | GCP CIS 3.8 | Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network       |
 | GCP CIS 3.10 | Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses |
+| GCP CIS 4.8 | Ensure Compute instances are launched with Shielded VM enabled               |
+| GCP CIS 4.9 | Ensure that Compute instances do not have public IP addresses                |
+| GCP CIS 4.11 | Ensure that Compute instances have Confidential Computing enabled           |
