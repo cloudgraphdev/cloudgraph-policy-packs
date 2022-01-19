@@ -1,3 +1,4 @@
+import Aws_CIS_120_11 from './aws-cis-1.2.0-1.1'
 import Aws_CIS_120_12 from './aws-cis-1.2.0-1.2'
 import Aws_CIS_120_13 from './aws-cis-1.2.0-1.3'
 import Aws_CIS_120_14 from './aws-cis-1.2.0-1.4'
@@ -38,6 +39,7 @@ import Aws_CIS_120_42 from './aws-cis-1.2.0-4.2'
 import Aws_CIS_120_43 from './aws-cis-1.2.0-4.3'
 
 export default [
+  Aws_CIS_120_11,
   Aws_CIS_120_12,
   Aws_CIS_120_13,
   Aws_CIS_120_14,
