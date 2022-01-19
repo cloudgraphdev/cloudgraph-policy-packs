@@ -5,17 +5,35 @@ import 'jest'
 
 import Gcp_CIS_120_22 from '../rules/gcp-cis-1.2.0-2.2'
 import Gcp_CIS_120_23 from '../rules/gcp-cis-1.2.0-2.3'
+import Gcp_CIS_120_24 from '../rules/gcp-cis-1.2.0-2.4'
+import Gcp_CIS_120_25 from '../rules/gcp-cis-1.2.0-2.5'
+import Gcp_CIS_120_26 from '../rules/gcp-cis-1.2.0-2.6'
+import Gcp_CIS_120_27 from '../rules/gcp-cis-1.2.0-2.7'
+import Gcp_CIS_120_28 from '../rules/gcp-cis-1.2.0-2.8'
 import Gcp_CIS_120_29 from '../rules/gcp-cis-1.2.0-2.9'
 import Gcp_CIS_120_210 from '../rules/gcp-cis-1.2.0-2.10'
 import Gcp_CIS_120_211 from '../rules/gcp-cis-1.2.0-2.11'
 import Gcp_CIS_120_212 from '../rules/gcp-cis-1.2.0-2.12'
 
-const Gcp_CIS_120_29_Filter = 'resource.type=gce_network AND protoPayload.methodName="beta.compute.networks.insert" OR protoPayload.methodName="beta.compute.networks.patch" OR protoPayload.methodName="v1.compute.networks.delete" OR protoPayload.methodName="v1.compute.networks.removePeering" OR protoPayload.methodName="v1.compute.networks.addPeering"'
-const Gcp_CIS_120_210_Filter = 'resource.type=gcs_bucket AND protoPayload.methodName="storage.setIamPermissions"'
-const Gcp_CIS_120_211_Filter = 'protoPayload.methodName="cloudsql.instances.update"'
+const Gcp_CIS_120_24_Filter =
+  '( protoPayload.serviceName="cloudresourcemanager.googleapis.com" ) AND ( ProjectOwnership OR projectOwnerInvitee ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="REMOVE" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="ADD" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" )'
+const Gcp_CIS_120_25_Filter =
+  'protoPayload.methodName="SetIamPolicy" AND protoPayload.serviceData.policyDelta.auditConfigDeltas:*'
+const Gcp_CIS_120_26_Filter =
+  'resource.type="iam_role" AND protoPayload.methodName="google.iam.admin.v1.CreateRole" OR protoPayload.methodName="google.iam.admin.v1.DeleteRole" OR protoPayload.methodName="google.iam.admin.v1.UpdateRole"'
+const Gcp_CIS_120_27_Filter =
+  'resource.type="gce_firewall_rule" AND protoPayload.methodName="v1.compute.firewalls.patch" OR protoPayload.methodName="v1.compute.firewalls.insert"'
+const Gcp_CIS_120_28_Filter =
+  'resource.type="gce_route" AND protoPayload.methodName="beta.compute.routes.patch" OR protoPayload.methodName="beta.compute.routes.insert"'
+const Gcp_CIS_120_29_Filter =
+  'resource.type=gce_network AND protoPayload.methodName="beta.compute.networks.insert" OR protoPayload.methodName="beta.compute.networks.patch" OR protoPayload.methodName="v1.compute.networks.delete" OR protoPayload.methodName="v1.compute.networks.removePeering" OR protoPayload.methodName="v1.compute.networks.addPeering"'
+const Gcp_CIS_120_210_Filter =
+  'resource.type=gcs_bucket AND protoPayload.methodName="storage.setIamPermissions"'
+const Gcp_CIS_120_211_Filter =
+  'protoPayload.methodName="cloudsql.instances.update"'
 
 export interface MetricDescriptor {
-  type: string,
+  type: string
 }
 
 export interface LogMetric {
@@ -197,7 +215,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
               locked: true,
             },
           ],
-        }
+        },
       ]
       const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
       await test23Rule(data, Result.PASS)
@@ -263,14 +281,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test23Rule(data, Result.FAIL)
     })
   })
-  
-  describe('GCP CIS 2.9 Ensure that the log metric filter and alerts exist for VPC network changes', () => {
-    const test29Rule = async (
+
+  describe('GCP CIS 2.4 Ensure log metric filter and alerts exist for Audit Configuration Changes', () => {
+    const test24Rule = async (
       enabled: boolean,
       filter: string,
       metricName: string,
       metricType: string,
-      expectedResult: Result,
+      expectedResult: Result
     ): Promise<void> => {
       // Arrange
       const data: CIS2xQueryResponse = {
@@ -278,7 +296,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           {
             id: cuid(),
             enabled: {
-              value: enabled
+              value: enabled,
             },
             project: [
               {
@@ -287,20 +305,475 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
                     metricDescriptor: {
-                      type: 'logging.googleapis.com/user/dummy-test-name'
-                    }
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
                   },
                   {
                     filter,
                     name: metricName,
                     metricDescriptor: {
-                      type: `logging.googleapis.com/user/${metricType}`
-                    }
-                  }
-                ]
-              }
-            ]
-          }
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_24 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alerts exist', async () => {
+      await test24Rule(
+        true,
+        Gcp_CIS_120_24_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there metric filters is not found', async () => {
+      await test24Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters but not aletrs', async () => {
+      await test24Rule(
+        false,
+        Gcp_CIS_120_24_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
+      await test24Rule(
+        true,
+        Gcp_CIS_120_24_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
+    })
+  })
+
+  describe('GCP CIS 2.5 Ensure that the log metric filter and alerts exist for Audit Configuration changes', () => {
+    const test25Rule = async (
+      enabled: boolean,
+      filter: string,
+      metricName: string,
+      metricType: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpAlertPolicy: [
+          {
+            id: cuid(),
+            enabled: {
+              value: enabled,
+            },
+            project: [
+              {
+                logMetric: [
+                  {
+                    filter: 'dummy test filter',
+                    name: 'dummy test name',
+                    metricDescriptor: {
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
+                  },
+                  {
+                    filter,
+                    name: metricName,
+                    metricDescriptor: {
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_25 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alerts exist', async () => {
+      await test25Rule(
+        true,
+        Gcp_CIS_120_25_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there metric filters is not found', async () => {
+      await test25Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters but not aletrs', async () => {
+      await test25Rule(
+        false,
+        Gcp_CIS_120_25_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
+      await test25Rule(
+        true,
+        Gcp_CIS_120_25_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
+    })
+  })
+
+  describe('GCP CIS 2.6 Ensure that the log metric filter and alerts exist for Custom Role changes', () => {
+    const test26Rule = async (
+      enabled: boolean,
+      filter: string,
+      metricName: string,
+      metricType: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpAlertPolicy: [
+          {
+            id: cuid(),
+            enabled: {
+              value: enabled,
+            },
+            project: [
+              {
+                logMetric: [
+                  {
+                    filter: 'dummy test filter',
+                    name: 'dummy test name',
+                    metricDescriptor: {
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
+                  },
+                  {
+                    filter,
+                    name: metricName,
+                    metricDescriptor: {
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_26 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alerts exist', async () => {
+      await test26Rule(
+        true,
+        Gcp_CIS_120_26_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there metric filters is not found', async () => {
+      await test26Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters but not aletrs', async () => {
+      await test26Rule(
+        false,
+        Gcp_CIS_120_26_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
+      await test26Rule(
+        true,
+        Gcp_CIS_120_26_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
+    })
+  })
+
+  describe('GCP CIS 2.7 Ensure that the log metric filter and alerts exist for VPC Network Firewall rule changes', () => {
+    const test27Rule = async (
+      enabled: boolean,
+      filter: string,
+      metricName: string,
+      metricType: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpAlertPolicy: [
+          {
+            id: cuid(),
+            enabled: {
+              value: enabled,
+            },
+            project: [
+              {
+                logMetric: [
+                  {
+                    filter: 'dummy test filter',
+                    name: 'dummy test name',
+                    metricDescriptor: {
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
+                  },
+                  {
+                    filter,
+                    name: metricName,
+                    metricDescriptor: {
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_27 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alerts exist', async () => {
+      await test27Rule(
+        true,
+        Gcp_CIS_120_27_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there metric filters is not found', async () => {
+      await test27Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters but not aletrs', async () => {
+      await test27Rule(
+        false,
+        Gcp_CIS_120_27_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
+      await test27Rule(
+        true,
+        Gcp_CIS_120_27_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
+    })
+  })
+
+  describe('GCP CIS 2.8 Ensure that the log metric filter and alerts exist for VPC network route changes', () => {
+    const test28Rule = async (
+      enabled: boolean,
+      filter: string,
+      metricName: string,
+      metricType: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpAlertPolicy: [
+          {
+            id: cuid(),
+            enabled: {
+              value: enabled,
+            },
+            project: [
+              {
+                logMetric: [
+                  {
+                    filter: 'dummy test filter',
+                    name: 'dummy test name',
+                    metricDescriptor: {
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
+                  },
+                  {
+                    filter,
+                    name: metricName,
+                    metricDescriptor: {
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_28 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there are metric filters and alerts exist', async () => {
+      await test28Rule(
+        true,
+        Gcp_CIS_120_28_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there metric filters is not found', async () => {
+      await test28Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters but not aletrs', async () => {
+      await test28Rule(
+        false,
+        Gcp_CIS_120_28_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
+    })
+
+    test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
+      await test28Rule(
+        true,
+        Gcp_CIS_120_28_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
+    })
+  })
+
+  describe('GCP CIS 2.9 Ensure that the log metric filter and alerts exist for VPC network changes', () => {
+    const test29Rule = async (
+      enabled: boolean,
+      filter: string,
+      metricName: string,
+      metricType: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpAlertPolicy: [
+          {
+            id: cuid(),
+            enabled: {
+              value: enabled,
+            },
+            project: [
+              {
+                logMetric: [
+                  {
+                    filter: 'dummy test filter',
+                    name: 'dummy test name',
+                    metricDescriptor: {
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
+                  },
+                  {
+                    filter,
+                    name: metricName,
+                    metricDescriptor: {
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       }
 
@@ -315,19 +788,43 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
     }
 
     test('No Security Issue when there are metric filters and alerts exist', async () => {
-      await test29Rule(true, Gcp_CIS_120_29_Filter, 'log-metric-1', 'log-metric-1', Result.PASS)
+      await test29Rule(
+        true,
+        Gcp_CIS_120_29_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
     })
 
     test('Security Issue when there metric filters is not found', async () => {
-      await test29Rule(true, 'dummy metric filter value', 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test29Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters but not aletrs', async () => {
-      await test29Rule(false, Gcp_CIS_120_29_Filter, 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test29Rule(
+        false,
+        Gcp_CIS_120_29_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
-      await test29Rule(true, Gcp_CIS_120_29_Filter, 'log-metric-1', 'log-metric-2', Result.FAIL)
+      await test29Rule(
+        true,
+        Gcp_CIS_120_29_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
     })
   })
 
@@ -337,7 +834,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       filter: string,
       metricName: string,
       metricType: string,
-      expectedResult: Result,
+      expectedResult: Result
     ): Promise<void> => {
       // Arrange
       const data: CIS2xQueryResponse = {
@@ -345,7 +842,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           {
             id: cuid(),
             enabled: {
-              value: enabled
+              value: enabled,
             },
             project: [
               {
@@ -354,20 +851,20 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
                     metricDescriptor: {
-                      type: 'logging.googleapis.com/user/dummy-test-name'
-                    }
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
                   },
                   {
                     filter,
                     name: metricName,
                     metricDescriptor: {
-                      type: `logging.googleapis.com/user/${metricType}`
-                    }
-                  }
-                ]
-              }
-            ]
-          }
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       }
 
@@ -382,19 +879,43 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
     }
 
     test('No Security Issue when there are metric filters and alerts exist', async () => {
-      await test210Rule(true, Gcp_CIS_120_210_Filter, 'log-metric-1', 'log-metric-1', Result.PASS)
+      await test210Rule(
+        true,
+        Gcp_CIS_120_210_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
     })
 
     test('Security Issue when there metric filters is not found', async () => {
-      await test210Rule(true, 'dummy metric filter value', 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test210Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters but not aletrs', async () => {
-      await test210Rule(false, Gcp_CIS_120_210_Filter, 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test210Rule(
+        false,
+        Gcp_CIS_120_210_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
-      await test210Rule(true, Gcp_CIS_120_210_Filter, 'log-metric-1', 'log-metric-2', Result.FAIL)
+      await test210Rule(
+        true,
+        Gcp_CIS_120_210_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
     })
   })
 
@@ -404,7 +925,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       filter: string,
       metricName: string,
       metricType: string,
-      expectedResult: Result,
+      expectedResult: Result
     ): Promise<void> => {
       // Arrange
       const data: CIS2xQueryResponse = {
@@ -412,7 +933,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           {
             id: cuid(),
             enabled: {
-              value: enabled
+              value: enabled,
             },
             project: [
               {
@@ -421,20 +942,20 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
                     metricDescriptor: {
-                      type: 'logging.googleapis.com/user/dummy-test-name'
-                    }
+                      type: 'logging.googleapis.com/user/dummy-test-name',
+                    },
                   },
                   {
                     filter,
                     name: metricName,
                     metricDescriptor: {
-                      type: `logging.googleapis.com/user/${metricType}`
-                    }
-                  }
-                ]
-              }
-            ]
-          }
+                      type: `logging.googleapis.com/user/${metricType}`,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       }
 
@@ -449,19 +970,43 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
     }
 
     test('No Security Issue when there are metric filters and alerts exist', async () => {
-      await test211Rule(true, Gcp_CIS_120_211_Filter, 'log-metric-1', 'log-metric-1', Result.PASS)
+      await test211Rule(
+        true,
+        Gcp_CIS_120_211_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.PASS
+      )
     })
 
     test('Security Issue when there metric filters is not found', async () => {
-      await test211Rule(true, 'dummy metric filter value', 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test211Rule(
+        true,
+        'dummy metric filter value',
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters but not aletrs', async () => {
-      await test211Rule(false, Gcp_CIS_120_211_Filter, 'log-metric-1', 'log-metric-1', Result.FAIL)
+      await test211Rule(
+        false,
+        Gcp_CIS_120_211_Filter,
+        'log-metric-1',
+        'log-metric-1',
+        Result.FAIL
+      )
     })
 
     test('Security Issue when there are metric filters and aletrs but metric desciptor type not match with metric name', async () => {
-      await test211Rule(true, Gcp_CIS_120_211_Filter, 'log-metric-1', 'log-metric-2', Result.FAIL)
+      await test211Rule(
+        true,
+        Gcp_CIS_120_211_Filter,
+        'log-metric-1',
+        'log-metric-2',
+        Result.FAIL
+      )
     })
   })
 
@@ -469,7 +1014,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
     const test212Rule = async (
       enableLogging: boolean,
       emptyPolicy: boolean,
-      expectedResult: Result,
+      expectedResult: Result
     ): Promise<void> => {
       // Arrange
       const data: CIS2xQueryResponse = {
@@ -478,9 +1023,9 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             id: cuid(),
             dnsPolicy: [
               {
-                enableLogging
-              }
-            ]
+                enableLogging,
+              },
+            ],
           },
         ],
       }
