@@ -3,6 +3,8 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
+import Gcp_CIS_120_22 from '../rules/gcp-cis-1.2.0-2.2'
+import Gcp_CIS_120_23 from '../rules/gcp-cis-1.2.0-2.3'
 import Gcp_CIS_120_29 from '../rules/gcp-cis-1.2.0-2.9'
 import Gcp_CIS_120_210 from '../rules/gcp-cis-1.2.0-2.10'
 import Gcp_CIS_120_211 from '../rules/gcp-cis-1.2.0-2.11'
@@ -45,9 +47,27 @@ export interface QuerygcpNetwork {
   dnsPolicy?: DnsPolicy[]
 }
 
+export interface LogBucket {
+  name: string
+  retentionDays: number
+  locked: boolean
+}
+
+export interface LogSink {
+  filter?: string
+  destination?: string
+}
+
+export interface QuerygcpProject {
+  id: string
+  logSink: LogSink[]
+  logBucket?: LogBucket[]
+}
+
 export interface CIS2xQueryResponse {
   querygcpAlertPolicy?: QuerygcpAlertPolicy[]
   querygcpNetwork?: QuerygcpNetwork[]
+  querygcpProject?: QuerygcpProject[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -55,6 +75,195 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
   })
+
+  describe('GCP CIS 2.2 Ensure that sinks are configured for all log entries', () => {
+    const getTest22RuleFixture = (filter: string): CIS2xQueryResponse => {
+      return {
+        querygcpProject: [
+          {
+            id: cuid(),
+            logSink: [
+              {
+                filter: 'dummy filter',
+              },
+              {
+                filter,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const test22Rule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_22 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is a logSink with an empty filter', async () => {
+      const data: CIS2xQueryResponse = getTest22RuleFixture('')
+      await test22Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is a logSink with an empty filter', async () => {
+      const data: CIS2xQueryResponse = getTest22RuleFixture('dummy-filter')
+      await test22Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 2.3 Ensure that retention policies on log buckets are configured using Bucket Lock', () => {
+    const getTest23RuleFixture = (
+      querygcpProjects: QuerygcpProject[]
+    ): CIS2xQueryResponse => {
+      return {
+        querygcpProject: querygcpProjects,
+      }
+    }
+
+    const test23Rule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_23 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when all Sinks destined to storage buckets have retention policies and Bucket Lock are enabled', async () => {
+      const projectData = [
+        {
+          id: cuid(),
+          logSink: [
+            {
+              destination: 'logging.googleapis.com/projects/dummy',
+            },
+            {
+              destination: 'storage.googleapis.com/projects/storage-project',
+            },
+          ],
+          logBucket: [
+            {
+              name: 'projects/dummy',
+              retentionDays: 30,
+              locked: false,
+            },
+            {
+              name: 'projects/storage-project',
+              retentionDays: 30,
+              locked: true,
+            },
+          ],
+        },
+      ]
+      const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
+      await test23Rule(data, Result.PASS)
+    })
+
+    test('No Security Issue when all Sinks destined to storage buckets have retention policies and Bucket Lock are enabled (multiple sinks)', async () => {
+      const projectData = [
+        {
+          id: cuid(),
+          logSink: [
+            {
+              destination: 'storage.googleapis.com/projects/storage-project',
+            },
+            {
+              destination: 'storage.googleapis.com/projects/storage-project2',
+            },
+          ],
+          logBucket: [
+            {
+              name: 'projects/storage-project',
+              retentionDays: 30,
+              locked: true,
+            },
+            {
+              name: 'projects/storage-project2',
+              retentionDays: 30,
+              locked: true,
+            },
+          ],
+        }
+      ]
+      const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
+      await test23Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when no Sinks destined to storage buckets', async () => {
+      const projectData = [
+        {
+          id: cuid(),
+          logSink: [
+            {
+              destination: 'storage.googleapis.com/projects/storage-project',
+            },
+          ],
+          logBucket: [],
+        },
+      ]
+      const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
+      await test23Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when the Sinks destined to storage buckets have NO retention policies', async () => {
+      const projectData = [
+        {
+          id: cuid(),
+          logSink: [
+            {
+              destination: 'storage.googleapis.com/projects/storage-project',
+            },
+          ],
+          logBucket: [
+            {
+              name: 'projects/storage-project',
+              retentionDays: 0,
+              locked: true,
+            },
+          ],
+        },
+      ]
+      const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
+      await test23Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when the Sinks destined to storage buckets have Bucket Lock set to false', async () => {
+      const projectData = [
+        {
+          id: cuid(),
+          logSink: [
+            {
+              destination: 'storage.googleapis.com/projects/storage-project',
+            },
+          ],
+          logBucket: [
+            {
+              name: 'projects/storage-project',
+              retentionDays: 30,
+              locked: false,
+            },
+          ],
+        },
+      ]
+      const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
+      await test23Rule(data, Result.FAIL)
+    })
+  })
+  
   describe('GCP CIS 2.9 Ensure that the log metric filter and alerts exist for VPC network changes', () => {
     const test29Rule = async (
       enabled: boolean,
@@ -267,9 +476,9 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpNetwork: [
           {
             id: cuid(),
-            dnsPolicy: [ 
-              { 
-                enableLogging 
+            dnsPolicy: [
+              {
+                enableLogging
               }
             ]
           },

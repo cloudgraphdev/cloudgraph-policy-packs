@@ -4,21 +4,30 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 
 ## Available Ruleset
 
-| Rule        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| GCP CIS 2.9 | Ensure that the log metric filter and alerts exist for VPC network changes   |
-| GCP CIS 2.10 | Ensure that the log metric filter and alerts exist for Cloud Storage IAM permission changes |
-| GCP CIS 2.11 | Ensure that the log metric filter and alerts exist for SQL instance configuration changes   |
-| GCP CIS 2.12 | Ensure that Cloud DNS logging is enabled for all VPC networks               |
-| GCP CIS 3.1 | Ensure that the default network does not exist in a project                  |
-| GCP CIS 3.2 | Ensure legacy networks do not exist for a project                            |
-| GCP CIS 3.3 | Ensure that DNSSEC is enabled for Cloud DNS                                  |
-| GCP CIS 3.4 | Ensure that RSASHA1 is not used for the key-signing key in Cloud DNS DNSSEC  |
-| GCP CIS 3.5 | Ensure that RSASHA1 is not used for the zone-signing key in Cloud DNS DNSSEC |
-| GCP CIS 3.6 | Ensure that SSH access is restricted from the internet                       |
-| GCP CIS 3.7 | Ensure that RDP access is restricted from the internet                       |
-| GCP CIS 3.8 | Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network       |
+| Rule         | Description                                                                                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GCP CIS 2.2  | Ensure that sinks are configured for all log entries                                                                                                                |
+| GCP CIS 2.3  | Ensure that retention policies on log buckets are configured using Bucket Lock                                                                                      |
+| GCP CIS 2.9  | Ensure that the log metric filter and alerts exist for VPC network changes                                                                                          |
+| GCP CIS 2.10 | Ensure that the log metric filter and alerts exist for Cloud Storage IAM permission changes                                                                         |
+| GCP CIS 2.11 | Ensure that the log metric filter and alerts exist for SQL instance configuration changes                                                                           |
+| GCP CIS 2.12 | Ensure that Cloud DNS logging is enabled for all VPC networks                                                                                                       |
+| GCP CIS 3.1  | Ensure that the default network does not exist in a project                                                                                                         |
+| GCP CIS 3.2  | Ensure legacy networks do not exist for a project                                                                                                                   |
+| GCP CIS 3.3  | Ensure that DNSSEC is enabled for Cloud DNS                                                                                                                         |
+| GCP CIS 3.4  | Ensure that RSASHA1 is not used for the key-signing key in Cloud DNS DNSSEC                                                                                         |
+| GCP CIS 3.5  | Ensure that RSASHA1 is not used for the zone-signing key in Cloud DNS DNSSEC                                                                                        |
+| GCP CIS 3.6  | Ensure that SSH access is restricted from the internet                                                                                                              |
+| GCP CIS 3.7  | Ensure that RDP access is restricted from the internet                                                                                                              |
+| GCP CIS 3.8  | Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network                                                                                              |
 | GCP CIS 3.10 | Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses |
-| GCP CIS 4.8 | Ensure Compute instances are launched with Shielded VM enabled               |
-| GCP CIS 4.9 | Ensure that Compute instances do not have public IP addresses                |
-| GCP CIS 4.11 | Ensure that Compute instances have Confidential Computing enabled           |
+| GCP CIS 4.1  | Ensure that instances are not configured to use the default service account                                                                                         |
+| GCP CIS 4.2  | Ensure that instances are not configured to use the default service account with full access to all Cloud APIs                                                      |
+| GCP CIS 4.3  | Ensure "Block Project-wide SSH keys" is enabled for VM instances                                                                                                    |
+| GCP CIS 4.5  | Ensure 'Enable connecting to serial ports' is not enabled for VM Instance                                                                                           |
+| GCP CIS 4.6  | Ensure that IP forwarding is not enabled on Instances                                                                                                               |
+| GCP CIS 4.7  | Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK)                                                                        |
+| GCP CIS 4.8  | Ensure Compute instances are launched with Shielded VM enabled                                                                                                      |
+| GCP CIS 4.9  | Ensure that Compute instances do not have public IP addresses                                                                                                       |
+| GCP CIS 4.11 | Ensure that Compute instances have Confidential Computing enabled                                                                                                   |
+| GCP CIS 5.2  | Ensure that Cloud Storage buckets have uniform bucket-level access enabled                                                                                          |
