@@ -51,7 +51,8 @@
   ],
   "prettier": {
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "arrowParens": "avoid"
   },
   "scripts": {
     "build": "yarn prepublish",
