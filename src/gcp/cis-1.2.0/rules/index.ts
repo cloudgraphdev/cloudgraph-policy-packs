@@ -33,6 +33,24 @@ import Gcp_CIS_120_48 from './gcp-cis-1.2.0-4.8'
 import Gcp_CIS_120_49 from './gcp-cis-1.2.0-4.9'
 import Gcp_CIS_120_411 from './gcp-cis-1.2.0-4.11'
 import Gcp_CIS_120_52 from './gcp-cis-1.2.0-5.2'
+import Gcp_CIS_120_612 from './gcp-cis-1.2.0-6.1.2'
+import Gcp_CIS_120_613 from './gcp-cis-1.2.0-6.1.3'
+import Gcp_CIS_120_621 from './gcp-cis-1.2.0-6.2.1'
+import Gcp_CIS_120_622 from './gcp-cis-1.2.0-6.2.2'
+import Gcp_CIS_120_623 from './gcp-cis-1.2.0-6.2.3'
+import Gcp_CIS_120_624 from './gcp-cis-1.2.0-6.2.4'
+import Gcp_CIS_120_625 from './gcp-cis-1.2.0-6.2.5'
+import Gcp_CIS_120_626 from './gcp-cis-1.2.0-6.2.6'
+import Gcp_CIS_120_627 from './gcp-cis-1.2.0-6.2.7'
+import Gcp_CIS_120_628 from './gcp-cis-1.2.0-6.2.8'
+import Gcp_CIS_120_629 from './gcp-cis-1.2.0-6.2.9'
+import Gcp_CIS_120_6210 from './gcp-cis-1.2.0-6.2.10'
+import Gcp_CIS_120_6211 from './gcp-cis-1.2.0-6.2.11'
+import Gcp_CIS_120_6212 from './gcp-cis-1.2.0-6.2.12'
+import Gcp_CIS_120_6213 from './gcp-cis-1.2.0-6.2.13'
+import Gcp_CIS_120_6214 from './gcp-cis-1.2.0-6.2.14'
+import Gcp_CIS_120_6215 from './gcp-cis-1.2.0-6.2.15'
+import Gcp_CIS_120_6216 from './gcp-cis-1.2.0-6.2.16'
 
 export default [
   Gcp_CIS_120_11,
@@ -70,4 +88,22 @@ export default [
   Gcp_CIS_120_49,
   Gcp_CIS_120_411,
   Gcp_CIS_120_52,
+  Gcp_CIS_120_612,
+  Gcp_CIS_120_613,
+  Gcp_CIS_120_621,
+  Gcp_CIS_120_622,
+  Gcp_CIS_120_623,
+  Gcp_CIS_120_624,
+  Gcp_CIS_120_625,
+  Gcp_CIS_120_626,
+  Gcp_CIS_120_627,
+  Gcp_CIS_120_628,
+  Gcp_CIS_120_629,
+  Gcp_CIS_120_6210,
+  Gcp_CIS_120_6211,
+  Gcp_CIS_120_6212,
+  Gcp_CIS_120_6213,
+  Gcp_CIS_120_6214,
+  Gcp_CIS_120_6215,
+  Gcp_CIS_120_6216,
 ]
