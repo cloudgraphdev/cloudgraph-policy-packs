@@ -21,19 +21,45 @@ import Gcp_CIS_120_6213 from '../rules/gcp-cis-1.2.0-6.2.13'
 import Gcp_CIS_120_6214 from '../rules/gcp-cis-1.2.0-6.2.14'
 import Gcp_CIS_120_6215 from '../rules/gcp-cis-1.2.0-6.2.15'
 import Gcp_CIS_120_6216 from '../rules/gcp-cis-1.2.0-6.2.16'
+import Gcp_CIS_120_64 from '../rules/gcp-cis-1.2.0-6.4'
+import Gcp_CIS_120_65 from '../rules/gcp-cis-1.2.0-6.5'
+import Gcp_CIS_120_66 from '../rules/gcp-cis-1.2.0-6.6'
+import Gcp_CIS_120_67 from '../rules/gcp-cis-1.2.0-6.7'
 
 export interface DatabaseFlagsItem {
   name: string
   value: string
 }
 
+export interface AuthorizedNetwork {
+  value: string
+}
+
+export interface IpConfiguration {
+  requireSsl?: boolean | null
+  authorizedNetworks?: AuthorizedNetwork[]
+}
+
+export interface BackupConfiguration {
+  enabled: boolean | null
+  startTime: string | null
+}
+
 export interface Settings {
   databaseFlags: DatabaseFlagsItem[]
+  ipConfiguration?: IpConfiguration
+  backupConfiguration?: BackupConfiguration
+}
+
+export interface IpAddress {
+  type: string
 }
 
 export interface SqlInstances {
+  id?: string
   name: string
   settings: Settings
+  ipAddresses?: IpAddress[]
 }
 
 export interface QuerygcpProject {
@@ -43,6 +69,7 @@ export interface QuerygcpProject {
 
 export interface CIS6xQueryResponse {
   querygcpProject?: QuerygcpProject[]
+  querygcpSqlInstance?: SqlInstances[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -1767,6 +1794,262 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const data: CIS6xQueryResponse = getRuleFixture()
       const project = data.querygcpProject?.[0] as QuerygcpProject
       project.sqlInstances[0].settings.databaseFlags[0].value = '100'
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 6.4 Ensure that the Cloud SQL database instance requires all incoming connections to use SSL', () => {
+    const getRuleFixture = (): CIS6xQueryResponse => {
+      return {
+        querygcpSqlInstance: [
+          {
+            id: cuid(),
+            name: 'test-sql-instance',
+            settings: {
+              ipConfiguration: {
+                requireSsl: true,
+              },
+              databaseFlags: [],
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_64 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when requireSsl is set to true', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when requireSsl is set to false', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      const ipConfiguration = sqlInstance.settings
+        .ipConfiguration as IpConfiguration
+      ipConfiguration.requireSsl = false
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when requireSsl is set to null', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      const ipConfiguration = sqlInstance.settings
+        .ipConfiguration as IpConfiguration
+      ipConfiguration.requireSsl = null
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 6.5 Ensure that Cloud SQL database instances are not open to the world', () => {
+    const getRuleFixture = (): CIS6xQueryResponse => {
+      return {
+        querygcpSqlInstance: [
+          {
+            id: cuid(),
+            name: 'test-sql-instance',
+            settings: {
+              ipConfiguration: {
+                authorizedNetworks: [
+                  { value: '192.168.0.0/24' },
+                  { value: '192.168.1.0/24' },
+                ],
+              },
+              databaseFlags: [],
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_65 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when authorizedNetworks is NOT set to '0.0.0.0/0'", async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      await testRule(data, Result.PASS)
+    })
+
+    test('No Security Issue when authorizedNetworks is empty', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      sqlInstance.settings = {
+        ipConfiguration: {
+          authorizedNetworks: [],
+        },
+        databaseFlags: [],
+      }
+      await testRule(data, Result.PASS)
+    })
+
+    test("Security Issue when authorizedNetworks is set to '0.0.0.0/0'", async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      sqlInstance.settings = {
+        ipConfiguration: {
+          authorizedNetworks: [{ value: '0.0.0.0/0' }],
+        },
+        databaseFlags: [],
+      }
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 6.6 Ensure that Cloud SQL database instances do not have public IPs', () => {
+    const getRuleFixture = (): CIS6xQueryResponse => {
+      return {
+        querygcpSqlInstance: [
+          {
+            id: cuid(),
+            name: 'test-sql-instance',
+            ipAddresses: [
+              {
+                type: 'PRIVATE',
+              },
+            ],
+            settings: {
+              databaseFlags: [],
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_66 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when ipAddresses are PRIVATE', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      await testRule(data, Result.PASS)
+    })
+
+    test('No Security Issue when ipAddresses are empty', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      sqlInstance.ipAddresses = []
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when ipAddresses are PUBLIC', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      sqlInstance.ipAddresses = [
+        {
+          type: 'PUBLIC',
+        },
+      ]
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when ipAddresses are PRIVATE and PUBLIC', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      sqlInstance.ipAddresses = [
+        {
+          type: 'PRIVATE',
+        },
+        {
+          type: 'PUBLIC',
+        },
+      ]
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 6.7 Ensure that Cloud SQL database instances are configured with automated backups', () => {
+    const getRuleFixture = (): CIS6xQueryResponse => {
+      return {
+        querygcpSqlInstance: [
+          {
+            id: cuid(),
+            name: 'test-sql-instance',
+            settings: {
+              backupConfiguration:{
+                enabled: true,
+                startTime: '02:00'
+              },
+              databaseFlags: [],
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_67 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when backupConfiguration is configured', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when backupConfiguration is NOT enabled (false)', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      const backupConfiguration = sqlInstance.settings.backupConfiguration as BackupConfiguration
+      backupConfiguration.enabled = false
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when backupConfiguration is NOT enabled (null)', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      const backupConfiguration = sqlInstance.settings.backupConfiguration as BackupConfiguration
+      backupConfiguration.enabled = null
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when backupConfiguration is enabled but startTime is null', async () => {
+      const data: CIS6xQueryResponse = getRuleFixture()
+      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
+      const backupConfiguration = sqlInstance.settings.backupConfiguration as BackupConfiguration
+      backupConfiguration.startTime = null
       await testRule(data, Result.FAIL)
     })
   })
