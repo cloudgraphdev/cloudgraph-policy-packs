@@ -19,7 +19,7 @@ export default {
   accidental changes and unintended disclosure of highly privileged credentials.`,
   remediation: `Follow the remediation instructions of the Ensure IAM policies are attached only to
   groups or roles recommendation`,
-  references: [`[http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html](http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)`, `CIS CSC v6.0 #5`],
+  references: [`http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html`, `CIS CSC v6.0 #5`],
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
       id
