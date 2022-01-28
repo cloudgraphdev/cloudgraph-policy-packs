@@ -9,6 +9,9 @@ import Gcp_CIS_120_15 from '../rules/gcp-cis-1.2.0-1.5'
 import Gcp_CIS_120_16 from '../rules/gcp-cis-1.2.0-1.6'
 import Gcp_CIS_120_17 from '../rules/gcp-cis-1.2.0-1.7'
 import Gcp_CIS_120_18 from '../rules/gcp-cis-1.2.0-1.8'
+import Gcp_CIS_120_19 from '../rules/gcp-cis-1.2.0-1.9'
+import Gcp_CIS_120_110 from '../rules/gcp-cis-1.2.0-1.10'
+import Gcp_CIS_120_111 from '../rules/gcp-cis-1.2.0-1.11'
 import Gcp_CIS_120_112 from '../rules/gcp-cis-1.2.0-1.12'
 import Gcp_CIS_120_113 from '../rules/gcp-cis-1.2.0-1.13'
 import Gcp_CIS_120_115 from '../rules/gcp-cis-1.2.0-1.15'
@@ -21,6 +24,7 @@ export interface Bindings {
   role?: string
 }
 export interface IamPolicy {
+  kmsCryptoKey?: string
   bindings: Bindings[]
 }
 export interface ApiKey {
@@ -55,7 +59,6 @@ export interface Key {
   keyType?: string
   validAfterTime?: string
 }
-
 export interface QuerygcpApiKey {
   id: string
   apiTargets?: ApiTarget[]
@@ -84,11 +87,28 @@ export interface QuerygcpServiceAccount {
   email?: string
   keys?: Key[]
 }
+export interface CryptoKey {
+  rotationPeriod?: string
+  nextRotationTime?: string
+  iamPolicy?: IamPolicy[]
+}
+
+export interface QuerygcpKmsKeyRing {
+  id: string
+  kmsCryptoKeys: CryptoKey[]
+}
+
+export interface QuerygcpIamPolicy {
+  id: string
+  bindings: Bindings[]
+}
 export interface CIS1xQueryResponse {
   querygcpOrganization?: QuerygcpOrganization[]
   querygcpProject?: QuerygcpProject[]
   querygcpApiKey?: QuerygcpApiKey[]
   querygcpServiceAccount?: QuerygcpServiceAccount[]
+  querygcpKmsKeyRing?: QuerygcpKmsKeyRing[]
+  querygcpIamPolicy?: QuerygcpIamPolicy[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -100,7 +120,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   describe('GCP CIS 1.1 Ensure that corporate login credentials are used', () => {
     const getTest11RuleFixture = (
       organizationName: string,
-      projectNembers: string[],
+      projectMembers: string[],
       folderMemebers: string[]
     ): CIS1xQueryResponse => {
       return {
@@ -114,7 +134,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                   {
                     bindings: [
                       {
-                        members: projectNembers,
+                        members: projectMembers,
                       },
                     ],
                   },
@@ -243,7 +263,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   describe('GCP CIS 1.5 Ensure that Service Account has no Admin privileges', () => {
     const getTest15RuleFixture = (
       role: string,
-      projectNembers: string[]
+      projectMembers: string[]
     ): CIS1xQueryResponse => {
       return {
         querygcpProject: [
@@ -254,7 +274,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 bindings: [
                   {
                     role,
-                    members: projectNembers,
+                    members: projectMembers,
                   },
                 ],
               },
@@ -325,7 +345,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   describe('GCP CIS 1.6 Ensure that IAM users are not assigned the Service Account User or Service Account Token Creator roles at project level', () => {
     const getTest16RuleFixture = (
       role: string,
-      projectNembers: string[]
+      projectMembers: string[]
     ): CIS1xQueryResponse => {
       return {
         querygcpProject: [
@@ -336,7 +356,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 bindings: [
                   {
                     role,
-                    members: projectNembers,
+                    members: projectMembers,
                   },
                 ],
               },
@@ -436,7 +456,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   describe('GCP CIS 1.8 Ensure that Separation of duties is enforced while assigning service account related roles to users', () => {
     const getTest18RuleFixture = (
       role: string,
-      projectNembers: string[]
+      projectMembers: string[]
     ): CIS1xQueryResponse => {
       return {
         querygcpProject: [
@@ -447,7 +467,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 bindings: [
                   {
                     role,
-                    members: projectNembers,
+                    members: projectMembers,
                   },
                 ],
               },
@@ -494,6 +514,195 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       )
       await test18Rule(data, Result.FAIL)
     })
+  })
+
+  describe('GCP CIS 1.9 Ensure that Cloud KMS cryptokeys are not anonymously or publicly accessible', () => {
+    const getTest19RuleFixture = (
+      members: string[]
+    ): CIS1xQueryResponse => {
+      return {
+        querygcpKmsKeyRing: [
+          {
+            id: cuid(),
+            kmsCryptoKeys: [
+              {
+                iamPolicy: [
+                  {
+                    bindings: [
+                      {
+                        members,
+                      },
+                    ],
+                  },
+                ],
+              }
+            ],
+          },
+        ],
+      }
+    }
+
+    const test19Rule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_19 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with no anonymous user accounts', async () => {
+      const data: CIS1xQueryResponse = getTest19RuleFixture(
+        ['user:user1@autocloud.dev', 'user:user2@autocloud.dev']
+      )
+      await test19Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with allUsers permissions', async () => {
+      const data: CIS1xQueryResponse = getTest19RuleFixture(
+        ['allUsers']
+      )
+      await test19Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is an inbound rule with allAuthenticatedUsers permissions', async () => {
+      const data: CIS1xQueryResponse = getTest19RuleFixture(
+        ['allAuthenticatedUsers']
+      )
+      await test19Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 1.10 Ensure KMS encryption keys are rotated within a period of 90 days', () => {
+    const getTest110RuleFixture = (
+      rotationPeriod: string,
+      nextRotationTime: string
+    ): CIS1xQueryResponse => {
+      return {
+        querygcpKmsKeyRing: [
+          {
+            id: cuid(),
+            kmsCryptoKeys: [
+              {
+                rotationPeriod,
+                nextRotationTime
+              }
+            ],
+          },
+        ],
+      }
+    }
+
+    const test110Rule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_110 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with rotationPeriod and nextRotationTime less than or equal to 90 days', async () => {
+      const rotationPeriod = '7776000' // 90 days
+      const nextRotationTime = new Date()
+      nextRotationTime.setDate(nextRotationTime.getDate() + 90);
+      const data: CIS1xQueryResponse = getTest110RuleFixture(rotationPeriod, nextRotationTime.toISOString())
+      await test110Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with rotationPeriod greater than 90 days', async () => {
+      const rotationPeriod = '10368000' // 120 days
+      const nextRotationTime = new Date()
+      nextRotationTime.setDate(nextRotationTime.getDate() + 90);
+      const data: CIS1xQueryResponse = getTest110RuleFixture(rotationPeriod, nextRotationTime.toISOString())
+      await test110Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is an inbound rule with nextRotationTime greater than 90 days', async () => {
+      const rotationPeriod = '7776000' // 90 days
+      const nextRotationTime = new Date()
+      nextRotationTime.setDate(nextRotationTime.getDate() + 120);
+      const data: CIS1xQueryResponse = getTest110RuleFixture(rotationPeriod, nextRotationTime.toISOString())
+      await test110Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 1.11 Ensure that Separation of duties is enforced while assigning KMS related roles to users', () => {
+    const getTest111RuleFixture = (
+      role: string,
+      members: string[]
+    ): CIS1xQueryResponse => {
+      return {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            bindings: [
+              {
+                role: 'roles/cloudkms.admin',
+                members: ['user:user1@autocloud.dev']
+              },
+              {
+                role,
+                members,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const test111Rule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_111 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a user account with kms admin role and without any cryptoKey roles', async () => {
+      const data: CIS1xQueryResponse = getTest111RuleFixture(
+        'roles/editor', ['user:user1@autocloud.dev']
+      )
+      await test111Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with a user account with kms admin role and cryptoKeyEncrypterDecrypter role', async () => {
+      const data: CIS1xQueryResponse = getTest111RuleFixture(
+        'roles/cloudkms.cryptoKeyEncrypterDecrypter', ['user:user1@autocloud.dev']
+      )
+      await test111Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is an inbound rule with a user account with kms admin role and cryptoKeyEncrypter role', async () => {
+      const data: CIS1xQueryResponse = getTest111RuleFixture(
+        'roles/cloudkms.cryptoKeyEncrypter', ['user:user1@autocloud.dev']
+      )
+      await test111Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is an inbound rule with a user account with kms admin role and cryptoKeyDecrypter role', async () => {
+      const data: CIS1xQueryResponse = getTest111RuleFixture(
+        'roles/cloudkms.cryptoKeyDecrypter', ['user:user1@autocloud.dev']
+      )
+      await test111Rule(data, Result.FAIL)
+    })
+
   })
 
   describe('GCP CIS 1.12 Ensure API keys are not created for a project', () => {
