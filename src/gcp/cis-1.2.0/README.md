@@ -10,6 +10,9 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 1.5    | Ensure that Service Account has no Admin privileges                                                                                                                 |
 | GCP CIS 1.6    | Ensure that IAM users are not assigned the Service Account User or Service Account Token Creator roles at project level                                             |
 | GCP CIS 1.8    | Ensure that Separation of duties is enforced while assigning service account related roles to users                                                                 |
+| GCP CIS 1.12   | Ensure API keys are not created for a project                                                                                                                       |
+| GCP CIS 1.13   | Ensure API keys are restricted to use by only specified Hosts and Apps                                                                                              |
+| GCP CIS 1.15   | Ensure API keys are rotated every 90 days                                                                                                                           |
 | GCP CIS 2.2    | Ensure that sinks are configured for all log entries                                                                                                                |
 | GCP CIS 2.3    | Ensure that retention policies on log buckets are configured using Bucket Lock                                                                                      |
 | GCP CIS 2.4    | Ensure log metric filter and alerts exist for project ownership assignments/changes                                                                                 |
