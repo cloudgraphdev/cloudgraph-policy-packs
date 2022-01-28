@@ -1,3 +1,11 @@
+# @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.10.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.9.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.10.0) (2022-01-28)
+
+
+### Features
+
+* Included cis 6.3.1, 6.3.2, 6.3.3, 6.3.4, 6.3.5, 6.3.6, 6.3.7 rules for gcp cis 1.2.0 ([f9258f1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f9258f12af3f6503d026172666a072d8acba1691))
+* Included cis 6.4, 6.5, 6.6, 6.7 rules for gcp cis 1.2.0 ([e4e9341](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/e4e9341e02a076ccfe82ab3c4a2f412b11ce07ae))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.9.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.8.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.9.0) (2022-01-26)
 
 
