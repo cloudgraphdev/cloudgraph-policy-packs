@@ -59,6 +59,13 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 6.2.14 | Ensure 'log_min_error_statement' database flag for Cloud SQL PostgreSQL instance is set to 'Error' or stricter                                                      |
 | GCP CIS 6.2.15 | Ensure that the 'log_temp_files' database flag for Cloud SQL PostgreSQL instance is set to '0' (on)                                                                 |
 | GCP CIS 6.2.16 | Ensure that the 'log_min_duration_statement' database flag for Cloud SQL PostgreSQL instance is set to '-1' (disabled)                                              |
+| GCP CIS 6.3.1  | Ensure 'external scripts enabled' database flag for Cloud SQL SQL Server instance is set to 'off'                                                                   |
+| GCP CIS 6.3.2  | Ensure that the 'cross db ownership chaining' database flag for Cloud SQL SQL Server instance is set to 'off'                                                       |
+| GCP CIS 6.3.3  | Ensure 'user connections' database flag for Cloud SQL SQL Server instance is set as appropriate                                                                     |
+| GCP CIS 6.3.4  | Ensure 'user options' database flag for Cloud SQL SQL Server instance is not configured                                                                             |
+| GCP CIS 6.3.5  | Ensure 'remote access' database flag for Cloud SQL SQL Server instance is set to 'off'                                                                              |
+| GCP CIS 6.3.6  | Ensure '3625 (trace flag)' database flag for Cloud SQL SQL Server instance is set to 'off'                                                                          |
+| GCP CIS 6.3.7  | Ensure that the 'contained database authentication' database flag for Cloud SQL on the SQL Server instance is set to 'off'                                          |
 | GCP CIS 6.4    | Ensure that the Cloud SQL database instance requires all incoming connections to use SSL                                                                            |
 | GCP CIS 6.5    | Ensure that Cloud SQL database instances are not open to the world                                                                                                  |
 | GCP CIS 6.6    | Ensure that Cloud SQL database instances do not have public IPs                                                                                                     |
