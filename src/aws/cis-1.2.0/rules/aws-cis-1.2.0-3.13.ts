@@ -6,6 +6,10 @@ export default {
   id: 'aws-cis-1.2.0-3.13',
   description:
     'AWS CIS 3.13 Ensure a log metric filter and alarm exist for route table changes (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id

@@ -6,6 +6,10 @@ export default {
   id: 'aws-cis-1.2.0-3.14',
   description:
     'AWS CIS 3.14 Ensure a log metric filter and alarm exist for VPC changes (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id

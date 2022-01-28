@@ -2,6 +2,10 @@ export default {
   id: 'aws-cis-1.2.0-3.7',
   description:
     'AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id

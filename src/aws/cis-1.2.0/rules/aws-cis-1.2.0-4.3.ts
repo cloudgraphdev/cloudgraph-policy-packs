@@ -2,6 +2,10 @@ export default {
   id: 'aws-cis-1.2.0-4.3',
   description:
     'AWS CIS 4.3 Ensure the default security group of every VPC restricts all traffic (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsSecurityGroup(filter: { name: { eq: "default" } })   {
       id

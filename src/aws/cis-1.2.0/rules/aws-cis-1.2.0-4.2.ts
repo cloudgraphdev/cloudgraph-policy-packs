@@ -2,6 +2,10 @@ export default {
   id: 'aws-cis-1.2.0-4.2',
   description:
     'AWS CIS 4.2 Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389 (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsSecurityGroup{
       id

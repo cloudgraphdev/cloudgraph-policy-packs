@@ -2,6 +2,10 @@ export default {
   id: 'aws-cis-1.2.0-3.8',
   description:
     'AWS CIS 3.8 Ensure a log metric filter and alarm exist for S3 bucket policy changes (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id

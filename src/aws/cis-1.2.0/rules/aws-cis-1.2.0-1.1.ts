@@ -14,12 +14,13 @@ export default {
   <br/>
   **Note: there are a few conditions under which the use of the root account is required, such
   as requesting a penetration test or creating a CloudFront private key.**`,
-  rationale: `The "root" account is the most privileged AWS account. Minimizing the use of this account
-  and adopting the principle of least privilege for access management will reduce the risk of
-  accidental changes and unintended disclosure of highly privileged credentials.`,
+  rationale: `The "root" account is the most privileged AWS account. Minimizing the use of this account and adopting the principle of least privilege for access management will reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.`,
   remediation: `Follow the remediation instructions of the Ensure IAM policies are attached only to
   groups or roles recommendation`,
-  references: [`http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html`, `CIS CSC v6.0 #5`],
+  references: [
+    `http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html`,
+    `CIS CSC v6.0 #5`,
+  ],
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
       id

@@ -2,6 +2,10 @@ export default {
   id: 'aws-cis-1.2.0-3.9',
   description:
     'AWS CIS 3.9 Ensure a log metric filter and alarm exist for AWS Config configuration changes (Scored)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id
