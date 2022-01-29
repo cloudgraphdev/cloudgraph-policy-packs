@@ -2,7 +2,7 @@ export default {
   id: 'aws-cis-1.2.0-1.9',
   description:
     'AWS CIS 1.9 Ensure IAM password policy requires minimum length of 14 or greater',
-  audit: `Perform the following to ensure the password policy is configured as prescribed:
+  audit: `Perform the following to ensure the password policy is configured as prescribed:  
   Via AWS Console
   
   1. Login to AWS Console (with appropriate permissions to View Identity Access Management Account Settings)
@@ -11,11 +11,12 @@ export default {
   4. Ensure "Minimum password length" is set to 14 or greater.
   
   Via CLI
-  aws iam get-account-password-policy
+
+    aws iam get-account-password-policy
   
   Ensure the output of the above command includes "MinimumPasswordLength": 14 (or higher)`,
   rationale: `Setting a password complexity policy increases account resiliency against brute force login attempts.`,
-  remediation: `Perform the following to set the password policy as prescribed:
+  remediation: `Perform the following to set the password policy as prescribed:  
   Via AWS Console
   
   1. Login to AWS Console (with appropriate permissions to View Identity Access Management Account Settings)
@@ -25,7 +26,8 @@ export default {
   5. Click "Apply password policy"
   
   Via CLI
-  aws iam update-account-password-policy --minimum-password-length 14
+
+    aws iam update-account-password-policy --minimum-password-length 14
   
   Note: All commands starting with "aws iam update-account-password-policy" can be combined into a single command.`,
   references: [`CCE- 78907 - 3`, `CIS CSC v6.0 #5.7, #16.12`],

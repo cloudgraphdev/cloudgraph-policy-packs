@@ -5,24 +5,24 @@ export default {
   audit: `Perform the following to determine if the account is configured as prescribed:
 
   1. Login to the AWS Management Console at https://console.aws.amazon.com/vpc/home
-  2. In the left pane, click Security Groups
+  2. In the left pane, click *Security Groups*
   3. For each security group, perform the following:
   4. Select the security group
-  5. Click the Inbound Rules tab
-  6. Ensure no rule exists that has a port range that includes port 22 and has a Source of 0.0.0.0/0
+  5. Click the *Inbound Rule*s tab
+  6. Ensure no rule exists that has a port range that includes port *22* and has a *Source* of *0.0.0.0/0*
   
-  Note: A Port value of ALL or a port range such as 0 - 1024 are inclusive of port 22.`,
+  Note: A Port value of *ALL* or a port range such as *0 - 1024* are inclusive of port *22*.`,
   rationale: `Removing unfettered connectivity to remote console services, such as SSH, reduces a server's exposure to risk.`,
   remediation: `Perform the following to implement the prescribed state:
 
   1. Login to the AWS Management Console at https://console.aws.amazon.com/vpc/home
-  2. In the left pane, click Security Groups
+  2. In the left pane, click *Security Groups*
   3. For each security group, perform the following:
   4. Select the security group
-  5. Click the Inbound Rules tab
+  5. Click the *Inbound Rules* tab
   6. Identify the rules to be removed
-  7. Click the x in the Remove column
-  8. Click Save`,
+  7. Click the *x* in the *Remove* column
+  8. Click *Save*`,
   references: [],
   gql: `{
     queryawsSecurityGroup{
