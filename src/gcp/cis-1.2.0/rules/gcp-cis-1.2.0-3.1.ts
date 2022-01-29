@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-3.1',
   description:
     'GCP CIS 3.1 Ensure that the default network does not exist in a project',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpNetwork {
       id
@@ -13,6 +17,6 @@ export default {
   severity: 'medium',
   conditions: {
     path: '@.name',
-    notEqual: 'default' 
+    notEqual: 'default',
   },
 }

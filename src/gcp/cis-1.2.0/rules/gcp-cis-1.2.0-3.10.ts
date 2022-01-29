@@ -3,6 +3,10 @@ export default {
   description:
     // eslint-disable-next-line max-len
     'GCP CIS 3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpFirewall{
       id

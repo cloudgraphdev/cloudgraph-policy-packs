@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-3.5',
   description:
     'GCP CIS 3.5 Ensure that RSASHA1 is not used for the zone-signing key in Cloud DNS DNSSEC',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpDnsManagedZone {
       id
@@ -45,7 +49,7 @@ export default {
             },
           },
         ],
-      }
-    ]
+      },
+    ],
   },
 }

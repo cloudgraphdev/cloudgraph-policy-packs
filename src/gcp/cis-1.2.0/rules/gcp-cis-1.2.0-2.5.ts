@@ -6,6 +6,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.5',
   description:
     'GCP CIS 2.5 Ensure that the log metric filter and alerts exist for Audit Configuration changes',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpAlertPolicy {
       id

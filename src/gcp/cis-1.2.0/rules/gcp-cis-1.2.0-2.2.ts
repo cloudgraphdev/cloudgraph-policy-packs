@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.2',
   description:
     'GCP CIS 2.2 Ensure that sinks are configured for all log entries',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject {
       id

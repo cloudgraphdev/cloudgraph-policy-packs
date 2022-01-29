@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.1.2',
   description:
     "GCP CIS 6.1.2 Ensure 'skip_show_database' database flag for Cloud SQL Mysql instance is set to 'on'",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-4.5',
   description:
     'GCP CIS 4.5 Ensure "Enable connecting to serial ports" is not enabled for VM Instance',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpVmInstance{
       __typename

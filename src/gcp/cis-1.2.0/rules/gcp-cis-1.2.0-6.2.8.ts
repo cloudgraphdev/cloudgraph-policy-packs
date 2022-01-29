@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.2.8',
   description:
     "GCP CIS 6.2.8 Ensure 'log_hostname' database flag for Cloud SQL PostgreSQL instance is set appropriately",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.2.15',
   description:
     "GCP CIS 6.2.15 Ensure that the 'log_temp_files' database flag for Cloud SQL PostgreSQL instance is set to '0' (on)",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

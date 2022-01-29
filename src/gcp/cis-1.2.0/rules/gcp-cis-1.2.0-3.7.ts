@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-3.7',
   description:
     'GCP CIS 3.7 Ensure that RDP access is restricted from the internet',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpFirewall(filter: {direction:{eq: "INGRESS"}}){
       id

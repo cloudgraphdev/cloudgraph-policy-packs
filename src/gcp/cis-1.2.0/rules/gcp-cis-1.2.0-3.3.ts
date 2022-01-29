@@ -1,6 +1,10 @@
 export default {
   id: 'gcp-cis-1.2.0-3.3',
   description: 'GCP CIS 3.3 Ensure that DNSSEC is enabled for Cloud DNS',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpDnsManagedZone {
       id

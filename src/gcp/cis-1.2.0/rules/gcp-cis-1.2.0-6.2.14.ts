@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.2.14',
   description:
     "GCP CIS 6.2.14 Ensure 'log_min_error_statement' database flag for Cloud SQL PostgreSQL instance is set to 'Error' or stricter",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

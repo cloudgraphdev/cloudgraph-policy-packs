@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-4.2',
   description:
     'GCP CIS 4.2 Ensure that instances are not configured to use the default service account with full access to all Cloud APIs',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpVmInstance{
       __typename

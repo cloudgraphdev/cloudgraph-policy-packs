@@ -6,6 +6,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.6',
   description:
     'GCP CIS 2.6 Ensure that the log metric filter and alerts exist for Custom Role changes',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpAlertPolicy {
       id

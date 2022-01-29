@@ -6,6 +6,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.7',
   description:
     'GCP CIS 2.7 Ensure that the log metric filter and alerts exist for VPC Network Firewall rule changes',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpAlertPolicy {
       id

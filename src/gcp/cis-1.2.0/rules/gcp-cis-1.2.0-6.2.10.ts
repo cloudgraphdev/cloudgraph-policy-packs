@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.2.10',
   description:
     "GCP CIS 6.2.10 Ensure 'log_planner_stats' database flag for Cloud SQL PostgreSQL instance is set to 'off'",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

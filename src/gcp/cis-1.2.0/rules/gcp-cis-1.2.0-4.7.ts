@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-4.7',
   description:
     'GCP CIS 4.7 Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK)',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpVmInstance{
       __typename

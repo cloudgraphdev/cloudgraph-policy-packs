@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.3.1',
   description:
     "GCP CIS 6.3.1 Ensure 'external scripts enabled' database flag for Cloud SQL SQL Server instance is set to 'off'",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

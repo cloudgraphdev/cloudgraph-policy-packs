@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-3.9',
   description:
     'GCP CIS 3.9 Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

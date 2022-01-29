@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.3',
   description:
     'GCP CIS 2.3 Ensure that retention policies on log buckets are configured using Bucket Lock',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject {
       id

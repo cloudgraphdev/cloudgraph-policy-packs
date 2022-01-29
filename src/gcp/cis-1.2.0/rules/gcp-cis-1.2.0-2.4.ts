@@ -6,6 +6,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.4',
   description:
     'GCP CIS 2.4 Ensure log metric filter and alerts exist for project ownership assignments/changes',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpAlertPolicy {
       id

@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.1.3',
   description:
     "GCP CIS 6.1.3 Ensure that the 'local_infile' database flag for a Cloud SQL Mysql instance is set to 'off'",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

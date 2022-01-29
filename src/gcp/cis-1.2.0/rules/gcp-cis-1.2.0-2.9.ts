@@ -6,6 +6,10 @@ export default {
   id: 'gcp-cis-1.2.0-2.9',
   description:
     'GCP CIS 2.9 Ensure that the log metric filter and alerts exist for VPC network changes',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpAlertPolicy {
       id

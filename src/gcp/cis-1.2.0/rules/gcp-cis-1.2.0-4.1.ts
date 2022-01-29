@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-4.1',
   description:
     'GCP CIS 4.1 Ensure that instances are not configured to use the default service account',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpVmInstance{
       __typename

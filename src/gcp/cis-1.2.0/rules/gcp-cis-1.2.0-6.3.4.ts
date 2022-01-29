@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.3.4',
   description:
     "GCP CIS 6.3.4 Ensure 'user options' database flag for Cloud SQL SQL Server instance is not configured",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

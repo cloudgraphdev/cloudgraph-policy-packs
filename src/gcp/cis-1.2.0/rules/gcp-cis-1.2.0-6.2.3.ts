@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-6.2.3',
   description:
     "GCP CIS 6.2.3 Ensure that the 'log_connections' database flag for Cloud SQL PostgreSQL instance is set to 'on'",
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpProject{
       id

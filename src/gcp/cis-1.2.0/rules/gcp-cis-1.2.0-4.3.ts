@@ -2,6 +2,10 @@ export default {
   id: 'gcp-cis-1.2.0-4.3',
   description:
     'GCP CIS 4.3 Ensure "Block Project-wide SSH keys" is enabled for VM instances',
+  audit: ``,
+  rationale: ``,
+  remediation: ``,
+  references: [],
   gql: `{
     querygcpVmInstance{
       __typename
