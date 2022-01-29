@@ -6,7 +6,7 @@ export default {
   id: 'aws-cis-1.2.0-3.14',
   description:
     'AWS CIS 3.14 Ensure a log metric filter and alarm exist for VPC changes (Scored)',
-  audit:  `Perform the following to ensure that there is at least one active multi-region CloudTrail with prescribed metric filters and alarms configured:
+  audit: `Perform the following to ensure that there is at least one active multi-region CloudTrail with prescribed metric filters and alarms configured:
 
   1. Identify the log group name configured for use with active multi-region CloudTrail:
   
@@ -50,7 +50,7 @@ export default {
   
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
   rationale: `Monitoring changes to IAM policies will help ensure authentication and authorization controls remain intact.`,
-  remediation:`Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
+  remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on filter pattern provided which checks for VPC changes and the *<cloudtrail_log_group_name>* taken from audit step 1.
   

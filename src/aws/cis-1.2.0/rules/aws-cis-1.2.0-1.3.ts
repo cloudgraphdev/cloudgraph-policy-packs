@@ -2,7 +2,7 @@ export default {
   id: 'aws-cis-1.2.0-1.3',
   description:
     'AWS CIS 1.3 Ensure credentials unused for 90 days or greater are disabled',
-  audit:  `Perform the following to determine if unused credentials exist:
+  audit: `Perform the following to determine if unused credentials exist:
   <br/>
  
    **Download Credential Report:**  

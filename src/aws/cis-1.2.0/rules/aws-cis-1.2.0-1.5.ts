@@ -16,7 +16,7 @@ export default {
   
   Ensure the output of the above command includes "RequireUppercaseCharacters": true`,
   rationale: `Setting a password complexity policy increases account resiliency against brute force login attempts.`,
-  remediation:  `Perform the following to set the password policy as prescribed:  
+  remediation: `Perform the following to set the password policy as prescribed:  
   Via AWS Console
   
   1. Login to AWS Console (with appropriate permissions to View Identity Access Management Account Settings)

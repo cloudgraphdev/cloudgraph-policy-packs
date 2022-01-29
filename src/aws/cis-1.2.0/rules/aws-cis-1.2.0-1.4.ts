@@ -2,7 +2,7 @@ export default {
   id: 'aws-cis-1.2.0-1.4',
   description:
     'AWS CIS 1.4 Ensure access keys are rotated every 90 days or less',
-  audit:`Perform the following to determine if access keys are rotated as prescribed:
+  audit: `Perform the following to determine if access keys are rotated as prescribed:
 
   1. Login to the AWS Management Console
   2. Click Services

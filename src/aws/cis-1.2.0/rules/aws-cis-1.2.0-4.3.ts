@@ -24,7 +24,7 @@ export default {
   5. Change to the EC2 Management Console at https://console.aws.amazon.com/ec2/v2/home
   6. In the filter column type 'Security Group ID : < security group id from #4 >`,
   rationale: `Configuring all VPC default security groups to restrict all traffic will encourage least privilege security group development and mindful placement of AWS resources into security groups which will, in turn, reduce the exposure of those resources.`,
-  remediation:`Security Group Members
+  remediation: `Security Group Members
   Perform the following to implement the prescribed state:
   
   1. Identify AWS resources that exist within the default security group

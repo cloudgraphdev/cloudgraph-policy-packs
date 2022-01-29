@@ -12,7 +12,7 @@ export default {
   5. In the right pane, select the *Flow Logs* tab.
   6. Ensure a Log Flow exists that has *Active* in the *Status* column.`,
   rationale: `VPC Flow Logs provide visibility into network traffic that traverses the VPC and can be used to detect anomalous traffic or insight during security workflows.`,
-  remediation:  `Perform the following to determine if VPC Flow logs is enabled:
+  remediation: `Perform the following to determine if VPC Flow logs is enabled:
   Via the Management Console:
   
   1. Sign into the management console

@@ -2,7 +2,7 @@ export default {
   id: 'aws-cis-1.2.0-1.6',
   description:
     'AWS CIS 1.6  Ensure IAM password policy requires at least one lowercase letter',
-  audit:`Perform the following to ensure the password policy is configured as prescribed:  
+  audit: `Perform the following to ensure the password policy is configured as prescribed:  
   Via the AWS Console
   
   1. Login to AWS Console (with appropriate permissions to View Identity Access Management Account Settings)
