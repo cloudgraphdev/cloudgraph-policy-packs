@@ -6,7 +6,9 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 
 | Rule           | Description                                                                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GCP CIS 1.1    | Ensure that corporate login credentials are used                                                                                                                    |
+| GCP CIS 1.1    | Ensure that corporate login credentials are used                                                                                                                       |
+| GCP CIS 1.2    | Ensure that multi-factor authentication is enabled for all non-service accounts                         |
+| GCP CIS 1.3    | Ensure that Security Key Enforcement is enabled for all admin accounts                                  |
 | GCP CIS 1.5    | Ensure that Service Account has no Admin privileges                                                                                                                 |
 | GCP CIS 1.6    | Ensure that IAM users are not assigned the Service Account User or Service Account Token Creator roles at project level                                             |
 | GCP CIS 1.8    | Ensure that Separation of duties is enforced while assigning service account related roles to users                                                                 |
