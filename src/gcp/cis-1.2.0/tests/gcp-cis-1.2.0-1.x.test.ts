@@ -4,8 +4,10 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_11 from '../rules/gcp-cis-1.2.0-1.1'
+import Gcp_CIS_120_14 from '../rules/gcp-cis-1.2.0-1.4'
 import Gcp_CIS_120_15 from '../rules/gcp-cis-1.2.0-1.5'
 import Gcp_CIS_120_16 from '../rules/gcp-cis-1.2.0-1.6'
+import Gcp_CIS_120_17 from '../rules/gcp-cis-1.2.0-1.7'
 import Gcp_CIS_120_18 from '../rules/gcp-cis-1.2.0-1.8'
 import Gcp_CIS_120_112 from '../rules/gcp-cis-1.2.0-1.12'
 import Gcp_CIS_120_113 from '../rules/gcp-cis-1.2.0-1.13'
@@ -48,6 +50,12 @@ export interface AndroidKeyRestrictions {
 export interface IosKeyRestrictions {
   allowedBundleIds: string[]
 }
+
+export interface Key {
+  keyType?: string
+  validAfterTime?: string
+}
+
 export interface QuerygcpApiKey {
   id: string
   apiTargets?: ApiTarget[]
@@ -70,10 +78,17 @@ export interface QuerygcpProject {
   iamPolicy?: IamPolicy[]
   apiKeys?: ApiKey[]
 }
+
+export interface QuerygcpServiceAccount {
+  id: string
+  email?: string
+  keys?: Key[]
+}
 export interface CIS1xQueryResponse {
   querygcpOrganization?: QuerygcpOrganization[]
   querygcpProject?: QuerygcpProject[]
   querygcpApiKey?: QuerygcpApiKey[]
+  querygcpServiceAccount?: QuerygcpServiceAccount[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -174,6 +189,56 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test11Rule(data, Result.FAIL)
     })
   })
+
+  describe('GCP CIS 1.4 Ensure that there are only GCP-managed service account keys for each service account', () => {
+    const getTest14RuleFixture = (
+      email: string,
+      keyType: string
+    ): CIS1xQueryResponse => {
+      return {
+        querygcpServiceAccount: [
+          {
+            id: cuid(),
+            email,
+            keys: [
+              {
+                keyType
+              },
+              {
+                keyType: 'SYSTEM_MANAGED'
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const test14Rule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_14 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a service account with only GCP-managed service account keys', async () => {
+      const data: CIS1xQueryResponse = getTest14RuleFixture('autocloud-sandbox-cloudgraph@autocloud-sandbox.iam.gserviceaccount.com', 'SYSTEM_MANAGED')
+      await test14Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with a service account with USER_MANAGED service account keys', async () => {
+      const data: CIS1xQueryResponse = getTest14RuleFixture('autocloud-sandbox-cloudgraph@autocloud-sandbox.iam.gserviceaccount.com', 'USER_MANAGED')
+      await test14Rule(data, Result.FAIL)
+    })
+
+  })
+
 
   describe('GCP CIS 1.5 Ensure that Service Account has no Admin privileges', () => {
     const getTest15RuleFixture = (
@@ -318,6 +383,54 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       )
       await test16Rule(data, Result.FAIL)
     })
+  })
+
+  describe('GCP CIS 1.7 Ensure user-managed/external keys for service accounts are rotated every 90 days or less', () => {
+    const getTest17RuleFixture = (
+      validAfterTime: string
+    ): CIS1xQueryResponse => {
+      return {
+        querygcpServiceAccount: [
+          {
+            id: cuid(),
+            keys: [
+              {
+                validAfterTime
+              }
+            ],
+          },
+        ],
+      }
+    }
+
+    const test17Rule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_17 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a service account with that are rotated every 90 days or less', async () => {
+      const validAfterTime = new Date()
+      validAfterTime.setDate(validAfterTime.getDate() - 90);
+      const data: CIS1xQueryResponse = getTest17RuleFixture(validAfterTime.toISOString())
+      await test17Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is an inbound rule with a service account with that was not rotated every 90 days or less', async () => {
+      const validAfterTime = new Date()
+      validAfterTime.setDate(validAfterTime.getDate() - 120);
+      const data: CIS1xQueryResponse = getTest17RuleFixture(validAfterTime.toISOString())
+      await test17Rule(data, Result.FAIL)
+    })
+
   })
 
   describe('GCP CIS 1.8 Ensure that Separation of duties is enforced while assigning service account related roles to users', () => {
