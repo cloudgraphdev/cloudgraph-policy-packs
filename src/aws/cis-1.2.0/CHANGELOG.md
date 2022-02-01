@@ -1,3 +1,20 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.5.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.4.2...@cloudgraph/policy-pack-aws-cis-1.2.0@0.5.0) (2022-02-01)
+
+
+### Bug Fixes
+
+* **rule:** update rule references where incorrect ([bf9ff77](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bf9ff77172f5b07ea2c33304534b28b9aa128248))
+* formatting ([8212e02](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/8212e0289ba1abc252207777fc729c3c0f5652e6))
+* **rule:** update cis 1.1 rule to have audit, remediation, rationale, and references fields ([64ab016](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/64ab0164b7bcc441ff0fcadbe518be2dc738cde6))
+* **rule:** update reference link to just be a link ([d3a55ba](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/d3a55ba51f707973813d3c35c15b1a1265f9f39c))
+* **rule:** update some formatting ([a4654f1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/a4654f1bcd69766af5e485934e692a18204c26e5))
+
+
+### Features
+
+* CIS info for rules up to 3.6 ([323d787](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/323d787f453f4d0b5b80335337c3c4aa6e3ec673))
+* CIS info for rules up to 4.3 ([97c5ac7](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/97c5ac76813eaf937de4e7dc51cd979a110729b5))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.4.2](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.4.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.4.2) (2022-01-19)
 
 
