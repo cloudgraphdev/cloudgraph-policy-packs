@@ -6,6 +6,7 @@ import 'jest'
 import Gcp_CIS_120_41 from '../rules/gcp-cis-1.2.0-4.1'
 import Gcp_CIS_120_42 from '../rules/gcp-cis-1.2.0-4.2'
 import Gcp_CIS_120_43 from '../rules/gcp-cis-1.2.0-4.3'
+import Gcp_CIS_120_44 from '../rules/gcp-cis-1.2.0-4.4'
 import Gcp_CIS_120_45 from '../rules/gcp-cis-1.2.0-4.5'
 import Gcp_CIS_120_46 from '../rules/gcp-cis-1.2.0-4.6'
 import Gcp_CIS_120_47 from '../rules/gcp-cis-1.2.0-4.7'
@@ -73,8 +74,20 @@ export interface QuerygcpVmInstance {
   serviceAccounts?: ServiceAccount[]
   disks?: Disk[]
 }
+
+export interface ComputeProject {
+  commonInstanceMetadata: Metadata
+}
+
+export interface QuerygcpProject {
+  id: string
+  computeProject?: ComputeProject[]
+  vmInstance?: QuerygcpVmInstance[]
+}
+
 export interface CIS4xQueryResponse {
   querygcpVmInstance?: QuerygcpVmInstance[]
+  querygcpProject?: QuerygcpProject[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
@@ -1068,6 +1081,188 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         metadataItems
       )
       await test43Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 4.4 Ensure oslogin is enabled for a Project', () => {
+    const getTest44RuleFixture = (): CIS4xQueryResponse => {
+      return {
+        querygcpProject: [
+          {
+            id: cuid(),
+            computeProject: [
+              {
+                commonInstanceMetadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'true',
+                    },
+                  ],
+                },
+              },
+            ],
+            vmInstance: [
+              {
+                id: cuid(),
+                metadata: {
+                  items: [
+                    {
+                      key: 'created-by',
+                      value: 'dummy',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const test44Rule = async (
+      data: CIS4xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_44 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test(`No Security Issue when the oslogin is enabled for a Project and is not overriden by VM metadata`, async () => {
+      const data: CIS4xQueryResponse = getTest44RuleFixture()
+      await test44Rule(data, Result.PASS)
+    })
+
+    test(`No Security Issue when the oslogin is enabled for a Project and empty VM metadata items`, async () => {
+      const data: CIS4xQueryResponse = getTest44RuleFixture()
+      const projects = data.querygcpProject as QuerygcpProject[]
+      const project = projects[0] as QuerygcpProject
+      project.vmInstance = [
+        {
+          id: cuid(),
+          metadata: {
+            items: [],
+          },
+        },
+      ]
+      await test44Rule(data, Result.PASS)
+    })
+
+    test(`No Security Issue when the oslogin is enabled for a Project and no VMs`, async () => {
+      const data: CIS4xQueryResponse = getTest44RuleFixture()
+      const projects = data.querygcpProject as QuerygcpProject[]
+      const project = projects[0] as QuerygcpProject
+      project.vmInstance = []
+      await test44Rule(data, Result.PASS)
+    })
+
+    test(`Security Issue when the oslogin is NOT enabled for a Project and is not overriden by VM metadata`, async () => {
+      const data: CIS4xQueryResponse = {
+        querygcpProject: [
+          {
+            id: cuid(),
+            computeProject: [
+              {
+                commonInstanceMetadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'false',
+                    },
+                  ],
+                },
+              },
+            ],
+            vmInstance: [],
+          },
+        ],
+      }
+
+      await test44Rule(data, Result.FAIL)
+    })
+
+    test(`Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata`, async () => {
+      const data: CIS4xQueryResponse = {
+        querygcpProject: [
+          {
+            id: cuid(),
+            computeProject: [
+              {
+                commonInstanceMetadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'true',
+                    },
+                  ],
+                },
+              },
+            ],
+            vmInstance: [
+              {
+                id: cuid(),
+                metadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'false',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      await test44Rule(data, Result.FAIL)
+    })
+
+    test(`Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata (and key is duplicated)`, async () => {
+      const data: CIS4xQueryResponse = {
+        querygcpProject: [
+          {
+            id: cuid(),
+            computeProject: [
+              {
+                commonInstanceMetadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'true',
+                    },
+                  ],
+                },
+              },
+            ],
+            vmInstance: [
+              {
+                id: cuid(),
+                metadata: {
+                  items: [
+                    {
+                      key: 'enable-oslogin',
+                      value: 'true',
+                    },
+                    {
+                      key: 'enable-oslogin',
+                      value: 'false',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      await test44Rule(data, Result.FAIL)
     })
   })
 

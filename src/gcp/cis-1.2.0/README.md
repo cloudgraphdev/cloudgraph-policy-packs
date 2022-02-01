@@ -37,6 +37,7 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 4.1    | Ensure that instances are not configured to use the default service account                                                                                         |
 | GCP CIS 4.2    | Ensure that instances are not configured to use the default service account with full access to all Cloud APIs                                                      |
 | GCP CIS 4.3    | Ensure "Block Project-wide SSH keys" is enabled for VM instances                                                                                                    |
+| GCP CIS 4.4    | Ensure oslogin is enabled for a Project                                                                                                                             |
 | GCP CIS 4.5    | Ensure 'Enable connecting to serial ports' is not enabled for VM Instance                                                                                           |
 | GCP CIS 4.6    | Ensure that IP forwarding is not enabled on Instances                                                                                                               |
 | GCP CIS 4.7    | Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK)                                                                        |
