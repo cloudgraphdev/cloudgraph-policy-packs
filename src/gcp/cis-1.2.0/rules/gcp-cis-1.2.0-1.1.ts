@@ -20,7 +20,7 @@ export default {
   remediation: `Follow the documentation and setup corporate login accounts.`,
   references: [
     `https://cloud.google.com/docs/enterprise/best-practices-for-enterprise-organizations#manage-identities`,
-    `https://support.google.com/work/android/answer/`,
+    `https://support.google.com/work/android/answer/6371476`,
     `https://cloud.google.com/sdk/gcloud/reference/organizations/get-iam-policy`,
     `https://cloud.google.com/sdk/gcloud/reference/beta/resource-manager/folders/get-iam-policy`,
     `https://cloud.google.com/sdk/gcloud/reference/projects/get-iam-policy`,

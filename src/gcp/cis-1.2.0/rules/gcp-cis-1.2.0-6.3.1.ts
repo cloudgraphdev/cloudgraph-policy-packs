@@ -45,6 +45,7 @@ export default {
     `https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/external-scripts-enabled-server-configuration-option?view=sql-server-ver15`,
     `https://cloud.google.com/sql/docs/sqlserver/flags`,
     `https://docs.microsoft.com/en-us/sql/advanced-analytics/concepts/security?view=sql-server-ver15`,
+    `https://www.stigviewer.com/stig/ms_sql_server_2016_instance/2018-03-09/finding/V-79347`
   ],
   gql: `{
     querygcpProject{

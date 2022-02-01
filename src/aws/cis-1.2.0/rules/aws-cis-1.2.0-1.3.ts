@@ -40,7 +40,10 @@ export default {
   7. As an IAM User
   - Click on *Make Inactive* or *Delete* for credentials which have not been used in *90 Days*
 `,
-  references: [],
+  references: [
+    'CCE-78900-8',
+    'CIS CSC v6.0 #16.6'
+  ],
   gql: `{
    queryawsIamUser {
       id

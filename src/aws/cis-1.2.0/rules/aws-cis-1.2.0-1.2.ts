@@ -66,10 +66,9 @@ export default {
   **Forced IAM User Self-Service Remediation**  
   Amazon has published a pattern that forces users to self-service setup MFA before they have access to their complete permissions set. Until they complete this step, they cannot access their full permissions. This pattern can be used on new AWS accounts. It can also be used on existing accounts - it is recommended users are given instructions and a grace period to accomplish MFA enrollment before active enforcement on existing AWS accounts. [How to Delegate Management of Multi-Factor Authentication to AWS IAM Users](https://aws.amazon.com/blogs/security/how-to-delegate-management-of-multi-factor-authentication-to-aws-iam-users/)`,
   references: [
-    `http://tools.ietf.org/html/rfc`,
     `http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html`,
     `CCE- 78901 - 6`,
-    `CIS CSC v6.0 #5.6, #11.4, #12.6, #16.`,
+    `CIS CSC v6.0 #5.6, #11.4, #12.6, #16.11`,
   ],
   gql: `{
     queryawsIamUser {
