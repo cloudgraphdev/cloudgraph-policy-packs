@@ -1,3 +1,20 @@
+# @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.14.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.13.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.14.0) (2022-02-01)
+
+
+### Bug Fixes
+
+* **rule:** update rule references where incorrect ([bf9ff77](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bf9ff77172f5b07ea2c33304534b28b9aa128248))
+
+
+### Features
+
+* GCP CIS 1.2 section 1 info ([61b51f9](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/61b51f9c8092e17a4824c249817668ffe00f4ef3))
+* GCP CIS 1.2 section 2x first half ([0b080b8](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/0b080b8ebbab9840fd48616f6592262af160278f))
+* GCP CIS 1.2 section 2x second half ([dfe6843](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/dfe6843a18c790a5dca2a0ffc1b57f42a2cf723a))
+* GCP CIS 1.2 section 3x ([696aae8](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/696aae8d7e21d44bc56fd927adb5a8dc7d21d5f3))
+* GCP CIS 1.2 section 4x & 5x ([855806e](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/855806e1c32ac0d683edf7cefd1a94f4f8326046))
+* GCP CIS 1.2 section 6x ([be23f46](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/be23f46e0b12a40938a0a8ca2b51223660d48c7a))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.13.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.12.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.13.0) (2022-02-01)
 
 
