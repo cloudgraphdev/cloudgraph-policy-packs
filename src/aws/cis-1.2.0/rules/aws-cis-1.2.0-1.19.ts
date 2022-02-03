@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 export default {
   id: 'aws-cis-1.2.0-1.19',  
+  title: 'AWS CIS 1.19 Ensure IAM instance roles are used for AWS resource access from instances',  
   description: 'AWS access from within AWS instances can be done by either encoding AWS keys into AWS API calls or by assigning the instance to a role which has an appropriate permissions policy for the required access. "AWS Access" means accessing the APIs of AWS in order to access AWS resources or manage AWS account resources.',  
   
   audit: `Whether an Instance Is Associated With a Role  

@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 export default {
   id: 'aws-cis-1.2.0-1.15',  
+  title: 'AWS CIS 1.15 Ensure security questions are registered in the AWS account',  
   description:
     'The AWS support portal allows account owners to establish security questions that can be used to authenticate individuals calling AWS customer service for support. It is recommended that security questions be established.',  
   audit: `Perform the following in the AWS Management Console:

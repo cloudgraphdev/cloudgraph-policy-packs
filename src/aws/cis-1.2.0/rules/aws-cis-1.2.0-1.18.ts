@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 export default {
   id: 'aws-cis-1.2.0-1.18',  
+  title: 'AWS CIS 1.18 Ensure security contact information is registered',  
   description: 'AWS provides customers with the option of specifying the contact information for account\'s security team. It is recommended that this information be provided.',  
   audit: `Perform the following in the AWS Management Console to determine if security contact information is present:
   

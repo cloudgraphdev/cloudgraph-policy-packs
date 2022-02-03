@@ -17,6 +17,9 @@ import Aws_CIS_120_116 from './aws-cis-1.2.0-1.16'
 import Aws_CIS_120_117 from './aws-cis-1.2.0-1.17'
 import Aws_CIS_120_118 from './aws-cis-1.2.0-1.18'
 import Aws_CIS_120_119 from './aws-cis-1.2.0-1.19'
+import Aws_CIS_120_120 from './aws-cis-1.2.0-1.20'
+import Aws_CIS_120_121 from './aws-cis-1.2.0-1.21'
+import Aws_CIS_120_122 from './aws-cis-1.2.0-1.22'
 import Aws_CIS_120_21 from './aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from './aws-cis-1.2.0-2.2'
 import Aws_CIS_120_24 from './aws-cis-1.2.0-2.4'
@@ -62,6 +65,9 @@ export default [
   Aws_CIS_120_117,
   Aws_CIS_120_118,
   Aws_CIS_120_119,
+  Aws_CIS_120_120,
+  Aws_CIS_120_121,
+  Aws_CIS_120_122,
   Aws_CIS_120_21,
   Aws_CIS_120_22,
   Aws_CIS_120_24,
