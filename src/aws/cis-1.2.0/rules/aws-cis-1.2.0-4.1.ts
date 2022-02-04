@@ -1,7 +1,10 @@
 export default {
   id: 'aws-cis-1.2.0-4.1',
-  description:
+  title:
     'AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22 (Scored)',
+  description: `Security groups provide stateful filtering of ingress/egress network traffic to AWS
+  resources. It is recommended that no security group allows unrestricted ingress access to
+  port 22.`,
   audit: `Perform the following to determine if the account is configured as prescribed:
 
   1. Login to the AWS Management Console at https://console.aws.amazon.com/vpc/home
@@ -10,7 +13,7 @@ export default {
   4. Select the security group
   5. Click the *Inbound Rule*s tab
   6. Ensure no rule exists that has a port range that includes port *22* and has a *Source* of *0.0.0.0/0*
-  
+
   Note: A Port value of *ALL* or a port range such as *0 - 1024* are inclusive of port *22*.`,
   rationale: `Removing unfettered connectivity to remote console services, such as SSH, reduces a server's exposure to risk.`,
   remediation: `Perform the following to implement the prescribed state:
