@@ -4,6 +4,7 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
 import Aws_CIS_120_24 from '../rules/aws-cis-1.2.0-2.4'
+import Aws_CIS_120_25 from '../rules/aws-cis-1.2.0-2.5'
 import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
 import Aws_CIS_120_27 from '../rules/aws-cis-1.2.0-2.7'
 import Aws_CIS_120_28 from '../rules/aws-cis-1.2.0-2.8'
@@ -181,6 +182,135 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
+
+  describe('AWS CIS 2.5 Ensure AWS Config is enabled in all regions', () => {
+    test('Should pass when a configuration recorder is enabled in all regions', async () => {
+      const data = {
+        queryawsConfigurationRecorder: [
+          {
+            id: cuid(),
+            recordingGroup: {
+              allSupported: true,
+              includeGlobalResourceTypes: true,
+            },
+            status: {
+              recording: true,
+              lastStatus: 'SUCCESS',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when a configuration recorder has recordingGroup object includes "allSupported": false', async () => {
+      const data = {
+        queryawsConfigurationRecorder: [
+          {
+            id: cuid(),
+            recordingGroup: {
+              allSupported: false,
+              includeGlobalResourceTypes: true,
+            },
+            status: {
+              recording: true,
+              lastStatus: 'SUCCESS',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a configuration recorder has recordingGroup object includes "includeGlobalResourceTypes": false', async () => {
+      const data = {
+        queryawsConfigurationRecorder: [
+          {
+            id: cuid(),
+            recordingGroup: {
+              allSupported: true,
+              includeGlobalResourceTypes: false,
+            },
+            status: {
+              recording: true,
+              lastStatus: 'SUCCESS',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a configuration recorder has status object includes "recording": false', async () => {
+      const data = {
+        queryawsConfigurationRecorder: [
+          {
+            id: cuid(),
+            recordingGroup: {
+              allSupported: true,
+              includeGlobalResourceTypes: true,
+            },
+            status: {
+              recording: false,
+              lastStatus: 'SUCCESS',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a configuration recorder has status object includes "lastStatus" not "SUCCESS"', async () => {
+      const data = {
+        queryawsConfigurationRecorder: [
+          {
+            id: cuid(),
+            recordingGroup: {
+              allSupported: true,
+              includeGlobalResourceTypes: true,
+            },
+            status: {
+              recording: true,
+              lastStatus: 'FAILED',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+  })
+
 
   describe('AWS CIS 2.6 Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket', () => {
     test("Should pass when a trail's bucket has access logging enabled", async () => {

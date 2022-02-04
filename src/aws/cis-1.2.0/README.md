@@ -24,6 +24,7 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 2.1  | Ensure CloudTrail is enabled in all regions                                                            |
 | AWS CIS 2.2  | Ensure CloudTrail log file validation is enabled                                                       |
 | AWS CIS 2.4  | Ensure CloudTrail trails are integrated with CloudWatch Logs                                           |
+| AWS CIS 2.5  | Ensure AWS Config is enabled in all regions                                                            |
 | AWS CIS 2.6  | Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket                                 |
 | AWS CIS 2.7  | Ensure CloudTrail logs are encrypted at rest using KMS CMKs                                            |
 | AWS CIS 2.8  | Ensure rotation for customer created CMKs is enabled (Scored)                                          |
