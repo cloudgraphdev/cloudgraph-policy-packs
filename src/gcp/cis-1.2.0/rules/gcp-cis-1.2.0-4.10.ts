@@ -1,8 +1,11 @@
-
 export default {
   id: 'gcp-cis-1.2.0-4.10',
-  description: 'In order to maintain the highest level of security all connections to an application should be secure by default.',
-  rationale: 'Insecure HTTP connections maybe subject to eavesdropping which can expose sensitive data.',
+  title:
+    'In order to maintain the highest level of security all connections to an application should be secure by default.',
+  description: `In order to maintain the highest level of security all connections to an application should be
+  secure by default.`,
+  rationale:
+    'Insecure HTTP connections maybe subject to eavesdropping which can expose sensitive data.',
   audit: `Verify that the app.yaml file controlling the application contains a line which enforces
   secure connections. For example
 
@@ -23,7 +26,9 @@ export default {
             script: auto
 
   https://cloud.google.com/appengine/docs/standard/python3/config/appref`,
-  references: ['https://cloud.google.com/appengine/docs/standard/python3/config/appref',
-  'https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-your-app-with-app-yaml'],
-  severity: 'medium'
+  references: [
+    'https://cloud.google.com/appengine/docs/standard/python3/config/appref',
+    'https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-your-app-with-app-yaml',
+  ],
+  severity: 'medium',
 }

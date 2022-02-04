@@ -1,15 +1,17 @@
-/* eslint-disable max-len */
 export default {
   id: 'gcp-cis-1.2.0-1.13',
-  description:
+  title:
     'GCP CIS 1.13 Ensure API keys are restricted to use by only specified Hosts and Apps',
+  description: `Unrestricted keys are insecure because they can be viewed publicly, such as from within a
+  browser, or they can be accessed on a device where the key resides. It is recommended to
+  restrict API key usage to trusted hosts, HTTP referrers and apps.`,
   audit: `**From Console:**
   1. Go to APIs & Services\\Credentials using https://console.cloud.google.com/apis/credentials
   2. In the section API Keys, Click the API Key Name. The API Key properties display on a
     new page.
   3. For every API Key, ensure the section Key restrictions parameter Application
     restrictions is not set to None.
-  
+
       Or,
 
       Ensure Application restrictions is set to HTTP referrers and the referrer is not set to

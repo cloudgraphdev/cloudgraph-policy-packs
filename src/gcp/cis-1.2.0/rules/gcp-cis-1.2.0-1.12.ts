@@ -1,7 +1,9 @@
-/* eslint-disable max-len */
 export default {
   id: 'gcp-cis-1.2.0-1.12',
-  description: 'GCP CIS 1.12 Ensure API keys are not created for a project',
+  title: 'GCP CIS 1.12 Ensure API keys are not created for a project',
+  description: `Keys are insecure because they can be viewed publicly, such as from within a browser, or
+  they can be accessed on a device where the key resides. It is recommended to use standard
+  authentication flow instead.`,
   audit: `**From Console:**
 1. Go to APIs & Services\\Credentials using  https://console.cloud.google.com/apis/credentials
 2. In the section API Keys, no API key should be listed.`,
