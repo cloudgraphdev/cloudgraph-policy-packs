@@ -3,6 +3,7 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
+import Gcp_CIS_120_21 from '../rules/gcp-cis-1.2.0-2.1'
 import Gcp_CIS_120_22 from '../rules/gcp-cis-1.2.0-2.2'
 import Gcp_CIS_120_23 from '../rules/gcp-cis-1.2.0-2.3'
 import Gcp_CIS_120_24 from '../rules/gcp-cis-1.2.0-2.4'
@@ -82,16 +83,229 @@ export interface QuerygcpProject {
   logBucket?: LogBucket[]
 }
 
+export interface AuditLogConfig {
+  logType: string
+  exemptedMembers: string[]
+}
+
+export interface AuditConfig {
+  auditLogConfigs: AuditLogConfig[]
+  service: string
+  exemptedMembers: string[]
+}
+
+export interface QuerygcpIamPolicy {
+  id: string
+  auditConfigs: AuditConfig[]
+}
+
 export interface CIS2xQueryResponse {
   querygcpAlertPolicy?: QuerygcpAlertPolicy[]
   querygcpNetwork?: QuerygcpNetwork[]
   querygcpProject?: QuerygcpProject[]
+  querygcpIamPolicy?: QuerygcpIamPolicy[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+  })
+
+  describe('GCP CIS 2.1 Ensure that Cloud Audit Logging is configured properly across all services and all users from a project', () => {
+    const getTest21RuleFixture = (): CIS2xQueryResponse => {
+      return {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITE',
+                    exemptedMembers: [],
+                  },
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const test21Rule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_120_21 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is a auditConfig with logtype set to DATA_WRITES and DATA_READ for all services, and exemptedMembers is empty', async () => {
+      const data: CIS2xQueryResponse = getTest21RuleFixture()
+      await test21Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is a auditConfig with logtype set to DATA_WRITES and DATA_READ for all services, and exemptedMembers is NOT empty', async () => {
+      let data: CIS2xQueryResponse = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITES',
+                    exemptedMembers: [],
+                  },
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: ['dummy-member'],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+
+      data = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITES',
+                    exemptedMembers: ['dummy-member'],
+                  },
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+      data = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITES',
+                    exemptedMembers: [],
+                  },
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: ['dummy-member'],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is a auditConfig without logtype set to DATA_WRITES', async () => {
+      const data: CIS2xQueryResponse = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is a auditConfig without logtype set to DATA_READ', async () => {
+      const data: CIS2xQueryResponse = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITES',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'allServices',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is a auditConfig with logtype set to DATA_WRITES and DATA_READ NOT set to allServices', async () => {
+      const data: CIS2xQueryResponse = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs: [
+              {
+                auditLogConfigs: [
+                  {
+                    logType: 'DATA_WRITE',
+                    exemptedMembers: [],
+                  },
+                  {
+                    logType: 'DATA_READ',
+                    exemptedMembers: [],
+                  },
+                ],
+                service: 'dummy-service',
+                exemptedMembers: [],
+              },
+            ],
+          },
+        ],
+      }
+      await test21Rule(data, Result.FAIL)
+    })
   })
 
   describe('GCP CIS 2.2 Ensure that sinks are configured for all log entries', () => {
