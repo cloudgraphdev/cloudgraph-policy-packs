@@ -23,6 +23,7 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 1.16 | Ensure IAM policies are attached only to groups or roles (Scored)                                      |
 | AWS CIS 2.1  | Ensure CloudTrail is enabled in all regions                                                            |
 | AWS CIS 2.2  | Ensure CloudTrail log file validation is enabled                                                       |
+| AWS CIS 2.3  | Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible                          |
 | AWS CIS 2.4  | Ensure CloudTrail trails are integrated with CloudWatch Logs                                           |
 | AWS CIS 2.6  | Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket                                 |
 | AWS CIS 2.7  | Ensure CloudTrail logs are encrypted at rest using KMS CMKs                                            |
