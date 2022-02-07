@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
@@ -16,6 +17,9 @@ import Aws_CIS_120_112 from '../rules/aws-cis-1.2.0-1.12'
 import Aws_CIS_120_113 from '../rules/aws-cis-1.2.0-1.13'
 import Aws_CIS_120_114 from '../rules/aws-cis-1.2.0-1.14'
 import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
+import Aws_CIS_120_120 from '../rules/aws-cis-1.2.0-1.20'
+import Aws_CIS_120_121 from '../rules/aws-cis-1.2.0-1.21'
+import Aws_CIS_120_122 from '../rules/aws-cis-1.2.0-1.22'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
@@ -621,5 +625,320 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       expect(processedRule.result).toBe(Result.PASS)
     })
+  })
+
+  describe('AWS CIS 1.20 Ensure a support role has been created to manage incidents with AWS Support', () => {
+    test('Should pass when AWSSupportAccess is attached to IAM users', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                arn: 'arn:aws:iam::632941798677:user/test',
+              },
+            ],
+            iamGroups: [],
+            iamRoles: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when AWSSupportAccess is attached to any IAM groups', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [],
+            iamGroups: [
+              {
+                arn: 'arn:aws:iam::632941798677:user/test',
+              },
+            ],
+            iamRoles: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when AWSSupportAccess is attached to any IAM roles', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [],
+            iamGroups: [],
+            iamRoles: [
+              {
+                arn: 'arn:aws:iam::632941798677:user/test',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when AWSSupportAccess is not attached to any IAM user, group or role', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [],
+            iamGroups: [],
+            iamRoles: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 1.21 Do not setup access keys during initial user setup for all IAM users that have a console password', () => {
+    test('Should pass for IAM users who have access key last used date configured', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: '2021-10-05T17:29:00.000Z',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail for IAM users that have set N/A on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: 'N/A',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail for IAM users that have set null on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: null,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail for IAM users that have set as empty on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: '',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 1.22 Ensure IAM policies that allow full "*:*" administrative privileges are not created', () => {
+    test('Should pass for IAM policies that not allow full "*:*" administrative privileges', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: [
+                    'secretsmanager:DeleteSecret',
+                    'secretsmanager:GetSecretValue',
+                    'secretsmanager:UpdateSecret',
+                  ],
+                  resource: ['arn:aws:secretsmanager:*:*:secret:A4B*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass for IAM policies that have a statement with "Effect": "Allow" with "Action": "*" over restricted "Resource"', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['arn:aws:secretsmanager:*:*:secret:A4B*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass for IAM policies that have a statement with "Effect": "Allow" with restricted "Action" over "Resource": "*"', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: [
+                    'secretsmanager:DeleteSecret',
+                    'secretsmanager:GetSecretValue',
+                    'secretsmanager:UpdateSecret',
+                  ],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail for IAM policies that allow full "*:*" administrative privileges', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
   })
 })

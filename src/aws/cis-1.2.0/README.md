@@ -20,7 +20,14 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 1.12 | Ensure no root account access key exists (Scored)                                                      |
 | AWS CIS 1.13 | Ensure MFA is enabled for the 'root' account                                                           |
 | AWS CIS 1.14 | Ensure hardware MFA is enabled for the 'root' account (Scored)                                         |
+| AWS CIS 1.15 | Ensure security questions are registered in the AWS account                                            |
 | AWS CIS 1.16 | Ensure IAM policies are attached only to groups or roles (Scored)                                      |
+| AWS CIS 1.17 | Maintain current contact details                                                                       |
+| AWS CIS 1.18 | Ensure security contact information is registered                                                      |
+| AWS CIS 1.19 | Ensure IAM instance roles are used for AWS resource access from instances                              |
+| AWS CIS 1.20 | Ensure a support role has been created to manage incidents with AWS Support                            |
+| AWS CIS 1.21 | Do not setup access keys during initial user setup for all IAM users that have a console password      |
+| AWS CIS 1.22 | Ensure IAM policies that allow full "*:*" administrative privileges are not created                    |
 | AWS CIS 2.1  | Ensure CloudTrail is enabled in all regions                                                            |
 | AWS CIS 2.2  | Ensure CloudTrail log file validation is enabled                                                       |
 | AWS CIS 2.4  | Ensure CloudTrail trails are integrated with CloudWatch Logs                                           |
