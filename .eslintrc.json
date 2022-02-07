@@ -3,6 +3,7 @@
     "@autocloud"
   ],
   "rules": {
+    "max-len": "off"
   },
   "ignorePatterns": []
 }

@@ -1,13 +1,15 @@
 export default {
   id: 'gcp-cis-1.2.0-3.10',
-  description:
-    // eslint-disable-next-line max-len
+  title:
     'GCP CIS 3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses',
+  description: `Access to VMs should be restricted by firewall rules that allow only IAP traffic by ensuring
+  only connections proxied by the IAP are allowed. To ensure that load balancing works
+  correctly health checks should also be allowed.`,
   audit: `From the Console:
 
   1. Go to the Cloud Console VPC network > Firewall rules.
   2. Verify that the only rules correspond to the following values:
-  
+
       - **Targets** : All instances in the network
       - **Source IP ranges** (press Enter after you paste each value in the box):
           - 130.211.0.0/22
@@ -30,7 +32,7 @@ export default {
       - **Source IP ranges** (press Enter after you paste each value in the box):
           - 130.211.0.0/22
           - 35.191.0.0/16
-      - **Protocols and ports**:  
+      - **Protocols and ports**:
           - Specified protocols and ports
           - tcp:80
   5. When you're finished updating values, click **Create**.`,

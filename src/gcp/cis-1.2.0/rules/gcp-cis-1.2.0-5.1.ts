@@ -1,7 +1,9 @@
 export default {
   id: 'gcp-cis-1.2.0-5.1',
-  description:
+  title:
     'GCP CIS 5.1 Ensure that Cloud Storage bucket is not anonymously or publicly accessible',
+  description: `It is recommended that IAM policy on Cloud Storage bucket does not allows anonymous or
+  public access.`,
   audit: `**From Console:**
 
   1. Go to Storage browser by visiting

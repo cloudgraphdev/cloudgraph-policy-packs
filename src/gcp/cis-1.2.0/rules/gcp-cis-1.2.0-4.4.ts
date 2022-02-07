@@ -1,6 +1,8 @@
 export default {
   id: 'gcp-cis-1.2.0-4.4',
-  description: 'GCP CIS 4.4 Ensure oslogin is enabled for a Project',
+  title: 'GCP CIS 4.4 Ensure oslogin is enabled for a Project',
+  description: `Enabling OS login binds SSH certificates to IAM users and facilitates effective SSH certificate
+  management.`,
   audit: `**From Console:**
 
   1. Go to the VM compute metadata page by visiting

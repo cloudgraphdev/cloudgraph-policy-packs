@@ -1,7 +1,7 @@
-/* eslint-disable max-len */
 export default {
   id: 'gcp-cis-1.2.0-1.15',
-  description: 'GCP CIS 1.15 Ensure API keys are rotated every 90 days',
+  title: 'GCP CIS 1.15 Ensure API keys are rotated every 90 days',
+  description: 'It is recommended to rotate API keys every 90 days.',
   audit: `**From Console:**
   1. Go to APIs & Services\\Credentials using https://console.cloud.google.com/apis/credentials
   2. In the section API Keys, for every key ensure the creation date is less than 90 days.`,
@@ -34,7 +34,9 @@ export default {
   **Note:** Do not set HTTP referrers to wild-cards (* or *.[TLD] or _.[TLD]/_ ) allowing access to
   any/wide HTTP referrer(s)
   Do not set IP addresses and referrer to any host (0.0.0.0 or 0.0.0.0/0 or ::0)`,
-  references: ['There is no option to automatically regenerate (rotate) API keys periodically'],
+  references: [
+    'There is no option to automatically regenerate (rotate) API keys periodically',
+  ],
   gql: `{
     querygcpApiKey {
       id

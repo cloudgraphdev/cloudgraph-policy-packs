@@ -1,12 +1,16 @@
 export default {
   id: 'gcp-cis-1.2.0-3.4',
-  description:
+  title:
     'GCP CIS 3.4 Ensure that RSASHA1 is not used for the key-signing key in Cloud DNS DNSSEC',
+  description: `DNSSEC algorithm numbers in this registry may be used in CERT RRs. Zone signing
+  (DNSSEC) and transaction security mechanisms (SIG(0) and TSIG) make use of particular
+  subsets of these algorithms. The algorithm used for key signing should be a recommended
+  one and it should be strong.`,
   audit: `Currently there is no support to audit this setting through console.
 
-  **From Command Line:**  
+  **From Command Line:**
   Ensure the property algorithm for keyType keySigning is not using *RSASHA1*.
-  
+
       gcloud dns managed-zones describe ZONENAME --format="json(dnsName,dnssecConfig.state,dnssecConfig.defaultKeySpecs)"`,
   rationale: `Domain Name System Security Extensions (DNSSEC) algorithm numbers in this registry may be used in CERT RRs. Zonesigning (DNSSEC) and transaction security mechanisms (SIG(0) and TSIG) make use of particular subsets of these algorithms.
 

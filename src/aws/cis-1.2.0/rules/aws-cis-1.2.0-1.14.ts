@@ -1,34 +1,39 @@
 export default {
   id: 'aws-cis-1.2.0-1.14',
-  description:
+  title:
     "AWS CIS 1.14 Ensure hardware MFA is enabled for the 'root' account (Scored)",
+  description: `The root account is the most privileged user in an AWS account. MFA adds an extra layer of
+  protection on top of a user name and password. With MFA enabled, when a user signs in to
+  an AWS website, they will be prompted for their user name and password as well as for an
+  authentication code from their AWS MFA device. For Level 2, it is recommended that the
+  root account be protected with a hardware MFA.`,
   audit: `Perform the following to determine if the root account has a hardware MFA setup:
 
   1. Run the following command to determine if the root account has MFA setup:
-  
+
     aws iam get-account-summary | grep "AccountMFAEnabled"
-  
-  The *AccountMFAEnabled* property is set to 1 will ensure that the root account has MFA (Virtual or Hardware) Enabled.  
+
+  The *AccountMFAEnabled* property is set to 1 will ensure that the root account has MFA (Virtual or Hardware) Enabled.
   If *AccountMFAEnabled* property is set to 0 the account is not compliant with this recommendation.
-  
+
   <br/>
 
   2. If *AccountMFAEnabled* property is set to 1, determine root account has Hardware MFA enabled. Run the following command to list all virtual MFA devices:
-  
+
     aws iam list-virtual-mfa-devices
-  
+
   If the output contains one MFA with the following Serial Number, it means the MFA is virtual, not hardware and the account is not compliant with this recommendation: *"SerialNumber": "arn:aws:iam::_<aws_account_number>_:mfa/root-account-mfa-device"*`,
   rationale: `A hardware MFA has a smaller attack surface than a virtual MFA. For example, a hardware MFA does not suffer the attack surface introduced by the mobile smartphone on which a virtual MFA resides.
 
   **Note**: Using hardware MFA for many, many AWS accounts may create a logistical device management issue. If this is the case, consider implementing this Level 2 recommendation selectively to the highest security AWS accounts and the Level 1 recommendation applied to the remaining accounts.
-  
+
   Link to order AWS compatible hardware MFA device: [http://onlinenoram.gemalto.com/](http://onlinenoram.gemalto.com/)`,
   remediation: `Perform the following to establish a hardware MFA for the root account:
 
   1. Sign in to the AWS Management Console and open the IAM console at https://console.aws.amazon.com/iam/.
-  
+
   Note: to manage MFA devices for the root AWS account, you must use your root account credentials to sign in to AWS. You cannot manage MFA devices for the root account using other credentials.
-  
+
   2. Choose *Dashboard* , and under *Security Status* , expand *Activate MFA* on your root account.
   3. Choose *Activate MFA*
   4. In the wizard, choose *A hardware MFA* device and then choose *Next Step*.
