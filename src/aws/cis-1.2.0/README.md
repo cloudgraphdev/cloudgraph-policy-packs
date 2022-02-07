@@ -53,3 +53,4 @@ Policy Pack based on the [AWS Foundations 1.2.0](https://d1.awsstatic.com/whitep
 | AWS CIS 4.1  | Ensure no security groups allow ingress from 0.0.0.0/0 to port 22 (Scored)                             |
 | AWS CIS 4.2  | Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389 (Scored)                           |
 | AWS CIS 4.3  | Ensure the default security group of every VPC restricts all traffic (Scored)                          |
+| AWS CIS 4.4  | Ensure routing tables for VPC peering are "least access" (Not Scored)                                  |
