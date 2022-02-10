@@ -41,12 +41,12 @@ export default {
     }
   }`,
   resource: 'queryawsAsg[*]',
-  severity: 'medium',
+  severity: 'low',
   conditions: {
     and: [
       {
         path: '@.healthCheckType',
-        notEqual: 'ELB',
+        equal: 'ELB',
       },
       {
         path: '@.loadBalancerNames',

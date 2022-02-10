@@ -15,7 +15,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             loadBalancerNames: [],
-            healthCheckType: 'ELB',
+            healthCheckType: 'EC2',
           },
         ],
       }
@@ -34,7 +34,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             loadBalancerNames: [],
-            healthCheckType: 'EC2',
+            healthCheckType: 'ELB',
           },
         ],
       }
@@ -53,10 +53,11 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             loadBalancerNames: ['alb_1', 'alb2'],
-            healthCheckType: 'EC2',
+            healthCheckType: 'ELB',
           },
         ],
       }
+
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Autoscaling_1 as Rule,
