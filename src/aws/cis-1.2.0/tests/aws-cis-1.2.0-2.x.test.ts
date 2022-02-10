@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
+import Aws_CIS_120_23 from '../rules/aws-cis-1.2.0-2.3'
 import Aws_CIS_120_24 from '../rules/aws-cis-1.2.0-2.4'
 import Aws_CIS_120_25 from '../rules/aws-cis-1.2.0-2.5'
 import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
@@ -115,6 +117,128 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_22 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.3 Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible', () => {
+    test('Should pass when a policy contains a statement having an Effect set to Allow and a Principal not set to "*" or {"AWS" : "*"}', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            s3: [
+              {
+                bucketPolicies: [
+                  {
+                    policy: [
+                      {
+                        statement: [
+                          {
+                            effect: 'Allow',
+                            principal: [
+                              {
+                                key: 'Service',
+                                value: ['cloudtrail.amazonaws.com'],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_23 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when a policy contains a statement having an Effect set to Allow and a Principal set to "*"', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            s3: [
+              {
+                bucketPolicies: [
+                  {
+                    policy: [
+                      {
+                        statement: [
+                          {
+                            effect: 'Allow',
+                            principal: [
+                              {
+                                key: '',
+                                value: ['*'],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_23 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a policy contains a statement having an Effect set to Allow and a Principal set to {"AWS" : "*"}', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            s3: [
+              {
+                bucketPolicies: [
+                  {
+                    policy: [
+                      {
+                        statement: [
+                          {
+                            effect: 'Allow',
+                            principal: [
+                              {
+                                key: 'AWS',
+                                value: ['*'],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_23 as Rule,
         { ...data } as any
       )
 
