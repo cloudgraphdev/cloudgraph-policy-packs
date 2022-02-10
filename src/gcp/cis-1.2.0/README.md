@@ -85,3 +85,6 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 6.5    | Ensure that Cloud SQL database instances are not open to the world                                                                                                  |
 | GCP CIS 6.6    | Ensure that Cloud SQL database instances do not have public IPs                                                                                                     |
 | GCP CIS 6.7    | Ensure that Cloud SQL database instances are configured with automated backups                                                                                      |
+| GCP CIS 7.1    | Ensure that BigQuery datasets are not anonymously or publicly accessible                                                   |
+| GCP CIS 7.2    | Ensure that all BigQuery Tables are encrypted with Customer-managed encryption key                                         |
+| GCP CIS 7.3    | Ensure that a Default Customer-managed encryption key (CMEK) is specified for all BigQuery Data Sets                       |

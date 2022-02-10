@@ -77,6 +77,9 @@ import Gcp_CIS_120_64 from './gcp-cis-1.2.0-6.4'
 import Gcp_CIS_120_65 from './gcp-cis-1.2.0-6.5'
 import Gcp_CIS_120_66 from './gcp-cis-1.2.0-6.6'
 import Gcp_CIS_120_67 from './gcp-cis-1.2.0-6.7'
+import Gcp_CIS_120_71 from './gcp-cis-1.2.0-7.1'
+import Gcp_CIS_120_72 from './gcp-cis-1.2.0-7.2'
+import Gcp_CIS_120_73 from './gcp-cis-1.2.0-7.3'
 
 export default [
   Gcp_CIS_120_11,
@@ -158,4 +161,7 @@ export default [
   Gcp_CIS_120_65,
   Gcp_CIS_120_66,
   Gcp_CIS_120_67,
+  Gcp_CIS_120_71,
+  Gcp_CIS_120_72,
+  Gcp_CIS_120_73,
 ]
