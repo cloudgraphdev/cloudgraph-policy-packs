@@ -7,3 +7,4 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | Rule                | Description                                                                  |
 | ------------------- | ---------------------------------------------------------------------------- |
 | autoscaling-check-1 | Auto Scaling groups associated with a load balancer should use health checks |
+| cloudtrail-check-1  | CloudTrail logs should be encrypted at rest using AWS KMS keys               |
