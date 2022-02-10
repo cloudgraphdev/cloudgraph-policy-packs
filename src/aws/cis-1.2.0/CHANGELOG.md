@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.8.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* Included additional fields to aws rules ([8f7c9fa](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/8f7c9fa575d20f043cb9557d6734a0967762753d))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.8.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.7.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.0) (2022-02-10)
 
 
