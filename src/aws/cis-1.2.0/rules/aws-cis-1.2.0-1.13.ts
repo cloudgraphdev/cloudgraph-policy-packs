@@ -45,7 +45,9 @@ export default {
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
       id
-      __typename
+      arn
+      accountId
+       __typename
       name
       mfaActive
     }

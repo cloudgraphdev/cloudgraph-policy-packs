@@ -43,6 +43,8 @@ export default {
   gql: `{
     queryawsIamPasswordPolicy {
       id
+      arn
+      accountId
       __typename
       maxPasswordAge
     }

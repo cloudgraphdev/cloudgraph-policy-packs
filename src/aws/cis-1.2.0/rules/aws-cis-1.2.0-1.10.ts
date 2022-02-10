@@ -36,7 +36,9 @@ export default {
   gql: `{
     queryawsIamPasswordPolicy {
       id
-      __typename
+      arn
+      accountId
+       __typename
       passwordReusePrevention
     }
   }`,

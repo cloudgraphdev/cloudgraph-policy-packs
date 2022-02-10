@@ -26,7 +26,9 @@ Note: there are a few conditions under which the use of the root account is requ
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
       id
-      __typename
+      arn
+      accountId
+       __typename
       passwordLastUsed
       passwordEnabled
     }

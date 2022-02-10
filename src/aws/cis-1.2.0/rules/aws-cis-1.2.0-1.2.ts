@@ -78,7 +78,9 @@ export default {
   gql: `{
     queryawsIamUser {
       id
-      __typename
+      arn
+      accountId
+       __typename
       passwordEnabled
       mfaActive
     }

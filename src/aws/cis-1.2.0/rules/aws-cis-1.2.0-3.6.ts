@@ -80,7 +80,9 @@ export default {
   gql: `{
     queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
       id
-      __typename
+      arn
+      accountId
+       __typename
       isMultiRegionTrail
       status {
         isLogging
