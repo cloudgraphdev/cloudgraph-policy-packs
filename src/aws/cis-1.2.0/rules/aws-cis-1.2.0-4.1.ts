@@ -30,7 +30,9 @@ export default {
   gql: `{
     queryawsSecurityGroup{
       id
-      __typename
+      arn
+      accountId
+       __typename
       inboundRules{
         source
         toPort

@@ -49,6 +49,8 @@ Via CLI
   gql: `{
     queryawsIamUser {
       id
+       arn
+      accountId
        __typename
       accessKeyData {
         status

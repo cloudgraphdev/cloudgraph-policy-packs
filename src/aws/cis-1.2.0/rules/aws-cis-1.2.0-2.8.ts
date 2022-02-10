@@ -49,7 +49,9 @@ export default {
   gql: `{
     queryawsKms {
       id
-      __typename
+      arn
+      accountId
+       __typename
       keyManager
       keyRotationEnabled
     }

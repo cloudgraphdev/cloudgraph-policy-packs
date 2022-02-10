@@ -38,7 +38,9 @@ export default {
   gql: `{
     queryawsVpc {
       id
-      __typename
+      arn
+      accountId
+       __typename
       flowLogs {
         resourceId
       }

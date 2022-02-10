@@ -4,4 +4,5 @@ export default {
   provider: 'aws',
   entity: 'CIS',
   rules: PolicyPacksRules,
+  extraFields: ['arn', 'accountId'],
 }

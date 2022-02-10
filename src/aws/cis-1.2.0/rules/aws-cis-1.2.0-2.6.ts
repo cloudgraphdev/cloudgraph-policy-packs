@@ -56,7 +56,9 @@ export default {
   gql: `{
     queryawsCloudtrail {
       id
-      __typename
+      arn
+      accountId
+       __typename
 			s3 {
         logging
       }

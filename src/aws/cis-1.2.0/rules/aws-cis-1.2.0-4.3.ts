@@ -74,7 +74,9 @@ export default {
     queryawsSecurityGroup(filter: { name: { eq: "default" } })   {
       id
       name
-      __typename
+      arn
+      accountId
+       __typename
       inboundRules{
         source
       }
