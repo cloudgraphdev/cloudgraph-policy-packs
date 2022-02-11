@@ -4,11 +4,15 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import Aws_PCI_DSS_321_Cloudtrail_1 from '../rules/pci-dss-3.2.1-cloudtrail-check-1'
 import Aws_PCI_DSS_321_Cloudtrail_2 from '../rules/pci-dss-3.2.1-cloudtrail-check-2'
 import Aws_PCI_DSS_321_Cloudtrail_3 from '../rules/pci-dss-3.2.1-cloudtrail-check-3'
+import Aws_PCI_DSS_321_Cloudtrail_4 from '../rules/pci-dss-3.2.1-cloudtrail-check-4'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('aws', 'PCI')
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'aws',
+      entityName: 'PCI',
+    })
   })
 
   describe('CloudTrail Check 1: CloudTrail logs should be encrypted at rest using AWS KMS keys', () => {
@@ -55,13 +59,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsCloudtrail: [
           {
             id: cuid(),
-            isMultiRegionTrail: "No",
+            isMultiRegionTrail: 'No',
             eventSelectors: [
               {
-                readWriteType: "All",
-                includeManagementEvents: true
-              }
-            ]
+                readWriteType: 'All',
+                includeManagementEvents: true,
+              },
+            ],
           },
         ],
       }
@@ -79,13 +83,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsCloudtrail: [
           {
             id: cuid(),
-            isMultiRegionTrail: "Yes",
+            isMultiRegionTrail: 'Yes',
             eventSelectors: [
               {
-                readWriteType: "ReadOnly",
-                includeManagementEvents: false
-              }
-            ]
+                readWriteType: 'ReadOnly',
+                includeManagementEvents: false,
+              },
+            ],
           },
         ],
       }
@@ -103,13 +107,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsCloudtrail: [
           {
             id: cuid(),
-            isMultiRegionTrail: "Yes",
+            isMultiRegionTrail: 'Yes',
             eventSelectors: [
               {
-                readWriteType: "All",
-                includeManagementEvents: true
-              }
-            ]
+                readWriteType: 'All',
+                includeManagementEvents: true,
+              },
+            ],
           },
         ],
       }
@@ -129,7 +133,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsCloudtrail: [
           {
             id: cuid(),
-            logFileValidationEnabled: "No",
+            logFileValidationEnabled: 'No',
           },
         ],
       }
@@ -142,19 +146,62 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-
     test('Should pass when the log file validation is enabled', async () => {
       const data = {
         queryawsCloudtrail: [
           {
             id: cuid(),
-            logFileValidationEnabled: "Yes",
+            logFileValidationEnabled: 'Yes',
           },
         ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Cloudtrail_3 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+  describe('CloudTrail Check 4: CloudTrail trails should be integrated with CloudWatch Logs', () => {
+    test('Should fail when the integration with CloudWatch Logs is disabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            cloudWatchLogsRoleArn: cuid(),
+            status: {
+              latestCloudWatchLogsDeliveryTime: '2021-11-20T16:18:21.724Z',
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Cloudtrail_4 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when the integration with CloudWatch Logs is enabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            cloudWatchLogsRoleArn: cuid(),
+            status: {
+              latestCloudWatchLogsDeliveryTime: new Date().toISOString(),
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Cloudtrail_4 as Rule,
         { ...data } as any
       )
 
