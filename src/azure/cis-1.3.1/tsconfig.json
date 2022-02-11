@@ -3,18 +3,18 @@
     "declaration": true,
     "importHelpers": true,
     "module": "commonjs",
-    "outDir": "lib",
-    "rootDir": "src",
+    "outDir": "dist",
+    "rootDir": "./",
     "strict": true,
     "target": "es2020",
     "lib": ["esnext.array", "ES2020.Promise"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["jest"],
-    "typeRoots": ["./node_modules/@types"]
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist", "src/aws/cis-1.2.0/tests", "src/gcp/cis-1.2.0/tests", "src/azure/cis-1.3.1/tests"]
+  "include": [
+    "**/*"
+  ],
+  "exclude": ["dist", "./tests"]
 }
