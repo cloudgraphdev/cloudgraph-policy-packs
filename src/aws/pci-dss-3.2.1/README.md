@@ -13,3 +13,4 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | cloudtrail-check-4  | CloudTrail trails should be integrated with CloudWatch Logs                  |
 | iam-check-1         | IAM root user access key should not exist                                    |
 | iam-check-2         | IAM users should not have IAM policies attached                              |
+| iam-check-3         | IAM policies should not allow full "\*" administrative privileges            |
