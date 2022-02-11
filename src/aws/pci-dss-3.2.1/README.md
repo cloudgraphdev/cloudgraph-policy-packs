@@ -14,4 +14,21 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | iam-check-1         | IAM root user access key should not exist                                    |
 | iam-check-2         | IAM users should not have IAM policies attached                              |
 | iam-check-3         | IAM policies should not allow full "\*" administrative privileges            |
+| ec2-check-5         | Security groups should not allow ingress from 0.0.0.0/0 to port 22           |
 | ec2-check-6         | VPC flow logging should be enabled in all VPCs                               |
+
+**To remove access to port 22 from a security group**
+
+1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+1. In the navigation pane, under **Security**, choose **Security groups**.
+
+1. Select a security group.
+
+1. In the bottom section of the page, choose **Inbound rules**.
+
+1. Choose **Edit inbound rules**.
+
+1. Identify the rule that allows access through port 22 and then choose the X to remove it.
+
+1. Choose **Save rules**.
