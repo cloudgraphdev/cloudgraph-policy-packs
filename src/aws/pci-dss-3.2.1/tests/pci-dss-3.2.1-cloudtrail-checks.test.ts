@@ -3,6 +3,7 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Cloudtrail_1 from '../rules/pci-dss-3.2.1-cloudtrail-check-1'
 import Aws_PCI_DSS_321_Cloudtrail_2 from '../rules/pci-dss-3.2.1-cloudtrail-check-2'
+import Aws_PCI_DSS_321_Cloudtrail_3 from '../rules/pci-dss-3.2.1-cloudtrail-check-3'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -115,6 +116,45 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Cloudtrail_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+  describe('CloudTrail Check 3: CloudTrail log file validation should be enabled ', () => {
+    test('Should fail when the log file validation is disabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            logFileValidationEnabled: "No",
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Cloudtrail_3 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+
+    test('Should pass when the log file validation is enabled', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            logFileValidationEnabled: "Yes",
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Cloudtrail_3 as Rule,
         { ...data } as any
       )
 
