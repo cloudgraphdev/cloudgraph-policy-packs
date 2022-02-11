@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
+import Aws_PCI_DSS_321_EC2_4 from '../rules/pci-dss-3.2.1-ec2-check-4'
 import Aws_PCI_DSS_321_EC2_5 from '../rules/pci-dss-3.2.1-ec2-check-5'
 import Aws_PCI_DSS_321_EC2_6 from '../rules/pci-dss-3.2.1-ec2-check-6'
 
@@ -32,6 +33,50 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     rulesEngine = new CloudGraph.RulesEngine({
       providerName: 'aws',
       entityName: 'PCI',
+    })
+  })
+
+  describe('EC2 Check 4: Unused EC2 EIPs should be removed', () => {
+    test('Should pass when there are not unused EIPs', async () => {
+      const data = {
+        queryawsEip: [
+          {
+            id: cuid(),
+            instanceId: cuid(),
+            ec2Instance: [
+              {
+                arn: cuid(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_4 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when there are unused EIPs', async () => {
+      const data = {
+        queryawsEip: [
+          {
+            id: cuid(),
+            instanceId: null,
+            ec2Instance: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_4 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
