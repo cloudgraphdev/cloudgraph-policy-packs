@@ -6,7 +6,10 @@ import Aws_PCI_DSS_321_Autoscaling_1 from '../rules/pci-dss-3.2.1-autoscaling-ch
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('aws', 'PCI')
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'aws',
+      entityName: 'PCI',
+    })
   })
   describe('Autoscaling Check 1: Auto Scaling groups associated with a load balancer should use health checks', () => {
     test('Should fail when it contains an invalid health check type and zero load balancers', async () => {
@@ -57,7 +60,6 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           },
         ],
       }
-
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Autoscaling_1 as Rule,
