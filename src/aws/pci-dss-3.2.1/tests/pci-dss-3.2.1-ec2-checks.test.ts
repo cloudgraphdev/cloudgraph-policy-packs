@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
+import Aws_PCI_DSS_321_EC2_2 from '../rules/pci-dss-3.2.1-ec2-check-2'
 import Aws_PCI_DSS_321_EC2_4 from '../rules/pci-dss-3.2.1-ec2-check-4'
 import Aws_PCI_DSS_321_EC2_5 from '../rules/pci-dss-3.2.1-ec2-check-5'
 import Aws_PCI_DSS_321_EC2_6 from '../rules/pci-dss-3.2.1-ec2-check-6'
@@ -33,6 +34,79 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     rulesEngine = new CloudGraph.RulesEngine({
       providerName: 'aws',
       entityName: 'PCI',
+    })
+  })
+
+  describe('EC2 Check 2: VPC default security group should prohibit inbound and outbound traffic', () => {
+    const testSgRule = async (
+      ingressSource: string,
+      egressDestination: string,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CISsgQueryResponse = {
+        queryawsSecurityGroup: [
+          {
+            id: cuid(),
+            inboundRules: [],
+            outboundRules: [],
+          },
+        ],
+      }
+      if (ingressSource) {
+        data.queryawsSecurityGroup[0].inboundRules?.push({
+          source: ingressSource as string,
+        })
+      }
+      if (egressDestination) {
+        data.queryawsSecurityGroup[0].outboundRules?.push({
+          destination: egressDestination as string,
+        })
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_2 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is not an inbound/outbound rules with the wildcard addresses', async () => {
+      await testSgRule(
+        '10.10.10.10/16',
+        '2001:db8:3333:4444:5555:6666:7777:8888',
+        Result.PASS
+      )
+    })
+
+    test('Security Issue when there is an inbound rule with a IPv4 wilcard address', async () => {
+      await testSgRule(ipV4WildcardAddress, '', Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with a IPv6 wilcard address', async () => {
+      await testSgRule(ipV6WildcardAddress, '', Result.FAIL)
+    })
+    test('Security Issue when there is an outbound rule with a IPv4 wilcard address', async () => {
+      await testSgRule('', ipV4WildcardAddress, Result.FAIL)
+    })
+    test('Security Issue when there is an outbound rule with a IPv6 wilcard address', async () => {
+      await testSgRule('', ipV6WildcardAddress, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound and an outbound rule with a IPv4 wilcard address', async () => {
+      await testSgRule(
+        ipV4WildcardAddress,
+        ipV4WildcardAddress,
+        Result.FAIL
+      )
+    })
+    test('Security Issue when there is an inbound and an outbound rule with a IPv6 wilcard address', async () => {
+      await testSgRule(
+        ipV6WildcardAddress,
+        ipV6WildcardAddress,
+        Result.FAIL
+      )
     })
   })
 
