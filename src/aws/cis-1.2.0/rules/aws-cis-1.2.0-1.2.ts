@@ -94,16 +94,8 @@ export default {
         equal: false,
       },
       {
-        and: [
-          {
-            path: '@.passwordEnabled',
-            equal: true,
-          },
-          {
-            path: '@.mfaActive',
-            equal: true,
-          },
-        ]
+        path: '@.mfaActive',
+        equal: true,
       }
     ]
   },
