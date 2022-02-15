@@ -88,15 +88,23 @@ export default {
   resource: 'queryawsIamUser[*]',
   severity: 'medium',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.passwordEnabled',
-        equal: true,
+        equal: false,
       },
       {
-        path: '@.mfaActive',
-        equal: true,
-      },
-    ],
+        and: [
+          {
+            path: '@.passwordEnabled',
+            equal: true,
+          },
+          {
+            path: '@.mfaActive',
+            equal: true,
+          },
+        ]
+      }
+    ]
   },
 }
