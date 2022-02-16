@@ -86,6 +86,25 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
+    test('Should pass when a user has no active password', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordEnabled: false,
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_12 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
     test('Should pass when a user has an active password with an mfa device register', async () => {
       const data = {
         queryawsIamUser: [
@@ -171,6 +190,25 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       )
       expect(processedRule.result).toBe(Result.PASS)
     })
+
+    test('Should pass given no password last used AND no access key data', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_13 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
   })
 
   describe('AWS CIS 1.4 Ensure access keys are rotated every 90 days or less', () => {
@@ -206,6 +244,24 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 status: 'Active',
                 lastRotated: new Date().toISOString(),
               },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_14 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass given a user with NO access keys', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeyData: [
             ],
           },
         ],

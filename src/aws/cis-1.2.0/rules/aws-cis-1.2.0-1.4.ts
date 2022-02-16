@@ -61,16 +61,24 @@ Via CLI
   resource: 'queryawsIamUser[*]',
   severity: 'medium',
   conditions: {
-    path: '@.accessKeyData',
-    array_any: {
-      and: [
-        {
-          value: { daysAgo: {}, path: '[*].lastRotated' },
-          lessThanInclusive: 90,
-        },
+    or: [
+      {
+        path: '@.accessKeyData',
+        isEmpty: true
+      },
+      {
+        path: '@.accessKeyData',
+        array_any: {
+          and: [
+            {
+              value: { daysAgo: {}, path: '[*].lastRotated' },
+              lessThanInclusive: 90,
+            },
 
-        { path: '[*].status', equal: 'Active' },
-      ],
-    },
+            { path: '[*].status', equal: 'Active' },
+          ],
+        },
+      }
+    ]
   },
 }

@@ -62,6 +62,20 @@ export default {
   conditions: {
     or: [
       {
+        and: [
+          {
+            path: '@.accessKeyData',
+            isEmpty: true
+          },
+          {
+            not: {
+              path: '@.passwordLastUsed',
+              notIn: [null, 'N/A', '']
+            }
+          }
+        ]
+      },
+      {
         value: { daysAgo: {}, path: '@.passwordLastUsed' },
         lessThanInclusive: 90,
       },
