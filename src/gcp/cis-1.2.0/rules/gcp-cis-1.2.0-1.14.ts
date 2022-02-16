@@ -24,19 +24,5 @@ new page.
 5. Click Save.
 6. Repeat steps 2,3,4,5 for every unrestricted API key`,
   references: ['https://cloud.google.com/docs/authentication/api-keys', 'https://cloud.google.com/apis/docs/overview'],
-  gql: `{
-    querygcpProject {
-      id
-      __typename
-      apiKeys {
-        id
-      }
-    }
-  }`,
-  resource: 'querygcpProject[*]',
-  severity: 'unknown',
-  conditions: {
-    path: '@.apiKeys',
-    isEmpty: true,
-  },
+  severity: 'medium',
 }
