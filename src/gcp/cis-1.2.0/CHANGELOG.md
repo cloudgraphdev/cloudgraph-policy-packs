@@ -1,3 +1,17 @@
+# @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.19.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.18.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.0) (2022-02-17)
+
+
+### Bug Fixes
+
+* **gcp-cis-1.2.0-1.14:** add rationale ([ac4ad2f](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/ac4ad2f2f76893da4cf201968a3653aafbe91e9b))
+* **gcp-cis-1.2.0-1.14:** removed query/conditions for manual check ([47bb43d](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/47bb43d23b80c170cc3724417db069e1307eda8e))
+* **rule:** update rules 1.2,1.3,4.10 tiles to add gcp prefix ([abe6fbf](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/abe6fbfa27b13231336b80b0c144815bd2a88bd4))
+
+
+### Features
+
+* Add 1.14 rule for gcp cis 1.2.0 ([42e263a](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/42e263a3073fd4dfc8b8a455c683e43f7c744d36))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.18.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.17.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.18.0) (2022-02-10)
 
 
