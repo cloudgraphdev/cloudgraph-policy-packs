@@ -11,6 +11,7 @@ import Gcp_CIS_120_110 from './gcp-cis-1.2.0-1.10'
 import Gcp_CIS_120_111 from './gcp-cis-1.2.0-1.11'
 import Gcp_CIS_120_112 from './gcp-cis-1.2.0-1.12'
 import Gcp_CIS_120_113 from './gcp-cis-1.2.0-1.13'
+import Gcp_CIS_120_114 from './gcp-cis-1.2.0-1.14'
 import Gcp_CIS_120_115 from './gcp-cis-1.2.0-1.15'
 import Gcp_CIS_120_21 from './gcp-cis-1.2.0-2.1'
 import Gcp_CIS_120_22 from './gcp-cis-1.2.0-2.2'
@@ -95,6 +96,7 @@ export default [
   Gcp_CIS_120_111,
   Gcp_CIS_120_112,
   Gcp_CIS_120_113,
+  Gcp_CIS_120_114,
   Gcp_CIS_120_115,
   Gcp_CIS_120_21,
   Gcp_CIS_120_22,

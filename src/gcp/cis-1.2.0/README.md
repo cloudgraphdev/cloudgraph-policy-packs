@@ -19,6 +19,7 @@ Policy Pack based on the GCP Foundations 1.2.0 benchmark provided by the [Center
 | GCP CIS 1.11   | Ensure that Separation of duties is enforced while assigning KMS related roles to users                                                                             |
 | GCP CIS 1.12   | Ensure API keys are not created for a project                                                                                                                       |
 | GCP CIS 1.13   | Ensure API keys are restricted to use by only specified Hosts and Apps                                                                                              |
+| GCP CIS 1.14   | Ensure API keys are restricted to only APIs that application needs access                                                                                              |
 | GCP CIS 1.15   | Ensure API keys are rotated every 90 days                                                                                                                           |
 | GCP CIS 2.1    | Ensure that Cloud Audit Logging is configured properly across all services and all users from a project                                                             |
 | GCP CIS 2.2    | Ensure that sinks are configured for all log entries                                                                                                                |
