@@ -2,7 +2,7 @@ export default {
   id: 'gcp-cis-1.2.0-1.3',
 
   title:
-    'Ensure that Security Key Enforcement is enabled for all admin accounts',
+    'GCP CIS 1.3 Ensure that Security Key Enforcement is enabled for all admin accounts',
   description:
     'Setup Security Key Enforcement for Google Cloud Platform admin accounts.',
   rationale:

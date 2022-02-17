@@ -1,7 +1,7 @@
 export default {
   id: 'gcp-cis-1.2.0-4.10',
   title:
-    'In order to maintain the highest level of security all connections to an application should be secure by default.',
+    'GCP CIS 4.10 In order to maintain the highest level of security all connections to an application should be secure by default.',
   description: `In order to maintain the highest level of security all connections to an application should be
   secure by default.`,
   rationale:
