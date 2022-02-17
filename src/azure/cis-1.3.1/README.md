@@ -22,3 +22,11 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 1.20 | Ensure that 'Require Multi-Factor Auth to join devices' is set to 'Yes' (Manual)                                                                 |
 | Azure CIS 1.21 | Ensure that no custom subscription owner roles are created                                                                                       |
 | Azure CIS 1.23 | Ensure Custom Role is assigned for Administering Resource Locks (Manual)                                                                         |
+| Azure CIS 2.1  | Ensure that Azure Defender is set to On for Servers                                                                                              |
+| Azure CIS 2.2  | Ensure that Azure Defender is set to On for App Service                                                                                          |
+| Azure CIS 2.3  | Ensure that Azure Defender is set to On for Azure SQL database servers                                                                           |
+| Azure CIS 2.4  | Ensure that Azure Defender is set to On for SQL servers on machines                                                                              |
+| Azure CIS 2.5  | Ensure that Azure Defender is set to On for Storage                                                                                              |
+| Azure CIS 2.6  | Ensure that Azure Defender is set to On for Kubernetes                                                                                           |
+| Azure CIS 2.7  | Ensure that Azure Defender is set to On for Container Registries                                                                                 |
+| Azure CIS 2.8  | Ensure that Azure Defender is set to On for Key Vault                                                                                            |
