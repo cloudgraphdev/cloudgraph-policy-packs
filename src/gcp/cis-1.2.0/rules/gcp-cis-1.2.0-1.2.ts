@@ -2,7 +2,7 @@ export default {
   id: 'gcp-cis-1.2.0-1.2',
 
   title:
-    'Ensure that multi-factor authentication is enabled for all non-service accounts',
+    'GCP CIS 1.2 Ensure that multi-factor authentication is enabled for all non-service accounts',
   description:
     'Setup multi-factor authentication for Google Cloud Platform accounts.',
   rationale:
