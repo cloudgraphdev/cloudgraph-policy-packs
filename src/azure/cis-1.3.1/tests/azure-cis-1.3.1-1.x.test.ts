@@ -5,6 +5,7 @@ import 'jest'
 
 import Azure_CIS_131_13 from '../rules/azure-cis-1.3.1-1.3'
 import Azure_CIS_131_121 from '../rules/azure-cis-1.3.1-1.21'
+import Azure_CIS_131_122 from '../rules/azure-cis-1.3.1-1.22'
 
 export interface Permission {
   actions: string[]
@@ -21,9 +22,16 @@ export interface QueryazureADUser {
   accountEnabled?: boolean
   createdDateTime: string
 }
+
+export interface QueryazureAdIdentitySecurityDefaultsEnforcementPolicy {
+  id: string
+  isEnabled: boolean
+}
+
 export interface CIS1xQueryResponse {
   queryazureADUser?: QueryazureADUser[]
   queryazureAuthRoleDefinition?: QueryazureAuthRoleDefinition[]
+  queryazureAdIdentitySecurityDefaultsEnforcementPolicy?: QueryazureAdIdentitySecurityDefaultsEnforcementPolicy[]
 }
 
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
@@ -157,6 +165,45 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         ['subscription'],
         ['*']
       )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 1.22 Ensure Security Defaults is enabled on Azure Active Directory', () => {
+    const getTestRuleFixture = (isEnabled: boolean): CIS1xQueryResponse => {
+      return {
+        queryazureAdIdentitySecurityDefaultsEnforcementPolicy: [
+          {
+            id: cuid(),
+            isEnabled,
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_122 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Security Defaults is enabled on Azure Active Directory', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture(true)
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Security Defaults is not enabled on Azure Active Directory', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture(false)
 
       await testRule(data, Result.FAIL)
     })

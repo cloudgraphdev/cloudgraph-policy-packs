@@ -21,6 +21,7 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 1.13 | Ensure that 'Members can invite' is set to 'No' (Manual)                                                                                         |
 | Azure CIS 1.20 | Ensure that 'Require Multi-Factor Auth to join devices' is set to 'Yes' (Manual)                                                                 |
 | Azure CIS 1.21 | Ensure that no custom subscription owner roles are created                                                                                       |
+| Azure CIS 1.22 | Ensure Security Defaults is enabled on Azure Active Directory                                                                                    |
 | Azure CIS 1.23 | Ensure Custom Role is assigned for Administering Resource Locks (Manual)                                                                         |
 | Azure CIS 2.1  | Ensure that Azure Defender is set to On for Servers                                                                                              |
 | Azure CIS 2.2  | Ensure that Azure Defender is set to On for App Service                                                                                          |
