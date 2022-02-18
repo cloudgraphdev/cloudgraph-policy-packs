@@ -19,6 +19,12 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 1.11 | Ensure that 'Users can register applications' is set to 'No' (Manual)                                                                            |
 | Azure CIS 1.12 | Ensure that 'Guest user permissions are limited' is set to 'Yes' (Manual)                                                                        |
 | Azure CIS 1.13 | Ensure that 'Members can invite' is set to 'No' (Manual)                                                                                         |
+| Azure CIS 1.14 | Ensure that 'Guests can invite' is set to 'No' (Manual)                                                                                          |
+| Azure CIS 1.15 | Ensure that 'Restrict access to Azure AD administration portal' is set to 'Yes' (Manual)                                                         |
+| Azure CIS 1.16 | Ensure that 'Restrict user ability to access groups features in the Access Pane' is set to 'No' (Manual)                                         |
+| Azure CIS 1.17 | Ensure that 'Users can create security groups in Azure Portals' is set to 'No' (Manual)                                                          |
+| Azure CIS 1.18 | Ensure that 'Owners can manage group membership requests in the Access Panel' is set to 'No' (Manual)                                            |
+| Azure CIS 1.19 | Ensure that 'Users can create Microsoft 365 groups in Azure Portals' is set to 'No' (Manual)                                                     |
 | Azure CIS 1.20 | Ensure that 'Require Multi-Factor Auth to join devices' is set to 'Yes' (Manual)                                                                 |
 | Azure CIS 1.21 | Ensure that no custom subscription owner roles are created                                                                                       |
 | Azure CIS 1.22 | Ensure Security Defaults is enabled on Azure Active Directory                                                                                    |
