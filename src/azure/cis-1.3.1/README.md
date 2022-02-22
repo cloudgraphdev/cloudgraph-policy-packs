@@ -48,3 +48,13 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                                         |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                                                 |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                                                |
+| Azure CIS 9.1  | Ensure App Service Authentication is set on Azure App Service                                                                                    |
+| Azure CIS 9.2  | Ensure web app redirects all HTTP traffic to HTTPS in Azure App Service                                                                          |
+| Azure CIS 9.3  | Ensure web app is using the latest version of TLS encryption                                                                                     |
+| Azure CIS 9.4  | Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'                                                          |
+| Azure CIS 9.5  | Ensure that Register with Azure Active Directory is enabled on App Service                                                                       |
+| Azure CIS 9.6  | Ensure that 'PHP version' is the latest, if used to run the web app (Manual)                                                                     |
+| Azure CIS 9.7  | Ensure that 'Python version' is the latest, if used to run the web app (Manual)                                                                  |
+| Azure CIS 9.8  | Ensure that 'Java version' is the latest, if used to run the web app (Manual)                                                                    |
+| Azure CIS 9.9  | Ensure that 'HTTP Version' is the latest, if used to run the web app                                                                             |
+| Azure CIS 9.11 | Ensure Azure Keyvaults are used to store secrets (Manual)                                                                                        |
