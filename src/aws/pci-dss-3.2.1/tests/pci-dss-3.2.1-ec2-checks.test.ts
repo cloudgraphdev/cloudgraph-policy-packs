@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
+import Aws_PCI_DSS_321_EC2_1 from '../rules/pci-dss-3.2.1-ec2-check-1'
 import Aws_PCI_DSS_321_EC2_2 from '../rules/pci-dss-3.2.1-ec2-check-2'
 import Aws_PCI_DSS_321_EC2_4 from '../rules/pci-dss-3.2.1-ec2-check-4'
 import Aws_PCI_DSS_321_EC2_5 from '../rules/pci-dss-3.2.1-ec2-check-5'
@@ -34,6 +35,95 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     rulesEngine = new CloudGraph.RulesEngine({
       providerName: 'aws',
       entityName: 'PCI',
+    })
+  })
+
+  describe('EC2 Check 1: Amazon EBS snapshots should not be publicly restorable', () => {
+    test('Should pass when group is not set to all and it has a user id', async () => {
+      const data = {
+        queryawsEbs: [
+          {
+            id: cuid(),
+            permissions: [
+              {
+                group: 'users',
+                userId: cuid(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when group is set to all', async () => {
+      const data = {
+        queryawsEbs: [
+          {
+            id: cuid(),
+            permissions: [
+              {
+                group: 'all',
+                userId: cuid(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when group is not set to all, but it has not a user id', async () => {
+      const data = {
+        queryawsEbs: [
+          {
+            id: cuid(),
+            permissions: [
+              {
+                group: cuid(),
+                userId: null,
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when it does not have configured permissions', async () => {
+      const data = {
+        queryawsEbs: [
+          {
+            id: cuid(),
+            permissions: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_EC2_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -95,18 +185,10 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       await testSgRule('', ipV6WildcardAddress, Result.FAIL)
     })
     test('Security Issue when there is an inbound and an outbound rule with a IPv4 wilcard address', async () => {
-      await testSgRule(
-        ipV4WildcardAddress,
-        ipV4WildcardAddress,
-        Result.FAIL
-      )
+      await testSgRule(ipV4WildcardAddress, ipV4WildcardAddress, Result.FAIL)
     })
     test('Security Issue when there is an inbound and an outbound rule with a IPv6 wilcard address', async () => {
-      await testSgRule(
-        ipV6WildcardAddress,
-        ipV6WildcardAddress,
-        Result.FAIL
-      )
+      await testSgRule(ipV6WildcardAddress, ipV6WildcardAddress, Result.FAIL)
     })
   })
 
