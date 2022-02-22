@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.8.3](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.2...@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.3) (2022-02-22)
+
+
+### Bug Fixes
+
+* Removed arn from iamPasswordPolicy ([0fefcb1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/0fefcb132e5b28292b9b7221f1bcf7b52c057e58))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.8.2](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.2) (2022-02-16)
 
 
