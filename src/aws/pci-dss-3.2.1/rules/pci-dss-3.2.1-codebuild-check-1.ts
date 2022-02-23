@@ -41,22 +41,30 @@ export default {
   resource: 'queryawsCodebuild[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
-        or: [
-          {
-            path: '@.source.type',
-            equal: 'BITBUCKET',
-          },
-          {
-            path: '@.source.type',
-            equal: 'GITHUB',
-          },
-        ],
+        path: '@.source.type',
+        notIn: ['BITBUCKET', 'GITHUB'],
       },
       {
-        path: '@.source.auth.type',
-        equal: 'OAUTH',
+        and: [
+          {
+            or: [
+              {
+                path: '@.source.type',
+                equal: 'BITBUCKET',
+              },
+              {
+                path: '@.source.type',
+                equal: 'GITHUB',
+              },
+            ],
+          },
+          {
+            path: '@.source.auth.type',
+            equal: 'OAUTH',
+          },
+        ],
       },
     ],
   },

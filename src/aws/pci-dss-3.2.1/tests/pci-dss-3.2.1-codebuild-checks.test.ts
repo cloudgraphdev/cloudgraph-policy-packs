@@ -24,15 +24,31 @@ describe('PCI Data Security Standard: 3.2.1', () => {
               auth: null,
             },
           },
+          {
+            id: cuid(),
+            source: {
+              type: 'GITHUB',
+              auth: {
+                type: null,
+              },
+            },
+          },
         ],
       }
 
-      const [processedRule] = await rulesEngine.processRule(
+      const processedRules = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Codebuild_1 as Rule,
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.FAIL)
+      let passedRules = 0
+      let failedRules = 0
+      processedRules.forEach((processedRule) =>
+        processedRule.result === Result.FAIL ? failedRules++ : passedRules++
+      )
+
+      expect(passedRules).toBe(1)
+      expect(failedRules).toBe(1)
     })
 
     test('Should pass when the source comes from GITHUB and it uses OAUTH', async () => {
