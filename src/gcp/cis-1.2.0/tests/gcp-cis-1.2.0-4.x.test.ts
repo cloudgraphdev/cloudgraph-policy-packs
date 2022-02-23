@@ -82,7 +82,7 @@ export interface ComputeProject {
 export interface QuerygcpProject {
   id: string
   computeProject?: ComputeProject[]
-  vmInstance?: QuerygcpVmInstance[]
+  vmInstances?: QuerygcpVmInstance[]
 }
 
 export interface CIS4xQueryResponse {
@@ -1102,7 +1102,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 },
               },
             ],
-            vmInstance: [
+            vmInstances: [
               {
                 id: cuid(),
                 metadata: {
@@ -1143,7 +1143,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const data: CIS4xQueryResponse = getTest44RuleFixture()
       const projects = data.querygcpProject as QuerygcpProject[]
       const project = projects[0] as QuerygcpProject
-      project.vmInstance = [
+      project.vmInstances = [
         {
           id: cuid(),
           metadata: {
@@ -1158,7 +1158,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const data: CIS4xQueryResponse = getTest44RuleFixture()
       const projects = data.querygcpProject as QuerygcpProject[]
       const project = projects[0] as QuerygcpProject
-      project.vmInstance = []
+      project.vmInstances = []
       await test44Rule(data, Result.PASS)
     })
 
@@ -1179,7 +1179,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 },
               },
             ],
-            vmInstance: [],
+            vmInstances: [],
           },
         ],
       }
@@ -1204,7 +1204,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 },
               },
             ],
-            vmInstance: [
+            vmInstances: [
               {
                 id: cuid(),
                 metadata: {
@@ -1241,7 +1241,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 },
               },
             ],
-            vmInstance: [
+            vmInstances: [
               {
                 id: cuid(),
                 metadata: {

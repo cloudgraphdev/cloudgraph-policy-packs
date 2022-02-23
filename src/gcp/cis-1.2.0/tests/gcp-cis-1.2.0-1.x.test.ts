@@ -31,10 +31,10 @@ export interface ApiKey {
   id: string
 }
 export interface Folder {
-  iamPolicy: IamPolicy[]
+  iamPolicies: IamPolicy[]
 }
 export interface Project {
-  iamPolicy: IamPolicy[]
+  iamPolicies: IamPolicy[]
 }
 export interface ApiTarget {
   service: string
@@ -78,7 +78,7 @@ export interface QuerygcpOrganization {
 
 export interface QuerygcpProject {
   id: string
-  iamPolicy?: IamPolicy[]
+  iamPolicies?: IamPolicy[]
   apiKeys?: ApiKey[]
 }
 
@@ -130,7 +130,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             displayName: organizationName,
             project: [
               {
-                iamPolicy: [
+                iamPolicies: [
                   {
                     bindings: [
                       {
@@ -143,7 +143,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             ],
             folder: [
               {
-                iamPolicy: [
+                iamPolicies: [
                   {
                     bindings: [
                       {
@@ -269,7 +269,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {
@@ -351,7 +351,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {
@@ -462,7 +462,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {

@@ -35,7 +35,7 @@ export default {
       __typename
       displayName
       project {
-        iamPolicy {
+        iamPolicies {
           bindings {
             members
           }
@@ -43,7 +43,7 @@ export default {
       }
       folder {
         name
-        iamPolicy {
+        iamPolicies {
           bindings {
             members
           }
@@ -54,8 +54,8 @@ export default {
   resource: 'querygcpOrganization[*]',
   severity: 'medium',
   conditions: {
-    jq: `[select((.displayName as $name | .project[].iamPolicy[].bindings[].members[] | contains($name) | not)
-    or (.displayName as $name | .folder[].iamPolicy[].bindings[].members[] | contains($name) | not))]
+    jq: `[select((.displayName as $name | .project[].iamPolicies[].bindings[].members[] | contains($name) | not)
+    or (.displayName as $name | .folder[].iamPolicies[].bindings[].members[] | contains($name) | not))]
     | { "match" : (length > 0) }`,
     path: '@',
     and: [

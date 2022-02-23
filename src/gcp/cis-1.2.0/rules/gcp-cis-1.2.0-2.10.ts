@@ -103,7 +103,7 @@ export default {
         value
       }
       project {
-        logMetric {
+        logMetrics {
           name
           filter
           metricDescriptor {
@@ -123,7 +123,7 @@ export default {
       },
       {
         path: '@.project',
-        jq: '[.[].logMetric[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
+        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
         array_any: {
           path: '[*].filter',
           match: filterPatternRegex,

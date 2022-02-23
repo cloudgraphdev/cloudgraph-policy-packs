@@ -55,7 +55,7 @@ export default {
     querygcpNetwork{
       id
       __typename
-      subnet{
+      subnets{
         purpose
         enableFlowLogs
       }
@@ -64,7 +64,7 @@ export default {
   resource: 'querygcpNetwork[*]',
   severity: 'high',
   conditions: {
-    path: '@.subnet',
+    path: '@.subnets',
     array_all: {
       or: [
         {
