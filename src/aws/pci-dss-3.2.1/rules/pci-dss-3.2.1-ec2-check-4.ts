@@ -10,7 +10,7 @@ export default {
   If an EIP is not attached to an Amazon EC2 instance, this is an indication that it is no longer in use.
 
   Unless there is a business need to retain them, you should remove unused resources to maintain an accurate inventory of system components.`,
-  remediaton: `If you no longer need an Elastic IP address, Security Hub recommends that you release it (the address must not be associated with an instance).
+  remediation: `If you no longer need an Elastic IP address, Security Hub recommends that you release it (the address must not be associated with an instance).
 
   **To release an Elastic IP address using the console**
 

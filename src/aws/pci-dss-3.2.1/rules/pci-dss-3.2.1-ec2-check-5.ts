@@ -15,7 +15,7 @@ export default {
 
   **PCI DSS 2.2.2 Enable only necessary services, protocols, daemons, etc., as required for the function of the system.**
   You might allow SSH traffic to your instances that are in your defined CDE. If so, restrict the inbound SSH source from 0.0.0.0/0 (anywhere) to a specific IP address or range as required for the function of the security group. Within a CDE, a security group could be considered a system component, which should be hardened appropriately. Leaving unrestricted access to SSH might violate the requirement to enable only the necessary services, protocols, daemons, etc., that are required for the function of the system.`,
-  remediaton: `**To remove access to port 22 from a security group**
+  remediation: `**To remove access to port 22 from a security group**
 
   1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
 

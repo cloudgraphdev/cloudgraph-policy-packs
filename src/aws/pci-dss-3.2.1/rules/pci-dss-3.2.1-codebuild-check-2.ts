@@ -2,13 +2,14 @@ export default {
   id: 'aws-pci-dss-3.2.1-codebuild-check-2',
   title:
     'CodeBuild Check 2: CodeBuild project environment variables should not contain clear text credentials',
-  description: 'This control checks whether the project contains environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.',
+  description:
+    'This control checks whether the project contains environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.',
   rationale: `**PCI DSS 8.2.1: Using strong cryptography, render all authentication credentials (such as passwords/phrases) unreadable during transmission and storage on all system components.**
 
   You can use CodeBuild in your PCI DSS environment to compile your source code, runs unit tests, or produce artifacts that are ready to deploy. If you do, never store the authentication credentials AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in clear text.
 
   Using environmental variables to store credentials in your CodeBuild project may violate the requirement to use strong cryptography to render authentication credentials unreadable.`,
-  remediaton: `To reference sensitive data in CodeBuild runtime using Environmental variables, use the following procedures.
+  remediation: `To reference sensitive data in CodeBuild runtime using Environmental variables, use the following procedures.
 
   **To remove an Environmental Variable**
 
@@ -38,7 +39,7 @@ export default {
   references: [
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html',
     'https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-console.html',
-    'https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html'
+    'https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html',
   ],
   gql: `{
     queryawsCodebuild {
@@ -64,21 +65,21 @@ export default {
           and: [
             { path: '[*].type', equal: 'PLAINTEXT' },
             { path: '[*].name', mismatch: /^ACCESS_KEY.*$/ },
-          ]
+          ],
         },
         {
           and: [
             { path: '[*].type', equal: 'PLAINTEXT' },
             { path: '[*].name', mismatch: /^SECRET.*$/ },
-          ]
+          ],
         },
         {
           and: [
             { path: '[*].type', equal: 'PLAINTEXT' },
             { path: '[*].name', mismatch: /^PASSWORD.*$/ },
-          ]
-        }
-      ]
-    }
+          ],
+        },
+      ],
+    },
   },
 }

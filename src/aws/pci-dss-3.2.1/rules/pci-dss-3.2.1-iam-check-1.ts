@@ -17,7 +17,7 @@ export default {
   The root user is the most privileged AWS user. AWS access keys provide programmatic access to a given account.
 
   No access keys should be created for the root user. Doing so might violate the requirement to ensure access to systems components is restricted to least privilege necessary, or a user’s need to know.`,
-  remediaton: `To delete access keys
+  remediation: `To delete access keys
 
   1. Log in to your account using the root user credentials.
 

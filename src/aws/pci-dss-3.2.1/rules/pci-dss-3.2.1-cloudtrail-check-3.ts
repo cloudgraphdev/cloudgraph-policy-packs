@@ -20,7 +20,7 @@ export default {
   You can use these digest files to determine whether a log file was changed, deleted, or unchanged after CloudTrail delivered the log.
 
   This is a method that helps to ensure file-integrity monitoring or change-detection software is used on logs.`,
-  remediaton: `**To enable CloudTrail log file validation**
+  remediation: `**To enable CloudTrail log file validation**
 
   1. Open the CloudTrail console at https://console.aws.amazon.com/cloudtrail/.
 
@@ -48,7 +48,7 @@ export default {
   resource: 'queryawsCloudtrail[*]',
   severity: 'low',
   conditions: {
-      path: '@.logFileValidationEnabled',
-      equal: 'Yes',
+    path: '@.logFileValidationEnabled',
+    equal: 'Yes',
   },
 }

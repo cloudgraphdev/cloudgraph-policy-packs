@@ -9,7 +9,7 @@ export default {
   Replicating systems using load balancing provides high availability and is a means to mitigate the effects of a DDoS event.
 
   This is one method used to implement system hardening configurations.`,
-  remediaton: `*To enable Elastic Load Balancing health checks*
+  remediation: `*To enable Elastic Load Balancing health checks*
 
   1. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
 

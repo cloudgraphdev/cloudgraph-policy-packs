@@ -1,7 +1,6 @@
 export default {
   id: 'aws-pci-dss-3.2.1-cloudtrail-check-2',
-  title:
-    'CloudTrail Check 2: CloudTrail should be enabled',
+  title: 'CloudTrail Check 2: CloudTrail should be enabled',
   description: `This control checks whether CloudTrail is enabled in your AWS account.
 
   However, some AWS services do not enable logging of all APIs and events. You should implement any additional audit trails other than CloudTrail and review the documentation for each service in [CloudTrail Supported Services and Integrations.](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-aws-service-specific-topics.html)`,
@@ -52,7 +51,7 @@ export default {
 
   PCI DSS 10.3.6: Record at least the following audit trail entries for all system components for each event: Identity or name of affected data, system component, or resource.
   You can find the identity of the resource in the eventSource section of the CloudTrail log.`,
-  remediaton: `**To create a new trail in CloudTrail**
+  remediation: `**To create a new trail in CloudTrail**
 
   1. Sign in to the AWS Management Console using the IAM user you configured for CloudTrail administration.
 
@@ -92,7 +91,7 @@ export default {
     'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-aws-service-specific-topics.html',
     'https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html',
     'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-s3-bucket-naming-requirements.html',
-    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-tutorial.html'
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-tutorial.html',
   ],
   gql: `{
     queryawsCloudtrail {
@@ -127,6 +126,6 @@ export default {
           ],
         },
       },
-    ]
+    ],
   },
 }
