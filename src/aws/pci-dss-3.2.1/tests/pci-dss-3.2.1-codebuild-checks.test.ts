@@ -2,6 +2,7 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Codebuild_1 from '../rules/pci-dss-3.2.1-codebuild-check-1'
+import Aws_PCI_DSS_321_Codebuild_2 from '../rules/pci-dss-3.2.1-codebuild-check-2'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -74,6 +75,108 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_Codebuild_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+  describe('CodeBuild Check 2: CloudTrail should be enabled', () => {
+    test('Should fail when the SECRET is set as plaintext env variable', async () => {
+      const data = {
+        queryawsCodebuild: [
+          {
+            id: cuid(),
+            environment: {
+              environmentVariables: [
+                {
+                  type: 'PLAINTEXT',
+                  name: 'SECRET',
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Codebuild_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when the ACCESS_KEY is set as plaintext env variable', async () => {
+      const data = {
+        queryawsCodebuild: [
+          {
+            id: cuid(),
+            environment: {
+              environmentVariables: [
+                {
+                  type: 'PLAINTEXT',
+                  name: 'ACCESS_KEY',
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Codebuild_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when the PASSWORD is set as plaintext env variable', async () => {
+      const data = {
+        queryawsCodebuild: [
+          {
+            id: cuid(),
+            environment: {
+              environmentVariables: [
+                {
+                  type: 'PLAINTEXT',
+                  name: 'PASSWORD',
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Codebuild_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when any other env variable is set as plaintext', async () => {
+      const data = {
+        queryawsCodebuild: [
+          {
+            id: cuid(),
+            environment: {
+              environmentVariables: [
+                {
+                  type: 'PLAINTEXT',
+                  name: 'FOUNDATION',
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Codebuild_2 as Rule,
         { ...data } as any
       )
 
