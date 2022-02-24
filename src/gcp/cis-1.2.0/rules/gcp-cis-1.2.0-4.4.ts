@@ -77,7 +77,7 @@ export default {
           }
         }
       }
-      vmInstance {
+      vmInstances {
         metadata {
           items {
             key

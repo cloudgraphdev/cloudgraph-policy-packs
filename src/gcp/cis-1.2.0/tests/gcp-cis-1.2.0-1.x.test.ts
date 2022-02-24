@@ -72,8 +72,8 @@ export interface QuerygcpApiKey {
 export interface QuerygcpOrganization {
   id: string
   displayName: string
-  project: Project[]
-  folder: Folder[]
+  projects: Project[]
+  folders: Folder[]
 }
 
 export interface QuerygcpProject {
@@ -128,7 +128,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           {
             id: cuid(),
             displayName: organizationName,
-            project: [
+            projects: [
               {
                 iamPolicies: [
                   {
@@ -141,7 +141,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 ],
               },
             ],
-            folder: [
+            folders: [
               {
                 iamPolicies: [
                   {
