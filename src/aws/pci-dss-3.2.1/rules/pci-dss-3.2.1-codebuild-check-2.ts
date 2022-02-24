@@ -58,28 +58,37 @@ export default {
   resource: 'queryawsCodebuild[*]',
   severity: 'high',
   conditions: {
-    path: '@.environment.environmentVariables',
-    array_any: {
-      and: [
-        {
+    or: [
+      {
+        path: '@.environment.environmentVariables',
+        isEmpty: true
+      },
+      {
+        path: '@.environment.environmentVariables',
+        array_any: {
           and: [
-            { path: '[*].type', equal: 'PLAINTEXT' },
-            { path: '[*].name', mismatch: /^ACCESS_KEY.*$/ },
+            {
+              and: [
+                { path: '[*].type', equal: 'PLAINTEXT' },
+                { path: '[*].name', mismatch: /^ACCESS_KEY.*$/ },
+              ],
+            },
+            {
+              and: [
+                { path: '[*].type', equal: 'PLAINTEXT' },
+                { path: '[*].name', mismatch: /^SECRET.*$/ },
+              ],
+            },
+            {
+              and: [
+                { path: '[*].type', equal: 'PLAINTEXT' },
+                { path: '[*].name', mismatch: /^PASSWORD.*$/ },
+              ],
+            },
           ],
         },
-        {
-          and: [
-            { path: '[*].type', equal: 'PLAINTEXT' },
-            { path: '[*].name', mismatch: /^SECRET.*$/ },
-          ],
-        },
-        {
-          and: [
-            { path: '[*].type', equal: 'PLAINTEXT' },
-            { path: '[*].name', mismatch: /^PASSWORD.*$/ },
-          ],
-        },
-      ],
-    },
+      }
+    ]
+
   },
 }

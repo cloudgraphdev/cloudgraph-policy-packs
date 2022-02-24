@@ -198,5 +198,25 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       expect(processedRule.result).toBe(Result.PASS)
     })
+
+    test('Should pass when there are not env variables configured', async () => {
+      const data = {
+        queryawsCodebuild: [
+          {
+            id: cuid(),
+            environment: {
+              environmentVariables: [],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Codebuild_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
   })
 })
