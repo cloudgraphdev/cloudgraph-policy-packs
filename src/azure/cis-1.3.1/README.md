@@ -2,6 +2,55 @@
 
 Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Center for Internet Security (CIS)](https://www.cisecurity.org/benchmark/azure/)
 
+## First Steps
+
+1. Install [Cloud Graph CLI](https://docs.cloudgraph.dev/quick-start).
+2. Set up the [Azure Provider](https://www.npmjs.com/package/@cloudgraph/cg-provider-azure) for CG with the `cg init azure` command.
+3. Add Policy Pack for CIS Microsoft Azure Foundations benchmark using `cg policy add azure-cis-1.2.0` command.
+4. Execute the ruleset using the scan command `cg scan azure`.
+5. Query the findings using the different options:
+
+   5a. Querying findings by provider:
+
+   ```graphql
+   query {
+     queryazureFindings {
+       CISFindings {
+         id
+         resourceId
+         result
+       }
+     }
+   }
+   ```
+
+   5b. Querying findings by specific benchmark:
+
+   ```graphql
+   query {
+     queryazureCISFindings {
+       id
+       resourceId
+       result
+     }
+   }
+   ```
+
+   5c. Querying findings by resource:
+
+   ```graphql
+   query {
+     queryazureSecurityPricing {
+       id
+       CISFindings {
+         id
+         resourceId
+         result
+       }
+     }
+   }
+   ```
+
 ## Available Ruleset
 
 | Rule           | Description                                                                                                                                      |
