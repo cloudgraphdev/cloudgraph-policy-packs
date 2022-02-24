@@ -36,7 +36,7 @@ export interface CIS5xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
 
   describe('GCP CIS 5.1 Ensure that Cloud Storage bucket is not anonymously or publicly accessible', () => {

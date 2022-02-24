@@ -88,7 +88,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
   describe('GCP CIS 3.1 Ensure that the default network does not exist in a project', () => {
     const test31Rule = async (

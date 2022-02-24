@@ -33,7 +33,7 @@ export interface CIS7xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
 
   describe('GCP CIS 7.1 Ensure that BigQuery datasets are not anonymously or publicly accessible', () => {
@@ -126,7 +126,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpBigQueryDataset: [
           {
             id: cuid(),
-            defaultEncryptionConfiguration: 
+            defaultEncryptionConfiguration:
             {
               kmsKeyName
             }

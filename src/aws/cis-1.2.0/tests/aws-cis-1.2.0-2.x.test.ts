@@ -15,7 +15,7 @@ import Aws_CIS_120_29 from '../rules/aws-cis-1.2.0-2.9'
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('aws', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
   })
   describe('AWS CIS 2.1 Ensure CloudTrail is enabled in all regions', () => {
     test('Should pass when a trail has set multi region as false', async () => {

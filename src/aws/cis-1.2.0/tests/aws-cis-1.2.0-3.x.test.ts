@@ -104,7 +104,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('aws', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
   })
 
   const get3xValidResponse = (
@@ -476,7 +476,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       await test36Rule(data, Result.FAIL)
     })
   })
-  describe('AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling' 
+  describe('AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling'
   +' or scheduled deletion of customer created CMKs (Scored)', () => {
     const test37Rule = async (
       data: CIS3xQueryResponse,

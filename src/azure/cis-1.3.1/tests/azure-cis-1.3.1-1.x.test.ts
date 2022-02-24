@@ -37,7 +37,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('azure', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
   })
 
   describe('Azure CIS 1.3 Ensure guest users are reviewed on a monthly basis', () => {
