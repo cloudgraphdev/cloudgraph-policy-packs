@@ -63,5 +63,5 @@ export default [
   Aws_PCI_DSS_321_RDS_2,
   Aws_PCI_DSS_321_SSM_1,
   Aws_PCI_DSS_321_SSM_2,
-  Aws_PCI_DSS_321_SSM_3
+  Aws_PCI_DSS_321_SSM_3,
 ]
