@@ -617,6 +617,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             name: 'root',
             mfaActive: false,
+            mfaDevices: []
           },
         ],
       }
