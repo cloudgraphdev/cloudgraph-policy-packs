@@ -4,6 +4,7 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import Aws_PCI_DSS_321_IAM_1 from '../rules/pci-dss-3.2.1-iam-check-1'
 import Aws_PCI_DSS_321_IAM_2 from '../rules/pci-dss-3.2.1-iam-check-2'
 import Aws_PCI_DSS_321_IAM_3 from '../rules/pci-dss-3.2.1-iam-check-3'
+import Aws_PCI_DSS_321_IAM_4 from '../rules/pci-dss-3.2.1-iam-check-4'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -204,5 +205,48 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       expect(processedRule.result).toBe(Result.FAIL)
     })
+  })
+
+  describe('IAM Check 4: Hardware MFA should be enabled for the root user', () => {
+    test('Should fail when a root account has not a mfa hardware device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: false,
+            mfaDevices: []
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_4 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when a root account has a mfa hardware device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+            mfaDevices: [{
+              serialNumber: cuid()
+            }]
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_4 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
   })
 })
