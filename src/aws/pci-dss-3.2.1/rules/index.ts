@@ -3,6 +3,7 @@ import Aws_PCI_DSS_321_Cloudfront_1 from './pci-dss-3.2.1-cloudfront-check-1'
 import Aws_PCI_DSS_321_Elbv2_1 from './pci-dss-3.2.1-elbv2-check-1'
 import Aws_PCI_DSS_321_Codebuild_1 from './pci-dss-3.2.1-codebuild-check-1'
 import Aws_PCI_DSS_321_Codebuild_2 from './pci-dss-3.2.1-codebuild-check-2'
+import Aws_PCI_DSS_321_Config_1 from '../rules/pci-dss-3.2.1-config-check-1'
 import Aws_PCI_DSS_321_Cloudtrail_1 from './pci-dss-3.2.1-cloudtrail-check-1'
 import Aws_PCI_DSS_321_Cloudtrail_2 from './pci-dss-3.2.1-cloudtrail-check-2'
 import Aws_PCI_DSS_321_Cloudtrail_3 from './pci-dss-3.2.1-cloudtrail-check-3'
@@ -35,6 +36,7 @@ export default [
   Aws_PCI_DSS_321_Cloudfront_1,
   Aws_PCI_DSS_321_Codebuild_1,
   Aws_PCI_DSS_321_Codebuild_2,
+  Aws_PCI_DSS_321_Config_1,
   Aws_PCI_DSS_321_Cloudtrail_1,
   Aws_PCI_DSS_321_Cloudtrail_2,
   Aws_PCI_DSS_321_Cloudtrail_3,
