@@ -56,10 +56,10 @@ export default {
     querygcpProject {
       id
       __typename
-      logSink {
+      logSinks {
         destination
       }
-      logBucket {
+      logBuckets {
         name
         retentionDays
         locked
@@ -71,13 +71,13 @@ export default {
   conditions: {
     jq: ` {
             "id": .id,
-            "logSink" : [
+            "logSinks" : [
               {
                   "destination" :
-                      .logSink[].destination
+                      .logSinks[].destination
                       | select(startswith("storage.googleapis.com/"))
                       | sub("storage.googleapis.com/"; "") ,
-                  "logBuckets" :.logBucket
+                  "logBuckets" :.logBuckets
               }
             ] | map({
                 "destination" : .destination,
@@ -87,7 +87,7 @@ export default {
     path: '@',
     and: [
       {
-        path: '[*].logSink',
+        path: '[*].logSinks',
         array_all: {
           and: [
             {

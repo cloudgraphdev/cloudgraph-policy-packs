@@ -86,7 +86,7 @@ export default {
     querygcpProject {
       id
       __typename
-      iamPolicy {
+      iamPolicies {
         bindings {
           role
           members
@@ -98,7 +98,7 @@ export default {
   severity: 'unknown',
   conditions: {
     not: {
-      path: '@.iamPolicy',
+      path: '@.iamPolicies',
       array_any: {
         path: '[*].bindings',
         array_any: {

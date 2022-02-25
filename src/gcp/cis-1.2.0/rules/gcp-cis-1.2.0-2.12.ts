@@ -39,7 +39,7 @@ export default {
     querygcpNetwork {
       id
       __typename
-      dnsPolicy {
+      dnsPolicies {
         enableLogging
       }
     }
@@ -50,11 +50,11 @@ export default {
     not: {
       or: [
         {
-          path: '@.dnsPolicy',
+          path: '@.dnsPolicies',
           isEmpty: true,
         },
         {
-          path: '@.dnsPolicy',
+          path: '@.dnsPolicies',
           array_any: {
             path: '[*].enableLogging',
             equal: false,

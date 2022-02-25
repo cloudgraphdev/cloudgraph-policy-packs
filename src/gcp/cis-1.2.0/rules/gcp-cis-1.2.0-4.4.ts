@@ -77,7 +77,7 @@ export default {
           }
         }
       }
-      vmInstance {
+      vmInstances {
         metadata {
           items {
             key
@@ -91,7 +91,7 @@ export default {
   severity: 'unknown',
   conditions: {
     path: '@',
-    jq: '.  | [(.computeProject[].commonInstanceMetadata.items | map({"cimKey": .key, "cimValue": .value }))[] + ((.vmInstance[].metadata.items  | map({"vmiKey": .key, "vmiValue": .value}))[] // {"vmiKey": null, "vmiValue": null} )  | select(.cimKey == "enable-oslogin" and .cimValue == "true" )  ]',
+    jq: '.  | [(.computeProject[].commonInstanceMetadata.items | map({"cimKey": .key, "cimValue": .value }))[] + ((.vmInstances[].metadata.items  | map({"vmiKey": .key, "vmiValue": .value}))[] // {"vmiKey": null, "vmiValue": null} )  | select(.cimKey == "enable-oslogin" and .cimValue == "true" )  ]',
     and: [
       {
         path: '@',

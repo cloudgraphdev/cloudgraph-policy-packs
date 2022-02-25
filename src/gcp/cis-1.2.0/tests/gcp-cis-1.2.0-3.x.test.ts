@@ -36,7 +36,7 @@ export interface GcpNetworkSubnet {
 
 export interface QuerygcpNetwork {
   id: string
-  subnet?: GcpNetworkSubnet[]
+  subnets?: GcpNetworkSubnet[]
   name?: string
   ipV4Range?: string | null
 }
@@ -516,7 +516,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpNetwork: [
           {
             id: cuid(),
-            subnet: subnets,
+            subnets,
           },
         ],
       }

@@ -64,7 +64,7 @@ export default {
     querygcpProject {
       id
       __typename
-      logSink {
+      logSinks {
         filter
       }
     }
@@ -72,7 +72,7 @@ export default {
   resource: 'querygcpProject[*]',
   severity: 'high',
   conditions: {
-    path: '@.logSink',
+    path: '@.logSinks',
     array_any: {
       path: '[*].filter',
       equal: '',

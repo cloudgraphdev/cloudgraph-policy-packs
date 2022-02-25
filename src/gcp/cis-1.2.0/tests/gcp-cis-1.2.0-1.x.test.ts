@@ -31,10 +31,10 @@ export interface ApiKey {
   id: string
 }
 export interface Folder {
-  iamPolicy: IamPolicy[]
+  iamPolicies: IamPolicy[]
 }
 export interface Project {
-  iamPolicy: IamPolicy[]
+  iamPolicies: IamPolicy[]
 }
 export interface ApiTarget {
   service: string
@@ -72,13 +72,13 @@ export interface QuerygcpApiKey {
 export interface QuerygcpOrganization {
   id: string
   displayName: string
-  project: Project[]
-  folder: Folder[]
+  projects: Project[]
+  folders: Folder[]
 }
 
 export interface QuerygcpProject {
   id: string
-  iamPolicy?: IamPolicy[]
+  iamPolicies?: IamPolicy[]
   apiKeys?: ApiKey[]
 }
 
@@ -128,9 +128,9 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           {
             id: cuid(),
             displayName: organizationName,
-            project: [
+            projects: [
               {
-                iamPolicy: [
+                iamPolicies: [
                   {
                     bindings: [
                       {
@@ -141,9 +141,9 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
                 ],
               },
             ],
-            folder: [
+            folders: [
               {
-                iamPolicy: [
+                iamPolicies: [
                   {
                     bindings: [
                       {
@@ -269,7 +269,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {
@@ -351,7 +351,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {
@@ -462,7 +462,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            iamPolicy: [
+            iamPolicies: [
               {
                 bindings: [
                   {

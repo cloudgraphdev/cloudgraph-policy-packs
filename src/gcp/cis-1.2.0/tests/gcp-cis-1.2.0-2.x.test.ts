@@ -44,7 +44,7 @@ export interface LogMetric {
 }
 
 export interface Project {
-  logMetric?: LogMetric[]
+  logMetrics?: LogMetric[]
 }
 
 export interface Enabled {
@@ -63,7 +63,7 @@ export interface DnsPolicy {
 
 export interface QuerygcpNetwork {
   id: string
-  dnsPolicy?: DnsPolicy[]
+  dnsPolicies?: DnsPolicy[]
 }
 
 export interface LogBucket {
@@ -79,8 +79,8 @@ export interface LogSink {
 
 export interface QuerygcpProject {
   id: string
-  logSink: LogSink[]
-  logBucket?: LogBucket[]
+  logSinks: LogSink[]
+  logBuckets?: LogBucket[]
 }
 
 export interface AuditLogConfig {
@@ -314,7 +314,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpProject: [
           {
             id: cuid(),
-            logSink: [
+            logSinks: [
               {
                 filter: 'dummy filter',
               },
@@ -379,7 +379,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const projectData = [
         {
           id: cuid(),
-          logSink: [
+          logSinks: [
             {
               destination: 'logging.googleapis.com/projects/dummy',
             },
@@ -387,7 +387,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
               destination: 'storage.googleapis.com/projects/storage-project',
             },
           ],
-          logBucket: [
+          logBuckets: [
             {
               name: 'projects/dummy',
               retentionDays: 30,
@@ -409,7 +409,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const projectData = [
         {
           id: cuid(),
-          logSink: [
+          logSinks: [
             {
               destination: 'storage.googleapis.com/projects/storage-project',
             },
@@ -417,7 +417,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
               destination: 'storage.googleapis.com/projects/storage-project2',
             },
           ],
-          logBucket: [
+          logBuckets: [
             {
               name: 'projects/storage-project',
               retentionDays: 30,
@@ -439,12 +439,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const projectData = [
         {
           id: cuid(),
-          logSink: [
+          logSinks: [
             {
               destination: 'storage.googleapis.com/projects/storage-project',
             },
           ],
-          logBucket: [],
+          logBuckets: [],
         },
       ]
       const data: CIS2xQueryResponse = getTest23RuleFixture(projectData)
@@ -455,12 +455,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const projectData = [
         {
           id: cuid(),
-          logSink: [
+          logSinks: [
             {
               destination: 'storage.googleapis.com/projects/storage-project',
             },
           ],
-          logBucket: [
+          logBuckets: [
             {
               name: 'projects/storage-project',
               retentionDays: 0,
@@ -477,12 +477,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       const projectData = [
         {
           id: cuid(),
-          logSink: [
+          logSinks: [
             {
               destination: 'storage.googleapis.com/projects/storage-project',
             },
           ],
-          logBucket: [
+          logBuckets: [
             {
               name: 'projects/storage-project',
               retentionDays: 30,
@@ -514,7 +514,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -605,7 +605,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -696,7 +696,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -787,7 +787,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -878,7 +878,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -969,7 +969,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -1060,7 +1060,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -1151,7 +1151,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
             },
             project: [
               {
-                logMetric: [
+                logMetrics: [
                   {
                     filter: 'dummy test filter',
                     name: 'dummy test name',
@@ -1235,7 +1235,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         querygcpNetwork: [
           {
             id: cuid(),
-            dnsPolicy: [
+            dnsPolicies: [
               {
                 enableLogging,
               },
