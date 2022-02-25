@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 2.5
 export default {
   id: 'aws-pci-dss-3.2.1-config-check-1',
   title:
