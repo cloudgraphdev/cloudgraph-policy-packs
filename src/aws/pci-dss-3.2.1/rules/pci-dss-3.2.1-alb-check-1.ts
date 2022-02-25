@@ -53,29 +53,31 @@ export default {
   resource: 'queryawsAlb[*]',
   severity: 'medium',
   conditions: {
-    path: '@.listeners',
-    array_any: {
-      and: [
-        {
-          path: '[*].settings.protocol',
-          match: /^HTTP.*$/,
-        },
-        {
-          path: '[*].settings.rules',
-          array_any: {
-            and: [
-              {
-                path: '[*].type',
-                equal: 'redirect',
-              },
-              {
-                path: '[*].redirectProtocol',
-                equal: 'HTTPS',
-              },
-            ],
+    not: {
+      path: '@.listeners',
+      array_any: {
+        and: [
+          {
+            path: '[*].settings.protocol',
+            match: /^HTTP:.*$/,
           },
-        },
-      ],
+          {
+            path: '[*].settings.rules',
+            array_all: {
+              or: [
+                {
+                  path: '[*].type',
+                  notEqual: 'redirect',
+                },
+                {
+                  path: '[*].redirectProtocol',
+                  notEqual: 'HTTPS',
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
   },
 }
