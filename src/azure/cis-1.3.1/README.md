@@ -37,3 +37,14 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 2.6  | Ensure that Azure Defender is set to On for Kubernetes                                                                                           |
 | Azure CIS 2.7  | Ensure that Azure Defender is set to On for Container Registries                                                                                 |
 | Azure CIS 2.8  | Ensure that Azure Defender is set to On for Key Vault                                                                                            |
+| Azure CIS 3.1  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                                       |
+| Azure CIS 3.2  | Ensure that storage account access keys are periodically regenerated (Manual)                                                                    |
+| Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests (Manual)                                                |
+| Azure CIS 3.4  | Ensure sure that shared access signature tokens expire within an hour (Manual)                                                                   |
+| Azure CIS 3.5  | Ensure that 'Public access level' is set to Private for blob containers                                                                          |
+| Azure CIS 3.6  | Ensure default network access rule for Storage Accounts is set to deny                                                                           |
+| Azure CIS 3.7  | Ensure 'Trusted Microsoft Services' is enabled for Storage Account access (Manual)                                                               |
+| Azure CIS 3.8  | Ensure soft delete is enabled for Azure Storage                                                                                                  |
+| Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                                         |
+| Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                                                 |
+| Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                                                |
