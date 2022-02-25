@@ -1,3 +1,11 @@
+## @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.19.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* **connections:** gcp pluralization top level connections ([f6aa059](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f6aa059c9507965ae3e8d289521b0a99dca1d1ed))
+* **connections:** gcp pluralization top level connections ([b8d36ef](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/b8d36ef08513bd6c2f62dde2122153903c812704))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.19.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.18.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.0) (2022-02-17)
 
 
