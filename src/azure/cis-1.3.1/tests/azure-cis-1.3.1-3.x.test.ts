@@ -30,7 +30,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('azure', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
   })
 
   describe('Azure CIS 3.1 Ensure that "Secure transfer required" is set to "Enabled"', () => {
@@ -67,7 +67,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Storage Accounts has "Secure transfer required" set to "Disabled"', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('No')
 
@@ -109,7 +109,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when blob containers allow public access', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('Yes')
 
@@ -151,7 +151,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when default network access rule for Storage Accounts is set to "Allow"', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('Allow')
 
@@ -197,7 +197,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Storage Accounts has set soft delete disabled', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture(false, null)
 
@@ -245,7 +245,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Storage Accounts for critical data are encrypted with Microsoft Managed Key', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('Microsoft.Storage')
 
