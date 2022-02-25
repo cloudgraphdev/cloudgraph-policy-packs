@@ -11,7 +11,7 @@ export default {
   CloudTrail uses Amazon S3 for log file storage and delivery, so log files are stored permanently.
 
   CloudWatch Logs is a native way to promptly back up audit trail files.`,
-  remediaton: `**To ensure that CloudTrail trails are integrated with CloudWatch Logs**
+  remediation: `**To ensure that CloudTrail trails are integrated with CloudWatch Logs**
 
   1. Open the CloudTrail console at https://console.aws.amazon.com/cloudtrail/.
 

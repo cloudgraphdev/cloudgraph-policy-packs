@@ -1,6 +1,7 @@
 export default {
   id: 'aws-pci-dss-3.2.1-ec2-check-2',
-  title: 'EC2 Check 2: VPC default security group should prohibit inbound and outbound traffic',
+  title:
+    'EC2 Check 2: VPC default security group should prohibit inbound and outbound traffic',
   description: `This control checks that the default security group of a VPC does not allow inbound or outbound traffic.
 
   It does not check for access restrictions for other security groups that are not default, and other VPC configurations.`,
@@ -21,7 +22,7 @@ export default {
   If a service that is in scope for PCI DSS is associated with the default security group, the default rules for the security group will allow all outbound traffic. The rules also allow all inbound traffic from network interfaces (and their associated instances) that are assigned to the same security group.
 
   You should change the default security group rules setting to restrict inbound and outbound traffic. Using the default may violate the requirement to remove or disable unnecessary default accounts.`,
-  remediaton: `
+  remediation: `
   To remediate this issue, create new security groups and assign those security groups to your resources. To prevent the default security groups from being used, remove their inbound and outbound rules.
 
   **To create new security groups and assign them to your resources**
@@ -48,7 +49,7 @@ export default {
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html',
     'https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#CreatingSecurityGroups',
     'https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership',
-    'https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#WorkingWithSecurityGroups'
+    'https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#WorkingWithSecurityGroups',
   ],
   gql: `{
     queryawsSecurityGroup(filter: { name: { eq: "default" } })   {

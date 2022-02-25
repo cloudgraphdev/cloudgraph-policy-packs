@@ -27,7 +27,7 @@ export default {
   Amazon EBS snapshots are used to back up the data on your Amazon EBS volumes to Amazon S3 at a specific point in time. They can be used to restore previous states of Amazon EBS volumes.
 
   If an Amazon EBS snapshot stores cardholder data, it should not be publicly restorable by everyone. This may violate the requirement to ensure access to systems components is restricted to least privilege necessary, or a user’s need to know.`,
-  remediaton: `**To make a public Amazon EBS snapshot private**
+  remediation: `**To make a public Amazon EBS snapshot private**
 
   1. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
   2. In the navigation pane, under **Elastic Block Store**, choose **Snapshots** and then select your public snapshot.

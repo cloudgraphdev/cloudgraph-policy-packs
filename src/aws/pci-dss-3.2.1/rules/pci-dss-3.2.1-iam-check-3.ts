@@ -9,7 +9,7 @@ export default {
   It does not check for [inline and AWS managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies).`,
   rationale: `**PCI DSS 7.2.1: Establish an access control system(s) for systems components that restrict access based on a user’s need to know, and is set to "deny all" unless specifically allowed. This access control system(s) must include the following: Coverage of all system components.**
   Providing full administrative privileges instead of restricting to the minimum required may violate the requirement to ensure access to systems components is restricted to the least privilege necessary, or a user’s need to know.`,
-  remediaton: `**To modify an IAM policy**
+  remediation: `**To modify an IAM policy**
 
   1. Open the IAM console at https://console.aws.amazon.com/iam/.
 

@@ -19,7 +19,7 @@ export default {
 
   **PCI DSS 10.3.6 Verify identity or name of affected data, system component, or resources is included in log entries.**
   By enabling VPC flow logging for your VPC, you can verify the identity or name of affected data, system components, or resources. The pkt-dstaddr, dstaddr, and dstport fields show the destination IP address and destination port of the traffic.`,
-  remediaton: `**To enable VPC flow logging**
+  remediation: `**To enable VPC flow logging**
 
   1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
 

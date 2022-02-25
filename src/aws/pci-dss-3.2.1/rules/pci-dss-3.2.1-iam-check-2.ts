@@ -14,7 +14,7 @@ export default {
   Reducing access management complexity reduces opportunity for a principal to inadvertently receive or retain excessive privileges.
 
   This is a method used to ensure access to systems components that contain cardholder data is restricted to least privilege necessary, or a user’s need to know.`,
-  remediaton: `To resolve this issue, do the following:
+  remediation: `To resolve this issue, do the following:
 
   1. Create an IAM group
 

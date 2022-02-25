@@ -13,7 +13,7 @@ export default {
   You can configure CloudTrail logs to leverage customer managed keys to further protect CloudTrail logs.
 
   These are methods used to render PAN unreadable.`,
-  remediaton: `To remediate this issue, you enable encryption for your CloudTrail log files.
+  remediation: `To remediate this issue, you enable encryption for your CloudTrail log files.
 
   For details on how to encrypt CloudTrail log files with AWS KMS managed keys (SSE-KMS), see [Encrypting CloudTrail log files with AWS KMS–managed keys (SSE-KMS)](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/encrypting-cloudtrail-log-files-with-aws-kms.html)
   in the AWS CloudTrail User Guide.`,
