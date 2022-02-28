@@ -63,6 +63,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | cloudtrail-check-2    | CloudTrail should be enabled                                                                                                  |
 | cloudtrail-check-3    | CloudTrail log file validation should be enabled                                                                              |
 | cloudtrail-check-4    | CloudTrail trails should be integrated with CloudWatch Logs                                                                   |
+| cloudwatch-check-1    | A log metric filter and alarm should exist for usage of the "root" user                                                       |
 | codebuild-check-1     | CodeBuild GitHub or Bitbucket source repository URLs should use OAuth                                                         |
 | codebuild-check-2     | CodeBuild project environment variables should not contain clear text credentials                                             |
 | config-check-1        | AWS Config should be enabled                                                                                                  |
