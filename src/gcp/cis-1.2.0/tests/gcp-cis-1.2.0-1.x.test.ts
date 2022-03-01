@@ -114,7 +114,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
 
   describe('GCP CIS 1.1 Ensure that corporate login credentials are used', () => {

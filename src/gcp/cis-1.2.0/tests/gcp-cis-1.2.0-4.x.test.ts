@@ -93,7 +93,7 @@ export interface CIS4xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
 
   describe('GCP CIS 4.1 Ensure that instances are not configured to use the default service account', () => {

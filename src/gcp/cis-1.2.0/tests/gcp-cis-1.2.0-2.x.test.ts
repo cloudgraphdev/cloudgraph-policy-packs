@@ -109,7 +109,7 @@ export interface CIS2xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('gcp', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
   })
 
   describe('GCP CIS 2.1 Ensure that Cloud Audit Logging is configured properly across all services and all users from a project', () => {

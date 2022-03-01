@@ -32,7 +32,7 @@ export interface CIS4xQueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('aws', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
   })
   describe('AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22', () => {
     const test41Rule = async (

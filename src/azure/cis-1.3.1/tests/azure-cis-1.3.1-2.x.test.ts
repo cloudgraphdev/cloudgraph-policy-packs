@@ -25,7 +25,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('azure', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
   })
 
   describe('Azure CIS 2.1 Ensure that Azure Defender is set to On for Servers', () => {
@@ -64,7 +64,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "VirtualMachines"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('VirtualMachines', null)
 
@@ -108,7 +108,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "AppServices"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('AppServices', null)
 
@@ -152,7 +152,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "SqlServers"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('SqlServers', null)
 
@@ -196,7 +196,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "SqlserverVirtualMachines"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('SqlserverVirtualMachines', null)
 
@@ -240,7 +240,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "StorageAccounts"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('StorageAccounts', null)
 
@@ -284,7 +284,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "KubernetesService"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('KubernetesService', null)
 
@@ -328,7 +328,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "ContainerRegistry"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('ContainerRegistry', null)
 
@@ -372,7 +372,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    
+
     test('Security Issue when Azure Defender plan is not activated for "KeyVaults"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('KeyVaults', null)
 
