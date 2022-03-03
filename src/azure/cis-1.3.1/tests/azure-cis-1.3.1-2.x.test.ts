@@ -11,6 +11,11 @@ import Azure_CIS_131_25 from '../rules/azure-cis-1.3.1-2.5'
 import Azure_CIS_131_26 from '../rules/azure-cis-1.3.1-2.6'
 import Azure_CIS_131_27 from '../rules/azure-cis-1.3.1-2.7'
 import Azure_CIS_131_28 from '../rules/azure-cis-1.3.1-2.8'
+import Azure_CIS_131_29 from '../rules/azure-cis-1.3.1-2.9'
+import Azure_CIS_131_210 from '../rules/azure-cis-1.3.1-2.10'
+import Azure_CIS_131_211 from '../rules/azure-cis-1.3.1-2.11'
+import Azure_CIS_131_213 from '../rules/azure-cis-1.3.1-2.13'
+import Azure_CIS_131_214 from '../rules/azure-cis-1.3.1-2.14'
 
 export interface QueryazureSecurityPricing {
   id: string
@@ -18,8 +23,31 @@ export interface QueryazureSecurityPricing {
   pricingTier: string | null
 }
 
+export interface QueryazureSecuritySetting {
+  id: string
+  name: string | null
+  enabled: boolean | null
+}
+
+export interface QueryazureAutoProvisioningSetting {
+  id: string
+  name: string | null
+  autoProvision: string | null
+}
+
+export interface QueryazureSecurityContact {
+  id: string
+  name: string | null
+  email?: string | null
+  alertNotifications?: string | null
+  alertsToAdmins?: string | null
+}
+
 export interface CIS1xQueryResponse {
   queryazureSecurityPricing?: QueryazureSecurityPricing[]
+  queryazureSecuritySetting?: QueryazureSecuritySetting[]
+  queryazureAutoProvisioningSetting?: QueryazureAutoProvisioningSetting[]
+  queryazureSecurityContact?: QueryazureSecurityContact[]
 }
 
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
@@ -375,6 +403,224 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Azure Defender plan is not activated for "KeyVaults"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('KeyVaults', null)
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 2.9 Ensure that Windows Defender ATP (WDATP) integration with Security Center is selected', () => {
+    const getTestRuleFixture = (
+      name: string | null,
+      enabled: boolean | null
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureSecuritySetting: [
+          {
+            id: cuid(),
+            name,
+            enabled
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_29 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Windows Defender ATP (WDATP) integration with Security Center is selected', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('WDATP', true)
+
+      await testRule(data, Result.PASS)
+    })
+
+    
+    test('Security Issue when Windows Defender ATP (WDATP) integration with Security Center is not selected', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('WDATP', false)
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 2.10 Ensure that Microsoft Cloud App Security (MCAS) integration with Security Center is selected', () => {
+    const getTestRuleFixture = (
+      name: string | null,
+      enabled: boolean | null
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureSecuritySetting: [
+          {
+            id: cuid(),
+            name,
+            enabled
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_210 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Microsoft Cloud App Security (MCAS) integration with Security Center is selected', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('MCAS', true)
+
+      await testRule(data, Result.PASS)
+    })
+
+    
+    test('Security Issue when Microsoft Cloud App Security (MCAS) integration with Security Center is not selected', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('MCAS', false)
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe("Azure CIS 2.11 Ensure that 'Automatic provisioning of monitoring agent' is set to 'On'", () => {
+    const getTestRuleFixture = (
+      name: string | null,
+      autoProvision: string | null
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureAutoProvisioningSetting: [
+          {
+            id: cuid(),
+            name,
+            autoProvision
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_211 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when 'Automatic provisioning of monitoring agent' is set to 'On'", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default', 'On')
+
+      await testRule(data, Result.PASS)
+    })
+
+    
+    test("Security Issue when 'Automatic provisioning of monitoring agent' is set to 'Off'", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default', 'Off')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe("Azure CIS 2.13 Ensure 'Additional email addresses' is configured with a security contact email", () => {
+    const getTestRuleFixture = (
+      name: string | null
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureSecurityContact: [
+          {
+            id: cuid(),
+            name,
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_213 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when a security contact email is configured", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default')
+
+      await testRule(data, Result.PASS)
+    })
+
+    
+    test("Security Issue when a security contact email is not configured", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture(null)
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe("Azure CIS 2.14 Ensure that 'Notify about alerts with the following severity' is set to 'High'", () => {
+    const getTestRuleFixture = (
+      name: string | null,
+      alertNotifications: string | null,
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureSecurityContact: [
+          {
+            id: cuid(),
+            name,
+            alertNotifications,
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_214 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when email notification for high severity alerts to On", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'On')
+
+      await testRule(data, Result.PASS)
+    })
+
+    
+    test("Security Issue when email notification for high severity alerts to Off", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'Off')
 
       await testRule(data, Result.FAIL)
     })
