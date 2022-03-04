@@ -44,7 +44,7 @@ export interface CIS9xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine('azure', 'CIS')
+    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
   })
 
   describe('Azure CIS 9.1 Ensure App Service Authentication is set on Azure App Service', () => {
