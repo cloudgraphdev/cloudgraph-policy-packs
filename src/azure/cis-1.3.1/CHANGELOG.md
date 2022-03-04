@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.3.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.3.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.3.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* azure cis 9.x rules unit tests ([54ccf4b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/54ccf4b25e4dc3d2edc80744317039592b0f59f6))
+
 # @cloudgraph/policy-pack-azure-cis-1.3.1 [1.3.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.2.1...@cloudgraph/policy-pack-azure-cis-1.3.1@1.3.0) (2022-03-04)
 
 
