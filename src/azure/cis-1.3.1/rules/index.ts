@@ -34,6 +34,17 @@ import Azure_CIS_131_38 from './azure-cis-1.3.1-3.8'
 import Azure_CIS_131_39 from './azure-cis-1.3.1-3.9'
 import Azure_CIS_131_310 from './azure-cis-1.3.1-3.10'
 import Azure_CIS_131_311 from './azure-cis-1.3.1-3.11'
+import Azure_CIS_131_91 from './azure-cis-1.3.1-9.1'
+import Azure_CIS_131_92 from './azure-cis-1.3.1-9.2'
+import Azure_CIS_131_93 from './azure-cis-1.3.1-9.3'
+import Azure_CIS_131_94 from './azure-cis-1.3.1-9.4'
+import Azure_CIS_131_95 from './azure-cis-1.3.1-9.5'
+import Azure_CIS_131_96 from './azure-cis-1.3.1-9.6'
+import Azure_CIS_131_97 from './azure-cis-1.3.1-9.7'
+import Azure_CIS_131_98 from './azure-cis-1.3.1-9.8'
+import Azure_CIS_131_99 from './azure-cis-1.3.1-9.9'
+// import Azure_CIS_131_910 from './azure-cis-1.3.1-9.10'
+import Azure_CIS_131_911 from './azure-cis-1.3.1-9.11'
 
 export default [
   Azure_CIS_131_11,
@@ -72,4 +83,15 @@ export default [
   Azure_CIS_131_39,
   Azure_CIS_131_310,
   Azure_CIS_131_311,
+  Azure_CIS_131_91,
+  Azure_CIS_131_92,
+  Azure_CIS_131_93,
+  Azure_CIS_131_94,
+  Azure_CIS_131_95,
+  Azure_CIS_131_96,
+  Azure_CIS_131_97,
+  Azure_CIS_131_98,
+  Azure_CIS_131_99,
+  // Azure_CIS_131_910, TODO: To carry out this rule it's needed to adapt the ruleEngine to support it, it will be omitted for the moment.
+  Azure_CIS_131_911,
 ]
