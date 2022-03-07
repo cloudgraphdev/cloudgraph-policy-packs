@@ -1,3 +1,15 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.4.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.3.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.4.0) (2022-03-07)
+
+
+### Bug Fixes
+
+* **checks:** export checks from index file ([b042f54](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/b042f54b6e6ba552a58803f3a368de42a059566a))
+
+
+### Features
+
+* **rule:** new rule sagemaker check 1 ([a1e6b29](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/a1e6b291b8cecd3e241002731efe593976a6742c))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.3.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.2.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.3.0) (2022-03-01)
 
 
