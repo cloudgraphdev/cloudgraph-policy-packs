@@ -51,5 +51,5 @@ export default {
     'https://docs.microsoft.com/en-in/azure/security-center/tutorial-security-policy',
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-incident-response#ir-2-preparation--setup-incident-notification',
   ],  
-  severity: 'high',
+  severity: 'medium',
 }

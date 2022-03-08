@@ -70,6 +70,7 @@ export default {
       id
       __typename
       name
+      email
     }
   }`,
   resource: 'queryazureSecurityContact[*]',
@@ -79,6 +80,10 @@ export default {
       {
         path: '@.name',
         equal: 'default',
+      },
+      {
+        path: '@.email',
+        notIn: [null, ''],
       },
     ],
   },

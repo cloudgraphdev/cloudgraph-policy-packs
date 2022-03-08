@@ -81,7 +81,7 @@ export default {
     }
   }`,
   resource: 'queryazureAutoProvisioningSetting[*]',
-  severity: 'high',
+  severity: 'medium',
   conditions: {
     and: [
       {
