@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-4.1',
   title:
-    'AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22 (Scored)',
+    'AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22',
   description: `Security groups provide stateful filtering of ingress/egress network traffic to AWS
   resources. It is recommended that no security group allows unrestricted ingress access to
   port 22.`,

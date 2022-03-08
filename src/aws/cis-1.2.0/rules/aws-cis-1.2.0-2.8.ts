@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-2.8',
   title:
-    'AWS CIS 2.8 Ensure rotation for customer created CMKs is enabled (Scored)',
+    'AWS CIS 2.8 Ensure rotation for customer created CMKs is enabled',
   description: `AWS Key Management Service (KMS) allows customers to rotate the backing key which is
   key material stored within the KMS which is tied to the key ID of the Customer Created
   customer master key (CMK). It is the backing key that is used to perform cryptographic

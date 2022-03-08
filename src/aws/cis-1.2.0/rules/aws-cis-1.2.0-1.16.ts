@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-1.16',
   title:
-    'AWS CIS 1.16 Ensure IAM policies are attached only to groups or roles (Scored)',
+    'AWS CIS 1.16 Ensure IAM policies are attached only to groups or roles',
   description: `By default, IAM users, groups, and roles have no access to AWS resources. IAM policies are
   the means by which privileges are granted to users, groups, or roles. It is recommended
   that IAM policies be applied directly to groups and roles but not users.`,

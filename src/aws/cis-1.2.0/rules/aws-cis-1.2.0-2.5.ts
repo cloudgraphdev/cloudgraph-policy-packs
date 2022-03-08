@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 export default {
   id: 'aws-cis-1.2.0-2.5',
-  title: 'Ensure AWS Config is enabled in all regions',
+  title: 'AWS CIS 2.5 Ensure AWS Config is enabled in all regions',
   description:
     'AWS Config is a web service that performs configuration management of supported AWS resources within your account and delivers log files to you. The recorded information includes the configuration item (AWS resource), relationships between configuration items (AWS resources), any configuration changes between resources. It is recommended to enable AWS Config be enabled in all regions.',
 

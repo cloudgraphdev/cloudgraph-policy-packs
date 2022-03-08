@@ -26,7 +26,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
   })
-  describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days (Scored)", () => {
+  describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days", () => {
     test('Should fail when a root account uses his password in the last 30 days', async () => {
       const data = {
         queryawsIamUser: [

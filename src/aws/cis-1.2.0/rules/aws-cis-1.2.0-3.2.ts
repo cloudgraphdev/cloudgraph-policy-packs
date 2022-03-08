@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-3.2',
   title:
-    'AWS CIS 3.2 Ensure a log metric filter and alarm exist for Management Console sign-in without MFA (Scored)',
+    'AWS CIS 3.2 Ensure a log metric filter and alarm exist for Management Console sign-in without MFA',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. It is
   recommended that a metric filter and alarm be established for console logins that are not

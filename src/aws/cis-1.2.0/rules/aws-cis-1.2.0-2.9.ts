@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.2.0-2.9',
-  title: 'AWS CIS 2.9 Ensure VPC flow logging is enabled in all VPCs (Scored)',
+  title: 'AWS CIS 2.9 Ensure VPC flow logging is enabled in all VPCs',
   description: `VPC Flow Logs is a feature that enables you to capture information about the IP traffic
   going to and from network interfaces in your VPC. After you've created a flow log, you can
   view and retrieve its data in Amazon CloudWatch Logs. It is recommended that VPC Flow

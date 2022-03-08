@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-3.7',
   title:
-    'AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs (Scored)',
+    'AWS CIS 3.7 Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. It is
   recommended that a metric filter and alarm be established for customer created CMKs

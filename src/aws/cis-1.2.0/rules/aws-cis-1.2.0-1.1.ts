@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-1.1',
   title:
-    "AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days (Scored)",
+    "AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days",
   description: `The "root" account has unrestricted access to all resources in the AWS account. It is highly
     recommended that the use of this account be avoided.`,
   audit: `Implement the *Ensure a log metric filter and alarm exist for usage of "root" account* recommendation in the *Monitoring* section of this benchmark to receive notifications of root account usage. Additionally, executing the following commands will provide ad-hoc means for determining the last time the root account was used:
