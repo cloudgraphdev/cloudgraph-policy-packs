@@ -74,7 +74,9 @@ import Azure_CIS_131_96 from './azure-cis-1.3.1-9.6'
 import Azure_CIS_131_97 from './azure-cis-1.3.1-9.7'
 import Azure_CIS_131_98 from './azure-cis-1.3.1-9.8'
 import Azure_CIS_131_99 from './azure-cis-1.3.1-9.9'
-// import Azure_CIS_131_910 from './azure-cis-1.3.1-9.10'
+import Azure_CIS_131_910 from './azure-cis-1.3.1-9.10'
+import Azure_CIS_131_910a from './azure-cis-1.3.1-9.10a'
+import Azure_CIS_131_910b from './azure-cis-1.3.1-9.10b'
 import Azure_CIS_131_911 from './azure-cis-1.3.1-9.11'
 
 export default [
@@ -154,6 +156,8 @@ export default [
   Azure_CIS_131_97,
   Azure_CIS_131_98,
   Azure_CIS_131_99,
-  // Azure_CIS_131_910, TODO: To carry out this rule it's needed to adapt the ruleEngine to support it, it will be omitted for the moment.
+  Azure_CIS_131_910,
+  Azure_CIS_131_910a,
+  Azure_CIS_131_910b,
   Azure_CIS_131_911,
 ]
