@@ -86,6 +86,12 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 2.6  | Ensure that Azure Defender is set to On for Kubernetes                                                                        |
 | Azure CIS 2.7  | Ensure that Azure Defender is set to On for Container Registries                                                              |
 | Azure CIS 2.8  | Ensure that Azure Defender is set to On for Key Vault                                                                         |
+| Azure CIS 2.9  | Ensure that Windows Defender ATP (WDATP) integration with Security Center is selected                                         |
+| Azure CIS 2.10 | Ensure that Microsoft Cloud App Security (MCAS) integration with Security Center is selected                                  |
+| Azure CIS 2.11 | Ensure that 'Automatic provisioning of monitoring agent' is set to 'On'                                                       |
+| Azure CIS 2.12 | Ensure any of the ASC Default policy setting is not set to "Disabled"                                                         |
+| Azure CIS 2.13 | Ensure 'Additional email addresses' is configured with a security contact email                                               |
+| Azure CIS 2.14 | Ensure that 'Notify about alerts with the following severity' is set to 'High'                                                |
 | Azure CIS 3.1  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                    |
 | Azure CIS 3.2  | Ensure that storage account access keys are periodically regenerated (Manual)                                                 |
 | Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests (Manual)                             |
