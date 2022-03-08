@@ -6,6 +6,7 @@ import Aws_PCI_DSS_321_IAM_2 from '../rules/pci-dss-3.2.1-iam-check-2'
 import Aws_PCI_DSS_321_IAM_3 from '../rules/pci-dss-3.2.1-iam-check-3'
 import Aws_PCI_DSS_321_IAM_4 from '../rules/pci-dss-3.2.1-iam-check-4'
 import Aws_PCI_DSS_321_IAM_5 from '../rules/pci-dss-3.2.1-iam-check-5'
+import Aws_PCI_DSS_321_IAM_6 from '../rules/pci-dss-3.2.1-iam-check-6'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -289,4 +290,65 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     })
 
   })
+
+  describe('IAM Check 6: MFA should be enabled for all IAM users', () => {
+    test('Should fail when a user has an active password without an mfa device register', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordEnabled: true,
+            mfaActive: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_6 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when a user has no active password', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordEnabled: false,
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_6 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when a user has an active password with an mfa device register', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordEnabled: true,
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_6 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+
 })
