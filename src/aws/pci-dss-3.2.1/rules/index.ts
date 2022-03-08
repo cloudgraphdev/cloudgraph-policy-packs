@@ -15,6 +15,7 @@ import Aws_PCI_DSS_321_IAM_4 from './pci-dss-3.2.1-iam-check-4'
 import Aws_PCI_DSS_321_IAM_5 from './pci-dss-3.2.1-iam-check-5'
 import Aws_PCI_DSS_321_IAM_6 from './pci-dss-3.2.1-iam-check-6'
 import Aws_PCI_DSS_321_IAM_7 from './pci-dss-3.2.1-iam-check-7'
+import Aws_PCI_DSS_321_IAM_8 from './pci-dss-3.2.1-iam-check-8'
 import Aws_PCI_DSS_321_EC2_1 from './pci-dss-3.2.1-ec2-check-1'
 import Aws_PCI_DSS_321_EC2_2 from './pci-dss-3.2.1-ec2-check-2'
 import Aws_PCI_DSS_321_EC2_4 from './pci-dss-3.2.1-ec2-check-4'
@@ -42,6 +43,7 @@ export default [
   Aws_PCI_DSS_321_IAM_5,
   Aws_PCI_DSS_321_IAM_6,
   Aws_PCI_DSS_321_IAM_7,
+  Aws_PCI_DSS_321_IAM_8,
   Aws_PCI_DSS_321_EC2_1,
   Aws_PCI_DSS_321_EC2_2,
   Aws_PCI_DSS_321_EC2_4,

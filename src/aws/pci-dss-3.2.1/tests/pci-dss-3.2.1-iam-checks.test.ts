@@ -8,6 +8,7 @@ import Aws_PCI_DSS_321_IAM_4 from '../rules/pci-dss-3.2.1-iam-check-4'
 import Aws_PCI_DSS_321_IAM_5 from '../rules/pci-dss-3.2.1-iam-check-5'
 import Aws_PCI_DSS_321_IAM_6 from '../rules/pci-dss-3.2.1-iam-check-6'
 import Aws_PCI_DSS_321_IAM_7 from '../rules/pci-dss-3.2.1-iam-check-7'
+import Aws_PCI_DSS_321_IAM_8 from '../rules/pci-dss-3.2.1-iam-check-8'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -218,7 +219,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             id: cuid(),
             name: 'root',
             mfaActive: false,
-            mfaDevices: []
+            mfaDevices: [],
           },
         ],
       }
@@ -237,9 +238,11 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             id: cuid(),
             name: 'root',
             mfaActive: true,
-            mfaDevices: [{
-              serialNumber: cuid()
-            }]
+            mfaDevices: [
+              {
+                serialNumber: cuid(),
+              },
+            ],
           },
         ],
       }
@@ -250,7 +253,6 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       )
       expect(processedRule.result).toBe(Result.PASS)
     })
-
   })
 
   describe('IAM Check 5: Virtual MFA should be enabled for the root user', () => {
@@ -289,7 +291,6 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       )
       expect(processedRule.result).toBe(Result.PASS)
     })
-
   })
 
   describe('IAM Check 6: MFA should be enabled for all IAM users', () => {
@@ -423,8 +424,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             passwordLastUsed: '',
-            accessKeyData: [
-            ],
+            accessKeyData: [],
           },
         ],
       }
@@ -437,5 +437,273 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     })
   })
 
+  describe('IAM Check 8: Password policies for IAM users should have strong configurations', () => {
+    test('Should fail given a password policy without required uppercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: false,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
 
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one uppercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail given a password policy without required lowercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: false,
+            requireNumbers: true,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one lowercase letter', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail given a password policy without required numbers', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: false,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given a password policy that must have at least one number', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            minimumPasswordLength: 24,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail given a password policy length of 13', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            minimumPasswordLength: 13,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given a password policy length of 14', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            minimumPasswordLength: 14,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass if the number of previous passwords is less or equal than 24', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            passwordReusePrevention: 6,
+            minimumPasswordLength: 14,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail if the number of previous passwords is more than 24', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            minimumPasswordLength: 14,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            passwordReusePrevention: 25,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail given a password that expires after 90 days or more', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            maxPasswordAge: 180,
+            minimumPasswordLength: 14,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            passwordReusePrevention: 24,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given a password that expires within 90 days or less', async () => {
+      const data = {
+        queryawsIamPasswordPolicy: [
+          {
+            id: cuid(),
+            __typename: 'awsIamPasswordPolicy',
+            minimumPasswordLength: 14,
+            requireUppercaseCharacters: true,
+            requireLowercaseCharacters: true,
+            requireNumbers: true,
+            passwordReusePrevention: 24,
+            maxPasswordAge: 30,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_8 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
 })
