@@ -7,6 +7,7 @@ import Aws_PCI_DSS_321_IAM_3 from '../rules/pci-dss-3.2.1-iam-check-3'
 import Aws_PCI_DSS_321_IAM_4 from '../rules/pci-dss-3.2.1-iam-check-4'
 import Aws_PCI_DSS_321_IAM_5 from '../rules/pci-dss-3.2.1-iam-check-5'
 import Aws_PCI_DSS_321_IAM_6 from '../rules/pci-dss-3.2.1-iam-check-6'
+import Aws_PCI_DSS_321_IAM_7 from '../rules/pci-dss-3.2.1-iam-check-7'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -346,6 +347,92 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         { ...data } as any
       )
 
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+  describe('IAM Check 7: IAM user credentials should be disabled if not used within a predefined number of days', () => {
+    test('Should fail given an access key unused for more than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+              {
+                lastUsedDate: '2021-05-27T20:29:00.000Z',
+              },
+              {
+                lastUsedDate: '2021-05-12T15:09:00.000Z',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_7 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail given a passwoord unused for more than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '2021-05-27T20:29:00.000Z',
+            accessKeyData: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_7 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass given an access key unused for less than 90 days', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+              {
+                lastUsedDate: new Date().toISOString(),
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_7 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass given no password last used AND no access key data', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_7 as Rule,
+        { ...data } as any
+      )
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
