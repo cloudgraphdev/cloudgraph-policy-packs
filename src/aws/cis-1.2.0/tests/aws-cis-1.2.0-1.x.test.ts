@@ -24,7 +24,10 @@ import Aws_CIS_120_122 from '../rules/aws-cis-1.2.0-1.22'
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'aws',
+      entityName: 'CIS',
+    })
   })
   describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days", () => {
     test('Should fail when a root account uses his password in the last 30 days', async () => {
@@ -197,8 +200,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             passwordLastUsed: '',
-            accessKeyData: [
-            ],
+            accessKeyData: [],
           },
         ],
       }
@@ -265,8 +267,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
-            accessKeyData: [
-            ],
+            accessKeyData: [],
           },
         ],
       }
@@ -617,7 +618,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             name: 'root',
             mfaActive: false,
-            mfaDevices: []
+            mfaDevices: [],
           },
         ],
       }
@@ -1097,6 +1098,5 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       expect(processedRule.result).toBe(Result.FAIL)
     })
-
   })
 })

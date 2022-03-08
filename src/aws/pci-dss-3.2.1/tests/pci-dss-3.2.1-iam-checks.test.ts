@@ -614,7 +614,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
 
-    test('Should pass if the number of previous passwords is less or equal than 24', async () => {
+    test('Should fail if the number of previous passwords is less than 24', async () => {
       const data = {
         queryawsIamPasswordPolicy: [
           {
@@ -634,20 +634,20 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         Aws_PCI_DSS_321_IAM_8 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(Result.PASS)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail if the number of previous passwords is more than 24', async () => {
+    test('Should pass if the number of previous passwords is more than 24', async () => {
       const data = {
         queryawsIamPasswordPolicy: [
           {
             id: cuid(),
             __typename: 'awsIamPasswordPolicy',
+            passwordReusePrevention: 25,
             minimumPasswordLength: 14,
             requireUppercaseCharacters: true,
             requireLowercaseCharacters: true,
             requireNumbers: true,
-            passwordReusePrevention: 25,
             maxPasswordAge: 30,
           },
         ],
@@ -657,7 +657,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         Aws_PCI_DSS_321_IAM_8 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(Result.FAIL)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should fail given a password that expires after 90 days or more', async () => {

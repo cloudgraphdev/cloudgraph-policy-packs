@@ -80,7 +80,7 @@ export default {
       },
       {
         path: '@.passwordReusePrevention',
-        lessThanInclusive: 24,
+        greaterThanInclusive: 24,
       },
       {
         path: '@.maxPasswordAge',
