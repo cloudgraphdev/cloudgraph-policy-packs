@@ -85,6 +85,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | iam-check-7           | IAM user credentials should be disabled if not used within a predefined number of days                                        |
 | iam-check-8           | Password policies for IAM users should have strong configurations                                                             |
 | kms-check-1           | KMS key rotation should be enabled                                                                                            |
+| lambda-check-2        | Lambda functions should be in a VPC                                                                                           |
 | rds-check-2           | RDS DB Instances should prohibit public access                                                                                |
 | redshift-check-1      | Amazon Redshift clusters should prohibit public access                                                                        |
 | s3-check-3            | S3 buckets should have cross-region replication enabled enabled                                                               |
