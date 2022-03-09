@@ -73,4 +73,5 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | ec2-check-4         | Unused EC2 EIPs should be removed                                                     |
 | ec2-check-5         | Security groups should not allow ingress from 0.0.0.0/0 to port 22                    |
 | ec2-check-6         | VPC flow logging should be enabled in all VPCs                                        |
+| kms-check-1         | KMS key rotation should be enabled                                                    |
 | sageMaker-check-1   | Amazon SageMaker notebook instances should not have direct internet access            |
