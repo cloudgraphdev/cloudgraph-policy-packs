@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-aws-pci-dss-3.2.1",
   "description": "Policy pack implementing Payment Card Industry Data Security Standard version 3.2.1 Benchmark for Amazon Web Services",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
