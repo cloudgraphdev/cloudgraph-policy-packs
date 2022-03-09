@@ -1,3 +1,10 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.6.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.5.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.6.0) (2022-03-09)
+
+
+### Features
+
+* **checks:** new check dms1 for pci ([e6e6283](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/e6e62833851fdb1c852ba07fb23064438d96cd1b))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.5.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.4.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.5.0) (2022-03-09)
 
 
