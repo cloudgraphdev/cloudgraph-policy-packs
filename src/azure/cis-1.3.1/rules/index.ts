@@ -75,8 +75,6 @@ import Azure_CIS_131_97 from './azure-cis-1.3.1-9.7'
 import Azure_CIS_131_98 from './azure-cis-1.3.1-9.8'
 import Azure_CIS_131_99 from './azure-cis-1.3.1-9.9'
 import Azure_CIS_131_910 from './azure-cis-1.3.1-9.10'
-import Azure_CIS_131_910a from './azure-cis-1.3.1-9.10a'
-import Azure_CIS_131_910b from './azure-cis-1.3.1-9.10b'
 import Azure_CIS_131_911 from './azure-cis-1.3.1-9.11'
 
 export default [
@@ -110,7 +108,7 @@ export default [
   Azure_CIS_131_211,
   Azure_CIS_131_212,
   Azure_CIS_131_213,
-  Azure_CIS_131_214,  
+  Azure_CIS_131_214,
   Azure_CIS_131_31,
   Azure_CIS_131_32,
   Azure_CIS_131_33,
@@ -157,7 +155,5 @@ export default [
   Azure_CIS_131_98,
   Azure_CIS_131_99,
   Azure_CIS_131_910,
-  Azure_CIS_131_910a,
-  Azure_CIS_131_910b,
   Azure_CIS_131_911,
 ]

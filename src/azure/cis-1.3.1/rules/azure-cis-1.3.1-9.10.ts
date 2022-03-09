@@ -1,7 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-9.10',
   title: 'Azure CIS 9.10 Ensure FTP deployments are disabled',
-  relatedRules: ['azure-cis-1.3.1-9.10a', 'azure-cis-1.3.1-9.10b'],
   description:
     'By default, Azure Functions, Web and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions.',
 
@@ -58,4 +57,42 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-posture-vulnerability-management#pv-7-rapidly-and-automatically-remediate-software-vulnerabilities',
   ],
   severity: 'medium',
+  queries: [
+    {
+      gql: `{
+        queryazureAppServiceWebApp {
+          id
+          __typename
+          siteConfig {
+            ftpsState
+          }
+        }
+      }`,
+      resource: 'queryazureAppServiceWebApp[*]',
+      conditions: {
+        not: {
+          path: '@.siteConfig.ftpsState',
+          equal: 'AllAllowed',
+        },
+      },
+    },
+    {
+      gql: `{
+        queryazureFunctionApp {
+          id
+          __typename
+          siteConfig {
+            ftpsState
+          }
+        }
+      }`,
+      resource: 'queryazureFunctionApp[*]',
+      conditions: {
+        not: {
+          path: '@.siteConfig.ftpsState',
+          equal: 'AllAllowed',
+        },
+      },
+    }
+  ]
 }
