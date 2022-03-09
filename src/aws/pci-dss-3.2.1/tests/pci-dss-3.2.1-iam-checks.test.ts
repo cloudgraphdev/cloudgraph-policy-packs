@@ -231,6 +231,30 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
+    test('Should fail when a root account has a mfa virtual device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+            accountId: '123456',
+            virtualMfaDevices: [
+              {
+                serialNumber: 'arn:aws:iam::123456:mfa/root-account-mfa-device',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_4 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
     test('Should pass when a root account has a mfa hardware device active', async () => {
       const data = {
         queryawsIamUser: [
@@ -238,9 +262,10 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             id: cuid(),
             name: 'root',
             mfaActive: true,
-            mfaDevices: [
+            accountId: '123456',
+            virtualMfaDevices: [
               {
-                serialNumber: cuid(),
+                serialNumber: 'arn:aws:iam::123456:mfa/some-account-mfa-device',
               },
             ],
           },

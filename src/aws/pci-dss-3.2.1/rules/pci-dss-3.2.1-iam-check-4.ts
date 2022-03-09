@@ -1,8 +1,7 @@
 // AWS CIS 1.2.0 Rule equivalent 1.14
 export default {
   id: 'aws-pci-dss-3.2.1-iam-check-4',
-  title:
-    'IAM Check 4: Hardware MFA should be enabled for the root user',
+  title: 'IAM Check 4: Hardware MFA should be enabled for the root user',
   description: `This control checks whether your AWS account is enabled to use multi-factor authentication (MFA) hardware device to sign in with root user credentials.
 
   It does not check whether you are using virtual MFA.
@@ -31,7 +30,6 @@ export default {
   references: [
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html',
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-iam-5',
-
   ],
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
@@ -41,7 +39,7 @@ export default {
        __typename
       name
       mfaActive
-      mfaDevices {
+      virtualMfaDevices {
         serialNumber
       }
     }
@@ -55,9 +53,15 @@ export default {
         equal: true,
       },
       {
-        path: '@.mfaDevices',
-        isEmpty: false,
-      }
-    ]
+        jq: '[select("arn:aws:iam::" + .accountId + ":mfa/root-account-mfa-device" == .virtualMfaDevices[].serialNumber)] | { "match" : (length > 0) }',
+        path: '@',
+        and: [
+          {
+            path: '@.match',
+            notEqual: true,
+          },
+        ],
+      },
+    ],
   },
 }
