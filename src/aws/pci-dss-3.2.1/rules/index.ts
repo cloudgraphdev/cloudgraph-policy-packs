@@ -1,5 +1,6 @@
 import Aws_PCI_DSS_321_Autoscaling_1 from './pci-dss-3.2.1-autoscaling-check-1'
 import Aws_PCI_DSS_321_Alb_1 from './pci-dss-3.2.1-alb-check-1'
+import Aws_PCI_DSS_321_Cloudfront_1 from './pci-dss-3.2.1-cloudfront-check-1'
 import Aws_PCI_DSS_321_Codebuild_1 from './pci-dss-3.2.1-codebuild-check-1'
 import Aws_PCI_DSS_321_Codebuild_2 from './pci-dss-3.2.1-codebuild-check-2'
 import Aws_PCI_DSS_321_Cloudtrail_1 from './pci-dss-3.2.1-cloudtrail-check-1'
@@ -19,6 +20,7 @@ import Aws_PCI_DSS_321_SageMaker_1 from './pci-dss-3.2.1-sagemaker-check-1'
 export default [
   Aws_PCI_DSS_321_Autoscaling_1,
   Aws_PCI_DSS_321_Alb_1,
+  Aws_PCI_DSS_321_Cloudfront_1,
   Aws_PCI_DSS_321_Codebuild_1,
   Aws_PCI_DSS_321_Codebuild_2,
   Aws_PCI_DSS_321_Cloudtrail_1,

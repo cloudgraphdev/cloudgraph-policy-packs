@@ -61,6 +61,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | alb-check-1         | Application Load Balancer should be configured to redirect all HTTP requests to HTTPS |
 | codebuild-check-1   | CodeBuild GitHub or Bitbucket source repository URLs should use OAuth                 |
 | codebuild-check-2   | CodeBuild project environment variables should not contain clear text credentials     |
+| cloudfront-check-1  | Cloudfront distributions should be protected by WAFs                                  |
 | cloudtrail-check-1  | CloudTrail logs should be encrypted at rest using AWS KMS keys                        |
 | cloudtrail-check-2  | CloudTrail should be enabled                                                          |
 | cloudtrail-check-3  | CloudTrail log file validation should be enabled                                      |
