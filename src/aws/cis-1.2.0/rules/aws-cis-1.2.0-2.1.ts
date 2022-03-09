@@ -77,6 +77,9 @@ export default {
       accountId
        __typename
       isMultiRegionTrail
+      status {
+        isLogging
+      }
       eventSelectors {
         readWriteType
         includeManagementEvents
@@ -86,30 +89,26 @@ export default {
   resource: 'queryawsCloudtrail[*]',
   severity: 'medium',
   conditions: {
-    or: [
+    and: [
       {
         path: '@.isMultiRegionTrail',
-        equal: 'No',
+        equal: 'Yes',
       },
       {
-        and: [
-          {
-            path: '@.isMultiRegionTrail',
-            equal: 'Yes',
-          },
-          {
-            path: '@.eventSelectors',
-            array_any: {
-              or: [
-                { path: '[*].readWriteType', notEqual: 'All' },
-                {
-                  path: '[*].includeManagementEvents',
-                  equal: false,
-                },
-              ],
+        path: '@.status.isLogging',
+        equal: true,
+      },
+      {
+        path: '@.eventSelectors',
+        array_any: {
+          and: [
+            { path: '[*].readWriteType', equal: 'All' },
+            {
+              path: '[*].includeManagementEvents',
+              equal: true,
             },
-          },
-        ],
+          ],
+        },
       },
     ],
   },

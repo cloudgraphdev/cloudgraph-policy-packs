@@ -18,35 +18,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
   })
   describe('AWS CIS 2.1 Ensure CloudTrail is enabled in all regions', () => {
-    test('Should pass when a trail has set multi region as false', async () => {
-      const data = {
-        queryawsCloudtrail: [
-          {
-            id: cuid(),
-            isMultiRegionTrail: 'No',
-            eventSelectors: [],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_21 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.PASS)
-    })
-
-    test('Should pass when a trail has set multi region as true with all read-write type and include management events false', async () => {
+    test('Should pass when a trail has set IsMultiRegionTrail and isLogging as true with at least one Event Selector with IncludeManagementEvents set to true and ReadWriteType set to All', async () => {
       const data = {
         queryawsCloudtrail: [
           {
             id: cuid(),
             isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: true
+            },
             eventSelectors: [
               {
                 readWriteType: 'All',
-                includeManagementEvents: false,
+                includeManagementEvents: true,
               },
             ],
           },
@@ -61,16 +45,73 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
 
-    test('Should fail when a trail has set multi region as true with all read-write type and include management events true', async () => {
+    test('Should fail when a trail has set IsMultiRegionTrail is set to false', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'No',
+            status: {
+              isLogging: true
+            },
+            eventSelectors: [
+              {
+                readWriteType: 'All',
+                includeManagementEvents: true,
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set isLogging is set to false', async () => {
       const data = {
         queryawsCloudtrail: [
           {
             id: cuid(),
             isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: false
+            },
             eventSelectors: [
               {
                 readWriteType: 'All',
                 includeManagementEvents: true,
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set multi region as true with all read-write type and include management events false', async () => {
+      const data = {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            isMultiRegionTrail: 'Yes',
+            status: {
+              isLogging: true
+            },
+            eventSelectors: [
+              {
+                readWriteType: 'All',
+                includeManagementEvents: false,
               },
             ],
           },
