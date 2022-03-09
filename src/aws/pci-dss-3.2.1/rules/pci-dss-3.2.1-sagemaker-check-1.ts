@@ -18,7 +18,7 @@ export default {
   **PCI DSS 1.3.2: Limit inbound internet traffic to IP addresses within the DMZ.**
   If you use SageMaker notebook instances within your CDE, ensure that the notebook instance does not allow direct internet access. Allowing direct public access to your notebook instance might violate the requirement to limit inbound traffic to IP addresses within the DMZ.
   
-  **PCI DSS 1.3.4: Do not allow unauthorized outbound traffic from the cardholder data environment to the internet.
+  **PCI DSS 1.3.4: Do not allow unauthorized outbound traffic from the cardholder data environment to the internet.**
   If you use SageMaker notebook instances within your CDE, ensure that the notebook instance does not allow direct internet access. Allowing direct public access to your notebook instance might violate the requirement to block unauthorized outbound traffic from the cardholder data environment to the internet
   
   **PCI DSS 1.3.6: Place system components that store cardholder data (such as a database) in an internal network zone, segregated from the DMZ and other untrusted networks.**
@@ -42,6 +42,7 @@ export default {
   
   7. Choose Create notebook instance.`,
   references: [
+    'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-sagemaker-1',
     'https://d1.awsstatic.com/whitepapers/compliance/pci-dss-compliance-on-aws.pdf'
   ],
   gql: `{
