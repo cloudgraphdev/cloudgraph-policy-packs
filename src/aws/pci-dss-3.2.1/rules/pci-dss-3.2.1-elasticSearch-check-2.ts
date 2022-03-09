@@ -32,7 +32,7 @@ export default {
     }
   }`,
   resource: 'queryawsElasticSearchDomain[*]',
-  severity: 'low',
+  severity: 'medium',
   conditions: {
     path: '@.encryptionAtRestOptions.enabled',
     equal: true

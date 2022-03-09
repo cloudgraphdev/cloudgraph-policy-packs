@@ -59,7 +59,7 @@ This method is used to place system components that store cardholder data in an 
     }
   }`,
   resource: 'queryawsElasticSearchDomain[*]',
-  severity: 'medium',
+  severity: 'high',
   conditions: {
     path: '@.vpcOptions.vpcId',
     notIn: [null, '']
