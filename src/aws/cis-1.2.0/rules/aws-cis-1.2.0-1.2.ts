@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-1.2',
   title:
-    'AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password (Scored)',
+    'AWS CIS 1.2 Ensure MFA is enabled for all IAM users that have a console password',
   description: `Multi-Factor Authentication (MFA) adds an extra layer of protection on top of a user name
   and password. With MFA enabled, when a user signs in to an AWS website, they will be
   prompted for their user name and password as well as for an authentication code from

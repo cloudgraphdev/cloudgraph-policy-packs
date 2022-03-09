@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-4.3',
   title:
-    'AWS CIS 4.3 Ensure the default security group of every VPC restricts all traffic (Scored)',
+    'AWS CIS 4.3 Ensure the default security group of every VPC restricts all traffic',
   description: `A VPC comes with a default security group whose initial settings deny all inbound traffic,
   allow all outbound traffic, and allow all traffic between instances assigned to the security
   group. If you don't specify a security group when you launch an instance, the instance is

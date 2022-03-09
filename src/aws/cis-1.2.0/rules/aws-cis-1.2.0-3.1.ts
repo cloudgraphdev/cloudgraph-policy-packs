@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.2.0-3.1',
   title:
-    'AWS CIS 3.1 Ensure a log metric filter and alarm exist for unauthorized API calls (Scored)',
+    'AWS CIS 3.1 Ensure a log metric filter and alarm exist for unauthorized API calls',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. It is
   recommended that a metric filter and alarm be established for unauthorized API calls.`,

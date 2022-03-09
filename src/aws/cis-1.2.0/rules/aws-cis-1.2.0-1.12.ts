@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.2.0-1.12',
-  title: 'AWS CIS 1.12  Ensure no root account access key exists (Scored)',
+  title: 'AWS CIS 1.12  Ensure no root account access key exists',
   description: `The root account is the most privileged user in an AWS account. AWS Access Keys provide
   programmatic access to a given AWS account. It is recommended that all access keys
   associated with the root account be removed.`,

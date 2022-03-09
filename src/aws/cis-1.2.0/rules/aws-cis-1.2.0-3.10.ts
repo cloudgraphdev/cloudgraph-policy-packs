@@ -4,7 +4,7 @@ const filterPatternRegex =
 export default {
   id: 'aws-cis-1.2.0-3.10',
   title:
-    'AWS CIS 3.10 Ensure a log metric filter and alarm exist for security group changes (Scored)',
+    'AWS CIS 3.10 Ensure a log metric filter and alarm exist for security group changes',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. Security
   Groups are a stateful packet filter that controls ingress and egress traffic within a VPC. It is

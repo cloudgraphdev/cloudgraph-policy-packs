@@ -4,7 +4,7 @@ const filterPatternRegex =
 export default {
   id: 'aws-cis-1.2.0-3.12',
   title:
-    'AWS CIS 3.12 Ensure a log metric filter and alarm exist for changes to network gateways (Scored)',
+    'AWS CIS 3.12 Ensure a log metric filter and alarm exist for changes to network gateways',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. Network
   gateways are required to send/receive traffic to a destination outside of a VPC. It is

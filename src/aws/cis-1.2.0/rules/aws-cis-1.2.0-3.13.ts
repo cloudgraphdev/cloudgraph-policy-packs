@@ -4,7 +4,7 @@ const filterPatternRegex =
 export default {
   id: 'aws-cis-1.2.0-3.13',
   title:
-    'AWS CIS 3.13 Ensure a log metric filter and alarm exist for route table changes (Scored)',
+    'AWS CIS 3.13 Ensure a log metric filter and alarm exist for route table changes',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
   CloudWatch Logs and establishing corresponding metric filters and alarms. Routing tables
   are used to route network traffic between subnets and to network gateways. It is
