@@ -105,6 +105,12 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
 | Azure CIS 4.4  | Ensure that Azure Active Directory Admin is configured                                                                        |
 | Azure CIS 4.5  | Ensure SQL server's TDE protector is encrypted with Customer-managed key                                                      |
+| Azure CIS 5.2.1| Ensure that Activity Log Alert exists for Create Policy Assignment                                                            |
+| Azure CIS 5.2.2| Ensure that Activity Log Alert exists for Delete Policy Assignment                                                            |
+| Azure CIS 5.2.3| Ensure that Activity Log Alert exists for Create or Update Network Security Group                                             |
+| Azure CIS 5.2.4| Ensure that Activity Log Alert exists for Delete Network Security Group                                                       |
+| Azure CIS 5.2.5| Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule                                        |
+| Azure CIS 5.2.6| Ensure that Activity Log Alert exists for the Delete Network Security Group Rule                                              |
 | Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
 | Azure CIS 6.2  | Ensure that SSH access is restricted from the internet                                                                        |
 | Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
