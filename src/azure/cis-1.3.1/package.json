@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-azure-cis-1.3.1",
   "description": "Policy pack implementing CIS Microsoft Azure Foundations 1.3.1 Benchmark",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
