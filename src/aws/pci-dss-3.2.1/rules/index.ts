@@ -17,6 +17,8 @@ import Aws_PCI_DSS_321_EC2_4 from './pci-dss-3.2.1-ec2-check-4'
 import Aws_PCI_DSS_321_EC2_5 from './pci-dss-3.2.1-ec2-check-5'
 import Aws_PCI_DSS_321_EC2_6 from './pci-dss-3.2.1-ec2-check-6'
 import Aws_PCI_DSS_321_SageMaker_1 from './pci-dss-3.2.1-sagemaker-check-1'
+import Aws_PCI_DSS_321_ES_1 from './pci-dss-3.2.1-elasticSearch-check-1'
+import Aws_PCI_DSS_321_ES_2 from './pci-dss-3.2.1-elasticSearch-check-2'
 
 export default [
   Aws_PCI_DSS_321_Autoscaling_1,
@@ -37,5 +39,7 @@ export default [
   Aws_PCI_DSS_321_EC2_4,
   Aws_PCI_DSS_321_EC2_5,
   Aws_PCI_DSS_321_EC2_6,
-  Aws_PCI_DSS_321_SageMaker_1
+  Aws_PCI_DSS_321_SageMaker_1,
+  Aws_PCI_DSS_321_ES_1,
+  Aws_PCI_DSS_321_ES_2
 ]
