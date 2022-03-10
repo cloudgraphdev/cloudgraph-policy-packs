@@ -1,3 +1,15 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.9.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.4...@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.0) (2022-03-10)
+
+
+### Bug Fixes
+
+* **checks:** update kms cis checks for updates to kms schema ([390cd44](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/390cd4447f5b30c391f0b770791db1137c317f07))
+
+
+### Features
+
+* **checks:** new check kms-check-1 ([3970287](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/3970287d9954d8748a7251cfb2748b16f7ea3cf1))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.8.4](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.3...@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.4) (2022-03-09)
 
 
