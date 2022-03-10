@@ -527,7 +527,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             keyManager: 'CUSTOMER',
-            keyRotationEnabled: 'Yes',
+            keyRotationEnabled: true,
           },
         ],
       }
@@ -546,7 +546,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             keyManager: 'AWS',
-            keyRotationEnabled: 'Yes',
+            keyRotationEnabled: true,
           },
         ],
       }
@@ -559,13 +559,13 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
 
-    test('Should pass when rotation is disabled with customer as a manager', async () => {
+    test('Should fail when rotation is disabled with customer as a manager', async () => {
       const data = {
         queryawsKms: [
           {
             id: cuid(),
             keyManager: 'CUSTOMER',
-            keyRotationEnabled: 'No',
+            keyRotationEnabled: false,
           },
         ],
       }
@@ -584,7 +584,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             keyManager: 'AWS',
-            keyRotationEnabled: 'No',
+            keyRotationEnabled: false,
           },
         ],
       }

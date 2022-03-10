@@ -1,3 +1,4 @@
+// this rule is also in PCI kms check 1
 export default {
   id: 'aws-cis-1.2.0-2.8',
   title:
@@ -68,7 +69,7 @@ export default {
           },
           {
             path: '@.keyRotationEnabled',
-            equal: 'Yes',
+            equal: true,
           },
         ],
       },
@@ -80,7 +81,7 @@ export default {
           },
           {
             path: '@.keyRotationEnabled',
-            equal: 'Yes',
+            equal: true,
           },
         ],
       },
