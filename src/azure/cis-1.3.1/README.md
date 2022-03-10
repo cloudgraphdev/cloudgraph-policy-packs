@@ -103,6 +103,12 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
+| Azure CIS 6.2  | Ensure that SSH access is restricted from the internet                                                                        |
+| Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
+| Azure CIS 6.4  | Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'                                        |
+| Azure CIS 6.5  | Ensure that Network Watcher is 'Enabled' (Manual)                                                                             |
+| Azure CIS 6.6  | Ensure that UDP Services are restricted from the Internet (Automated)                                                         |
 | Azure CIS 9.1  | Ensure App Service Authentication is set on Azure App Service                                                                 |
 | Azure CIS 9.2  | Ensure web app redirects all HTTP traffic to HTTPS in Azure App Service                                                       |
 | Azure CIS 9.3  | Ensure web app is using the latest version of TLS encryption                                                                  |
