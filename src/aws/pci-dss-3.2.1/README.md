@@ -76,4 +76,6 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | iam-check-1           | IAM root user access key should not exist                                             |
 | iam-check-2           | IAM users should not have IAM policies attached                                       |
 | iam-check-3           | IAM policies should not allow full "\*" administrative privileges                     |
+| rds-check-1           | RDS DB Instances should prohibit public access                                        |
+| redshift-check-1      | Amazon Redshift clusters should prohibit public access                                |
 | sageMaker-check-1     | Amazon SageMaker notebook instances should not have direct internet access            |
