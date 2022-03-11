@@ -103,6 +103,8 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 4.4  | Ensure that Azure Active Directory Admin is configured                                                                        |
+| Azure CIS 4.5  | Ensure SQL server's TDE protector is encrypted with Customer-managed key                                                      |
 | Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
 | Azure CIS 6.2  | Ensure that SSH access is restricted from the internet                                                                        |
 | Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
