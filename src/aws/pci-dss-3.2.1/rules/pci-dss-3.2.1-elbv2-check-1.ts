@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-pci-dss-3.2.1-alb-check-1',
+  id: 'aws-pci-dss-3.2.1-elbv2-check-1',
   title:
     'ELBV2 Check 1: Application Load Balancer should be configured to redirect all HTTP requests to HTTPS',
   description: `This control checks whether HTTP to HTTPS redirection is configured on all HTTP listeners of Application Load Balancers. The control fails if any of the HTTP listeners of Application Load Balancers do not have HTTP to HTTPS redirection configured.

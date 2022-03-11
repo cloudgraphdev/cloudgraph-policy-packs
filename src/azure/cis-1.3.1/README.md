@@ -103,6 +103,8 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 4.4  | Ensure that Azure Active Directory Admin is configured                                                                        |
+| Azure CIS 4.5  | Ensure SQL server's TDE protector is encrypted with Customer-managed key                                                      |
 | Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
 | Azure CIS 6.2  | Ensure that SSH access is restricted from the internet                                                                        |
 | Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
@@ -116,6 +118,11 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 7.5  | Ensure that the latest OS Patches for all Virtual Machines are applied (Manual)                                               |
 | Azure CIS 7.6  | Ensure that the endpoint protection for all Virtual Machines is installed (Manual)                                            |
 | Azure CIS 7.7  | Ensure that VHD's are encrypted (Manual)                                                                                      |
+| Azure CIS 8.1  | Ensure that the expiration date is set on all keys                                                                            |
+| Azure CIS 8.2  | Ensure that the expiration date is set on all Secrets                                                                         |
+| Azure CIS 8.3  | Ensure that Resource Locks are set for mission critical Azure resources (Manual)                                              |
+| Azure CIS 8.4  | Ensure the key vault is recoverable                                                                                           |
+| Azure CIS 8.5  | Enable role-based access control (RBAC) within Azure Kubernetes Services                                                      |
 | Azure CIS 9.1  | Ensure App Service Authentication is set on Azure App Service                                                                 |
 | Azure CIS 9.2  | Ensure web app redirects all HTTP traffic to HTTPS in Azure App Service                                                       |
 | Azure CIS 9.3  | Ensure web app is using the latest version of TLS encryption                                                                  |

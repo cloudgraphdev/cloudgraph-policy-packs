@@ -1,7 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
-import Aws_PCI_DSS_321_Alb_1 from '../rules/pci-dss-3.2.1-alb-check-1'
+import Aws_PCI_DSS_321_Elbv2_1 from '../rules/pci-dss-3.2.1-elbv2-check-1'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
@@ -36,7 +36,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_PCI_DSS_321_Alb_1 as Rule,
+        Aws_PCI_DSS_321_Elbv2_1 as Rule,
         { ...data } as any
       )
 
@@ -77,7 +77,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_PCI_DSS_321_Alb_1 as Rule,
+        Aws_PCI_DSS_321_Elbv2_1 as Rule,
         { ...data } as any
       )
 
@@ -95,7 +95,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_PCI_DSS_321_Alb_1 as Rule,
+        Aws_PCI_DSS_321_Elbv2_1 as Rule,
         { ...data } as any
       )
 
@@ -129,7 +129,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       }
 
       const [processedRule] = await rulesEngine.processRule(
-        Aws_PCI_DSS_321_Alb_1 as Rule,
+        Aws_PCI_DSS_321_Elbv2_1 as Rule,
         { ...data } as any
       )
 

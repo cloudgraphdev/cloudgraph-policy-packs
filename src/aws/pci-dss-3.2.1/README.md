@@ -55,27 +55,32 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 ## Available Ruleset
 
-| Rule                  | Description                                                                           |
-| --------------------- | ------------------------------------------------------------------------------------- |
-| autoscaling-check-1   | Auto Scaling groups associated with a load balancer should use health checks          |
-| alb-check-1           | Application Load Balancer should be configured to redirect all HTTP requests to HTTPS |
-| codebuild-check-1     | CodeBuild GitHub or Bitbucket source repository URLs should use OAuth                 |
-| codebuild-check-2     | CodeBuild project environment variables should not contain clear text credentials     |
-| cloudfront-check-1    | Cloudfront distributions should be protected by WAFs                                  |
-| cloudtrail-check-1    | CloudTrail logs should be encrypted at rest using AWS KMS keys                        |
-| cloudtrail-check-2    | CloudTrail should be enabled                                                          |
-| cloudtrail-check-3    | CloudTrail log file validation should be enabled                                      |
-| cloudtrail-check-4    | CloudTrail trails should be integrated with CloudWatch Logs                           |
-| elasticsearch-check-1 | ElasticSearch domains should be in a VPC                                              |
-| elasticsearch-check-2 | Elasticsearch domains should have encryption at rest enabled                          |
-| ec2-check-1           | Amazon EBS snapshots should not be publicly restorable                                |
-| ec2-check-2           | VPC default security group should prohibit inbound and outbound traffic               |
-| ec2-check-4           | Unused EC2 EIPs should be removed                                                     |
-| ec2-check-5           | Security groups should not allow ingress from 0.0.0.0/0 to port 22                    |
-| ec2-check-6           | VPC flow logging should be enabled in all VPCs                                        |
-| iam-check-1           | IAM root user access key should not exist                                             |
-| iam-check-2           | IAM users should not have IAM policies attached                                       |
-| iam-check-3           | IAM policies should not allow full "\*" administrative privileges                     |
-| rds-check-1           | RDS DB Instances should prohibit public access                                        |
-| redshift-check-1      | Amazon Redshift clusters should prohibit public access                                |
-| sageMaker-check-1     | Amazon SageMaker notebook instances should not have direct internet access            |
+| Rule                  | Description                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| autoscaling-check-1   | Auto Scaling groups associated with a load balancer should use health checks           |
+| cloudfront-check-1    | Cloudfront distributions should be protected by WAFs                                   |
+| cloudtrail-check-1    | CloudTrail logs should be encrypted at rest using AWS KMS keys                         |
+| cloudtrail-check-2    | CloudTrail should be enabled                                                           |
+| cloudtrail-check-3    | CloudTrail log file validation should be enabled                                       |
+| cloudtrail-check-4    | CloudTrail trails should be integrated with CloudWatch Logs                            |
+| codebuild-check-1     | CodeBuild GitHub or Bitbucket source repository URLs should use OAuth                  |
+| codebuild-check-2     | CodeBuild project environment variables should not contain clear text credentials      |
+| dms-check-1           | AWS Database Migration Service replication instances should not be public              |
+| ec2-check-1           | Amazon EBS snapshots should not be publicly restorable                                 |
+| ec2-check-2           | VPC default security group should prohibit inbound and outbound traffic                |
+| ec2-check-4           | Unused EC2 EIPs should be removed                                                      |
+| ec2-check-5           | Security groups should not allow ingress from 0.0.0.0/0 to port 22                     |
+| ec2-check-6           | VPC flow logging should be enabled in all VPCs                                         |
+| elasticsearch-check-1 | ElasticSearch domains should be in a VPC                                               |
+| elasticsearch-check-2 | Elasticsearch domains should have encryption at rest enabled                           |
+| elbv2-check-1         | Application Load Balancer should be configured to redirect all HTTP requests to HTTPS  |
+| iam-check-1           | IAM root user access key should not exist                                              |
+| iam-check-2           | IAM users should not have IAM policies attached                                        |
+| iam-check-3           | IAM policies should not allow full "\*" administrative privileges                      |
+| iam-check-4           | Hardware MFA should be enabled for the root user                                       |
+| iam-check-5           | Virtual MFA should be enabled for the root user                                        |
+| iam-check-6           | MFA should be enabled for all IAM users                                                |
+| iam-check-7           | IAM user credentials should be disabled if not used within a predefined number of days |
+| iam-check-8           | Password policies for IAM users should have strong configurations                      |
+| kms-check-1           | KMS key rotation should be enabled                                                     |
+| sageMaker-check-1     | Amazon SageMaker notebook instances should not have direct internet access             |

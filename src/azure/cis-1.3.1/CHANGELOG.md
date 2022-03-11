@@ -1,3 +1,11 @@
+# @cloudgraph/policy-pack-azure-cis-1.3.1 [1.7.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.6.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.7.0) (2022-03-11)
+
+
+### Features
+
+* Included 4.4 and 4.5 rules for azure cis 1.3.1 ([cc505bf](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/cc505bf67f0add38eab55025f180b4d5dff17ef0))
+* Included 8.1, 8.2, 8.3, 8.4, 8.5 rules for azure cis 1.3.1 ([0ac4ac8](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/0ac4ac87e383335f22c923f5aa6b34c0a6a0903a))
+
 # @cloudgraph/policy-pack-azure-cis-1.3.1 [1.6.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.5.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.6.0) (2022-03-11)
 
 
