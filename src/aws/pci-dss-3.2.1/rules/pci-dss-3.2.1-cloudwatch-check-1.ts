@@ -77,7 +77,6 @@ export default {
   gql: `{
     queryawsAccount {
       id
-      accountId
       __typename
       cloudtrail {
         isMultiRegionTrail

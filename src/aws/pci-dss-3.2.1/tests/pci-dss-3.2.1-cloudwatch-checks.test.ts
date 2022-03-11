@@ -166,6 +166,18 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
+    test('Should failed when no cloudtrail data is found', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            cloudtrail: [],
+          },
+        ],
+      }
+      await test33Rule(data, Result.FAIL)
+    })
+
     test('No Security Issue when there are metric filters and alarms for security group changes', async () => {
       const data = getValidResponse(Filter_Pattern)
       await test33Rule(data, Result.PASS)
