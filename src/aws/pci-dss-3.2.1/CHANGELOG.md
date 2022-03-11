@@ -1,3 +1,11 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.10.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.9.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.10.0) (2022-03-11)
+
+
+### Features
+
+* **checks:** new checks rds-check-2 and redshift-check-1 ([44e9ffd](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/44e9ffd312e554bae8b1d70c021e9b5c544b4564))
+* **checks:** new checks ssm-check-1,2,3 ([ed9f52b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/ed9f52b2e599433945e2414e50c9729aeac4d4a0))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.9.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.8.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.9.0) (2022-03-11)
 
 
