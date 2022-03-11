@@ -45,6 +45,6 @@ export default {
   severity: 'medium',
   conditions: {
     path: '@.passwordReusePrevention',
-    greaterThan: 24,
+    greaterThanInclusive: 24,
   },
 }
