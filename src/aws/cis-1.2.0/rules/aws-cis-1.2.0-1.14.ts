@@ -56,12 +56,29 @@ export default {
        __typename
       name
       mfaActive
+      virtualMfaDevices {
+        serialNumber
+      }
     }
   }`,
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {
-    path: '@.mfaActive',
-    equal: true,
+    and: [
+      {
+        path: '@.mfaActive',
+        equal: true,
+      },
+      {
+        jq: '[select("arn:aws:iam::" + .accountId + ":mfa/root-account-mfa-device" == .virtualMfaDevices[].serialNumber)] | { "match" : (length > 0) }',
+        path: '@',
+        and: [
+          {
+            path: '@.match',
+            notEqual: true,
+          },
+        ],
+      },
+    ]
   },
 }

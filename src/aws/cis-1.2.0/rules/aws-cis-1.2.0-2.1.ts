@@ -71,46 +71,48 @@ export default {
     `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-supported-services.html#cloud-trail-supported-services-data-events`,
   ],
   gql: `{
-    queryawsCloudtrail {
+    queryawsAccount { 
       id
-      arn
-      accountId
-       __typename
-      isMultiRegionTrail
-      eventSelectors {
-        readWriteType
-        includeManagementEvents
+      __typename
+      cloudtrail {
+        isMultiRegionTrail
+        status {
+          isLogging
+        }
+        eventSelectors {
+          readWriteType
+          includeManagementEvents
+        }
       }
     }
   }`,
-  resource: 'queryawsCloudtrail[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    or: [
-      {
-        path: '@.isMultiRegionTrail',
-        equal: 'No',
-      },
-      {
-        and: [
-          {
-            path: '@.isMultiRegionTrail',
-            equal: 'Yes',
+    path: '@.cloudtrail',
+    array_any: {
+      and: [
+        {
+          path: '[*].isMultiRegionTrail',
+          equal: 'Yes',
+        },
+        {
+          path: '[*].status.isLogging',
+          equal: true,
+        },
+        {
+          path: '[*].eventSelectors',
+          array_any: {
+            and: [
+              { path: '[*].readWriteType', equal: 'All' },
+              {
+                path: '[*].includeManagementEvents',
+                equal: true,
+              },
+            ],
           },
-          {
-            path: '@.eventSelectors',
-            array_any: {
-              or: [
-                { path: '[*].readWriteType', notEqual: 'All' },
-                {
-                  path: '[*].includeManagementEvents',
-                  equal: false,
-                },
-              ],
-            },
-          },
-        ],
-      },
-    ],
+        },
+      ],
+    },
   },
 }

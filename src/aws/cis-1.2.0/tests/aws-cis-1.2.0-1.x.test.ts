@@ -220,8 +220,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                lastRotated: '2021-05-26T19:43:52.000Z',
+                lastRotated: '2021-09-23T15:56:01.000Z'
               },
+              {
+                status: 'Inactive',
+                lastRotated: '2021-08-27T15:00:44.000Z'
+              }
             ],
           },
         ],
@@ -624,6 +628,30 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
+    test('Should fail when a root account has a mfa virtual device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+            accountId: '123456',
+            virtualMfaDevices: [
+              {
+                serialNumber: 'arn:aws:iam::123456:mfa/root-account-mfa-device'
+              }
+            ]
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_114 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
     test('Should pass when a root account has a mfa hardware device active', async () => {
       const data = {
         queryawsIamUser: [
@@ -631,6 +659,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             name: 'root',
             mfaActive: true,
+            accountId: '123456',
+            virtualMfaDevices: [
+              {
+                serialNumber: 'arn:aws:iam::123456:mfa/some-account-mfa-device'
+              }
+            ]
           },
         ],
       }
@@ -686,18 +720,23 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   describe('AWS CIS 1.20 Ensure a support role has been created to manage incidents with AWS Support', () => {
     test('Should pass when AWSSupportAccess is attached to IAM users', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsAccount: [
           {
             id: cuid(),
-            iamUsers: [
+            iamPolicies: [
               {
-                arn: 'arn:aws:iam::632941798677:user/test',
+                name: 'AWSSupportAccess',
+                iamUsers: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+                iamGroups: [],
+                iamRoles: [],
               },
             ],
-            iamGroups: [],
-            iamRoles: [],
-          },
-        ],
+          }
+        ]
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -710,18 +749,23 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should pass when AWSSupportAccess is attached to any IAM groups', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsAccount: [
           {
             id: cuid(),
-            iamUsers: [],
-            iamGroups: [
+            iamPolicies: [
               {
-                arn: 'arn:aws:iam::632941798677:user/test',
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+                iamRoles: [],
               },
             ],
-            iamRoles: [],
-          },
-        ],
+          }
+        ]
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -734,18 +778,23 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should pass when AWSSupportAccess is attached to any IAM roles', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsAccount: [
           {
             id: cuid(),
-            iamUsers: [],
-            iamGroups: [],
-            iamRoles: [
+            iamPolicies: [
               {
-                arn: 'arn:aws:iam::632941798677:user/test',
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
               },
             ],
-          },
-        ],
+          }
+        ]
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -758,14 +807,66 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when AWSSupportAccess is not attached to any IAM user, group or role', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsAccount: [
           {
             id: cuid(),
-            iamUsers: [],
-            iamGroups: [],
-            iamRoles: [],
-          },
-        ],
+            iamPolicies: [
+              {
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [],
+              },
+            ],
+          }
+        ]
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when AWSSupportAccess is not exists', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'PolicyTest',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+              },
+            ],
+          }
+        ]
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when when there are no IAM policies', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [],
+          }
+        ]
       }
 
       const [processedRule] = await rulesEngine.processRule(
