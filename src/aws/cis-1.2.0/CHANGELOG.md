@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.9.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.1) (2022-03-11)
+
+
+### Bug Fixes
+
+* Fix discrepancies between AutoCloud and Fugue ([e5d5de6](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/e5d5de6bbcd72632c4c2cfbfac5d2baccd4b529f))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.9.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.8.4...@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.0) (2022-03-10)
 
 
