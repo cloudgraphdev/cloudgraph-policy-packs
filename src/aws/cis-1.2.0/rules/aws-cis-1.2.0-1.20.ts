@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 export default {
   id: 'aws-cis-1.2.0-1.20',
   title:
@@ -52,39 +51,50 @@ export default {
     'http://docs.aws.amazon.com/cli/latest/reference/iam/list-entities-for-policy.html',
   ],
   gql: `{
-    queryawsIamPolicy(filter: { name: { eq: "AWSSupportAccess" } }) {
+    queryawsAccount { 
       id
-      arn
-      accountId
-       __typename
-      name
-      iamUsers {
-        arn
-      }
-      iamGroups {
-        arn
-      }
-      iamRoles {
-        arn
-      }
-    }
+      __typename
+      iamPolicies {
+         name
+         iamUsers {
+           arn
+         }
+         iamGroups {
+           arn
+         }
+         iamRoles {
+           arn
+         }
+       }
+     }
   }`,
-  resource: 'queryawsIamPolicy[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    or: [
-      {
-        path: '@.iamUsers',
-        isEmpty: false,
-      },
-      {
-        path: '@.iamGroups',
-        isEmpty: false,
-      },
-      {
-        path: '@.iamRoles',
-        isEmpty: false,
-      },
-    ],
+    path: '@.iamPolicies',
+    array_any: {
+      and: [
+       {
+        path: '[*].name',
+        equal: 'AWSSupportAccess',
+       },
+       {
+        or: [
+          {
+            path: '[*].iamUsers',
+            isEmpty: false,
+          },
+          {
+            path: '[*].iamGroups',
+            isEmpty: false,
+          },
+          {
+            path: '[*].iamRoles',
+            isEmpty: false,
+          },
+        ],
+       },
+      ],
+    },
   },
 }

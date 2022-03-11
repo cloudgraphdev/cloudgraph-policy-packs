@@ -15,38 +15,29 @@ import Aws_CIS_120_29 from '../rules/aws-cis-1.2.0-2.9'
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'aws',
+      entityName: 'CIS',
+    })
   })
   describe('AWS CIS 2.1 Ensure CloudTrail is enabled in all regions', () => {
-    test('Should pass when a trail has set multi region as false', async () => {
+    test('Should pass when a trail has set IsMultiRegionTrail and isLogging as true with at least one Event Selector with IncludeManagementEvents set to true and ReadWriteType set to All', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsAccount: [
           {
             id: cuid(),
-            isMultiRegionTrail: 'No',
-            eventSelectors: [],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_21 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.PASS)
-    })
-
-    test('Should pass when a trail has set multi region as true with all read-write type and include management events false', async () => {
-      const data = {
-        queryawsCloudtrail: [
-          {
-            id: cuid(),
-            isMultiRegionTrail: 'Yes',
-            eventSelectors: [
+            cloudtrail: [
               {
-                readWriteType: 'All',
-                includeManagementEvents: false,
+                isMultiRegionTrail: 'Yes',
+                status: {
+                  isLogging: true,
+                },
+                eventSelectors: [
+                  {
+                    readWriteType: 'All',
+                    includeManagementEvents: true,
+                  },
+                ],
               },
             ],
           },
@@ -61,18 +52,105 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
 
-    test('Should fail when a trail has set multi region as true with all read-write type and include management events true', async () => {
+    test('Should fail when a trail has set IsMultiRegionTrail is set to false', async () => {
       const data = {
-        queryawsCloudtrail: [
+        queryawsAccount: [
           {
             id: cuid(),
-            isMultiRegionTrail: 'Yes',
-            eventSelectors: [
+            cloudtrail: [
               {
-                readWriteType: 'All',
-                includeManagementEvents: true,
+                isMultiRegionTrail: 'No',
+                status: {
+                  isLogging: true,
+                },
+                eventSelectors: [
+                  {
+                    readWriteType: 'All',
+                    includeManagementEvents: true,
+                  },
+                ],
               },
             ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set isLogging is set to false', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            cloudtrail: [
+              {
+                isMultiRegionTrail: 'Yes',
+                status: {
+                  isLogging: false,
+                },
+                eventSelectors: [
+                  {
+                    readWriteType: 'All',
+                    includeManagementEvents: true,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a trail has set multi region as true with all read-write type and include management events false', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            cloudtrail: [
+              {
+                isMultiRegionTrail: 'Yes',
+                status: {
+                  isLogging: true,
+                },
+                eventSelectors: [
+                  {
+                    readWriteType: 'All',
+                    includeManagementEvents: false,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_21 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when there not are any trail', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            cloudtrail: [],
           },
         ],
       }
@@ -310,17 +388,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   describe('AWS CIS 2.5 Ensure AWS Config is enabled in all regions', () => {
     test('Should pass when a configuration recorder is enabled in all regions', async () => {
       const data = {
-        queryawsConfigurationRecorder: [
+        queryawsAccount: [
           {
             id: cuid(),
-            recordingGroup: {
-              allSupported: true,
-              includeGlobalResourceTypes: true,
-            },
-            status: {
-              recording: true,
-              lastStatus: 'SUCCESS',
-            },
+            configurationRecorders: [
+              {
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+            ],
           },
         ],
       }
@@ -335,17 +417,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when a configuration recorder has recordingGroup object includes "allSupported": false', async () => {
       const data = {
-        queryawsConfigurationRecorder: [
+        queryawsAccount: [
           {
             id: cuid(),
-            recordingGroup: {
-              allSupported: false,
-              includeGlobalResourceTypes: true,
-            },
-            status: {
-              recording: true,
-              lastStatus: 'SUCCESS',
-            },
+            configurationRecorders: [
+              {
+                recordingGroup: {
+                  allSupported: false,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+            ],
           },
         ],
       }
@@ -360,17 +446,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when a configuration recorder has recordingGroup object includes "includeGlobalResourceTypes": false', async () => {
       const data = {
-        queryawsConfigurationRecorder: [
+        queryawsAccount: [
           {
             id: cuid(),
-            recordingGroup: {
-              allSupported: true,
-              includeGlobalResourceTypes: false,
-            },
-            status: {
-              recording: true,
-              lastStatus: 'SUCCESS',
-            },
+            configurationRecorders: [
+              {
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: false,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+            ],
           },
         ],
       }
@@ -385,17 +475,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when a configuration recorder has status object includes "recording": false', async () => {
       const data = {
-        queryawsConfigurationRecorder: [
+        queryawsAccount: [
           {
             id: cuid(),
-            recordingGroup: {
-              allSupported: true,
-              includeGlobalResourceTypes: true,
-            },
-            status: {
-              recording: false,
-              lastStatus: 'SUCCESS',
-            },
+            configurationRecorders: [
+              {
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: false,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+            ],
           },
         ],
       }
@@ -410,17 +504,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail when a configuration recorder has status object includes "lastStatus" not "SUCCESS"', async () => {
       const data = {
-        queryawsConfigurationRecorder: [
+        queryawsAccount: [
           {
             id: cuid(),
-            recordingGroup: {
-              allSupported: true,
-              includeGlobalResourceTypes: true,
-            },
-            status: {
-              recording: true,
-              lastStatus: 'FAILED',
-            },
+            configurationRecorders: [
+              {
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'FAILED',
+                },
+              },
+            ],
           },
         ],
       }
@@ -433,8 +531,24 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-  })
+    test('Should fail when there not are any configurationRecorder', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            configurationRecorders: [],
+          },
+        ],
+      }
 
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
 
   describe('AWS CIS 2.6 Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket', () => {
     test("Should pass when a trail's bucket has access logging enabled", async () => {
