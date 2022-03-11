@@ -49,79 +49,87 @@ export interface QueryawsCloudtrailEntity {
   cloudwatchLog: CloudwatchLogEntity[]
 }
 
-export interface QueryResponse {
-  queryawsCloudtrail: QueryawsCloudtrailEntity[]
+export interface QueryAccount {
+  id: string
+  cloudtrail: QueryawsCloudtrailEntity[]
 }
 
-const getValidResponse = (
-  metricFilterPattern: string
-): QueryResponse => ({
-  queryawsCloudtrail: [
+export interface QueryResponse {
+  queryawsAccount: QueryAccount[]
+}
+
+const getValidResponse = (metricFilterPattern: string): QueryResponse => ({
+  queryawsAccount: [
     {
-      id: 'arn:aws:cloudtrail:us-east-2:111111111111:trail/snsTest',
-      isMultiRegionTrail: 'Yes',
-      status: {
-        isLogging: true,
-      },
-      eventSelectors: [
+      id: cuid(),
+      cloudtrail: [
         {
-          id: 'ckxysdl0u000osf7k0bmz41n8',
-          readWriteType: 'All',
-          includeManagementEvents: true,
-        },
-      ],
-      cloudwatchLog: [
-        {
-          arn: 'arn:aws:logs:us-east-1:111111111111:log-group:aws-cloudtrail-logs-111111111111-11111111:*',
-          metricFilters: [
+          id: 'arn:aws:cloudtrail:us-east-2:111111111111:trail/snsTest',
+          isMultiRegionTrail: 'Yes',
+          status: {
+            isLogging: true,
+          },
+          eventSelectors: [
             {
-              id: 'ckxysdl0s000ksf7kci3q4obi',
-              filterName: 'KmsDeletion',
-              filterPattern:
-                '{($.eventSource = kms.test.amazonaws.com) && (($.eventName=DisableKey)||($.eventName=ScheduleKeyDeletion)) }',
-              metricTransformations: [
-                {
-                  metricName: 'KmsDeletionCount',
-                },
-              ],
-            },
-            {
-              id: 'ckxysdl0s000ksf7kci3q4obi',
-              filterName: 'DummyName',
-              filterPattern: metricFilterPattern,
-              metricTransformations: [
-                {
-                  metricName: 'DummyNameCount',
-                },
-              ],
+              id: 'ckxysdl0u000osf7k0bmz41n8',
+              readWriteType: 'All',
+              includeManagementEvents: true,
             },
           ],
-          cloudwatch: [
+          cloudwatchLog: [
             {
-              metric: 'KmsDeletionCount',
-              arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:KmsDeletionAlarm',
-              actions: ['arn:aws:sns:us-east-1:111111111111:...'],
-              sns: [
+              arn: 'arn:aws:logs:us-east-1:111111111111:log-group:aws-cloudtrail-logs-111111111111-11111111:*',
+              metricFilters: [
                 {
-                  arn: 'arn:aws:sns:us-east-1:111111111111:...',
-                  subscriptions: [
+                  id: 'ckxysdl0s000ksf7kci3q4obi',
+                  filterName: 'KmsDeletion',
+                  filterPattern:
+                    '{($.eventSource = kms.test.amazonaws.com) && (($.eventName=DisableKey)||($.eventName=ScheduleKeyDeletion)) }',
+                  metricTransformations: [
                     {
-                      arn: 'arn:aws:sns:...',
+                      metricName: 'KmsDeletionCount',
+                    },
+                  ],
+                },
+                {
+                  id: 'ckxysdl0s000ksf7kci3q4obi',
+                  filterName: 'DummyName',
+                  filterPattern: metricFilterPattern,
+                  metricTransformations: [
+                    {
+                      metricName: 'DummyNameCount',
                     },
                   ],
                 },
               ],
-            },
-            {
-              metric: 'DummyNameCount',
-              arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:DummyAlarm',
-              actions: ['arn:aws:sns:us-east-1:111111111111:...'],
-              sns: [
+              cloudwatch: [
                 {
-                  arn: 'arn:aws:sns:us-east-1:111111111111:...',
-                  subscriptions: [
+                  metric: 'KmsDeletionCount',
+                  arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:KmsDeletionAlarm',
+                  actions: ['arn:aws:sns:us-east-1:111111111111:...'],
+                  sns: [
                     {
-                      arn: 'arn:aws:sns:us-east-1:111111111111:...:11111111-1111-1111-1111-111111111111',
+                      arn: 'arn:aws:sns:us-east-1:111111111111:...',
+                      subscriptions: [
+                        {
+                          arn: 'arn:aws:sns:...',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  metric: 'DummyNameCount',
+                  arn: 'arn:aws:cloudwatch:us-east-1:111111111111:alarm:DummyAlarm',
+                  actions: ['arn:aws:sns:us-east-1:111111111111:...'],
+                  sns: [
+                    {
+                      arn: 'arn:aws:sns:us-east-1:111111111111:...',
+                      subscriptions: [
+                        {
+                          arn: 'arn:aws:sns:us-east-1:111111111111:...:11111111-1111-1111-1111-111111111111',
+                        },
+                      ],
                     },
                   ],
                 },
@@ -142,8 +150,6 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       entityName: 'PCI',
     })
   })
-
-
 
   describe('Cloudwatch Check 1: A log metric filter and alarm should exist for usage of the "root" user', () => {
     const test33Rule = async (
@@ -167,17 +173,18 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('Security Issue when isLogging is false', async () => {
       const data = getValidResponse(Filter_Pattern)
-      data.queryawsCloudtrail[0].status.isLogging = false
+      data.queryawsAccount[0].cloudtrail[0].status.isLogging = false
       await test33Rule(data, Result.FAIL)
     })
     test('Security Issue when eventSelectors readWriteType is not All', async () => {
       const data = getValidResponse(Filter_Pattern)
-      data.queryawsCloudtrail[0].eventSelectors[0].readWriteType = 'dummy'
+      data.queryawsAccount[0].cloudtrail[0].eventSelectors[0].readWriteType =
+        'dummy'
       await test33Rule(data, Result.FAIL)
     })
     test('Security Issue when eventSelectors includeManagementEvents is not true', async () => {
       const data = getValidResponse(Filter_Pattern)
-      data.queryawsCloudtrail[0].eventSelectors[0].includeManagementEvents =
+      data.queryawsAccount[0].cloudtrail[0].eventSelectors[0].includeManagementEvents =
         false
       await test33Rule(data, Result.FAIL)
     })
@@ -189,7 +196,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     })
     test('Security Issue when cloudwatch sns suscription is not found', async () => {
       const data = getValidResponse(Filter_Pattern)
-      data.queryawsCloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
+      data.queryawsAccount[0].cloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
       await test33Rule(data, Result.FAIL)
     })

@@ -53,42 +53,44 @@ export default {
     'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-sampletemplates.html'
   ],
   gql: `{
-    queryawsConfigurationRecorder {
+    queryawsAccount {
       id
-      arn
-      accountId
-       __typename
-      recordingGroup {
-        allSupported
-        includeGlobalResourceTypes
-      }
-      status {
-        recording
-        lastStatus
+      __typename
+      configurationRecorders {
+        recordingGroup {
+          allSupported
+          includeGlobalResourceTypes
+        }
+        status {
+          recording
+          lastStatus
+        }
       }
     }
   }`,
-  resource: 'queryawsConfigurationRecorder[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    path: '@',
-    and: [
-      {
-        path: '[*].recordingGroup.allSupported',
-        equal: true,
-      },
-      {
-        path: '[*].recordingGroup.includeGlobalResourceTypes',
-        equal: true,
-      },
-      {
-        path: '[*].status.recording',
-        equal: true,
-      },
-      {
-        path: '[*].status.lastStatus',
-        equal: 'SUCCESS',
-      },
-    ],
+    path: '@.configurationRecorders',
+    array_any: {
+      and: [
+        {
+          path: '[*].recordingGroup.allSupported',
+          equal: true,
+        },
+        {
+          path: '[*].recordingGroup.includeGlobalResourceTypes',
+          equal: true,
+        },
+        {
+          path: '[*].status.recording',
+          equal: true,
+        },
+        {
+          path: '[*].status.lastStatus',
+          equal: 'SUCCESS',
+        },
+      ],
+    },
   },
 }
