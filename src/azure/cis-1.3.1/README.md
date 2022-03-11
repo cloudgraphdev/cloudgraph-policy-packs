@@ -108,7 +108,14 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
 | Azure CIS 6.4  | Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'                                        |
 | Azure CIS 6.5  | Ensure that Network Watcher is 'Enabled' (Manual)                                                                             |
-| Azure CIS 6.6  | Ensure that UDP Services are restricted from the Internet (Automated)                                                         |
+| Azure CIS 6.6  | Ensure that UDP Services are restricted from the Internet                                                                     |
+| Azure CIS 7.1  | Ensure Virtual Machines are utilizing Managed Disks (Manual)                                                                  |
+| Azure CIS 7.2  | Ensure that 'OS and Data' disks are encrypted with CMK                                                                        |
+| Azure CIS 7.3  | Ensure that 'Unattached disks' are encrypted with CMK                                                                         |
+| Azure CIS 7.4  | Ensure that only approved extensions are installed (Manual)                                                                   |
+| Azure CIS 7.5  | Ensure that the latest OS Patches for all Virtual Machines are applied (Manual)                                               |
+| Azure CIS 7.6  | Ensure that the endpoint protection for all Virtual Machines is installed (Manual)                                            |
+| Azure CIS 7.7  | Ensure that VHD's are encrypted (Manual)                                                                                      |
 | Azure CIS 9.1  | Ensure App Service Authentication is set on Azure App Service                                                                 |
 | Azure CIS 9.2  | Ensure web app redirects all HTTP traffic to HTTPS in Azure App Service                                                       |
 | Azure CIS 9.3  | Ensure web app is using the latest version of TLS encryption                                                                  |
