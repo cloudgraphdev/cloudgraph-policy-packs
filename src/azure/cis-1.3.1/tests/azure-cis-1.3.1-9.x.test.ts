@@ -9,8 +9,7 @@ import Azure_CIS_131_93 from '../rules/azure-cis-1.3.1-9.3'
 import Azure_CIS_131_94 from '../rules/azure-cis-1.3.1-9.4'
 import Azure_CIS_131_95 from '../rules/azure-cis-1.3.1-9.5'
 import Azure_CIS_131_99 from '../rules/azure-cis-1.3.1-9.9'
-import Azure_CIS_131_910a from '../rules/azure-cis-1.3.1-9.10a'
-import Azure_CIS_131_910b from '../rules/azure-cis-1.3.1-9.10b'
+import Azure_CIS_131_910 from '../rules/azure-cis-1.3.1-9.10'
 
 export interface SiteConfig {
   minTlsVersion?: string
@@ -337,34 +336,61 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when Web Apps has FTP deployments state not set to "All allowed"', async () => {
-      const data = getTestRuleAFixture('Disabled')
+    describe('queryazureAppServiceWebApp query:', () => {
+      let webAppRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Azure_CIS_131_910
+        const query = queries.shift()
+        webAppRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-      await testRule(data, Result.PASS, Azure_CIS_131_910a)
+
+      test('No Security Issue when Web Apps has FTP deployments state not set to "All allowed"', async () => {
+        const data = getTestRuleAFixture('Disabled')
+
+        await testRule(data, Result.PASS, webAppRule as Rule)
+      })
+
+      test('Security Issue when Web Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleAFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, webAppRule as Rule)
+      })
     })
 
-    test('Security Issue when Web Apps has FTP deployments state set to "All allowed"', async () => {
-      const data = getTestRuleAFixture('AllAllowed')
+    describe('queryazureFunctionApp query:', () => {
+      let functionAppRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Azure_CIS_131_910
+        const query = queries.pop()
+        functionAppRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-      await testRule(data, Result.FAIL, Azure_CIS_131_910a)
+      test('No Security Issue when Function Apps has FTP deployments state not set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('FtpsOnly')
+
+        await testRule(data, Result.PASS, functionAppRule)
+      })
+
+      test('Security Issue when Function Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, functionAppRule)
+      })
+
+      test('Security Issue when some Function Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, functionAppRule)
+      })
     })
 
-    test('No Security Issue when Function Apps has FTP deployments state not set to "All allowed"', async () => {
-      const data = getTestRuleBFixture('FtpsOnly')
 
-      await testRule(data, Result.PASS, Azure_CIS_131_910b)
-    })
-
-    test('Security Issue when Function Apps has FTP deployments state set to "All allowed"', async () => {
-      const data = getTestRuleBFixture('AllAllowed')
-
-      await testRule(data, Result.FAIL, Azure_CIS_131_910b)
-    })
-
-    test('Security Issue when some Function Apps has FTP deployments state set to "All allowed"', async () => {
-      const data = getTestRuleBFixture('AllAllowed')
-
-      await testRule(data, Result.FAIL, Azure_CIS_131_910b)
-    })
   })
 })
