@@ -103,6 +103,11 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 4.2.1| Ensure that Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'                                              |
+| Azure CIS 4.2.2| Ensure that Vulnerability Assessment (VA) is enabled on a SQL server by setting a Storage Account                             |
+| Azure CIS 4.2.3| Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server                                                    |
+| Azure CIS 4.2.4| Ensure that VA setting Send scan reports to is configured for a SQL server                                                    |
+| Azure CIS 4.2.5| Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server              |
 | Azure CIS 4.4  | Ensure that Azure Active Directory Admin is configured                                                                        |
 | Azure CIS 4.5  | Ensure SQL server's TDE protector is encrypted with Customer-managed key                                                      |
 | Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
