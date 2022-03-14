@@ -156,14 +156,14 @@ export default {
             path: '@.condition.allOf',
             array_any: {
               path: '[*].field',
-              equals: 'operationName',
+              equal: 'operationName',
             },
           },
           {
             path: '@.condition.allOf',
             array_any: {
               path: '[*].equals',
-              equals: 'microsoft.network/networksecuritygroups/securityrules/delete',
+              equal: 'microsoft.network/networksecuritygroups/securityrules/delete',
             },
           },
         ],
