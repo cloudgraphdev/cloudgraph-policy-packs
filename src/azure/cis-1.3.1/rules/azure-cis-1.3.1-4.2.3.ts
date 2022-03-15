@@ -78,7 +78,9 @@ export default {
       id
       __typename       
       vulnerabilityAssessments {
-        storageContainerPath
+        recurringScans {
+          isEnabled
+        }
       }
     }
   }`,
@@ -93,8 +95,8 @@ export default {
       {
         path: '@.vulnerabilityAssessments',
         array_any: {
-          path: '[*].storageContainerPath',
-          notIn: [null, ''],
+          path: '[*].recurringScans.isEnabled',
+          equal: true,
         }
       },
     ],
