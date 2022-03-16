@@ -46,32 +46,4 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources',
   ],
   severity: 'medium',
-  gql: `{
-    queryazureDiagnosticSetting(filter: {has: storageAccount}){
-      id
-      __typename
-      logs{
-        category
-        enabled
-        retentionPolicyEnabled
-        retentionPolicyDays
-      }
-    }
-  }`,
-  resource: 'queryazureDiagnosticSetting[*]',
-  conditions: {
-    and: [
-      {
-        path: '@.logs',
-        array_any: {
-          and: [
-            { path: '[*].category', equal: 'AuditEvent' },
-            { path: '[*].enabled', equal: true },
-            { path: '[*].retentionPolicyEnabled', equal: true },
-            { path: '[*].retentionPolicyDays', notEqual: null },
-          ],
-        },
-      },
-    ],
-  },
 }
