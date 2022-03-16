@@ -105,7 +105,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         appropiateCategories: true,
         storageContainers: [{ name: 'insights-activity-logs' }],
       })
-      console.log(JSON.stringify(data.queryazureDiagnosticSetting))
       await testRule(rulesEngine, data, Azure_CIS_131_152 as Rule, Result.PASS)
     })
 
