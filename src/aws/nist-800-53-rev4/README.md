@@ -53,11 +53,15 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
+
 ## Available Ruleset
 
 | Rule         | Description                                                                                            |
 | ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                |
+| AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                               |
+| AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                              |
+| AWS NIS 3.4  | EBS volume encryption should be enabled                                                                |
+| AWS NIS 3.5  | RDS instances should be encrypted                                                                      |
+| AWS NIS 3.6  | S3 bucket server-side encryption should be enabled                                                     |
+| AWS NIS 3.7  | SQS queue server-side encryption should be enabled with KMS keys                                       |
