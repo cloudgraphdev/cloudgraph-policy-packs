@@ -55,17 +55,14 @@ export default {
   conditions: {
     and: [
       {
-        path: '[*].appropiateCategories',
+        path: '@.appropiateCategories',
         equal: true,
       },
       {
-        path: '@.storageAccount',
+        path: '@.storageAccount.storageContainers',
         array_any: {
-          path: '[*].storageContainers',
-          array_any: {
-            path: '[*].name',
-            equal: 'insights-activity-logs',
-          },
+          path: '[*].name',
+          equal: 'insights-activity-logs',
         },
       },
     ],

@@ -9,8 +9,8 @@ import Azure_CIS_131_154 from '../rules/azure-cis-1.3.1-5.1.4'
 import { initRuleEngine, testRule } from './utils'
 
 export interface QueryazureStorageAccountData {
-  encryptionKeySource: string
-  storageContainers: Array<{
+  encryptionKeySource?: string
+  storageContainers?: Array<{
     name: string
   }>
 }
@@ -32,6 +32,7 @@ export interface QueryazureDiagnosticSetting {
   id: string
   appropiateCategories?: boolean
   logs?: QueryazureDiagnosticSettingLog[]
+  storageAccount?: QueryazureStorageAccountData
 }
 
 export interface CIS51xQueryResponse {
@@ -70,14 +71,10 @@ const getTestRuleFixture = ({
       id: cuid(),
       name,
       publicAccess,
-      ...(encryptionKeySource
-        ? {
-            storageAccount: {
-              encryptionKeySource,
-              storageContainers,
-            },
-          }
-        : {}),
+      storageAccount: {
+        encryptionKeySource,
+        storageContainers,
+      },
     })
   }
   if (queryType === 'queryazureDiagnosticSetting') {
@@ -85,6 +82,10 @@ const getTestRuleFixture = ({
       id: cuid(),
       appropiateCategories,
       logs,
+      storageAccount: {
+        encryptionKeySource,
+        storageContainers,
+      },
     })
   }
   return result
@@ -104,6 +105,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         appropiateCategories: true,
         storageContainers: [{ name: 'insights-activity-logs' }],
       })
+      console.log(JSON.stringify(data.queryazureDiagnosticSetting))
       await testRule(rulesEngine, data, Azure_CIS_131_152 as Rule, Result.PASS)
     })
 
@@ -112,6 +114,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryType: 'queryazureDiagnosticSetting',
         name: 'insights-activity-logs',
         appropiateCategories: false,
+        storageContainers: [{ name: 'insights-activity-logs' }],
       })
       await testRule(rulesEngine, data, Azure_CIS_131_152 as Rule, Result.FAIL)
     })
