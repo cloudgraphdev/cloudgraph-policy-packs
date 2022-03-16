@@ -103,11 +103,14 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 4.1.2| Ensure that 'Data encryption' is set to 'On' on a SQL Database                                                                |
 | Azure CIS 4.2.1| Ensure that Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'                                              |
 | Azure CIS 4.2.2| Ensure that Vulnerability Assessment (VA) is enabled on a SQL server by setting a Storage Account                             |
 | Azure CIS 4.2.3| Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server                                                    |
 | Azure CIS 4.2.4| Ensure that VA setting Send scan reports to is configured for a SQL server                                                    |
 | Azure CIS 4.2.5| Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server              |
+| Azure CIS 4.3.1| Ensure 'Enforce SSL connection' is set to 'ENABLED' for PostgreSQL Database Server                                            |
+| Azure CIS 4.3.2| Ensure 'Enforce SSL connection' is set to 'ENABLED' for MySQL Database Server                                                 |
 | Azure CIS 4.3.5| Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server                                    |
 | Azure CIS 4.3.6| Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server                                 |
 | Azure CIS 4.3.7| Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server                            |
@@ -120,6 +123,10 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 5.2.4| Ensure that Activity Log Alert exists for Delete Network Security Group                                                       |
 | Azure CIS 5.2.5| Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule                                        |
 | Azure CIS 5.2.6| Ensure that Activity Log Alert exists for the Delete Network Security Group Rule                                              |
+| Azure CIS 5.2.7| Ensure that Activity Log Alert exists for Create or Update Security Solution                                                  |
+| Azure CIS 5.2.8| Ensure that Activity Log Alert exists for Delete Security Solution                                                            |
+| Azure CIS 5.2.9| Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule                                 |
+| Azure CIS 5.3  | Ensure that Diagnostic Logs are enabled for all services which support it (Manual)                                            |
 | Azure CIS 6.1  | Ensure that RDP access is restricted from the internet                                                                        |
 | Azure CIS 6.2  | Ensure that SSH access is restricted from the internet                                                                        |
 | Azure CIS 6.3  | Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)                                                                      |
