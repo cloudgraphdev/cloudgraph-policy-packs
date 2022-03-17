@@ -1,6 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-5.3',  
-  title: 'Azure CIS 5.3 Ensure that Diagnostic Logs are enabled for all services which support it (Manual)',
+  title: 'Azure CIS 5.3 Ensure that Diagnostic Logs are enabled for all services which support it',
   
   description: `Diagnostic Logs capture activity to the data access plane while the Activity log is a
   subscription-level log for the control plane. Resource-level diagnostic logs provide insight
