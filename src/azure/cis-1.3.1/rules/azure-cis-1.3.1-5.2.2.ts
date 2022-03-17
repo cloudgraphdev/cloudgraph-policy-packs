@@ -150,22 +150,19 @@ export default {
         equal: true,
       },
       {
-        and: [
-          {
-            path: '@.condition.allOf',
-            array_any: {
+        path: '@.condition.allOf',
+        array_any: {
+          and: [
+            {
               path: '[*].field',
               equal: 'operationName',
             },
-          },
-          {
-            path: '@.condition.allOf',
-            array_any: {
+            {
               path: '[*].equals',
               equal: 'microsoft.authorization/policyassignments/delete',
             },
-          },
-        ],
+          ],
+        }
       },
     ],
   },
