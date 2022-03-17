@@ -710,6 +710,33 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test43Rule(data, Result.PASS)
     })
 
+    test(`No Security Issue when the vm name does NOT start with "gke-",
+    it does NOT have a "goog-gke-node" label,
+    the service account is NOT the default compute service account
+    and it not have metadata`, async () => {
+      const name = 'dummy'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+        },
+      ]
+      const metadataItems: MetadataItem[] = []
+      const data: CIS4xQueryResponse = getTest43RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts,
+        metadataItems
+      )
+      await test43Rule(data, Result.PASS)
+    })
+
     test(`Security Issue when the vm name does NOT start with "gke-",
      it does NOT have a "goog-gke-node" label,
      the service account is the default compute service account,
@@ -989,7 +1016,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           email: 'dummy@test.com',
         },
       ]
-      const metadataItems: MetadataItem[] = []
+      const metadataItems: MetadataItem[] = [
+        {
+          key: 'dummy-ssh-keys',
+          value: 'false',
+        },
+      ]
       const data: CIS4xQueryResponse = getTest43RuleFixture(
         name,
         projects,
@@ -1017,7 +1049,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           email: 'dummy@test.com',
         },
       ]
-      const metadataItems: MetadataItem[] = []
+      const metadataItems: MetadataItem[] = [
+        {
+          key: 'dummy-ssh-keys',
+          value: 'false',
+        },
+      ]
       const data: CIS4xQueryResponse = getTest43RuleFixture(
         name,
         projects,
@@ -1041,7 +1078,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           email: 'dummy@test.com',
         },
       ]
-      const metadataItems: MetadataItem[] = []
+      const metadataItems: MetadataItem[] = [
+        {
+          key: 'dummy-ssh-keys',
+          value: 'false',
+        },
+      ]
       const data: CIS4xQueryResponse = getTest43RuleFixture(
         name,
         projects,
@@ -1072,7 +1114,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           email: 'dummy@test.com',
         },
       ]
-      const metadataItems: MetadataItem[] = []
+      const metadataItems: MetadataItem[] = [
+        {
+          key: 'dummy-ssh-keys',
+          value: 'false',
+        },
+      ]
       const data: CIS4xQueryResponse = getTest43RuleFixture(
         name,
         projects,
@@ -1134,12 +1181,12 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test(`No Security Issue when the oslogin is enabled for a Project and is not overriden by VM metadata`, async () => {
+    test('No Security Issue when the oslogin is enabled for a Project and is not overriden by VM metadata', async () => {
       const data: CIS4xQueryResponse = getTest44RuleFixture()
       await test44Rule(data, Result.PASS)
     })
 
-    test(`No Security Issue when the oslogin is enabled for a Project and empty VM metadata items`, async () => {
+    test('No Security Issue when the oslogin is enabled for a Project and empty VM metadata items', async () => {
       const data: CIS4xQueryResponse = getTest44RuleFixture()
       const projects = data.querygcpProject as QuerygcpProject[]
       const project = projects[0] as QuerygcpProject
@@ -1154,7 +1201,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test44Rule(data, Result.PASS)
     })
 
-    test(`No Security Issue when the oslogin is enabled for a Project and no VMs`, async () => {
+    test('No Security Issue when the oslogin is enabled for a Project and no VMs', async () => {
       const data: CIS4xQueryResponse = getTest44RuleFixture()
       const projects = data.querygcpProject as QuerygcpProject[]
       const project = projects[0] as QuerygcpProject
@@ -1162,7 +1209,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test44Rule(data, Result.PASS)
     })
 
-    test(`Security Issue when the oslogin is NOT enabled for a Project and is not overriden by VM metadata`, async () => {
+    test('Security Issue when the oslogin is NOT enabled for a Project and is not overriden by VM metadata', async () => {
       const data: CIS4xQueryResponse = {
         querygcpProject: [
           {
@@ -1187,7 +1234,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test44Rule(data, Result.FAIL)
     })
 
-    test(`Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata`, async () => {
+    test('Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata', async () => {
       const data: CIS4xQueryResponse = {
         querygcpProject: [
           {
@@ -1224,7 +1271,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test44Rule(data, Result.FAIL)
     })
 
-    test(`Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata (and key is duplicated)`, async () => {
+    test('Security Issue when the oslogin is enabled for a Project BUT and is overriden by VM metadata (and key is duplicated)', async () => {
       const data: CIS4xQueryResponse = {
         querygcpProject: [
           {
