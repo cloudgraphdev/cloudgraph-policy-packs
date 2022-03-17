@@ -57,38 +57,40 @@ export interface SslPolicy {
   profile: string
   enabledFeatures?: string[]
   minTlsVersion: string
-  selfLink: string
 }
 
 export interface TargetHttpsProxy {
-  name: string
-  sslPolicy?: string
+  sslPolicy?: SslPolicy[]
 }
 
 export interface TargetSslProxy {
-  name: string
-  sslPolicy?: string
+  sslPolicy?: SslPolicy[]
 }
 
-export interface QuerygcpProject {
+export interface QuerygcpTargetSslProxy {
   id: string
-  projectId: string
-  sslPolicies: SslPolicy[]
-  targetHttpsProxies: TargetHttpsProxy[]
-  targetSslProxies: TargetSslProxy[]
+  sslPolicy?: SslPolicy[]
+}
+export interface QuerygcpTargetHttpsProxy {
+  id: string
+  sslPolicy?: SslPolicy[]
 }
 
 export interface CIS3xQueryResponse {
   querygcpFirewall?: QuerygcpFirewall[]
   querygcpNetwork?: QuerygcpNetwork[]
   querygcpDnsManagedZone?: QuerygcpDnsManagedZone[]
-  querygcpProject?: QuerygcpProject[]
+  querygcpTargetSslProxy?: QuerygcpTargetSslProxy[]
+  querygcpTargetHttpsProxy?: QuerygcpTargetHttpsProxy[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'gcp',
+      entityName: 'CIS',
+    })
   })
   describe('GCP CIS 3.1 Ensure that the default network does not exist in a project', () => {
     const test31Rule = async (
@@ -586,63 +588,32 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   })
 
   describe('GCP CIS 3.9 Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites', () => {
-    const modernSslPolicy =
-      'https://www.googleapis.com/compute/v1/projects/dummy-project-id/global/sslPolicies/modern-ssl-policy'
-    const restrictredSslPolicy =
-      'https://www.googleapis.com/compute/v1/projects/dummy-project-id/global/sslPolicies/restrictred-ssl-policy'
-    const customSslPolicy =
-      'https://www.googleapis.com/compute/v1/projects/dummy-project-id/global/sslPolicies/custom-ssl-policy'
 
-    const getTest39RuleFixture = (): CIS3xQueryResponse => {
+    const getTest39RuleAFixture = (): CIS3xQueryResponse => {
       return {
-        querygcpProject: [
+        querygcpTargetHttpsProxy: [
           {
             id: cuid(),
-            projectId: 'dummy-project-id',
-            sslPolicies: [
+            sslPolicy: [
               {
                 profile: 'MODERN',
                 minTlsVersion: 'TLS_1_2',
-                selfLink: modernSslPolicy,
-              },
-              {
-                profile: 'RESTRICTED',
-                minTlsVersion: 'TLS_1_2',
-                selfLink: restrictredSslPolicy,
-              },
-              {
-                profile: 'CUSTOM',
-                enabledFeatures: ['valid-dummy-feature'],
-                minTlsVersion: 'TLS_1_2',
-                selfLink: customSslPolicy,
               },
             ],
-            targetHttpsProxies: [
+          },
+        ],
+      }
+    }
+
+    const getTest39RuleBFixture = (): CIS3xQueryResponse => {
+      return {
+        querygcpTargetSslProxy: [
+          {
+            id: cuid(),
+            sslPolicy: [
               {
-                name: 'https-proxy-modern-ssl-policy',
-                sslPolicy: modernSslPolicy,
-              },
-              {
-                name: 'https-proxy-restricted-ssl-policy',
-                sslPolicy: restrictredSslPolicy,
-              },
-              {
-                name: 'https-proxy-custom-ssl-policy',
-                sslPolicy: customSslPolicy,
-              },
-            ],
-            targetSslProxies: [
-              {
-                name: 'ssl-proxy-modern-ssl-policy',
-                sslPolicy: modernSslPolicy,
-              },
-              {
-                name: 'ssl-proxy-restricted-ssl-policy',
-                sslPolicy: restrictredSslPolicy,
-              },
-              {
-                name: 'ssl-proxy-custom-ssl-policy',
-                sslPolicy: customSslPolicy,
+                profile: 'MODERN',
+                minTlsVersion: 'TLS_1_2',
               },
             ],
           },
@@ -652,133 +623,146 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
 
     const test39Rule = async (
       data: CIS3xQueryResponse,
-      expectedResult: Result
+      expectedResult: Result,
+      rule?: any
     ): Promise<void> => {
       // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Gcp_CIS_120_39 as Rule,
-        { ...data }
-      )
+      const [processedRule] = await rulesEngine.processRule(rule as Rule, {
+        ...data,
+      })
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when proxies and ssl policies are secure', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      await test39Rule(data, Result.PASS)
-    })
+    describe('querygcpTargetHttpsProxy query:', () => {
+      let targetHttpsProxyRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Gcp_CIS_120_39
+        const query = queries.shift()
+        targetHttpsProxyRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-    test('No Security Issue when there are no proxies', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.targetHttpsProxies = []
-      project.targetSslProxies = []
-      await test39Rule(data, Result.PASS)
-    })
-
-    test('Security Issue when HTTPS-PROXY with MODERN ssl policy and no SSL POLICY FOUND', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sslPolicies = []
-      project.targetHttpsProxies = project.targetHttpsProxies.filter(
-        x => x.sslPolicy === modernSslPolicy
-      )
-      project.targetSslProxies = []
-      await test39Rule(data, Result.FAIL)
-    })
-
-    test('Security Issue when HTTPS-PROXY with MODERN ssl policy and VERSION is NOT TLS_1_2', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sslPolicies = project.sslPolicies
-        .filter(x => x.selfLink === modernSslPolicy)
-        .map(x => {
-          return { ...x, minTlsVersion: 'dummy' }
-        })
-      project.targetHttpsProxies = project.targetHttpsProxies.filter(
-        x => x.sslPolicy === modernSslPolicy
-      )
-      project.targetSslProxies = []
-      await test39Rule(data, Result.FAIL)
-    })
-
-    test('Security Issue when HTTPS-PROXY with CUSTOM ssl policy and enabledFeatures contains invalid values', async () => {
-      const invalidEnabledFeatureValues = [
-        'TLS_RSA_WITH_AES_128_GCM_SHA256',
-        'TLS_RSA_WITH_AES_256_GCM_SHA384',
-        'TLS_RSA_WITH_AES_128_CBC_SHA',
-        'TLS_RSA_WITH_AES_256_CBC_SHA',
-        'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
-      ]
-      for (const invalidEnabledFeatureValue of invalidEnabledFeatureValues) {
-        const data: CIS3xQueryResponse = getTest39RuleFixture()
-        const project = data.querygcpProject?.[0] as QuerygcpProject
-        project.sslPolicies = project.sslPolicies.filter(
-          x => x.selfLink === customSslPolicy
+      test('No Security Issue when proxies and ssl policies are secure', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleAFixture()
+        await test39Rule(data, Result.PASS, targetHttpsProxyRule)
+      })
+  
+      test('Security Issue when proxies not have ssl policy', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleAFixture()
+        const targetHttpsProxy = data
+          .querygcpTargetHttpsProxy?.[0] as QuerygcpTargetHttpsProxy
+        targetHttpsProxy.sslPolicy = []
+        await test39Rule(data, Result.FAIL, targetHttpsProxyRule)
+      })
+  
+      test('Security Issue when HTTPS-PROXY with MODERN ssl policy and VERSION is NOT TLS_1_2', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleAFixture()
+        const targetHttpsProxy = data
+          .querygcpTargetHttpsProxy?.[0] as QuerygcpTargetHttpsProxy
+        targetHttpsProxy.sslPolicy = targetHttpsProxy.sslPolicy?.map(
+          ({ minTlsVersion, ...p }) => {
+            return {
+              ...p,
+              minTlsVersion: 'dummy',
+            }
+          }
         )
-        project.targetHttpsProxies = project.targetHttpsProxies.filter(
-          x => x.sslPolicy === customSslPolicy
-        )
-        project.targetSslProxies = []
-
-        project.sslPolicies = project.sslPolicies.map(x => {
-          return { ...x, enabledFeatures: [invalidEnabledFeatureValue] }
-        })
-        await test39Rule(data, Result.FAIL)
-      }
+        await test39Rule(data, Result.FAIL, targetHttpsProxyRule)
+      })
+  
+      test('Security Issue when HTTPS-PROXY with CUSTOM ssl policy and enabledFeatures contains invalid values', async () => {
+        const invalidEnabledFeatureValues = [
+          'TLS_RSA_WITH_AES_128_GCM_SHA256',
+          'TLS_RSA_WITH_AES_256_GCM_SHA384',
+          'TLS_RSA_WITH_AES_128_CBC_SHA',
+          'TLS_RSA_WITH_AES_256_CBC_SHA',
+          'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
+        ]
+        for (const invalidEnabledFeatureValue of invalidEnabledFeatureValues) {
+          const data: CIS3xQueryResponse = getTest39RuleAFixture()
+          const targetHttpsProxy = data
+          .querygcpTargetHttpsProxy?.[0] as QuerygcpTargetHttpsProxy
+          targetHttpsProxy.sslPolicy = targetHttpsProxy.sslPolicy?.map(
+            ({ enabledFeatures, profile, ...p }) => {
+              return {
+                ...p,
+                profile: 'CUSTOM',
+                enabledFeatures: [invalidEnabledFeatureValue],
+              }
+            }
+          )
+          await test39Rule(data, Result.FAIL, targetHttpsProxyRule)
+        }
+      })
     })
 
-    test('Security Issue when SSL-PROXY with MODERN ssl policy and no SSL POLICY FOUND', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sslPolicies = []
-      project.targetSslProxies = project.targetSslProxies.filter(
-        x => x.sslPolicy === modernSslPolicy
-      )
-      project.targetHttpsProxies = []
-      await test39Rule(data, Result.FAIL)
-    })
+    describe('querygcpTargetSslProxy query:', () => {
+      let targetSslProxyRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Gcp_CIS_120_39
+        const query = queries.shift()
+        targetSslProxyRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-    test('Security Issue when SSL-PROXY with MODERN ssl policy and VERSION is NOT TLS_1_2', async () => {
-      const data: CIS3xQueryResponse = getTest39RuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sslPolicies = project.sslPolicies
-        .filter(x => x.selfLink === modernSslPolicy)
-        .map(x => {
-          return { ...x, minTlsVersion: 'dummy' }
-        })
-      project.targetSslProxies = project.targetSslProxies.filter(
-        x => x.sslPolicy === modernSslPolicy
-      )
-      project.targetHttpsProxies = []
-      await test39Rule(data, Result.FAIL)
-    })
-
-    test('Security Issue when SSL-PROXY with CUSTOM ssl policy and enabledFeatures contains invalid values', async () => {
-      const invalidEnabledFeatureValues = [
-        'TLS_RSA_WITH_AES_128_GCM_SHA256',
-        'TLS_RSA_WITH_AES_256_GCM_SHA384',
-        'TLS_RSA_WITH_AES_128_CBC_SHA',
-        'TLS_RSA_WITH_AES_256_CBC_SHA',
-        'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
-      ]
-      for (const invalidEnabledFeatureValue of invalidEnabledFeatureValues) {
-        const data: CIS3xQueryResponse = getTest39RuleFixture()
-        const project = data.querygcpProject?.[0] as QuerygcpProject
-        project.sslPolicies = project.sslPolicies.filter(
-          x => x.selfLink === customSslPolicy
+      test('No Security Issue when proxies and ssl policies are secure', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleBFixture()
+        await test39Rule(data, Result.PASS, targetSslProxyRule)
+      })
+  
+      test('Security Issue when proxies not have ssl policy', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleBFixture()
+        const targetSslProxy = data
+          .querygcpTargetSslProxy?.[0] as QuerygcpTargetHttpsProxy
+          targetSslProxy.sslPolicy = []
+        await test39Rule(data, Result.FAIL, targetSslProxyRule)
+      })
+  
+      test('Security Issue when HTTPS-PROXY with MODERN ssl policy and VERSION is NOT TLS_1_2', async () => {
+        const data: CIS3xQueryResponse = getTest39RuleBFixture()
+        const targetSslProxy = data
+          .querygcpTargetSslProxy?.[0] as QuerygcpTargetHttpsProxy
+          targetSslProxy.sslPolicy = targetSslProxy.sslPolicy?.map(
+          ({ minTlsVersion, ...p }) => {
+            return {
+              ...p,
+              minTlsVersion: 'dummy',
+            }
+          }
         )
-        project.targetSslProxies = project.targetSslProxies.filter(
-          x => x.sslPolicy === customSslPolicy
-        )
-        project.targetHttpsProxies = []
-
-        project.sslPolicies = project.sslPolicies.map(x => {
-          return { ...x, enabledFeatures: [invalidEnabledFeatureValue] }
-        })
-        await test39Rule(data, Result.FAIL)
-      }
+        await test39Rule(data, Result.FAIL, targetSslProxyRule)
+      })
+  
+      test('Security Issue when HTTPS-PROXY with CUSTOM ssl policy and enabledFeatures contains invalid values', async () => {
+        const invalidEnabledFeatureValues = [
+          'TLS_RSA_WITH_AES_128_GCM_SHA256',
+          'TLS_RSA_WITH_AES_256_GCM_SHA384',
+          'TLS_RSA_WITH_AES_128_CBC_SHA',
+          'TLS_RSA_WITH_AES_256_CBC_SHA',
+          'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
+        ]
+        for (const invalidEnabledFeatureValue of invalidEnabledFeatureValues) {
+          const data: CIS3xQueryResponse = getTest39RuleBFixture()
+          const targetSslProxy = data
+          .querygcpTargetSslProxy?.[0] as QuerygcpTargetHttpsProxy
+          targetSslProxy.sslPolicy = targetSslProxy.sslPolicy?.map(
+            ({ enabledFeatures, profile, ...p }) => {
+              return {
+                ...p,
+                profile: 'CUSTOM',
+                enabledFeatures: [invalidEnabledFeatureValue],
+              }
+            }
+          )
+          await test39Rule(data, Result.FAIL, targetSslProxyRule)
+        }
+      })
     })
   })
 
