@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
+import Aws_PCI_DSS_321_S3_4 from '../rules/pci-dss-3.2.1-s3-check-4'
 import Aws_PCI_DSS_321_S3_6 from '../rules/pci-dss-3.2.1-s3-check-6'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
@@ -9,6 +10,43 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     rulesEngine = new CloudGraph.RulesEngine({
       providerName: 'aws',
       entityName: 'PCI',
+    })
+  })
+  describe('S3 Check 4: S3 buckets should have server-side encryption enabled', () => {
+    test('Should fail when encryption is disabled', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            encrypted: 'No',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_4 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when encryption is enabled', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            encrypted: 'Yes',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_4 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
   describe('S3 Check 6: S3 Block Public Access setting should be enabled', () => {
