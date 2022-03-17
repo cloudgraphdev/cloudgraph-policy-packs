@@ -56,12 +56,18 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 ## Available Ruleset
 
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                |
-| AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                               |
-| AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                              |
-| AWS NIS 3.4  | EBS volume encryption should be enabled                                                                |
-| AWS NIS 3.5  | RDS instances should be encrypted                                                                      |
-| AWS NIS 3.6  | S3 bucket server-side encryption should be enabled                                                     |
-| AWS NIS 3.7  | SQS queue server-side encryption should be enabled with KMS keys                                       |
+| Rule         | Description                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                  |
+| AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                                 |
+| AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                                |
+| AWS NIS 3.4  | EBS volume encryption should be enabled                                                                  |
+| AWS NIS 3.5  | RDS instances should be encrypted                                                                        |
+| AWS NIS 3.6  | S3 bucket server-side encryption should be enabled                                                       |
+| AWS NIS 3.7  | SQS queue server-side encryption should be enabled with KMS keys                                         |
+| AWS NIS 4.1  | CloudFront distribution origin should be set to S3 or origin protocol policy should be set to https-only |
+| AWS NIS 4.2  | CloudFront viewer protocol policy should be set to https-only or redirect-to-https                       |
+| AWS NIS 4.3  | ElastiCache transport encryption should be enabled                                                       |
+| AWS NIS 4.4  | ELBv1 listener protocol should not be set to http                                                        |
+| AWS NIS 4.5  | S3 bucket policies should only allow requests that use HTTPS                                             |
+| AWS NIS 4.6  | SNS subscriptions should deny access via HTTP                                                            |
