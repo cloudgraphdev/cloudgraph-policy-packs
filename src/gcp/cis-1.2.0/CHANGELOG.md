@@ -1,3 +1,15 @@
+# @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.20.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.1...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.20.0) (2022-03-17)
+
+
+### Bug Fixes
+
+* GCP rule CIS 4.3 fails when there is no meta data ([a002ed9](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/a002ed94367ebc7c40f89c74a840add816f9b8f0))
+
+
+### Features
+
+* GCP rule 3.9 could present a [secure] failure if a Policy is insecure, but it's not used by a proxy ([b91265a](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/b91265a59adf2291a7cc8c49e55cccc5156a59cf))
+
 ## @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.19.1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.1) (2022-02-25)
 
 
