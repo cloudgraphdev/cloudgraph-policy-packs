@@ -103,11 +103,15 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 3.9  | Ensure storage for critical data are encrypted with Customer Managed Key                                                      |
 | Azure CIS 3.10 | Ensure Storage logging is enabled for Blob service for read, write, and delete requests (Manual)                              |
 | Azure CIS 3.11 | Ensure Storage logging is enabled for Table service for read, write, and delete requests (Manual)                             |
+| Azure CIS 4.1.1| Ensure that 'Auditing' is set to 'On'                                                                                         |
+| Azure CIS 4.1.3| Ensure that 'Auditing' Retention is 'greater than 90 days'                                                                    |
 | Azure CIS 4.2.1| Ensure that Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'                                              |
 | Azure CIS 4.2.2| Ensure that Vulnerability Assessment (VA) is enabled on a SQL server by setting a Storage Account                             |
 | Azure CIS 4.2.3| Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server                                                    |
 | Azure CIS 4.2.4| Ensure that VA setting Send scan reports to is configured for a SQL server                                                    |
 | Azure CIS 4.2.5| Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server              |
+| Azure CIS 4.3.3| Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL Database Server                                       |
+| Azure CIS 4.3.4| Ensure server parameter 'log_connections' is set to 'ON' for PostgreSQL Database Server                                       |
 | Azure CIS 4.3.5| Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server                                    |
 | Azure CIS 4.3.6| Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server                                 |
 | Azure CIS 4.3.7| Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server                            |
