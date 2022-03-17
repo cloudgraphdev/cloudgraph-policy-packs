@@ -87,6 +87,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | kms-check-1           | KMS key rotation should be enabled                                                                                            |
 | rds-check-2           | RDS DB Instances should prohibit public access                                                                                |
 | redshift-check-1      | Amazon Redshift clusters should prohibit public access                                                                        |
+| s3-check-3            | S3 buckets should have cross-region replication enabled enabled                                                               |
 | s3-check-4            | S3 buckets should have server-side encryption enabled                                                                         |
 | s3-check-6            | S3 Block Public Access setting should be enabled                                                                              |
 | sageMaker-check-1     | Amazon SageMaker notebook instances should not have direct internet access                                                    |

@@ -29,6 +29,7 @@ import Aws_PCI_DSS_321_KMS_1 from './pci-dss-3.2.1-kms-check-1'
 import Aws_PCI_DSS_321_SageMaker_1 from './pci-dss-3.2.1-sagemaker-check-1'
 import Aws_PCI_DSS_321_REDSHIFT_1 from './pci-dss-3.2.1-redshift-check-1'
 import Aws_PCI_DSS_321_RDS_2 from './pci-dss-3.2.1-rds-check-2'
+import Aws_PCI_DSS_321_S3_3 from './pci-dss-3.2.1-s3-check-3'
 import Aws_PCI_DSS_321_S3_4 from './pci-dss-3.2.1-s3-check-4'
 import Aws_PCI_DSS_321_S3_6 from './pci-dss-3.2.1-s3-check-6'
 import Aws_PCI_DSS_321_SSM_1 from './pci-dss-3.2.1-ssm-check-1'
@@ -67,6 +68,7 @@ export default [
   Aws_PCI_DSS_321_SageMaker_1,
   Aws_PCI_DSS_321_REDSHIFT_1,
   Aws_PCI_DSS_321_RDS_2,
+  Aws_PCI_DSS_321_S3_3,
   Aws_PCI_DSS_321_S3_4,
   Aws_PCI_DSS_321_S3_6,
   Aws_PCI_DSS_321_SSM_1,
