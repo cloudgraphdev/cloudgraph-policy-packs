@@ -502,7 +502,7 @@ __metadata:
   resolution: "@cloudgraph/policy-pack-aws-pci-dss-3.2.1@workspace:src/aws/pci-dss-3.2.1"
   dependencies:
     "@autocloud/eslint-config": ^0.1.0
-    "@cloudgraph/sdk": ^0.14.0
+    "@cloudgraph/sdk": ^0.15.0
     "@types/jest": ^27.4.0
     "@types/node": ^15.12.4
     "@types/pino": ^6.3.11
@@ -593,6 +593,24 @@ __metadata:
     node-jq: ^2.1.0
     ora: ^5.4.1
   checksum: d46f8e7542273edcf3514f6707e13e3082e26bb4255c4de7606427a1f70030974022f4632a27df7a49f33d6d3490d6d60e09b63db34cf4f824d0bcdc1359b787
+  languageName: node
+  linkType: hard
+
+"@cloudgraph/sdk@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "@cloudgraph/sdk@npm:0.15.0::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40cloudgraph%2Fsdk%2F-%2Fsdk-0.15.0.tgz"
+  dependencies:
+    "@graphql-tools/load-files": ^6.5.3
+    "@graphql-tools/merge": ^8.2.1
+    chalk: ^4.1.1
+    date-fns: ^2.25.0
+    graphql: ^16.2.0
+    inquirer: ^8.1.2
+    jsonpath: ^1.1.1
+    lodash: ^4.17.21
+    node-jq: ^2.1.0
+    ora: ^5.4.1
+  checksum: 6a8033d98aa74943be6af40513d423c632b34a2bffc37fec169bbcaf206aef2dd0525a0cb7fcbb3851461da8e2526fe1e33186a2b115c6029229e75337c6a9bb
   languageName: node
   linkType: hard
 

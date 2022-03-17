@@ -65,16 +65,12 @@ If you use a Lambda function that is in scope for PCI DSS, the function can be c
   conditions: {
     and: [
       {
-        or: [
-          {
-            path: '@.vpcConfig',
-            notEqual: null
-          },
-          {
-            path: '@.vpcConfig',
-            isEmpty: false
-          },
-        ],
+        path: '@.vpcConfig',
+        notEqual: null
+      },
+      {
+        path: '@.vpcConfig',
+        isEmpty: false
       },
       {
         path: '@.vpcConfig.vpcId',
