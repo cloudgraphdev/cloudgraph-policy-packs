@@ -25,7 +25,7 @@ export default {
   **Exception:**
   Instances created by GKE should be excluded. These instances have names that start with
   "gke-" and are labeled "goog-gke-node".`,
-  rationale: `Project-wide SSH keys are stored in Compute/Project-meta-data. Project wide SSH keys can be used to login into all the instances within project. Using project-wide SSH keys eases the SSH key management but if compromised, poses the security risk which can impact all the instances within project. It is recommended to use Instance specific SSH keys which can limit the attack surface if the SSH keys are compromised.`,
+  rationale: 'Project-wide SSH keys are stored in Compute/Project-meta-data. Project wide SSH keys can be used to login into all the instances within project. Using project-wide SSH keys eases the SSH key management but if compromised, poses the security risk which can impact all the instances within project. It is recommended to use Instance specific SSH keys which can limit the attack surface if the SSH keys are compromised.',
   remediation: `**From Console:**
 
   1. Go to the *VM instances* page by visiting: https://console.cloud.google.com/compute/instances. It will list all the instances in your project.
@@ -41,7 +41,7 @@ export default {
 
       gcloud compute instances add-metadata INSTANCE_NAME --metadata block-project- ssh-keys=TRUE`,
   references: [
-    `https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys`,
+    'https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys',
   ],
   gql: `{
     querygcpVmInstance{
@@ -67,7 +67,7 @@ export default {
     }
   }`,
   resource: 'querygcpVmInstance[*]',
-  severity: 'unknown',
+  severity: 'medium',
   conditions: {
     path: '@',
     or: [
@@ -86,6 +86,10 @@ export default {
             },
           },
         ],
+      },
+      {
+        path: '[*].metadata.items',
+        isEmpty: true
       },
       {
         and: [
