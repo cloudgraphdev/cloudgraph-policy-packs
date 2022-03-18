@@ -46,12 +46,12 @@ export interface QueryazureSqlServer {
   vulnerabilityAssessments?: ServerVulnerabilityAssessment[]
 }
 
-export interface PostgreSqlServerConfiguration{
+export interface PostgreSqlServerConfiguration {
   name: string
-  value: string
+  value: string | number
 }
 
-export interface PostgreSqlServerFirewallRules{
+export interface PostgreSqlServerFirewallRules {
   name: string
   startIpAddress: string
   endIpAddress: string
@@ -71,10 +71,13 @@ export interface CIS4xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'azure',
+      entityName: 'CIS',
+    })
   })
 
-  describe('Azure CIS 4.2.1 Ensure that Advanced Threat Protection (ATP) on a SQL server is set to \'Enabled\'', () => {
+  describe("Azure CIS 4.2.1 Ensure that Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'", () => {
     const getTestRuleFixture = (
       state?: string | undefined
     ): CIS4xQueryResponse => {
@@ -82,11 +85,13 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            serverSecurityAlertPolicies: state ? [
-              {
-                state
-              }
-            ] : []
+            serverSecurityAlertPolicies: state
+              ? [
+                  {
+                    state,
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -106,12 +111,11 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when Advanced Threat Protection (ATP) on a SQL server is set to \'Enabled\'', async () => {
+    test("No Security Issue when Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('Enabled')
 
       await testRule(data, Result.PASS)
     })
-
 
     test('Security Issue when Advanced Threat Protection (ATP) on a SQL server is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
@@ -128,13 +132,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            vulnerabilityAssessments: emailSubscriptionAdmins ? [
-              {
-                recurringScans: {
-                  emailSubscriptionAdmins,
-                }
-              }
-            ] : []
+            vulnerabilityAssessments: emailSubscriptionAdmins
+              ? [
+                  {
+                    recurringScans: {
+                      emailSubscriptionAdmins,
+                    },
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -160,7 +166,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-
     test('Security Issue when Vulnerability Assessment (VA) for the SQL server is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
@@ -176,13 +181,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            vulnerabilityAssessments: isEnabled ? [
-              {
-                recurringScans: {
-                  isEnabled,
-                }
-              }
-            ] : []
+            vulnerabilityAssessments: isEnabled
+              ? [
+                  {
+                    recurringScans: {
+                      isEnabled,
+                    },
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -208,7 +215,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-
     test('Security Issue when VA setting Periodic Recurring Scans is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
@@ -224,13 +230,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            vulnerabilityAssessments: emails ? [
-              {
-                recurringScans: {
-                  emails,
-                }
-              }
-            ] : []
+            vulnerabilityAssessments: emails
+              ? [
+                  {
+                    recurringScans: {
+                      emails,
+                    },
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -256,7 +264,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-
     test('Security Issue when VA setting Send scan reports to for a SQL server is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
@@ -264,7 +271,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     })
   })
 
-  describe('Azure CIS 4.2.5 Ensure that VA setting \'Also send email notifications to admins and subscription owners\' is set for a SQL server', () => {
+  describe("Azure CIS 4.2.5 Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server", () => {
     const getTestRuleFixture = (
       emailSubscriptionAdmins?: boolean | undefined
     ): CIS4xQueryResponse => {
@@ -272,13 +279,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            vulnerabilityAssessments: emailSubscriptionAdmins ? [
-              {
-                recurringScans: {
-                  emailSubscriptionAdmins,
-                }
-              }
-            ] : []
+            vulnerabilityAssessments: emailSubscriptionAdmins
+              ? [
+                  {
+                    recurringScans: {
+                      emailSubscriptionAdmins,
+                    },
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -298,21 +307,20 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when VA setting \'Also send email notifications to admins and subscription owners\' is set for a SQL server', async () => {
+    test("No Security Issue when VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture(true)
 
       await testRule(data, Result.PASS)
     })
 
-
-    test('Security Security Issue when VA setting \'Also send email notifications to admins and subscription owners\' for a SQL server is not configured', async () => {
+    test("Security Security Issue when VA setting 'Also send email notifications to admins and subscription owners' for a SQL server is not configured", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
       await testRule(data, Result.FAIL)
     })
   })
 
-  describe('4.3.5 Ensure server parameter \'log_disconnections\' is set to \'ON\' for PostgreSQL Database Server', () => {
+  describe("4.3.5 Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server", () => {
     const getTestRuleFixture = (
       logDisconnections?: string | undefined
     ): CIS4xQueryResponse => {
@@ -320,12 +328,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazurePostgreSqlServer: [
           {
             id: cuid(),
-            configurations: logDisconnections ? [
-              {
-                name: 'log_disconnections',
-                value: logDisconnections
-              }
-            ] : []
+            configurations: logDisconnections
+              ? [
+                  {
+                    name: 'log_disconnections',
+                    value: logDisconnections,
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -345,21 +355,20 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when log_disconnections is set to \'on\' for PostgreSQL Database Server', async () => {
+    test("No Security Issue when log_disconnections is set to 'on' for PostgreSQL Database Server", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('on')
 
       await testRule(data, Result.PASS)
     })
 
-
-    test('Security Security Issue when log_disconnections is set to \'off\' for PostgreSQL Database Server', async () => {
+    test("Security Security Issue when log_disconnections is set to 'off' for PostgreSQL Database Server", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('off')
 
       await testRule(data, Result.FAIL)
     })
   })
 
-  describe('Azure CIS 4.3.6 Ensure server parameter \'connection_throttling\' is set to \'ON\' for PostgreSQL Database Server', () => {
+  describe("Azure CIS 4.3.6 Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server", () => {
     const getTestRuleFixture = (
       connectionThrottling?: string | undefined
     ): CIS4xQueryResponse => {
@@ -367,12 +376,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazurePostgreSqlServer: [
           {
             id: cuid(),
-            configurations: connectionThrottling ? [
-              {
-                name: 'connection_throttling',
-                value: connectionThrottling
-              }
-            ] : []
+            configurations: connectionThrottling
+              ? [
+                  {
+                    name: 'connection_throttling',
+                    value: connectionThrottling,
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -392,34 +403,36 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when connection_throttling is set to \'on\' for PostgreSQL Database Server', async () => {
+    test("No Security Issue when connection_throttling is set to 'on' for PostgreSQL Database Server", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('on')
 
       await testRule(data, Result.PASS)
     })
 
-
-    test('Security Security Issue when connection_throttling is set to \'off\' for PostgreSQL Database Server', async () => {
+    test("Security Security Issue when connection_throttling is set to 'off' for PostgreSQL Database Server", async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('off')
 
       await testRule(data, Result.FAIL)
     })
   })
 
-  describe('Azure CIS 4.3.7 Ensure server parameter \'log_retention_days\' is greater than 3 days for PostgreSQL Database Server', () => {
+  describe("Azure CIS 4.3.7 Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server", () => {
     const getTestRuleFixture = (
-      days?: string | undefined
+      days?: string | number | undefined
     ): CIS4xQueryResponse => {
       return {
         queryazurePostgreSqlServer: [
           {
             id: cuid(),
-            configurations: days ? [
-              {
-                name: 'log_retention_days',
-                value: days
-              }
-            ] : []
+            configurations: days
+              ? [
+                  { name: 'test_name', value: 4 },
+                  {
+                    name: 'log_retention_days',
+                    value: days,
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -439,21 +452,20 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when \'log_retention_days\' is greater than 3 days for PostgreSQL Database Server', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('4')
+    test("No Security Issue when 'log_retention_days' is greater than 3 days for PostgreSQL Database Server", async () => {
+      const data: CIS4xQueryResponse = getTestRuleFixture(4)
 
       await testRule(data, Result.PASS)
     })
 
-
-    test('Security Security Issue when \'log_retention_days\' is less or equal than 3 days for PostgreSQL Database Server', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('2')
+    test("Security Security Issue when 'log_retention_days' is less or equal than 3 days for PostgreSQL Database Server", async () => {
+      const data: CIS4xQueryResponse = getTestRuleFixture(2)
 
       await testRule(data, Result.FAIL)
     })
   })
 
-  describe('Azure CIS Azure CIS 4.3.8 Ensure \'Allow access to Azure services\' for PostgreSQL Database Server is disabled', () => {
+  describe("Azure CIS Azure CIS 4.3.8 Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled", () => {
     const getTestRuleFixture = (
       name: string,
       startIpAddress: string,
@@ -467,9 +479,9 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
               {
                 name,
                 startIpAddress,
-                endIpAddress
-              }
-            ]
+                endIpAddress,
+              },
+            ],
           },
         ],
       }
@@ -489,21 +501,32 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when \'Allow access to Azure services\' for PostgreSQL Database Server is disabled', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('whatever', '0.0.0.1', '0.1.0.0')
+    test("No Security Issue when 'Allow access to Azure services' for PostgreSQL Database Server is disabled", async () => {
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'whatever',
+        '0.0.0.1',
+        '0.1.0.0'
+      )
 
       await testRule(data, Result.PASS)
     })
 
-    test('Security Issue when \'Allow access to Azure services\' for PostgreSQL Database Server is enabled by address', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('whateverRule', '0.0.0.0', '0.0.0.0')
+    test("Security Issue when 'Allow access to Azure services' for PostgreSQL Database Server is enabled by address", async () => {
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'whateverRule',
+        '0.0.0.0',
+        '0.0.0.0'
+      )
 
       await testRule(data, Result.FAIL)
     })
 
-
-    test('Security Issue when \'Allow access to Azure services\' for PostgreSQL Database Server is enabled', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('AllowAllAzureIps', '0.1.0.0', '0.0.0.1')
+    test("Security Issue when 'Allow access to Azure services' for PostgreSQL Database Server is enabled", async () => {
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'AllowAllAzureIps',
+        '0.1.0.0',
+        '0.0.0.1'
+      )
 
       await testRule(data, Result.FAIL)
     })
@@ -517,11 +540,13 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
         queryazureSqlServer: [
           {
             id: cuid(),
-            adAdministrators: adminId ? [
-              {
-                id: adminId
-              }
-            ] : []
+            adAdministrators: adminId
+              ? [
+                  {
+                    id: adminId,
+                  },
+                ]
+              : [],
           },
         ],
       }
@@ -547,7 +572,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-
     test('Security Security Issue when Azure Active Directory Admin is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
@@ -559,19 +583,19 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     const getTestRuleFixture = (
       kind?: string | null,
       serverKeyType?: string | null,
-      uri?: string | null,
+      uri?: string | null
     ): CIS4xQueryResponse => {
       return {
         queryazureSqlServer: [
           {
             id: cuid(),
-            encryptionProtectors : [
+            encryptionProtectors: [
               {
                 kind,
                 serverKeyType,
-                uri
-              }
-            ]
+                uri,
+              },
+            ],
           },
         ],
       }
@@ -592,20 +616,31 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     }
 
     test('No Security Issue when SQL servers TDE protector is encrypted with Customer-managed key', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('azurekeyvault', 'AzureKeyVault', 'https://aws.amazon.com/sqlservers/')
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'azurekeyvault',
+        'AzureKeyVault',
+        'https://aws.amazon.com/sqlservers/'
+      )
 
       await testRule(data, Result.PASS)
     })
 
-
     test('Security Issue when SQL servers TDE protector has kind and serverKeyType not equal to azurekeyvault', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('servicemanaged', 'ServiceManaged', 'https://aws.amazon.com/sqlservers/')
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'servicemanaged',
+        'ServiceManaged',
+        'https://aws.amazon.com/sqlservers/'
+      )
 
       await testRule(data, Result.FAIL)
     })
 
     test('Security Issue when SQL servers TDE protector has a uri null', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('azurekeyvault', 'AzureKeyVault', null)
+      const data: CIS4xQueryResponse = getTestRuleFixture(
+        'azurekeyvault',
+        'AzureKeyVault',
+        null
+      )
 
       await testRule(data, Result.FAIL)
     })
