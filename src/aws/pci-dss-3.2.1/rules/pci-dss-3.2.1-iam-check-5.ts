@@ -1,8 +1,7 @@
 // AWS CIS 1.2.0 Rule equivalent 1.13
 export default {
   id: 'aws-pci-dss-3.2.1-iam-check-5',
-  title:
-    'IAM Check 5: Virtual MFA should be enabled for the root user',
+  title: 'IAM Check 5: Virtual MFA should be enabled for the root user',
   description: `This control checks whether users of your AWS account require a multi-factor authentication (MFA) device to sign in with root user credentials.
 
   It does not check whether you are using hardware MFA.
@@ -29,7 +28,7 @@ export default {
   7. Complete the steps to configure the device type appropriate to your selection.`,
   references: [
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html',
-    'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-iam-4'
+    'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-iam-4',
   ],
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {

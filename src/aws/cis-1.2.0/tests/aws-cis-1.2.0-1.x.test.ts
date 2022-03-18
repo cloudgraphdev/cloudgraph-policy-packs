@@ -222,12 +222,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                lastRotated: '2021-09-23T15:56:01.000Z'
+                lastRotated: '2021-09-23T15:56:01.000Z',
               },
               {
                 status: 'Inactive',
-                lastRotated: '2021-08-27T15:00:44.000Z'
-              }
+                lastRotated: '2021-08-27T15:00:44.000Z',
+              },
             ],
           },
         ],
@@ -640,9 +640,9 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accountId: '123456',
             virtualMfaDevices: [
               {
-                serialNumber: 'arn:aws:iam::123456:mfa/root-account-mfa-device'
-              }
-            ]
+                serialNumber: 'arn:aws:iam::123456:mfa/root-account-mfa-device',
+              },
+            ],
           },
         ],
       }
@@ -664,9 +664,9 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accountId: '123456',
             virtualMfaDevices: [
               {
-                serialNumber: 'arn:aws:iam::123456:mfa/some-account-mfa-device'
-              }
-            ]
+                serialNumber: 'arn:aws:iam::123456:mfa/some-account-mfa-device',
+              },
+            ],
           },
         ],
       }
@@ -737,8 +737,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 iamRoles: [],
               },
             ],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -766,8 +766,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 iamRoles: [],
               },
             ],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -795,8 +795,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
               },
             ],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -820,8 +820,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 iamRoles: [],
               },
             ],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -849,8 +849,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
                 ],
               },
             ],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(
@@ -867,8 +867,8 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
           {
             id: cuid(),
             iamPolicies: [],
-          }
-        ]
+          },
+        ],
       }
 
       const [processedRule] = await rulesEngine.processRule(

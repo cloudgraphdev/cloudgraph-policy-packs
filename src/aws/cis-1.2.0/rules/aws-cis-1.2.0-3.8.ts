@@ -78,130 +78,133 @@ export default {
     `https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html`,
   ],
   gql: `{
-    queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
+    queryawsAccount {
       id
-      arn
-      accountId
        __typename
-      isMultiRegionTrail
-      status {
-        isLogging
-      }
-      eventSelectors {
-        id
-        readWriteType
-        includeManagementEvents
-      }
-      cloudwatchLog {
-        arn
-        metricFilters {
-          id
-          filterName
-          filterPattern
-          metricTransformations {
-            metricName
-          }
+      cloudtrail {
+        isMultiRegionTrail
+        status {
+          isLogging
         }
-        cloudwatch {
-          metric
+        eventSelectors {
+          id
+          readWriteType
+          includeManagementEvents
+        }
+        cloudwatchLog {
           arn
-          actions
-          sns {
+          metricFilters {
+            id
+            filterName
+            filterPattern
+            metricTransformations {
+              metricName
+            }
+          }
+          cloudwatch {
+            metric
             arn
-            subscriptions {
+            actions
+            sns {
               arn
+              subscriptions {
+                arn
+              }
             }
           }
         }
       }
     }
   }`,
-  resource: 'queryawsCloudtrail[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.isMultiRegionTrail',
-        equal: 'Yes',
-      },
-      {
-        path: '@.status.isLogging',
-        equal: true,
-      },
-      {
-        path: '@.eventSelectors',
-        array_any: {
-          and: [
-            { path: '[*].readWriteType', equal: 'All' },
-            {
-              path: '[*].includeManagementEvents',
-              equal: true,
-            },
-          ],
+    path: '@.cloudtrail',
+    array_any: {
+      and: [
+        {
+          path: '[*].isMultiRegionTrail',
+          equal: 'Yes',
         },
-      },
-      {
-        path: '@.cloudwatchLog',
-        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-        array_any: {
-          and: [
-            {
-              and: [
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*PutBucketAcl\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*PutBucketPolicy\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*PutBucketCors\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*PutBucketLifecycle\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*PutBucketReplication\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*DeleteBucketCors\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*DeleteBucketReplication\s*/,
-                },
-              ],
-            },
-            {
-              path: '[*].sns',
-              array_any: {
-                path: '[*].subscriptions',
+        {
+          path: '[*].status.isLogging',
+          equal: true,
+        },
+        {
+          path: '[*].eventSelectors',
+          array_any: {
+            and: [
+              { path: '[*].readWriteType', equal: 'All' },
+              {
+                path: '[*].includeManagementEvents',
+                equal: true,
+              },
+            ],
+          },
+        },
+        {
+          path: '[*].cloudwatchLog',
+          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
+          array_any: {
+            and: [
+              {
+                and: [
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*PutBucketAcl\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*PutBucketPolicy\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*PutBucketCors\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*PutBucketLifecycle\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*PutBucketReplication\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*DeleteBucketCors\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*DeleteBucketReplication\s*/,
+                  },
+                ],
+              },
+              {
+                path: '[*].sns',
                 array_any: {
-                  path: '[*].arn',
-                  match: /^arn:aws:.*$/,
+                  path: '[*].subscriptions',
+                  array_any: {
+                    path: '[*].arn',
+                    match: /^arn:aws:.*$/,
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ],
+      ],
+    }
   },
 }

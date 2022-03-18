@@ -49,7 +49,8 @@ Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<a
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: `Monitoring for root account logins will provide visibility into the use of a fully privileged account and an opportunity to reduce the use of it.`,
+  rationale:
+    'Monitoring for root account logins will provide visibility into the use of a fully privileged account and an opportunity to reduce the use of it.',
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on filter pattern provided which checks for "Root" account usage and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -75,99 +76,102 @@ Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<a
 
     aws cloudwatch put-metric-alarm --alarm-name "<root_usage_alarm>" --metric- name "<root_usage_metric>" --statistic Sum --period 300 --threshold 1 -- comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 -- namespace 'CISBenchmark' --alarm-actions <sns_topic_arn>`,
   references: [
-    `CCE- 79188 - 9`,
-    `CIS CSC v6.0 #4.6, #5.1, #5.5`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html`,
-    `https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html`,
+    'CCE- 79188 - 9',
+    'CIS CSC v6.0 #4.6, #5.1, #5.5',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html',
+    'https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html',
   ],
   gql: `{
-    queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
+    queryawsAccount {
       id
-      arn
-      accountId
-       __typename
-      isMultiRegionTrail
-      status {
-        isLogging
-      }
-      eventSelectors {
-        id
-        readWriteType
-        includeManagementEvents
-      }
-      cloudwatchLog {
-        arn
-        metricFilters {
-          id
-          filterName
-          filterPattern
-          metricTransformations {
-            metricName
-          }
+      __typename
+      cloudtrail {
+        isMultiRegionTrail
+        status {
+          isLogging
         }
-        cloudwatch {
-          metric
+        eventSelectors {
+          id
+          readWriteType
+          includeManagementEvents
+        }
+        cloudwatchLog {
           arn
-          actions
-          sns {
+          metricFilters {
+            id
+            filterName
+            filterPattern
+            metricTransformations {
+              metricName
+            }
+          }
+          cloudwatch {
+            metric
             arn
-            subscriptions {
+            actions
+            sns {
               arn
+              subscriptions {
+                arn
+              }
             }
           }
         }
       }
     }
   }`,
-  resource: 'queryawsCloudtrail[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.isMultiRegionTrail',
-        equal: 'Yes',
-      },
-      {
-        path: '@.status.isLogging',
-        equal: true,
-      },
-      {
-        path: '@.eventSelectors',
-        array_any: {
-          and: [
-            { path: '[*].readWriteType', equal: 'All' },
-            {
-              path: '[*].includeManagementEvents',
-              equal: true,
-            },
-          ],
+    path: '@.cloudtrail',
+    array_any: {
+      and: [
+        {
+          path: '[*].isMultiRegionTrail',
+          equal: 'Yes',
         },
-      },
-      {
-        path: '@.cloudwatchLog',
-        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-        array_any: {
-          and: [
-            {
-              path: '[*].filterPattern',
-              match:
-                // eslint-disable-next-line max-len
-                /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/,
-            },
-            {
-              path: '[*].sns',
-              array_any: {
-                path: '[*].subscriptions',
+        {
+          path: '[*].status.isLogging',
+          equal: true,
+        },
+        {
+          path: '[*].eventSelectors',
+          array_any: {
+            and: [
+              { path: '[*].readWriteType', equal: 'All' },
+              {
+                path: '[*].includeManagementEvents',
+                equal: true,
+              },
+            ],
+          },
+        },
+        {
+          path: '[*].cloudwatchLog',
+          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
+          array_any: {
+            and: [
+              {
+                path: '[*].filterPattern',
+                match:
+                  // eslint-disable-next-line max-len
+                  /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/,
+              },
+              {
+                path: '[*].sns',
                 array_any: {
-                  path: '[*].arn',
-                  match: /^arn:aws:.*$/,
+                  path: '[*].subscriptions',
+                  array_any: {
+                    path: '[*].arn',
+                    match: /^arn:aws:.*$/,
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ],
+      ],
+    },
   },
 }

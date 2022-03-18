@@ -731,4 +731,42 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
+
+  describe('IAM Check 5: Virtual MFA should be enabled for the root user', () => {
+    test('Should fail when a root account has not a mfa device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: false,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_5 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when a root account has a mfa device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_5 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
 })

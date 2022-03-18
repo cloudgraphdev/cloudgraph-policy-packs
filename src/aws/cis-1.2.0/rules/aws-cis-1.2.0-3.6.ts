@@ -78,98 +78,101 @@ export default {
     `https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html`,
   ],
   gql: `{
-    queryawsCloudtrail(filter: { isMultiRegionTrail: { eq: "Yes" } }) {
+    queryawsAccount {
       id
-      arn
-      accountId
        __typename
-      isMultiRegionTrail
-      status {
-        isLogging
-      }
-      eventSelectors {
-        id
-        readWriteType
-        includeManagementEvents
-      }
-      cloudwatchLog {
-        arn
-        metricFilters {
-          id
-          filterName
-          filterPattern
-          metricTransformations {
-            metricName
-          }
+      cloudtrail {
+        isMultiRegionTrail
+        status {
+          isLogging
         }
-        cloudwatch {
-          metric
+        eventSelectors {
+          id
+          readWriteType
+          includeManagementEvents
+        }
+        cloudwatchLog {
           arn
-          actions
-          sns {
+          metricFilters {
+            id
+            filterName
+            filterPattern
+            metricTransformations {
+              metricName
+            }
+          }
+          cloudwatch {
+            metric
             arn
-            subscriptions {
+            actions
+            sns {
               arn
+              subscriptions {
+                arn
+              }
             }
           }
         }
       }
     }
   }`,
-  resource: 'queryawsCloudtrail[*]',
+  resource: 'queryawsAccount[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.isMultiRegionTrail',
-        equal: 'Yes',
-      },
-      {
-        path: '@.status.isLogging',
-        equal: true,
-      },
-      {
-        path: '@.eventSelectors',
-        array_any: {
-          and: [
-            { path: '[*].readWriteType', equal: 'All' },
-            {
-              path: '[*].includeManagementEvents',
-              equal: true,
-            },
-          ],
+    path: '@.cloudtrail',
+    array_any: {
+      and: [
+        {
+          path: '[*].isMultiRegionTrail',
+          equal: 'Yes',
         },
-      },
-      {
-        path: '@.cloudwatchLog',
-        jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-        array_any: {
-          and: [
-            {
-              and: [
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.eventName\s*=\s*ConsoleLogin\s*/,
-                },
-                {
-                  path: '[*].filterPattern',
-                  match: /\s*\$.errorMessage\s*=\s*"Failed authentication"\s*/,
-                },
-              ],
-            },
-            {
-              path: '[*].sns',
-              array_any: {
-                path: '[*].subscriptions',
+        {
+          path: '[*].status.isLogging',
+          equal: true,
+        },
+        {
+          path: '[*].eventSelectors',
+          array_any: {
+            and: [
+              { path: '[*].readWriteType', equal: 'All' },
+              {
+                path: '[*].includeManagementEvents',
+                equal: true,
+              },
+            ],
+          },
+        },
+        {
+          path: '[*].cloudwatchLog',
+          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
+          array_any: {
+            and: [
+              {
+                and: [
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.eventName\s*=\s*ConsoleLogin\s*/,
+                  },
+                  {
+                    path: '[*].filterPattern',
+                    match: /\s*\$.errorMessage\s*=\s*"Failed authentication"\s*/,
+                  },
+                ],
+              },
+              {
+                path: '[*].sns',
                 array_any: {
-                  path: '[*].arn',
-                  match: /^arn:aws:.*$/,
+                  path: '[*].subscriptions',
+                  array_any: {
+                    path: '[*].arn',
+                    match: /^arn:aws:.*$/,
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ],
+      ],
+    }
   },
 }
