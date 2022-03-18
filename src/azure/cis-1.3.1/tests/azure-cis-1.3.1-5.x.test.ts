@@ -26,9 +26,14 @@ export interface QueryazureActivityLogAlert {
   enabled?: boolean
   condition?: azureActivityLogAlertAllOfCondition
 }
+export interface QueryazureResourceGroup {
+  id: string
+  activityLogAlerts: QueryazureActivityLogAlert[]
+}
 
 export interface CIS5xQueryResponse {
   queryazureActivityLogAlert?: QueryazureActivityLogAlert[]
+  queryazureResourceGroup?: QueryazureResourceGroup[]
 }
 
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
@@ -45,18 +50,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -98,18 +106,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -151,18 +162,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -204,18 +218,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -256,18 +273,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -309,18 +329,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }

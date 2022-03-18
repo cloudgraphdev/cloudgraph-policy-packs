@@ -124,50 +124,51 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources',
   ],  
   gql: `{
-    queryazureActivityLogAlert {
+    queryazureResourceGroup {
       id
       __typename
-      name
-      region
-      enabled
-      condition {
-        allOf {
-          field
-          equals
+      activityLogAlerts {
+        region
+        enabled
+        condition {
+          allOf {
+            field
+            equals
+          }
         }
       }
     }
   }`,
-  resource: 'queryazureActivityLogAlert[*]',
+  resource: 'queryazureResourceGroup[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.region',
-        equal: 'global',
-      },
-      {
-        path: '@.enabled',
-        equal: true,
-      },
-      {
-        and: [
-          {
-            path: '@.condition.allOf',
-            array_any: {
-              path: '[*].field',
-              equal: 'operationName',
-            },
+    path: '@.activityLogAlerts',
+    array_any: {
+      and: [
+        {
+          path: '[*].region',
+          equal: 'global',
+        },
+        {
+          path: '[*].enabled',
+          equal: true,
+        },
+        {
+          path: '[*].condition.allOf',
+          array_any: {
+            and: [
+              {
+                path: '[*].field',
+                equal: 'operationName',
+              },
+              {
+                path: '[*].equals',
+                equal: 'microsoft.network/networksecuritygroups/securityrules/delete',
+              },
+            ],
           },
-          {
-            path: '@.condition.allOf',
-            array_any: {
-              path: '[*].equals',
-              equal: 'microsoft.network/networksecuritygroups/securityrules/delete',
-            },
-          },
-        ],
-      },
-    ],
+        },
+      ],
+    },
   },
 }

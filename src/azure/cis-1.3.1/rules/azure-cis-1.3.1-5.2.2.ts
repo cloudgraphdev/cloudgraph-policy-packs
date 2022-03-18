@@ -123,47 +123,51 @@ export default {
     'https://azure.microsoft.com/en-us/services/blueprints/'
   ],  
   gql: `{
-    queryazureActivityLogAlert {
+    queryazureResourceGroup {
       id
       __typename
-      name
-      region
-      enabled
-      condition {
-        allOf {
-          field
-          equals
+      activityLogAlerts {
+        region
+        enabled
+        condition {
+          allOf {
+            field
+            equals
+          }
         }
       }
     }
   }`,
-  resource: 'queryazureActivityLogAlert[*]',
+  resource: 'queryazureResourceGroup[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.region',
-        equal: 'global',
-      },
-      {
-        path: '@.enabled',
-        equal: true,
-      },
-      {
-        path: '@.condition.allOf',
-        array_any: {
-          and: [
-            {
-              path: '[*].field',
-              equal: 'operationName',
-            },
-            {
-              path: '[*].equals',
-              equal: 'microsoft.authorization/policyassignments/delete',
-            },
-          ],
-        }
-      },
-    ],
+    path: '@.activityLogAlerts',
+    array_any: {
+      and: [
+        {
+          path: '[*].region',
+          equal: 'global',
+        },
+        {
+          path: '[*].enabled',
+          equal: true,
+        },
+        {
+          path: '[*].condition.allOf',
+          array_any: {
+            and: [
+              {
+                path: '[*].field',
+                equal: 'operationName',
+              },
+              {
+                path: '[*].equals',
+                equal: 'microsoft.authorization/policyassignments/delete',
+              },
+            ],
+          }
+        },
+      ],
+    },
   },
 }
