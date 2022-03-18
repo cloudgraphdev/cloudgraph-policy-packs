@@ -1,3 +1,12 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.9.3](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.2...@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.3) (2022-03-18)
+
+
+### Bug Fixes
+
+* Fixed broken aws cis 1.2.0 rule (1.14) ([0450270](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/0450270dbb39ed157732f46e0e3714f12b964f26))
+* Fixed CloudTrail checks ([4e21578](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/4e21578bb4ee7bdf681b1191ed60a431999db52b))
+* Fixed rule 3.3 for AWS CIS 1.2.0 ([5df0818](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/5df081849be81948ee018345250d7f319810415d))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.9.2](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.2) (2022-03-11)
 
 
