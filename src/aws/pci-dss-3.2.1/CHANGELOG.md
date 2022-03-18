@@ -1,3 +1,18 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.11.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.10.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.11.0) (2022-03-18)
+
+
+### Bug Fixes
+
+* Fixed broken rules ([de93fa6](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/de93fa683d290b05c921d2510bcd1894d8988bf5))
+* Fixed rule 3.3 for AWS CIS 1.2.0 ([5df0818](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/5df081849be81948ee018345250d7f319810415d))
+
+
+### Features
+
+* Included cloudwatch-check-1 for PCI DSS ([938b9db](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/938b9db78539875f7590d3eed835d24c266c914e))
+* Included config-check-1 for PCI DSS ([788acc2](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/788acc2695547ec64058b0694d8334bc586dad8e))
+* Included iam-check-5 for PCI DSS ([6587943](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/658794309df52d8e633a4ec8d0626e49d28a25b5))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.10.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.9.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.10.0) (2022-03-11)
 
 
