@@ -44,7 +44,10 @@ export interface CIS9xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'azure',
+      entityName: 'CIS',
+    })
   })
 
   describe('Azure CIS 9.1 Ensure App Service Authentication is set on Azure App Service', () => {
@@ -210,7 +213,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   describe('Azure CIS 9.5 Ensure that Register with Azure Active Directory is enabled on App Service', () => {
     const getTestRuleFixture = (
       webAppIdentityId?: number | null
-      ): CIS9xQueryResponse => {
+    ): CIS9xQueryResponse => {
       return {
         queryazureAppServiceWebApp: [
           {
@@ -291,73 +294,103 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     })
   })
 
-  describe.skip('Azure CIS 9.10 Ensure FTP deployments are disabled', () => {
-    const getTestRuleFixture = (
-      webAppftpsState: string,
-      functionAppftpsState: string
-      ): CIS9xQueryResponse => {
+  describe('Azure CIS 9.10 Ensure FTP deployments are disabled', () => {
+    const getTestRuleAFixture = (ftpsState: string) => {
       return {
-        queryazureResourceGroup: [
+        queryazureAppServiceWebApp: [
           {
             id: cuid(),
-            appServiceWebApps: [
-              {
-                siteConfig: {
-                  ftpsState: webAppftpsState,
-                },
-              },
-            ],
-            functionApps: [
-              {
-                siteConfig: {
-                  ftpsState: functionAppftpsState,
-                },
-              },
-            ],
+            siteConfig: {
+              ftpsState,
+            },
+          },
+        ],
+      }
+    }
+
+    const getTestRuleBFixture = (ftpsState: string) => {
+      return {
+        queryazureFunctionApp: [
+          {
+            id: cuid(),
+
+            siteConfig: {
+              ftpsState,
+            },
           },
         ],
       }
     }
 
     const testRule = async (
-      data: CIS9xQueryResponse,
-      expectedResult: Result
+      data: any,
+      expectedResult: Result,
+      rule?: any
     ): Promise<void> => {
       // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Azure_CIS_131_910 as Rule,
-        { ...data }
-      )
+      const [processedRule] = await rulesEngine.processRule(rule as Rule, {
+        ...data,
+      })
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when Web Apps and Function Apps has FTP deployments state not set to "All allowed"', async () => {
-      const data: CIS9xQueryResponse = getTestRuleFixture(
-        'Disabled',
-        'FtpsOnly'
-      )
+    describe('queryazureAppServiceWebApp query:', () => {
+      let webAppRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Azure_CIS_131_910
+        const query = queries.shift()
+        webAppRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-      await testRule(data, Result.PASS)
+
+      test('No Security Issue when Web Apps has FTP deployments state not set to "All allowed"', async () => {
+        const data = getTestRuleAFixture('Disabled')
+
+        await testRule(data, Result.PASS, webAppRule as Rule)
+      })
+
+      test('Security Issue when Web Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleAFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, webAppRule as Rule)
+      })
     })
 
-    test('Security Issue when Web Apps and Function Apps has FTP deployments state set to "All allowed"', async () => {
-      const data: CIS9xQueryResponse = getTestRuleFixture(
-        'AllAllowed',
-        'AllAllowed'
-      )
+    describe('queryazureFunctionApp query:', () => {
+      let functionAppRule: Rule
+      beforeAll(() => {
+        const { queries, ...ruleMetadata} = Azure_CIS_131_910
+        const query = queries.pop()
+        functionAppRule = {
+          ...ruleMetadata,
+          ...query
+        } as Rule
+      })
 
-      await testRule(data, Result.FAIL)
+      test('No Security Issue when Function Apps has FTP deployments state not set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('FtpsOnly')
+
+        await testRule(data, Result.PASS, functionAppRule)
+      })
+
+      test('Security Issue when Function Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, functionAppRule)
+      })
+
+      test('Security Issue when some Function Apps has FTP deployments state set to "All allowed"', async () => {
+        const data = getTestRuleBFixture('AllAllowed')
+
+        await testRule(data, Result.FAIL, functionAppRule)
+      })
     })
 
-    test('Security Issue when some Web Apps or Function Apps has FTP deployments state set to "All allowed"', async () => {
-      const data: CIS9xQueryResponse = getTestRuleFixture(
-        'FtpsOnly',
-        'AllAllowed'
-      )
 
-      await testRule(data, Result.FAIL)
-    })
   })
 })
