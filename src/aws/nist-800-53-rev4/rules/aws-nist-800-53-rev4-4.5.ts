@@ -55,47 +55,49 @@ export default {
   severity: 'medium',
   conditions: { 
     path: '@.bucketPolicies',
-    array_any: {
+    array_all: {
       path: '[*].policy.statement',
       array_any: {
-        and: [
+        or: [
           {
             path: '[*].effect',
             equal: 'Deny',
           },
           {
-            path: '[*].action',
-            contains: '*',
-          },
-          {
-            path: '[*].principal',
-            array_any: {
-              and: [
-                {
-                  path: '[*].key',
-                  in: ['', 'AWS'],
+            and: [
+              {
+                path: '[*].condition',
+                array_any: {
+                  and: [
+                    {
+                      path: '[*].key',
+                      equal: 'aws:SecureTransport',
+                    },
+                    {
+                      path: '[*].value',
+                      contains: 'true',
+                    },
+                  ],
                 },
-                {
-                  path: '[*].value',
-                  contains: '*',
+              },
+              {
+                path: '[*].principal',
+                array_any: {
+                  not: {
+                    and: [
+                      {
+                        path: '[*].key',
+                        in: ['', 'AWS'],
+                      },
+                      {
+                        path: '[*].value',
+                        contains: '*',
+                      },
+                    ],
+                  }
                 },
-              ],
-            },
-          },
-          {
-            path: '[*].condition',
-            array_any: {
-              and: [
-                {
-                  path: '[*].key',
-                  equal: 'aws:SecureTransport',
-                },
-                {
-                  path: '[*].value',
-                  contains: 'false',
-                },
-              ],
-            },
+              },
+            ],
           },
         ],
       },

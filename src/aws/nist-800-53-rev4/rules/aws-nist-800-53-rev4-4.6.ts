@@ -76,18 +76,20 @@ export default {
   resource: 'queryawsSns[*]',
   severity: 'medium',
   conditions: { 
-    path: '@.subscriptions',
-    array_all: {
-      and: [
-        {
-          path: '[*].protocol',
-          equal: 'https'
-        },
-        {
-          path: '[*].endpoint',
-          match: /^https:.*$/,
-        },
-      ],
+    not: {
+      path: '@.subscriptions',
+      array_any: {
+        or: [
+          {
+            path: '[*].protocol',
+            equal: 'http'
+          },
+          {
+            path: '[*].endpoint',
+            match: /^http:.*$/,
+          },
+        ],
+      },
     },
   },
 }
