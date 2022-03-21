@@ -58,6 +58,11 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 | Rule         | Description                                                                                              |
 | ------------ | -------------------------------------------------------------------------------------------------------- |
+| AWS NIS 2.1  | Auto Scaling groups should span two or more availability zones                                           |
+| AWS NIS 2.2  | ELBv1 load balancer cross zone load balancing should be enabled                                          |
+| AWS NIS 2.3  | RDS Aurora cluster multi-AZ should be enabled                                                            |
+| AWS NIS 2.4  | Require Multi Availability Zones turned on for RDS Instances                                             |
+| AWS NIS 2.5  | S3 bucket replication (cross-region or same-region) should be enabled                                    |
 | AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                  |
 | AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                                 |
 | AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                                |
