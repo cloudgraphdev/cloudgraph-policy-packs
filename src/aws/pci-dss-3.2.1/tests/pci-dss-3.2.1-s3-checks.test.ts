@@ -5,6 +5,7 @@ import Aws_PCI_DSS_321_S3_1 from '../rules/pci-dss-3.2.1-s3-check-1'
 import Aws_PCI_DSS_321_S3_2 from '../rules/pci-dss-3.2.1-s3-check-2'
 import Aws_PCI_DSS_321_S3_3 from '../rules/pci-dss-3.2.1-s3-check-3'
 import Aws_PCI_DSS_321_S3_4 from '../rules/pci-dss-3.2.1-s3-check-4'
+import Aws_PCI_DSS_321_S3_5 from '../rules/pci-dss-3.2.1-s3-check-5'
 import Aws_PCI_DSS_321_S3_6 from '../rules/pci-dss-3.2.1-s3-check-6'
 
 const allowAll = {
@@ -84,6 +85,23 @@ const allowPublicReadAccess = [
   },
 ]
 
+const allowSSLRequestsOnly = {
+  condition: [
+    {
+      key: 'aws:SecureTransport',
+      value: ['false'],
+    },
+  ],
+  action: ['s3:*'],
+  effect: 'Deny',
+  principal: [
+    {
+      key: 'AWS',
+      value: ['*'],
+    },
+  ],
+}
+
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
@@ -114,7 +132,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail when it has an policy with public write access', async () => {
+    test('Should fail when it has a policy with public write access', async () => {
       const data = {
         queryawsS3: [
           {
@@ -141,7 +159,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should pass when it has an policy with public read access', async () => {
+    test('Should pass when it has a policy with public read access', async () => {
       const data = {
         queryawsS3: [
           {
@@ -189,6 +207,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
+
   describe('S3 Check 2: S3 buckets should prohibit public read access', () => {
     test('Should fail when it has blockPublicPolicy and blockPublicAcls disabled', async () => {
       const data = {
@@ -211,7 +230,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail when it has an policy with public read access', async () => {
+    test('Should fail when it has a policy with public read access', async () => {
       const data = {
         queryawsS3: [
           {
@@ -238,7 +257,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should pass when it has an policy with public write access', async () => {
+    test('Should pass when it has a policy with public write access', async () => {
       const data = {
         queryawsS3: [
           {
@@ -324,6 +343,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
+
   describe('S3 Check 4: S3 buckets should have server-side encryption enabled', () => {
     test('Should fail when encryption is disabled', async () => {
       const data = {
@@ -361,6 +381,78 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
   })
+
+  describe('S3 Check 5: S3 buckets should require requests to use Secure Socket Layer', () => {
+    test('Should pass when it does not have any policies configured', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            bucketPolicies: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_5 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when it has a policy that requires SSL connections only', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            bucketPolicies: [
+              {
+                policy: {
+                  statement: [allowSSLRequestsOnly],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_5 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when it has not a policy that requires SSL connections only', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            bucketPolicies: [
+              {
+                policy: {
+                  statement: [allowAll],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_5 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
   describe('S3 Check 6: S3 Block Public Access setting should be enabled', () => {
     const testBlockPublicAcessSetting = async (
       {

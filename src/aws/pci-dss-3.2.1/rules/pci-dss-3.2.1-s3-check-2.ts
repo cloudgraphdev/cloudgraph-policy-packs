@@ -119,7 +119,7 @@ export default {
                         and: [
                           {
                             path: '[*].key',
-                            equal: 'AWS',
+                            in: ['', 'AWS'],
                           },
                           {
                             or: [

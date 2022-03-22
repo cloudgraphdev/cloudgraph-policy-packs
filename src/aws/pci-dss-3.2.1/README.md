@@ -93,6 +93,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | s3-check-2            | S3 buckets should prohibit public read access                                                                                 |
 | s3-check-3            | S3 buckets should have cross-region replication enabled enabled                                                               |
 | s3-check-4            | S3 buckets should have server-side encryption enabled                                                                         |
+| s3-check-5            | S3 buckets should require requests to use Secure Socket Layer                                                                 |
 | s3-check-6            | S3 Block Public Access setting should be enabled                                                                              |
 | sageMaker-check-1     | Amazon SageMaker notebook instances should not have direct internet access                                                    |
 | ssm-check-1           | Amazon EC2 instances managed by Systems Manager should have a patch compliance status of COMPLIANT after a patch installation |
