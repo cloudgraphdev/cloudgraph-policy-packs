@@ -2,6 +2,7 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_S3_1 from '../rules/pci-dss-3.2.1-s3-check-1'
+import Aws_PCI_DSS_321_S3_2 from '../rules/pci-dss-3.2.1-s3-check-2'
 import Aws_PCI_DSS_321_S3_3 from '../rules/pci-dss-3.2.1-s3-check-3'
 import Aws_PCI_DSS_321_S3_4 from '../rules/pci-dss-3.2.1-s3-check-4'
 import Aws_PCI_DSS_321_S3_6 from '../rules/pci-dss-3.2.1-s3-check-6'
@@ -182,6 +183,103 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_PCI_DSS_321_S3_1 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+  describe('S3 Check 2: S3 buckets should prohibit public read access', () => {
+    test('Should fail when it has blockPublicPolicy and blockPublicAcls disabled', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            blockPublicPolicy: 'No',
+            blockPublicAcls: 'No',
+            bucketPolicies: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when it has an policy with public read access', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            blockPublicPolicy: 'Yes',
+            blockPublicAcls: 'Yes',
+            bucketPolicies: [
+              {
+                policy: {
+                  statement: [allowAll, ...allowPublicReadAccess],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when it has an policy with public write access', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            blockPublicPolicy: 'Yes',
+            blockPublicAcls: 'Yes',
+            bucketPolicies: [
+              {
+                policy: {
+                  statement: [...allowPublicWriteAccess],
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_2 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when it has blockPublicPolicy and blockPublicAcls enabled', async () => {
+      const data = {
+        queryawsS3: [
+          {
+            id: cuid(),
+            __typename: 'awsS3',
+            blockPublicPolicy: 'Yes',
+            blockPublicAcls: 'Yes',
+            bucketPolicies: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_S3_2 as Rule,
         { ...data } as any
       )
 
