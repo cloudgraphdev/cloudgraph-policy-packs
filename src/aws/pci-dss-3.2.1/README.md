@@ -89,6 +89,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | lambda-check-2        | Lambda functions should be in a VPC                                                                                           |
 | rds-check-2           | RDS DB Instances should prohibit public access                                                                                |
 | redshift-check-1      | Amazon Redshift clusters should prohibit public access                                                                        |
+| s3-check-1            | S3 buckets should prohibit public write access enabled                                                                        |
 | s3-check-3            | S3 buckets should have cross-region replication enabled enabled                                                               |
 | s3-check-4            | S3 buckets should have server-side encryption enabled                                                                         |
 | s3-check-6            | S3 Block Public Access setting should be enabled                                                                              |
