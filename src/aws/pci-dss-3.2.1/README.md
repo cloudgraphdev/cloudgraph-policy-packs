@@ -88,6 +88,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | kms-check-1           | KMS key rotation should be enabled                                                                                            |
 | lambda-check-1        | Lambda functions should prohibit public access                                                                                |
 | lambda-check-2        | Lambda functions should be in a VPC                                                                                           |
+| rds-check-1           | RDS snapshots should prohibit public access                                                                                   |
 | rds-check-2           | RDS DB Instances should prohibit public access                                                                                |
 | redshift-check-1      | Amazon Redshift clusters should prohibit public access                                                                        |
 | s3-check-3            | S3 buckets should have cross-region replication enabled enabled                                                               |
