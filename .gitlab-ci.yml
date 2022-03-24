@@ -47,7 +47,12 @@ test:
       when: never
     - when: always
   script:
+    - printenv | sort > env.txt
     - yarn workspaces foreach run test
+  artifacts:
+      paths:
+        - env.txt
+      expire_in: 1 hour
 
 release:
   image: node:16-alpine
