@@ -58,6 +58,9 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 | Rule         | Description                                                                                              |
 | ------------ | -------------------------------------------------------------------------------------------------------- |
+| AWS NIS 1.1  | IAM role trust policies should not allow all principals to assume the role                               |
+| AWS NIS 1.2  | IAM roles attached to instance profiles should not allow broad list actions on S3 buckets                |
+| AWS NIS 1.3  | S3 bucket ACLs should not have public access on S3 buckets that store CloudTrail log files               |
 | AWS NIS 2.1  | Auto Scaling groups should span two or more availability zones                                           |
 | AWS NIS 2.2  | ELBv1 load balancer cross zone load balancing should be enabled                                          |
 | AWS NIS 2.3  | RDS Aurora cluster multi-AZ should be enabled                                                            |
