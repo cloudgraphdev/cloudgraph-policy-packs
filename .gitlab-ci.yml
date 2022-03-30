@@ -1,8 +1,8 @@
 ---
-.configure-registry: &configure-registry
-  - apk --quiet --no-progress --update --no-cache add git openssh
+.configure-registry:
+  &configure-registry 
+  # - apk --quiet --no-progress --update --no-cache add git openssh
   - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
-
   - NODE_ENV=cicd yarn install
 default:
   image: node:16-alpine
@@ -29,7 +29,8 @@ stages:
   - notify
 
 lint:
-  image: node:16-alpine
+  # image: node:16-alpine
+  image: node:16
   stage: test
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
@@ -40,7 +41,8 @@ lint:
     - yarn workspaces foreach run lint
 
 test:
-  image: node:16-alpine
+  # image: node:16-alpine
+  image: node:16
   stage: test
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
@@ -50,7 +52,8 @@ test:
     - yarn workspaces foreach run test
 
 release:
-  image: node:16-alpine
+  # image: node:16-alpine
+  image: node:16
   stage: release
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
@@ -63,10 +66,10 @@ release:
       when: always
   variables:
     # Set git commit identity
-    GIT_AUTHOR_NAME: 'AutoCloud Deploy Bot'
-    GIT_AUTHOR_EMAIL: 'no-reply@loudcloud.dev'
-    GIT_COMMITTER_NAME: 'AutoCloud Deploy Bot'
-    GIT_COMMITTER_EMAIL: 'no-reply@loudcloud.dev'
+    GIT_AUTHOR_NAME: "AutoCloud Deploy Bot"
+    GIT_AUTHOR_EMAIL: "no-reply@loudcloud.dev"
+    GIT_COMMITTER_NAME: "AutoCloud Deploy Bot"
+    GIT_COMMITTER_EMAIL: "no-reply@loudcloud.dev"
     # Disable Husky for the git step of semantic release (handles all versions, env var name changed in v6)
     HUSKY_SKIP_HOOKS: 1
     HUSKY: 0
@@ -76,7 +79,8 @@ release:
     - yarn release
 
 publish:
-  image: node:16-alpine
+  # image: node:16-alpine
+  image: node:16
   stage: publish
   rules:
     - if: $CI_COMMIT_TAG
