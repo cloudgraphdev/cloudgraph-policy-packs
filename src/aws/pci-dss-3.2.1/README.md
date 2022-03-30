@@ -76,6 +76,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | elasticsearch-check-1 | ElasticSearch domains should be in a VPC                                                                                      |
 | elasticsearch-check-2 | Elasticsearch domains should have encryption at rest enabled                                                                  |
 | elbv2-check-1         | Application Load Balancer should be configured to redirect all HTTP requests to HTTPS                                         |
+| guardDuty-check-1     | GuardDuty should be enabled                                                                                                   |
 | iam-check-1           | IAM root user access key should not exist                                                                                     |
 | iam-check-2           | IAM users should not have IAM policies attached                                                                               |
 | iam-check-3           | IAM policies should not allow full "\*" administrative privileges                                                             |
