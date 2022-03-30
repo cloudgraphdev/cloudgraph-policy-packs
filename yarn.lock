@@ -1465,7 +1465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semantic-release/npm@npm:^9.0.0, @semantic-release/npm@npm:^9.0.1":
+"@semantic-release/npm@npm:^9.0.0":
   version: 9.0.1
   resolution: "@semantic-release/npm@npm:9.0.1"
   dependencies:
@@ -1505,6 +1505,13 @@ __metadata:
   peerDependencies:
     semantic-release: ">=18.0.0-beta.1"
   checksum: 0237e7e6ebf41b7c6a72eea704b007442cfd05910ded7059235a5684a0e4a233b2ca3c3e39923901131e7f0a4dcb5e95737af469081529acc393223c04715505
+  languageName: node
+  linkType: hard
+
+"@semrel-extra/npm@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@semrel-extra/npm@npm:1.2.0"
+  checksum: ce899b2976323833695c1adba88bcc0698042a6234e0ce0742a081db23bc444215d6703d949c975beb796dad9112762b0c65d289aa6f7e0a872301fda0a9d4dd
   languageName: node
   linkType: hard
 
@@ -9134,7 +9141,7 @@ __metadata:
     "@semantic-release/changelog": ^6.0.1
     "@semantic-release/git": ^10.0.1
     "@semantic-release/gitlab": ^8.0.1
-    "@semantic-release/npm": ^9.0.1
+    "@semrel-extra/npm": ^1.2.0
     semantic-release: ^19.0.2
   languageName: unknown
   linkType: soft
