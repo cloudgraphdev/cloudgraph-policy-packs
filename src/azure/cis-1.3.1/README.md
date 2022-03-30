@@ -114,6 +114,11 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 4.3.8| Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled                                            |
 | Azure CIS 4.4  | Ensure that Azure Active Directory Admin is configured                                                                        |
 | Azure CIS 4.5  | Ensure SQL server's TDE protector is encrypted with Customer-managed key                                                      |
+| Azure CIS 5.1.1| Ensure that a 'Diagnostics Setting' exists (Manual)                                                                           |
+| Azure CIS 5.1.2| Ensure Diagnostic Setting captures appropriate categories                                                                     |
+| Azure CIS 5.1.3| Ensure the storage container storing the activity logs is not publicly accessible                                             |
+| Azure CIS 5.1.4| Ensure the storage account containing the container with activity logs is encrypted with BYOK (Use Your Own Key)              |
+| Azure CIS 5.1.5| Ensure that logging for Azure KeyVault is 'Enabled' (Manual)                                                                  |
 | Azure CIS 5.2.1| Ensure that Activity Log Alert exists for Create Policy Assignment                                                            |
 | Azure CIS 5.2.2| Ensure that Activity Log Alert exists for Delete Policy Assignment                                                            |
 | Azure CIS 5.2.3| Ensure that Activity Log Alert exists for Create or Update Network Security Group                                             |
