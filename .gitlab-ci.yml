@@ -1,8 +1,9 @@
 ---
 .configure-registry:
-  &configure-registry 
+  &configure-registry
   # - apk --quiet --no-progress --update --no-cache add git openssh
   - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
+  - cat .yarnrc.yml
   - NODE_ENV=cicd yarn install
 default:
   image: node:16-alpine
