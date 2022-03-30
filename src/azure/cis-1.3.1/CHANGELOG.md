@@ -1,3 +1,19 @@
+# @cloudgraph/policy-pack-azure-cis-1.3.1 [1.10.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.9.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.10.0) (2022-03-30)
+
+
+### Bug Fixes
+
+* 5.2.1, 5.2.2 conditions azure cis 1.3.1 ([bc0623b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bc0623bd9cbcd0f10fb161fdc772a7814a54b9be))
+* 5.2.x resource group level array_any for activityLogAlerts ([bb40e16](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bb40e16ab916e3801bf4dee15a9bedd8161e6fa2))
+* condition equal for azure cis 1.3.1 ([b8116a0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/b8116a0f4a24fc2b4c18894dc7a1e95d21a63477))
+* Fixed unit tests for Azure CIS 1.3.1 rule 9.10 ([27fcd91](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/27fcd910647d3a509d86dcad03cddf7440b152e2))
+
+
+### Features
+
+* Included 5.2.1-5.2.6 for azure cis 1.3.1 ([4bfb87a](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/4bfb87a55825812d29720d056c00c2c202801384))
+* Split composite rules for better granularity ([6f260ba](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/6f260ba7b55848ad275d14a659de38d853b2877c))
+
 # @cloudgraph/policy-pack-azure-cis-1.3.1 [1.9.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.8.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.9.0) (2022-03-18)
 
 
