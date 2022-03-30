@@ -1,3 +1,17 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.13.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.12.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.13.0) (2022-03-30)
+
+
+### Bug Fixes
+
+* **checks:** add lambda check to index file ([9204acb](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/9204acb47f5352325bf57356fb7f894c5e255614))
+* **checks:** update lambda check conditions, update sdk version ([d003353](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/d003353cf2f9f45b35faf764ace1ca6dea86f5c7))
+
+
+### Features
+
+* **checks:** new check lambda-check-1 ([f0061d1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f0061d12405ce6c24525a632d77270545d0f4623))
+* **checks:** new check lambda-check-2 and small fix for sagemaker check ([785d3ff](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/785d3ffb1a671de1926dab5ebbf111fff0e4b12f))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.12.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.11.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.12.0) (2022-03-18)
 
 
