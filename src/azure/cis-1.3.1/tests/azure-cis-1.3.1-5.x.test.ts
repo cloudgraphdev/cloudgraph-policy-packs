@@ -389,18 +389,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -442,18 +445,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -495,18 +501,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
