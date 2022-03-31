@@ -1,3 +1,21 @@
+# @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.12.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.0) (2022-03-31)
+
+
+### Bug Fixes
+
+* 5.3 title azure cis 1.3.1 ([9a64e22](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/9a64e228533666ea9be25f8960b2115d1e17d600))
+* 5.3 title azure cis 1.3.1 ([e3f481b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/e3f481bc19856752b823e92a32b51446c7ddd87d))
+* check activityLogAlerts from resource group azure cis 1.3.1 ([7765532](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/7765532b12c64218f09e86324e29c65c97c4484c))
+* index ([bc5def4](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/bc5def458c89ed8ec35f57f751ddf8221b67677d))
+* index ([8415a2b](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/8415a2b39fb77a1851ab25b62af191b3db32ab8d))
+* resolve Azure CIS 1.3.1 test rebase conflict ([8257de8](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/8257de85521ba5083a4d445adf6eb4022f0d640f))
+
+
+### Features
+
+* Included 4.1.2, 4.3.1, 4.3.2, 5.2.7, 5.2.8, 5.2.9, 5.3 for azure cis 1.3.1 ([7b7cc46](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/7b7cc460e0541ae2cf9284cc2ff0613265867db1))
+* Included 4.1.2, 4.3.1, 4.3.2, 5.2.7, 5.2.8, 5.2.9, 5.3 for azure cis 1.3.1 ([b4cdc13](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/b4cdc1308b53ceae257a0fe8ae89e0bb7e7dc6f8))
+
 # @cloudgraph/policy-pack-azure-cis-1.3.1 [1.12.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.11.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.12.0) (2022-03-30)
 
 
