@@ -17,6 +17,10 @@ import Azure_CIS_131_528 from '../rules/azure-cis-1.3.1-5.2.8'
 import Azure_CIS_131_529 from '../rules/azure-cis-1.3.1-5.2.9'
 import { initRuleEngine, testRule } from './utils'
 
+export interface azureActivityLogAlertAllOfCondition {
+  allOf: [azureActivityLogAlertLeafCondition]
+}
+
 export interface azureActivityLogAlertLeafCondition {
   id: string
   field: string
@@ -555,18 +559,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -608,18 +615,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
@@ -661,18 +671,21 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureActivityLogAlert: [
+        queryazureResourceGroup: [
           {
             id: cuid(),
-            region,
-            enabled,
-            condition: {
-              allOf: [{
-                id: cuid(),
-                field,
-                equals,
-              }]
-            },
+            activityLogAlerts: [{
+              id: cuid(),
+              region,
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
           },
         ],
       }
