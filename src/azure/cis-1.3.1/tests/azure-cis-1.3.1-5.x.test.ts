@@ -12,6 +12,9 @@ import Azure_CIS_131_523 from '../rules/azure-cis-1.3.1-5.2.3'
 import Azure_CIS_131_524 from '../rules/azure-cis-1.3.1-5.2.4'
 import Azure_CIS_131_525 from '../rules/azure-cis-1.3.1-5.2.5'
 import Azure_CIS_131_526 from '../rules/azure-cis-1.3.1-5.2.6'
+import Azure_CIS_131_527 from '../rules/azure-cis-1.3.1-5.2.7'
+import Azure_CIS_131_528 from '../rules/azure-cis-1.3.1-5.2.8'
+import Azure_CIS_131_529 from '../rules/azure-cis-1.3.1-5.2.9'
 import { initRuleEngine, testRule } from './utils'
 
 export interface azureActivityLogAlertLeafCondition {
@@ -28,6 +31,7 @@ export interface QueryazureActivityLogAlert {
   enabled?: boolean
   condition?: azureActivityLogAlertAllOfCondition
 }
+
 export interface QueryazureResourceGroup {
   id: string
   activityLogAlerts: QueryazureActivityLogAlert[]
@@ -540,6 +544,165 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       )
 
       await testRule(rulesEngine, data, Azure_CIS_131_526 as Rule, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution', () => {
+    const getTestRuleFixture = (
+      region: string,
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): CIS5xQueryResponse => {
+      return {
+        queryazureActivityLogAlert: [
+          {
+            id: cuid(),
+            region,
+            enabled,
+            condition: {
+              allOf: [{
+                id: cuid(),
+                field,
+                equals,
+              }]
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS5xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_527 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update Security Solution', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.security/securitysolutions/write')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update Security Solution', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution', () => {
+    const getTestRuleFixture = (
+      region: string,
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): CIS5xQueryResponse => {
+      return {
+        queryazureActivityLogAlert: [
+          {
+            id: cuid(),
+            region,
+            enabled,
+            condition: {
+              allOf: [{
+                id: cuid(),
+                field,
+                equals,
+              }]
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS5xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_528 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Delete Security Solution', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.security/securitysolutions/delete')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Delete Security Solution', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 5.2.9 Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', () => {
+    const getTestRuleFixture = (
+      region: string,
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): CIS5xQueryResponse => {
+      return {
+        queryazureActivityLogAlert: [
+          {
+            id: cuid(),
+            region,
+            enabled,
+            condition: {
+              allOf: [{
+                id: cuid(),
+                field,
+                equals,
+              }]
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS5xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_529 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+
+      await testRule(data, Result.FAIL)
     })
   })
 })
