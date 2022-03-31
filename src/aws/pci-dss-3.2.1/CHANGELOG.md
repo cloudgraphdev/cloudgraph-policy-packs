@@ -1,3 +1,10 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.14.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.13.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.14.0) (2022-03-31)
+
+
+### Features
+
+* Included guardDuty-check-1 for PCI DSS ([f682431](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f682431aa10c955ec00c9c73dce5456df6f964cd))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.13.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.12.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.13.0) (2022-03-30)
 
 
