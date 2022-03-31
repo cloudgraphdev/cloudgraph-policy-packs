@@ -3,8 +3,8 @@ import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
-import Azure_CIS_131_412 from '../rules/azure-cis-1.3.1-4.1.2'
 import Azure_CIS_131_411 from '../rules/azure-cis-1.3.1-4.1.1'
+import Azure_CIS_131_412 from '../rules/azure-cis-1.3.1-4.1.2'
 import Azure_CIS_131_413 from '../rules/azure-cis-1.3.1-4.1.3'
 import Azure_CIS_131_421 from '../rules/azure-cis-1.3.1-4.2.1'
 import Azure_CIS_131_422 from '../rules/azure-cis-1.3.1-4.2.2'
@@ -199,99 +199,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
 
     test('Security Security Issue when \'Data encryption\' on a SQL Database is not configured', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture()
-
-      await testRule(data, Result.FAIL)
-    })
-  })
-
-
-  describe('Azure CIS 4.1.3 Ensure that \'Auditing\' Retention is \'greater than 90 days\'', () => {
-    const getTestRuleFixture = (
-      retentionDays?: number | undefined
-    ): CIS4xQueryResponse => {
-      return {
-        queryazureSqlServer: [
-          {
-            id: cuid(),
-            serverBlobAuditingPolicies: retentionDays ? [
-              {
-                retentionDays
-              }
-            ] : []
-          },
-        ],
-      }
-    }
-
-    const testRule = async (
-      data: CIS4xQueryResponse,
-      expectedResult: Result
-    ): Promise<void> => {
-      // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Azure_CIS_131_413 as Rule,
-        { ...data }
-      )
-
-      // Asserts
-      expect(processedRule.result).toBe(expectedResult)
-    }
-
-    test('No Security Issue when Auditing Retention is greater than 90 days', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture(90)
-
-      await testRule(data, Result.PASS)
-    })
-
-
-    test('Security Issue when Auditing on a SQL server is not configured', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture()
-
-      await testRule(data, Result.FAIL)
-    })
-  })
-
-  describe('Azure CIS 4.2.1 Ensure that Advanced Threat Protection (ATP) on a SQL server is set to \'Enabled\'', () => {
-    const getTestRuleFixture = (
-      state?: string | undefined
-    ): CIS4xQueryResponse => {
-      return {
-        queryazureSqlServer: [
-          {
-            id: cuid(),
-            serverBlobAuditingPolicies: state ? [
-              {
-                state
-              }
-            ] : []
-          },
-        ],
-      }
-    }
-
-    const testRule = async (
-      data: CIS4xQueryResponse,
-      expectedResult: Result
-    ): Promise<void> => {
-      // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Azure_CIS_131_411 as Rule,
-        { ...data }
-      )
-
-      // Asserts
-      expect(processedRule.result).toBe(expectedResult)
-    }
-
-    test('No Security Issue when Auditing on a SQL server is set to \'Enabled\'', async () => {
-      const data: CIS4xQueryResponse = getTestRuleFixture('Enabled')
-
-      await testRule(data, Result.PASS)
-    })
-
-
-    test('Security Issue when Auditing on a SQL server is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
 
       await testRule(data, Result.FAIL)
@@ -617,13 +524,11 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when \'Enforce SSL connection\' is set to \'ENABLED\' for PostgreSQL Database Server', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture('Enabled')
-
       await testRule(data, Result.PASS)
     })
 
     test('Security Security Issue when \'Enforce SSL connection\' for PostgreSQL Database Server is not configured', async () => {
       const data: CIS4xQueryResponse = getTestRuleFixture()
-
       await testRule(data, Result.FAIL)
     })
   })
