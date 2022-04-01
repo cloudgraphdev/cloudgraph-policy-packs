@@ -1,3 +1,10 @@
+# @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.3.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.2.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.3.0) (2022-04-01)
+
+
+### Features
+
+* Included 6.1, 6.4, 6.5, 6.6, 6.8, 6.9, 6.12, 6.13 rules for aws nist 800-53 ([9b94fe1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/9b94fe1e5123aabcabc7e58681f825d2bd16455b))
+
 # @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.2.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.1.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.2.0) (2022-04-01)
 
 
