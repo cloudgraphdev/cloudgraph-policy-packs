@@ -53,11 +53,29 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
+
 ## Available Ruleset
 
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| Rule         | Description                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| AWS NIS 1.1  | IAM role trust policies should not allow all principals to assume the role                               |
+| AWS NIS 1.2  | IAM roles attached to instance profiles should not allow broad list actions on S3 buckets                |
+| AWS NIS 1.3  | S3 bucket ACLs should not have public access on S3 buckets that store CloudTrail log files               |
+| AWS NIS 2.1  | Auto Scaling groups should span two or more availability zones                                           |
+| AWS NIS 2.2  | ELBv1 load balancer cross zone load balancing should be enabled                                          |
+| AWS NIS 2.3  | RDS Aurora cluster multi-AZ should be enabled                                                            |
+| AWS NIS 2.4  | Require Multi Availability Zones turned on for RDS Instances                                             |
+| AWS NIS 2.5  | S3 bucket replication (cross-region or same-region) should be enabled                                    |
+| AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                  |
+| AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                                 |
+| AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                                |
+| AWS NIS 3.4  | EBS volume encryption should be enabled                                                                  |
+| AWS NIS 3.5  | RDS instances should be encrypted                                                                        |
+| AWS NIS 3.6  | S3 bucket server-side encryption should be enabled                                                       |
+| AWS NIS 3.7  | SQS queue server-side encryption should be enabled with KMS keys                                         |
+| AWS NIS 4.1  | CloudFront distribution origin should be set to S3 or origin protocol policy should be set to https-only |
+| AWS NIS 4.2  | CloudFront viewer protocol policy should be set to https-only or redirect-to-https                       |
+| AWS NIS 4.3  | ElastiCache transport encryption should be enabled                                                       |
+| AWS NIS 4.4  | ELBv1 listener protocol should not be set to http                                                        |
+| AWS NIS 4.5  | S3 bucket policies should only allow requests that use HTTPS                                             |
+| AWS NIS 4.6  | SNS subscriptions should deny access via HTTP                                                            |

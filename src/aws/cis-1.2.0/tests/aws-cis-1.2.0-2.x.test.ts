@@ -212,21 +212,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 bucketPolicies: [
                   {
-                    policy: [
-                      {
-                        statement: [
-                          {
-                            effect: 'Allow',
-                            principal: [
-                              {
-                                key: 'Service',
-                                value: ['cloudtrail.amazonaws.com'],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
+                    policy: {
+                      statement: [
+                        {
+                          effect: 'Allow',
+                          principal: [
+                            {
+                              key: 'Service',
+                              value: ['cloudtrail.amazonaws.com'],
+                            },
+                          ],
+                        },
+                      ],
+                    },
                   },
                 ],
               },
@@ -252,21 +250,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 bucketPolicies: [
                   {
-                    policy: [
-                      {
-                        statement: [
-                          {
-                            effect: 'Allow',
-                            principal: [
-                              {
-                                key: '',
-                                value: ['*'],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
+                    policy: {
+                      statement: [
+                        {
+                          effect: 'Allow',
+                          principal: [
+                            {
+                              key: '',
+                              value: ['*'],
+                            },
+                          ],
+                        },
+                      ],
+                    },
                   },
                 ],
               },
@@ -292,21 +288,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
               {
                 bucketPolicies: [
                   {
-                    policy: [
-                      {
-                        statement: [
-                          {
-                            effect: 'Allow',
-                            principal: [
-                              {
-                                key: 'AWS',
-                                value: ['*'],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
+                    policy: {
+                      statement: [
+                        {
+                          effect: 'Allow',
+                          principal: [
+                            {
+                              key: 'AWS',
+                              value: ['*'],
+                            },
+                          ],
+                        },
+                      ],
+                    },
                   },
                 ],
               },
