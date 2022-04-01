@@ -1,3 +1,12 @@
+# @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.16.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.15.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.0) (2022-04-01)
+
+
+### Features
+
+* Included s3-check-1 for PCI DSS ([f7cb162](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f7cb162b7d9f4a986be12843ecfdc9e78d33c2e7))
+* Included s3-check-2 for PCI DSS ([f499cb1](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/f499cb1e90c27628d5c834a2a0365433f3274202))
+* Included s3-check-5 for PCI DSS ([83a7fe7](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/commit/83a7fe7d38f781d8145b8417b78f56ad9ce312dc))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.15.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.14.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.15.0) (2022-03-31)
 
 
