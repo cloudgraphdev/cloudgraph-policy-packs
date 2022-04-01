@@ -50,10 +50,12 @@ export default {
   resource: 'queryawsElb[*]',
   severity: 'high',
   conditions: { 
-    path: '@.listeners',
-    array_all: {
-      path: '[*].loadBalancerProtocol',
-      equal: 'HTTPS'
-    },  
+    not: {
+      path: '@.listeners',
+      array_any: {
+        path: '[*].loadBalancerProtocol',
+        equal: 'HTTP'
+      },  
+    },
   },
 }

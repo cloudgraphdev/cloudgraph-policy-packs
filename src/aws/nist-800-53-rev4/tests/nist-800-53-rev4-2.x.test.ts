@@ -7,16 +7,12 @@ import Aws_NIST_800_53_23 from '../rules/aws-nist-800-53-rev4-2.3'
 import Aws_NIST_800_53_24 from '../rules/aws-nist-800-53-rev4-2.4'
 import Aws_NIST_800_53_25 from '../rules/aws-nist-800-53-rev4-2.5'
 
-export interface RdsCluster {
+
+export interface QueryawsRdsCluster {
+  id: string
   engine: string
   multiAZ: boolean
 }
-
-export interface QueryawsAccount {
-  id: string
-  rdsClusters: RdsCluster[]
-}
-
 export interface QueryawsRdsDbInstance {
   id: string
   multiAZ: boolean
@@ -40,7 +36,7 @@ export interface QueryawsS3 {
 export interface NIS2xQueryResponse {
   queryawsAsg?: QueryawsAsg[]
   queryawsElb?: QueryawsElb[]
-  queryawsAccount?: QueryawsAccount[]
+  queryawsRdsCluster?: QueryawsRdsCluster[]
   queryawsRdsDbInstance?: QueryawsRdsDbInstance[]
   queryawsS3?: QueryawsS3[]
 }
@@ -143,15 +139,11 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       multiAZ: boolean
     ): NIS2xQueryResponse => {
       return {
-        queryawsAccount: [
+        queryawsRdsCluster: [
           {
             id: cuid(),
-            rdsClusters: [
-              {
-                engine,
-                multiAZ
-              }
-            ],
+            engine,
+            multiAZ,
           },
         ],
       }
@@ -178,7 +170,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     })
 
     test('Security Issue when RDS Aurora cluster multi-AZ is not enabled', async () => {
-      const data: NIS2xQueryResponse = getTestRuleFixture('mysql', false)
+      const data: NIS2xQueryResponse = getTestRuleFixture('aurora-mysql', false)
       await testRule(data, Result.FAIL)
     })
   })
