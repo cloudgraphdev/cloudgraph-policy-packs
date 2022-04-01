@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-aws-nist-800-53-rev4",
   "description": "Policy pack implementing The National Institute of Standards and Technology 800-53 Rev. 4 Benchmark for Amazon Web Services",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
