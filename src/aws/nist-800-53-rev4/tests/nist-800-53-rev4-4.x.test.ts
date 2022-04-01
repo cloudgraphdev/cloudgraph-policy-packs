@@ -334,16 +334,24 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when S3 bucket policies only allow requests that use HTTPS', async () => {
-      const principal: Principal = { key: '', value: ['*'] }
-      const condition: Condition = { key: 'aws:SecureTransport', value: ['false'] }
-      const data: NIS4xQueryResponse = getTestRuleFixture('Deny', '*', principal, condition)
+      const principal: Principal = { key: 'AWS', value: ['arn:aws:iam::111122223333:root'] }
+      const condition: Condition = { key: 'aws:SecureTransport', value: ['true'] }
+      const data: NIS4xQueryResponse = getTestRuleFixture('Allow', '*', principal, condition)
 
       await testRule(data, Result.PASS)
     })
 
-    test('Security Issue when S3 bucket not have a policy that restrict only requests that use HTTPS', async () => {
-      const principal: Principal = { key: '', value: ['*'] }
+    test('Security Issue when S3 bucket policy does not have SecureTransport enabled', async () => {
+      const principal: Principal = { key: 'AWS', value: ['arn:aws:iam::111122223333:root'] }
       const condition: Condition = { key: 'aws:SecureTransport', value: ['false'] }
+      const data: NIS4xQueryResponse = getTestRuleFixture('Allow', '*', principal, condition)
+
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when S3 bucket policy have SecureTransport enabled but grants permission to any public anonymous users', async () => {
+      const principal: Principal = { key: '', value: ['*'] }
+      const condition: Condition = { key: 'aws:SecureTransport', value: ['true'] }
       const data: NIS4xQueryResponse = getTestRuleFixture('Allow', '*', principal, condition)
 
       await testRule(data, Result.FAIL)

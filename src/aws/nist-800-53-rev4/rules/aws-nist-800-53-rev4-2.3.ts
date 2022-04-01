@@ -60,32 +60,27 @@ export default {
       'https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html',
   ],
   gql: `{
-    queryawsAccount {
+    queryawsRdsCluster {
       id
       arn
       accountId
       __typename
-      rdsClusters {
-        engine
-        multiAZ
-      }
+      engine
+      multiAZ
     }
   }`,
-  resource: 'queryawsAccount[*]',
+  resource: 'queryawsRdsCluster[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.rdsClusters',
-    array_any: {    
-      and: [
-        {
-          path: '[*].engine',
-          match: /^aurora-.*$/,
-        },
-        {
-          path: '[*].multiAZ',
-          equal: true,
-        },
-      ],
-    },
+  conditions: { 
+    or: [
+      {
+        path: '@.engine',
+        mismatch: /^aurora.*$/,
+      },
+      {
+        path: '@.multiAZ',
+        equal: true,
+      },
+    ],
   },
 }
