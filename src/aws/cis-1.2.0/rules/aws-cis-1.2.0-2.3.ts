@@ -86,32 +86,29 @@ export default {
       array_any: {
         path: '[*].bucketPolicies',
         array_any: {
-          path: '[*].policy',
+          path: '[*].policy.statement',
           array_any: {
-            path: '[*].statement',
-            array_any: {
-              and: [
-                {
-                  path: '[*].effect',
-                  equal: 'Allow',
+            and: [
+              {
+                path: '[*].effect',
+                equal: 'Allow',
+              },
+              {
+                path: '[*].principal',
+                array_any: {
+                  and: [
+                    {
+                      path: '[*].key',
+                      in: ['', 'AWS'],
+                    },
+                    {
+                      path: '[*].value',
+                      contains: '*',
+                    },
+                  ],
                 },
-                {
-                  path: '[*].principal',
-                  array_any: {
-                    and: [
-                      {
-                        path: '[*].key',
-                        in: ['', 'AWS'],
-                      },
-                      {
-                        path: '[*].value',
-                        contains: '*',
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
+              },
+            ],
           },
         },
       },
