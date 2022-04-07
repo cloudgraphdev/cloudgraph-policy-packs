@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Engine } from '@cloudgraph/sdk'
+import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_11 from '../rules/aws-cis-1.2.0-1.1'
 import Aws_CIS_120_12 from '../rules/aws-cis-1.2.0-1.2'
@@ -16,13 +17,19 @@ import Aws_CIS_120_112 from '../rules/aws-cis-1.2.0-1.12'
 import Aws_CIS_120_113 from '../rules/aws-cis-1.2.0-1.13'
 import Aws_CIS_120_114 from '../rules/aws-cis-1.2.0-1.14'
 import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
+import Aws_CIS_120_120 from '../rules/aws-cis-1.2.0-1.20'
+import Aws_CIS_120_121 from '../rules/aws-cis-1.2.0-1.21'
+import Aws_CIS_120_122 from '../rules/aws-cis-1.2.0-1.22'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine()
+    rulesEngine = new CloudGraph.RulesEngine({
+      providerName: 'aws',
+      entityName: 'CIS',
+    })
   })
-  describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days (Scored)", () => {
+  describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days", () => {
     test('Should fail when a root account uses his password in the last 30 days', async () => {
       const data = {
         queryawsIamUser: [
@@ -39,7 +46,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when a root account does not uses his password in the last 30 days', async () => {
@@ -58,7 +65,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -79,7 +86,26 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when a user has no active password', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordEnabled: false,
+            mfaActive: true,
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_12 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when a user has an active password with an mfa device register', async () => {
@@ -98,7 +124,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -125,7 +151,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should fail given a passwoord unused for more than 90 days', async () => {
@@ -143,7 +169,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given an access key unused for less than 90 days', async () => {
@@ -165,7 +191,25 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_13 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass given no password last used AND no access key data', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            passwordLastUsed: '',
+            accessKeyData: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_13 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -178,7 +222,11 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             accessKeyData: [
               {
                 status: 'Active',
-                lastRotated: '2021-05-26T19:43:52.000Z',
+                lastRotated: '2021-09-23T15:56:01.000Z',
+              },
+              {
+                status: 'Inactive',
+                lastRotated: '2021-08-27T15:00:44.000Z',
               },
             ],
           },
@@ -189,7 +237,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_14 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a user with an active access key created for less than 90 days', async () => {
@@ -211,7 +259,24 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_14 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass given a user with NO access keys', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            accessKeyData: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_14 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -230,7 +295,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_15 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one uppercase letter', async () => {
@@ -247,7 +312,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_15 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -266,7 +331,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_16 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one lowercase letter', async () => {
@@ -283,7 +348,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_16 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -302,7 +367,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_17 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one symbols', async () => {
@@ -319,7 +384,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_17 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -338,7 +403,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_18 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy that must have at least one number', async () => {
@@ -355,7 +420,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_18 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -374,7 +439,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_19 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password policy length of 14', async () => {
@@ -391,7 +456,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_19 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -411,7 +476,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_110 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass if the number of previous passwords is more than 24', async () => {
@@ -429,7 +494,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_110 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -449,7 +514,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_111 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass given a password that expires within 90 days or less', async () => {
@@ -467,7 +532,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_111 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -486,7 +551,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_112 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account does not have any access key active', async () => {
@@ -503,7 +568,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_112 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -523,7 +588,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account has a mfa device active', async () => {
@@ -541,7 +606,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_113 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -553,6 +618,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             name: 'root',
             mfaActive: false,
+            mfaDevices: [],
           },
         ],
       }
@@ -561,7 +627,31 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_114 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when a root account has a mfa virtual device active', async () => {
+      const data = {
+        queryawsIamUser: [
+          {
+            id: cuid(),
+            name: 'root',
+            mfaActive: true,
+            accountId: '123456',
+            virtualMfaDevices: [
+              {
+                serialNumber: 'arn:aws:iam::123456:mfa/root-account-mfa-device',
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_114 as Rule,
+        { ...data } as any
+      )
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a root account has a mfa hardware device active', async () => {
@@ -571,6 +661,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             name: 'root',
             mfaActive: true,
+            accountId: '123456',
+            virtualMfaDevices: [
+              {
+                serialNumber: 'arn:aws:iam::123456:mfa/some-account-mfa-device',
+              },
+            ],
           },
         ],
       }
@@ -579,7 +675,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         Aws_CIS_120_114 as Rule,
         { ...data } as any
       )
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
@@ -600,7 +696,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.FAIL)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
 
     test('Should pass when a user does not have attached policies directly', async () => {
@@ -619,7 +715,388 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(CloudGraph.Result.PASS)
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 1.20 Ensure a support role has been created to manage incidents with AWS Support', () => {
+    test('Should pass when AWSSupportAccess is attached to IAM users', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'AWSSupportAccess',
+                iamUsers: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+                iamGroups: [],
+                iamRoles: [],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when AWSSupportAccess is attached to any IAM groups', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+                iamRoles: [],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass when AWSSupportAccess is attached to any IAM roles', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when AWSSupportAccess is not attached to any IAM user, group or role', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'AWSSupportAccess',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when AWSSupportAccess is not exists', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [
+              {
+                name: 'PolicyTest',
+                iamUsers: [],
+                iamGroups: [],
+                iamRoles: [
+                  {
+                    arn: 'arn:aws:iam::632941798677:user/test',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail when when there are no IAM policies', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamPolicies: [],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_120 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 1.21 Do not setup access keys during initial user setup for all IAM users that have a console password', () => {
+    test('Should pass for IAM users who have access key last used date configured', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: '2021-10-05T17:29:00.000Z',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail for IAM users that have set N/A on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: 'N/A',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail for IAM users that have set null on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: null,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should fail for IAM users that have set as empty on the access key last used date', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            iamUsers: [
+              {
+                accessKeyData: [
+                  {
+                    lastUsedDate: '',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_121 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 1.22 Ensure IAM policies that allow full "*:*" administrative privileges are not created', () => {
+    test('Should pass for IAM policies that not allow full "*:*" administrative privileges', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: [
+                    'secretsmanager:DeleteSecret',
+                    'secretsmanager:GetSecretValue',
+                    'secretsmanager:UpdateSecret',
+                  ],
+                  resource: ['arn:aws:secretsmanager:*:*:secret:A4B*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass for IAM policies that have a statement with "Effect": "Allow" with "Action": "*" over restricted "Resource"', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['arn:aws:secretsmanager:*:*:secret:A4B*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should pass for IAM policies that have a statement with "Effect": "Allow" with restricted "Action" over "Resource": "*"', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: [
+                    'secretsmanager:DeleteSecret',
+                    'secretsmanager:GetSecretValue',
+                    'secretsmanager:UpdateSecret',
+                  ],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail for IAM policies that allow full "*:*" administrative privileges', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_122 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 })

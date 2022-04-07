@@ -1,20 +1,23 @@
 {
   "name": "policy-packs",
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "yarn@3.2.0",
   "private": true,
   "workspaces": [
     "src/**/*"
   ],
   "devDependencies": {
-    "@qiwi/multi-semantic-release": "^3.17.0",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/gitlab": "^6.2.2",
-    "@semantic-release/npm": "^7.1.3",
-    "semantic-release": "^17.4.4"
+    "@qiwi/multi-semantic-release": "^6.0.2",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/gitlab": "^8.0.1",
+    "@semrel-extra/npm": "^1.2.0",
+    "semantic-release": "^19.0.2"
+  },
+  "resolutions": {
+    "chalk": "^4.1.2"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "prettier": {
     "semi": false,
@@ -22,8 +25,5 @@
   },
   "scripts": {
     "release": "multi-semantic-release"
-  },
-  "dependencies": {
-    "lerna": "^4.0.0"
   }
 }
