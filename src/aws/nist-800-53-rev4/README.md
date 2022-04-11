@@ -86,3 +86,7 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIS 6.9  | Load balancer access logging should be enabled                                                           |
 | AWS NIS 6.12 | S3 bucket object-level logging for read events should be enabled                                         |
 | AWS NIS 6.13 | S3 bucket object-level logging for write events should be enabled                                        |
+| AWS NIS 11.1 | ECS task definitions should limit memory usage for containers                                            |
+| AWS NIS 11.2 | ECS task definitions should set CPU limit for containers                                                 |
+
+    
