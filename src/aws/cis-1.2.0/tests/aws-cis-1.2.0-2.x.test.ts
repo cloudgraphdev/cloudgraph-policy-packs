@@ -210,23 +210,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: 'Service',
-                              value: ['cloudtrail.amazonaws.com'],
-                            },
-                          ],
+                          key: 'Service',
+                          value: ['cloudtrail.amazonaws.com'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -248,23 +244,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: '',
-                              value: ['*'],
-                            },
-                          ],
+                          key: '',
+                          value: ['*'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -286,23 +278,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: 'AWS',
-                              value: ['*'],
-                            },
-                          ],
+                          key: 'AWS',
+                          value: ['*'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },

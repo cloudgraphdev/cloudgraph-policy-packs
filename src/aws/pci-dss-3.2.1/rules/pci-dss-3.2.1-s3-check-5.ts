@@ -57,19 +57,17 @@ export default {
       arn
       accountId
       __typename
-      bucketPolicies {
-        policy {
-          statement {
-            effect
-            action
-            principal {
-              key
-              value
-            }
-            condition {
-              key
-              value
-            }
+      policy {
+        statement {
+          effect
+          action
+          principal {
+            key
+            value
+          }
+          condition {
+            key
+            value
           }
         }
       }
@@ -78,65 +76,54 @@ export default {
   resource: 'queryawsS3[*]',
   severity: 'medium',
   conditions: {
-    and: [
-      {
-        path: '@.bucketPolicies',
-        isEmpty: false,
-      },
-      {
-        path: '@.bucketPolicies',
-        array_all: {
-          path: '[*].policy.statement',
-          array_any: {
-            or: [
-              {
-                path: '[*].effect',
-                equal: 'Deny',
-              },
-              {
+    path: '@.policy.statement',
+    array_any: {
+      or: [
+        {
+          path: '[*].effect',
+          equal: 'Deny',
+        },
+        {
+          and: [
+            {
+              path: '@.[*].condition',
+              isEmpty: false,
+            },
+            {
+              path: '[*].condition',
+              array_any: {
                 and: [
                   {
-                    path: '@.[*].condition',
-                    isEmpty: false,
+                    path: '[*].key',
+                    equal: 'aws:SecureTransport',
                   },
                   {
-                    path: '[*].condition',
-                    array_any: {
-                      and: [
-                        {
-                          path: '[*].key',
-                          equal: 'aws:SecureTransport',
-                        },
-                        {
-                          path: '[*].value',
-                          contains: 'true',
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    path: '[*].principal',
-                    array_any: {
-                      not: {
-                        and: [
-                          {
-                            path: '[*].key',
-                            in: ['', 'AWS'],
-                          },
-                          {
-                            path: '[*].value',
-                            contains: '*',
-                          },
-                        ],
-                      },
-                    },
+                    path: '[*].value',
+                    contains: 'true',
                   },
                 ],
               },
-            ],
-          },
+            },
+            {
+              path: '[*].principal',
+              array_any: {
+                not: {
+                  and: [
+                    {
+                      path: '[*].key',
+                      in: ['', 'AWS'],
+                    },
+                    {
+                      path: '[*].value',
+                      contains: '*',
+                    },
+                  ],
+                },
+              },
+            },
+          ],
         },
-      },
-    ],
+      ],
+    },
   },
 }
