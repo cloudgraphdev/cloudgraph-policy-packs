@@ -712,7 +712,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [
+            flowLog: [
               {
                 resourceId: cuid(),
               },
@@ -734,7 +734,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [],
+            flowLog: [],
           },
         ],
       }
