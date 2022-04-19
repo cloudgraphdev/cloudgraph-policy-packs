@@ -70,7 +70,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
   describe(' AWS 11.1 ECS task definitions should limit memory usage for containers', () => {
     const getTestRuleFixture = (memory: string|null|undefined): any => {
       return {
-        queryawsEcsTask: [
+        queryawsEcsTaskDefinition: [
           {
             id: cuid(),
             memory
@@ -118,7 +118,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
   describe(' AWS 11.2 ECS task definitions should set CPU limit for containers', () => {
     const getTestRuleFixture = (cpu: string|null|undefined): any => {
       return {
-        queryawsEcsTask: [
+        queryawsEcsTaskDefinition: [
           {
             id: cuid(),
             cpu

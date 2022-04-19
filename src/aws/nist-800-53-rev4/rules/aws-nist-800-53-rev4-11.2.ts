@@ -2,9 +2,7 @@ export default {
   id: 'aws-nist-800-53-rev4-11.2',  
   title: 'ECS task definitions should set CPU limit for containers',
   
-  description: 'Unless specified, containers get access to all the CPU and memory capacity available' +
-  'on that host. Specifying CPU for ECS task definitions ensures that high priority containers are able' +
-  'to claim the CPU runtime they require.',
+  description: `'Unless specified, containers get access to all the CPU and memory capacity available on that host. Specifying CPU for ECS task definitions ensures that high priority containers are able to claim the CPU runtime they require.'`,
   
   audit: '',
   
@@ -65,16 +63,15 @@ export default {
       'https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/update-service.html',
   ],
   gql: `{
-    queryawsEcsTask {
+    queryawsEcsTaskDefinition {
       id
       arn
       accountId
       __typename
       cpu
-      launchType
     }    
   }`,
-  resource: 'queryawsEcsTask[*]',
+  resource: 'queryawsEcsTaskDefinition[*]',
   severity: 'medium',
   conditions: {
     path: '@.cpu',

@@ -2,10 +2,7 @@ export default {
   id: 'aws-nist-800-53-rev4-11.1',  
   title: 'ECS task definitions should limit memory usage for containers',
   
-  description: 'Limiting memory usage for your ECS tasks allows you to avoid running out of memory' +
-  'because ECS stops placing tasks on the instance, and Docker kills any containers that try to go over' + 
-  'the hard limit. Having no limit on memory usage can lead to issues where one container can easily' +
-  'make the whole system unstable and as a result unusable.',
+  description: `'Limiting memory usage for your ECS tasks allows you to avoid running out of memory because ECS stops placing tasks on the instance, and Docker kills any containers that try to go over the hard limit. Having no limit on memory usage can lead to issues where one container can easily make the whole system unstable and as a result unusable.'`,
   
   audit: '',
   
@@ -67,16 +64,15 @@ export default {
       'https://aws.amazon.com/blogs/containers/how-amazon-ecs-manages-cpu-and-memory-resources/',
   ],
   gql: `{
-    queryawsEcsTask {
+    queryawsEcsTaskDefinition {
       id
       arn
       accountId
       __typename
       memory
-      launchType
     }    
   }`,
-  resource: 'queryawsEcsTask[*]',
+  resource: 'queryawsEcsTaskDefinition[*]',
   severity: 'medium',
   conditions: {
     path: '@.memory',
