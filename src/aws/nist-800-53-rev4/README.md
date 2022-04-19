@@ -80,9 +80,16 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIS 4.5  | S3 bucket policies should only allow requests that use HTTPS                                             |
 | AWS NIS 4.6  | SNS subscriptions should deny access via HTTP                                                            |
 | AWS NIS 6.1  | CloudFront access logging should be enabled                                                              |
+| AWS NIS 6.2  | CloudTrail log file validation should be enabled                                                         |
+| AWS NIS 6.3  | CloudTrail should be enabled in all regions                                                              |
 | AWS NIS 6.4  | CloudTrail should have at least one CloudTrail trail set to a multi-region trail                         |
+| AWS NIS 6.5  | CloudTrail trails should be configured to log data events for S3 buckets                                 |
 | AWS NIS 6.6  | CloudTrail trails should be configured to log management events                                          |
+| AWS NIS 6.7  | CloudTrail trails should have CloudWatch log integration enabled                                         |
 | AWS NIS 6.8  | Exactly one CloudTrail trail should monitor global services                                              |
 | AWS NIS 6.9  | Load balancer access logging should be enabled                                                           |
+| AWS NIS 6.10 | S3 bucket access logging should be enabled                                                               |
+| AWS NIS 6.11 | S3 bucket access logging should be enabled on S3 buckets that store CloudTrail log files                 |
 | AWS NIS 6.12 | S3 bucket object-level logging for read events should be enabled                                         |
 | AWS NIS 6.13 | S3 bucket object-level logging for write events should be enabled                                        |
+| AWS NIS 6.14 | VPC flow logging should be enabled                                                                       |
