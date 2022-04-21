@@ -27,6 +27,44 @@ import Aws_NIST_800_53_68 from './aws-nist-800-53-rev4-6.8'
 import Aws_NIST_800_53_69 from './aws-nist-800-53-rev4-6.9'
 import Aws_NIST_800_53_612 from './aws-nist-800-53-rev4-6.12'
 import Aws_NIST_800_53_613 from './aws-nist-800-53-rev4-6.13'
+import Aws_NIST_800_53_82 from './aws-nist-800-53-rev4-8.2'
+import Aws_NIST_800_53_89 from './aws-nist-800-53-rev4-8.9'
+import Aws_NIST_800_53_810 from './aws-nist-800-53-rev4-8.10'
+import Aws_NIST_800_53_811 from './aws-nist-800-53-rev4-8.11'
+import Aws_NIST_800_53_812 from './aws-nist-800-53-rev4-8.12'
+import Aws_NIST_800_53_813 from './aws-nist-800-53-rev4-8.13'
+import Aws_NIST_800_53_814 from './aws-nist-800-53-rev4-8.14'
+import Aws_NIST_800_53_815 from './aws-nist-800-53-rev4-8.15'
+import Aws_NIST_800_53_816 from './aws-nist-800-53-rev4-8.16'
+import Aws_NIST_800_53_817 from './aws-nist-800-53-rev4-8.17'
+import Aws_NIST_800_53_818 from './aws-nist-800-53-rev4-8.18'
+import Aws_NIST_800_53_819 from './aws-nist-800-53-rev4-8.19'
+import Aws_NIST_800_53_820 from './aws-nist-800-53-rev4-8.20'
+import Aws_NIST_800_53_821 from './aws-nist-800-53-rev4-8.21'
+import Aws_NIST_800_53_822 from './aws-nist-800-53-rev4-8.22'
+import Aws_NIST_800_53_823 from './aws-nist-800-53-rev4-8.23'
+import Aws_NIST_800_53_824 from './aws-nist-800-53-rev4-8.24'
+import Aws_NIST_800_53_825 from './aws-nist-800-53-rev4-8.25'
+import Aws_NIST_800_53_826 from './aws-nist-800-53-rev4-8.26'
+import Aws_NIST_800_53_827 from './aws-nist-800-53-rev4-8.27'
+import Aws_NIST_800_53_828 from './aws-nist-800-53-rev4-8.28'
+import Aws_NIST_800_53_829 from './aws-nist-800-53-rev4-8.29'
+import Aws_NIST_800_53_830 from './aws-nist-800-53-rev4-8.30'
+import Aws_NIST_800_53_831 from './aws-nist-800-53-rev4-8.31'
+import Aws_NIST_800_53_832 from './aws-nist-800-53-rev4-8.32'
+import Aws_NIST_800_53_833 from './aws-nist-800-53-rev4-8.33'
+import Aws_NIST_800_53_834 from './aws-nist-800-53-rev4-8.34'
+import Aws_NIST_800_53_835 from './aws-nist-800-53-rev4-8.35'
+import Aws_NIST_800_53_836 from './aws-nist-800-53-rev4-8.36'
+import Aws_NIST_800_53_837 from './aws-nist-800-53-rev4-8.37'
+import Aws_NIST_800_53_838 from './aws-nist-800-53-rev4-8.38'
+import Aws_NIST_800_53_839 from './aws-nist-800-53-rev4-8.39'
+import Aws_NIST_800_53_840 from './aws-nist-800-53-rev4-8.40'
+import Aws_NIST_800_53_841 from './aws-nist-800-53-rev4-8.41'
+import Aws_NIST_800_53_842 from './aws-nist-800-53-rev4-8.42'
+import Aws_NIST_800_53_843 from './aws-nist-800-53-rev4-8.43'
+import Aws_NIST_800_53_844 from './aws-nist-800-53-rev4-8.44'
+import Aws_NIST_800_53_845 from './aws-nist-800-53-rev4-8.45'
 
 export default [
   Aws_NIST_800_53_11,
@@ -58,4 +96,42 @@ export default [
   Aws_NIST_800_53_69,
   Aws_NIST_800_53_612,
   Aws_NIST_800_53_613,
+  Aws_NIST_800_53_82,
+  Aws_NIST_800_53_89,
+  Aws_NIST_800_53_810,
+  Aws_NIST_800_53_811,
+  Aws_NIST_800_53_812,
+  Aws_NIST_800_53_813,
+  Aws_NIST_800_53_814,
+  Aws_NIST_800_53_815,
+  Aws_NIST_800_53_816,
+  Aws_NIST_800_53_817,
+  Aws_NIST_800_53_818,
+  Aws_NIST_800_53_819,
+  Aws_NIST_800_53_820,
+  Aws_NIST_800_53_821,
+  Aws_NIST_800_53_822,
+  Aws_NIST_800_53_823,
+  Aws_NIST_800_53_824,
+  Aws_NIST_800_53_825,
+  Aws_NIST_800_53_826,
+  Aws_NIST_800_53_827,
+  Aws_NIST_800_53_828,
+  Aws_NIST_800_53_829,
+  Aws_NIST_800_53_830,
+  Aws_NIST_800_53_831,
+  Aws_NIST_800_53_832,
+  Aws_NIST_800_53_833,
+  Aws_NIST_800_53_834,
+  Aws_NIST_800_53_835,
+  Aws_NIST_800_53_836,
+  Aws_NIST_800_53_837,
+  Aws_NIST_800_53_838,
+  Aws_NIST_800_53_839,
+  Aws_NIST_800_53_840,
+  Aws_NIST_800_53_841,
+  Aws_NIST_800_53_842,
+  Aws_NIST_800_53_843,
+  Aws_NIST_800_53_844,
+  Aws_NIST_800_53_845,
 ]
