@@ -360,7 +360,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       expect(processedRule.result).toBe(Result.FAIL)
     })
-    test('Should pass when a trail does not have cloudwatch logs integrated', async () => {
+    test('Should fail when a trail does not have cloudwatch logs integrated', async () => {
       const data = {
         queryawsCloudtrail: [
           {
@@ -375,7 +375,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.PASS)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
