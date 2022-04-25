@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 4.1
 export default {
   id: 'aws-nist-800-53-rev4-8.21',
   title: 'AWS NIST 8.21 VPC security group rules should not permit ingress from ‘0.0.0.0/0’ to port 22 (SSH)',

@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 4.3
 export default {
   id: 'aws-nist-800-53-rev4-8.2',  
   title: 'AWS NIST 8.2 VPC default security group should restrict all traffic',

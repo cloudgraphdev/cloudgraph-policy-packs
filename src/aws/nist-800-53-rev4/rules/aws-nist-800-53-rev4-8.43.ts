@@ -36,58 +36,47 @@ export default {
       'https://docs.aws.amazon.com/cli/latest/reference/ec2/revoke-security-group-ingress.html',
   ],
   gql: `{
-    queryawsSecurityGroup{
+    queryawsEc2 {
       id
       arn
       accountId
-       __typename
-      inboundRules{
-        source
-        toPort
-        fromPort
+      __typename
+      securityGroups {
+        inboundRules {
+          source
+          fromPort
+          toPort
+       } 
       }
     }
   }`,
-  resource: 'queryawsSecurityGroup[*]',
+  resource: 'queryawsEc2[*]',
   severity: 'high',
   conditions: {
     not: {
-      path: '@.inboundRules',
+      path: '@.securityGroups',
       array_any: {
-        and: [
-          {
-            path: '[*].source',
-            in: ['0.0.0.0/0', '::/0'],
-          },
-          {
-            or: [
-              {
-                and: [
-                  {
-                    path: '[*].fromPort',
-                    equal: null,
-                  },
-                  {
-                    path: '[*].toPort',
-                    equal: null,
-                  },
-                ],
-              },
-              {
-                and: [
-                  {
-                    path: '[*].fromPort',
-                    equal: 0,
-                  },
-                  {
-                    path: '[*].toPort',
-                    equal: 65535,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+        path: '[*].inboundRules',
+        array_any: {
+          and: [
+            {
+              path: '[*].source',
+              in: ['0.0.0.0/0', '::/0'],
+            },
+            {
+              and: [
+                {
+                  path: '[*].fromPort',
+                  in: [0, null],
+                },
+                {
+                  path: '[*].toPort',
+                  in: [65535, null],
+                },
+              ],
+            },
+          ],
+        },
       },
     },
   },

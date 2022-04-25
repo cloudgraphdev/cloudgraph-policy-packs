@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 4.2
 export default {
   id: 'aws-nist-800-53-rev4-8.9',  
   title: 'AWS NIST 8.9 VPC security group rules should not permit ingress from ‘0.0.0.0/0’ to port 3389 (Remote Desktop Protocol)',
