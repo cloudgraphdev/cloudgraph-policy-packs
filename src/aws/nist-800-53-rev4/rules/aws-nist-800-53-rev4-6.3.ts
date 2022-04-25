@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 2.1
 export default {
   id: 'aws-nist-800-53-rev4-6.3',  
   title: 'AWS NIST 6.3 CloudTrail should be enabled in all regions',

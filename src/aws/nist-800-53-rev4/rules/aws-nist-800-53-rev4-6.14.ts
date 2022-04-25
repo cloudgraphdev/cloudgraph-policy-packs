@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 2.9
 export default {
   id: 'aws-nist-800-53-rev4-6.14',  
   title: 'AWS NIST 6.14 VPC flow logging should be enabled',

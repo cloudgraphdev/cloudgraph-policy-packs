@@ -1,3 +1,4 @@
+// AWS CIS 1.2.0 Rule equivalent 2.2
 export default {
   id: 'aws-nist-800-53-rev4-6.2',  
   title: 'AWS NIST 6.2 CloudTrail log file validation should be enabled',
