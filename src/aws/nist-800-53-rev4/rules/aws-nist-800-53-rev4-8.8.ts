@@ -61,7 +61,7 @@ export default {
             in: ['0.0.0.0/0', '::/0'],
           },
           {
-            not :{
+            not: {
               or: [
                 {
                   and: [
