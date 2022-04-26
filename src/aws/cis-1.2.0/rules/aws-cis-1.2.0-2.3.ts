@@ -64,14 +64,12 @@ export default {
       accountId
       __typename
       s3 {
-        bucketPolicies {
-          policy {
-            statement {
-              effect
-              principal {
-                key
-                value
-              }
+        policy {
+          statement {
+            effect
+            principal {
+              key
+              value
             }
           }
         }
@@ -84,32 +82,29 @@ export default {
     not: {
       path: '@.s3',
       array_any: {
-        path: '[*].bucketPolicies',
+        path: '[*].policy.statement',
         array_any: {
-          path: '[*].policy.statement',
-          array_any: {
-            and: [
-              {
-                path: '[*].effect',
-                equal: 'Allow',
+          and: [
+            {
+              path: '[*].effect',
+              equal: 'Allow',
+            },
+            {
+              path: '[*].principal',
+              array_any: {
+                and: [
+                  {
+                    path: '[*].key',
+                    in: ['', 'AWS'],
+                  },
+                  {
+                    path: '[*].value',
+                    contains: '*',
+                  },
+                ],
               },
-              {
-                path: '[*].principal',
-                array_any: {
-                  and: [
-                    {
-                      path: '[*].key',
-                      in: ['', 'AWS'],
-                    },
-                    {
-                      path: '[*].value',
-                      contains: '*',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
+            },
+          ],
         },
       },
     },
