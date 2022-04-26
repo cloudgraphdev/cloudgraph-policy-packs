@@ -1,3 +1,11 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.10.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.1-alpha.1) (2022-04-26)
+
+
+### Bug Fixes
+
+* rename vpc flowLogs connection to FlowLog ([c31e985](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/c31e985b4a2623fb01f8a29a4c5897becb2e4905))
+* Updated policy field for S3 schema ([dc3d6c8](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/dc3d6c8b4b7e22ba58c1394d0b64e866ab3de519))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.10.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.9.3...@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0) (2022-04-01)
 
 
