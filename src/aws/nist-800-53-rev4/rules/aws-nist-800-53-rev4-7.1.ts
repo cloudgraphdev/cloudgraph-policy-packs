@@ -42,7 +42,7 @@ export default {
       arn
       accountId
       __typename
-      cloudwatches {
+      cloudwatch {
        metric
       }
     }
@@ -50,7 +50,7 @@ export default {
   resource: 'queryawsCloudfront[*]',
   severity: 'medium',
   conditions: {
-    jq: '.cloudwatches | map(select(.metric == "4xxErrorRate" or .metric == "5xxErrorRate")) | { "twoOrMore" : (length >= 2) }',
+    jq: '.cloudwatch | map(select(.metric == "4xxErrorRate" or .metric == "5xxErrorRate")) | { "twoOrMore" : (length >= 2) }',
     path: '@',
     and: [
       {

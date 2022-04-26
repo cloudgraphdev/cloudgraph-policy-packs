@@ -102,7 +102,7 @@ export interface QueryawsAccount {
 
 export interface QueryawsCloudfront {
   id: string
-  cloudwatches: Cloudwatch[]
+  cloudwatch: Cloudwatch[]
 }
 
 export interface NIST7xQueryResponse {
@@ -215,7 +215,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsCloudfront: [
           {
             id: cuid(),
-            cloudwatches: [
+            cloudwatch: [
               {
                 metric: metric1
               },
