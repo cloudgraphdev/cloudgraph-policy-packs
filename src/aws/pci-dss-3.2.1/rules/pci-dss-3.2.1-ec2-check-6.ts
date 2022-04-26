@@ -49,7 +49,7 @@ export default {
       arn
       accountId
        __typename
-      flowLogs {
+      flowLog {
         resourceId
       }
     }
@@ -57,7 +57,7 @@ export default {
   resource: 'queryawsVpc[*]',
   severity: 'medium',
   conditions: {
-    path: '@.flowLogs',
+    path: '@.flowLog',
     isEmpty: false,
   },
 }
