@@ -2,13 +2,19 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_NIST_800_53_61 from '../rules/aws-nist-800-53-rev4-6.1'
+import Aws_NIST_800_53_62 from '../rules/aws-nist-800-53-rev4-6.2'
+import Aws_NIST_800_53_63 from '../rules/aws-nist-800-53-rev4-6.3'
 import Aws_NIST_800_53_64 from '../rules/aws-nist-800-53-rev4-6.4'
 import Aws_NIST_800_53_65 from '../rules/aws-nist-800-53-rev4-6.5'
 import Aws_NIST_800_53_66 from '../rules/aws-nist-800-53-rev4-6.6'
+import Aws_NIST_800_53_67 from '../rules/aws-nist-800-53-rev4-6.7'
 import Aws_NIST_800_53_68 from '../rules/aws-nist-800-53-rev4-6.8'
 import Aws_NIST_800_53_69 from '../rules/aws-nist-800-53-rev4-6.9'
+import Aws_NIST_800_53_610 from '../rules/aws-nist-800-53-rev4-6.10'
+import Aws_NIST_800_53_611 from '../rules/aws-nist-800-53-rev4-6.11'
 import Aws_NIST_800_53_612 from '../rules/aws-nist-800-53-rev4-6.12'
 import Aws_NIST_800_53_613 from '../rules/aws-nist-800-53-rev4-6.13'
+import Aws_NIST_800_53_614 from '../rules/aws-nist-800-53-rev4-6.14'
 
 export interface Logging {
   enabled: boolean
@@ -24,10 +30,24 @@ export interface EventSelector {
   dataResources?: DataResource[]
 }
 
+export interface Status {
+  isLogging?: boolean
+  latestCloudWatchLogsDeliveryTime?: string
+}
+
 export interface Cloudtrail {
   isMultiRegionTrail?: string
   eventSelectors?: EventSelector[]
   includeGlobalServiceEvents?: string
+  status?: Status
+}
+
+export interface S3 {
+  logging: string
+}
+
+export interface FlowLog {
+  resourceId: string
 }
 
 export interface QueryawsCloudfront {
@@ -43,6 +63,10 @@ export interface QueryawsAccount {
 export interface QueryawsCloudtrail {
   id: string
   eventSelectors?: EventSelector[]
+  logFileValidationEnabled?: string
+  cloudWatchLogsLogGroupArn?: string
+  s3?: S3[]
+  status?: Status
 }
 
 export interface QueryawsAlb {
@@ -55,12 +79,23 @@ export interface QueryawsElb {
   accessLogs: string
 }
 
+export interface QueryawsS3 {
+  id: string
+  logging: string
+}
+
+export interface QueryawsVpc {
+  id: string
+  flowLog: FlowLog[]
+}
 export interface NIS6xQueryResponse {
   queryawsCloudfront?: QueryawsCloudfront[]
   queryawsAccount?: QueryawsAccount[]
   queryawsCloudtrail?: QueryawsCloudtrail[]
   queryawsAlb?: QueryawsAlb[]
   queryawsElb?: QueryawsElb[]
+  queryawsS3?: QueryawsS3[]
+  queryawsVpc?: QueryawsVpc[]
 }
 
 describe('AWS NIST 800-53: Rev. 4', () => {
@@ -108,6 +143,144 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when CloudFront access logging is disabled', async () => {
       const data: NIS6xQueryResponse = getTestRuleFixture(false)
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS NIST 6.2 CloudTrail log file validation should be enabled', () => {
+    const getTestRuleFixture = (
+      logFileValidationEnabled: string
+    ): NIS6xQueryResponse => {
+      return {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            logFileValidationEnabled,
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_62 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when a trail has log file validation enabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('Yes')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when a trail has log file validation disabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('No')
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS NIST 6.3 CloudTrail should be enabled in all regions', () => {
+    const getTestRuleFixture = (
+      isMultiRegionTrail: string,
+      isLogging: boolean,
+      readWriteType: string,
+      includeManagementEvents: boolean
+    ): NIS6xQueryResponse => {
+      return {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            cloudtrail: [
+              {
+                isMultiRegionTrail,
+                status: {
+                  isLogging,
+                },
+                eventSelectors: [
+                  {
+                    readWriteType,
+                    includeManagementEvents,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_63 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when a trail has set IsMultiRegionTrail and isLogging as true with at least one Event Selector with IncludeManagementEvents set to true and ReadWriteType set to All', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(
+        'Yes',
+        true,
+        'All',
+        true
+      )
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when a trail has set IsMultiRegionTrail is set to false', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(
+        'No',
+        true,
+        'All',
+        true
+      )
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when a trail has set isLogging is set to false', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(
+        'Yes',
+        false,
+        'All',
+        true
+      )
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when a trail has set multi region as true with all read-write type and include management events false', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(
+        'Yes',
+        true,
+        'All',
+        false
+      )
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there not are any trail', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(
+        'Yes',
+        true,
+        'All',
+        true
+      )
+      const account = data.queryawsAccount?.[0] as QueryawsAccount
+      account.cloudtrail = []
       await testRule(data, Result.FAIL)
     })
   })
@@ -248,6 +421,50 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     })
   })
 
+  describe('AWS NIST 6.7 CloudTrail trails should have CloudWatch log integration enabled', () => {
+    const getTestRuleFixture = (
+      cloudWatchLogsLogGroupArn: string,
+      latestCloudWatchLogsDeliveryTime: string
+    ): NIS6xQueryResponse => {
+      return {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            cloudWatchLogsLogGroupArn,
+            status: {
+              latestCloudWatchLogsDeliveryTime
+            }
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_67 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when a trail has cloudwatch logs integrated with a delivery date no more than a day', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(cuid(), new Date().toISOString())
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when a trail has cloudwatch logs integrated with a delivery date more than a day', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(cuid(), '2021-11-20T16:18:21.724Z')
+      await testRule(data, Result.FAIL)
+    })
+  })
+
   describe('AWS NIST 6.8 Exactly one CloudTrail trail should monitor global services', () => {
     const getTestRuleFixture = (
       includeGlobalServiceEvents: string
@@ -296,9 +513,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
   })
 
   describe('AWS NIST 6.9 Load balancer access logging should be enabled', () => {
-    const getTestRuleAFixture = (
-      accessLogs: string
-    ): NIS6xQueryResponse => {
+    const getTestRuleAFixture = (accessLogs: string): NIS6xQueryResponse => {
       return {
         queryawsElb: [
           {
@@ -335,7 +550,6 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
-
 
     describe('queryawsElb query:', () => {
       let targetElbRule: Rule
@@ -379,6 +593,86 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         const data: NIS6xQueryResponse = getTestRuleBFixture('No')
         await testRule(data, Result.FAIL, targetAlbRule)
       })
+    })
+  })
+
+  describe('AWS NIST 6.10 S3 bucket access logging should be enabled', () => {
+    const getTestRuleFixture = (logging: string): NIS6xQueryResponse => {
+      return {
+        queryawsS3: [
+          {
+            id: cuid(),
+            logging,
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_610 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when S3 bucket access logging is enabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('Enabled')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when S3 bucket access logging is disabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('Disabled')
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS NIST 6.11 S3 bucket access logging should be enabled on S3 buckets that store CloudTrail log files', () => {
+    const getTestRuleFixture = (logging: string): NIS6xQueryResponse => {
+      return {
+        queryawsCloudtrail: [
+          {
+            id: cuid(),
+            s3: [
+              {
+                logging,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_611 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when a trail bucket has access logging enabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('Enabled')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when a trail bucket has access logging disabled', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture('Disabled')
+      await testRule(data, Result.FAIL)
     })
   })
 
@@ -487,6 +781,50 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test('Security Issue when S3 bucket object-level logging for write events is not enabled', async () => {
       const data: NIS6xQueryResponse = getTestRuleFixture(true, 'WriteOnly', [])
       await testRule(data, Result.PASS)
+    })
+  })
+
+  describe('AWS NIST 6.14 VPC flow logging should be enabled', () => {
+    const getTestRuleFixture = (resourceId: string): NIS6xQueryResponse => {
+      return {
+        queryawsVpc: [
+          {
+            id: cuid(),
+            flowLog: [
+              {
+                resourceId,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: NIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_NIST_800_53_614 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when flow logging is enabled for each VPC', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(cuid())
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when flow logging is disabled on one VPC', async () => {
+      const data: NIS6xQueryResponse = getTestRuleFixture(cuid())
+      const vpc = data.queryawsVpc?.[0] as QueryawsVpc
+      vpc.flowLog = []
+      await testRule(data, Result.FAIL)
     })
   })
 })
