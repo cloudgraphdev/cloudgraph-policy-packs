@@ -93,6 +93,19 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 6.12 | S3 bucket object-level logging for read events should be enabled                                                                   |
 | AWS NIST 6.13 | S3 bucket object-level logging for write events should be enabled                                                                  |
 | AWS NIST 6.14 | VPC flow logging should be enabled                                                                                                 |
+| AWS NIST 7.1  | Alarm for denied connections in CloudFront logs should be configured                                                               |
+| AWS NIST 7.3  | CloudWatch log metric filter and alarm for AWS Organizations changes should be configured for the master account                   |
+| AWS NIST 7.3  | CloudWatch log metric filter and alarm for changes to VPC NACLs should be configured                                               |
+| AWS NIST 7.4  | CloudWatch log metric filter and alarm for changes to VPC network gateways should be configured                                    |
+| AWS NIST 7.5  | CloudWatch log metric filter and alarm for CloudTrail configuration changes should be configured                                   |
+| AWS NIST 7.7  | CloudWatch log metric filter and alarm for IAM policy changes should be configured                                                 |
+| AWS NIST 7.8  | CloudWatch log metric filter and alarm for Management Console authentication failures should be configured                         |
+| AWS NIST 7.9  | CloudWatch log metric filter and alarm for Management Console sign-in without MFA should be configured                             |
+| AWS NIST 7.10 | CloudWatch log metric filter and alarm for unauthorized API calls should be configured                                             |
+| AWS NIST 7.11 | CloudWatch log metric filter and alarm for usage of root account should be configured                                              |
+| AWS NIST 7.12 | CloudWatch log metric filter and alarm for VPC changes should be configured                                                        |
+| AWS NIST 7.13 | CloudWatch log metric filter and alarm for VPC route table changes should be configured                                            |
+| AWS NIST 7.14 | CloudWatch log metric filter and alarm for VPC security group changes should be configured                                         |
 | AWS NIST 8.1  | ELB listener security groups should not be set to TCP all                                                                          |
 | AWS NIST 8.2  | VPC default security group should restrict all traffic                                                                             |
 | AWS NIST 8.3  | VPC network ACLs should not allow ingress from 0.0.0.0/0 to TCP/UDP port 22                                                        |
