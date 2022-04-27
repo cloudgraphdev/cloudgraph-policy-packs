@@ -151,3 +151,7 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 8.43 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
 | AWS NIST 8.44 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to TCP port 389 (LDAP)                    |
 | AWS NIST 8.45 | VPC security groups attached to RDS instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
+| AWS NIST 13.1 | IAM multi-factor authentication should be enabled for all IAM users that have a console password                                   |
+| AWS NIST 13.2 | IAM should have hardware MFA enabled for the root account                                                                          |
+| AWS NIST 13.3 | IAM should have MFA enabled for the root account                                                                                   |
+| AWS NIST 13.4 | IAM users should have MFA (virtual or hardware) enabled                                                                            |
