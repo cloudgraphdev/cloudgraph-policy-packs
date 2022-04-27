@@ -1,3 +1,10 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.0-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.1-alpha.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0-alpha.1) (2022-04-27)
+
+
+### Features
+
+* Included 6.x rules for aws nist 800-53 ([b51f652](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b51f6522e7721928ea8dc30d009ac5530f6e86eb))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.10.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.1-alpha.1) (2022-04-26)
 
 
