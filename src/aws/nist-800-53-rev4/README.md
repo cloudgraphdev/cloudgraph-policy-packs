@@ -56,33 +56,41 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 ## Available Ruleset
 
-| Rule         | Description                                                                                              |
-| ------------ | -------------------------------------------------------------------------------------------------------- |
-| AWS NIS 1.1  | IAM role trust policies should not allow all principals to assume the role                               |
-| AWS NIS 1.2  | IAM roles attached to instance profiles should not allow broad list actions on S3 buckets                |
-| AWS NIS 1.3  | S3 bucket ACLs should not have public access on S3 buckets that store CloudTrail log files               |
-| AWS NIS 2.1  | Auto Scaling groups should span two or more availability zones                                           |
-| AWS NIS 2.2  | ELBv1 load balancer cross zone load balancing should be enabled                                          |
-| AWS NIS 2.3  | RDS Aurora cluster multi-AZ should be enabled                                                            |
-| AWS NIS 2.4  | Require Multi Availability Zones turned on for RDS Instances                                             |
-| AWS NIS 2.5  | S3 bucket replication (cross-region or same-region) should be enabled                                    |
-| AWS NIS 3.1  | CloudTrail log files should be encrypted with customer managed KMS keys                                  |
-| AWS NIS 3.2  | CloudWatch log groups should be encrypted with customer managed KMS keys                                 |
-| AWS NIS 3.3  | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                                |
-| AWS NIS 3.4  | EBS volume encryption should be enabled                                                                  |
-| AWS NIS 3.5  | RDS instances should be encrypted                                                                        |
-| AWS NIS 3.6  | S3 bucket server-side encryption should be enabled                                                       |
-| AWS NIS 3.7  | SQS queue server-side encryption should be enabled with KMS keys                                         |
-| AWS NIS 4.1  | CloudFront distribution origin should be set to S3 or origin protocol policy should be set to https-only |
-| AWS NIS 4.2  | CloudFront viewer protocol policy should be set to https-only or redirect-to-https                       |
-| AWS NIS 4.3  | ElastiCache transport encryption should be enabled                                                       |
-| AWS NIS 4.4  | ELBv1 listener protocol should not be set to http                                                        |
-| AWS NIS 4.5  | S3 bucket policies should only allow requests that use HTTPS                                             |
-| AWS NIS 4.6  | SNS subscriptions should deny access via HTTP                                                            |
-| AWS NIS 6.1  | CloudFront access logging should be enabled                                                              |
-| AWS NIS 6.4  | CloudTrail should have at least one CloudTrail trail set to a multi-region trail                         |
-| AWS NIS 6.6  | CloudTrail trails should be configured to log management events                                          |
-| AWS NIS 6.8  | Exactly one CloudTrail trail should monitor global services                                              |
-| AWS NIS 6.9  | Load balancer access logging should be enabled                                                           |
-| AWS NIS 6.12 | S3 bucket object-level logging for read events should be enabled                                         |
-| AWS NIS 6.13 | S3 bucket object-level logging for write events should be enabled                                        |
+| Rule           | Description                                                                                                                        |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| AWS NIST 1.1   | IAM role trust policies should not allow all principals to assume the role                                                         |
+| AWS NIST 1.2   | IAM roles attached to instance profiles should not allow broad list actions on S3 buckets                                          |
+| AWS NIST 1.3   | S3 bucket ACLs should not have public access on S3 buckets that store CloudTrail log files                                         |
+| AWS NIST 2.1   | Auto Scaling groups should span two or more availability zones                                                                     |
+| AWS NIST 2.2   | ELBv1 load balancer cross zone load balancing should be enabled                                                                    |
+| AWS NIST 2.3   | RDS Aurora cluster multi-AZ should be enabled                                                                                      |
+| AWS NIST 2.4   | Require Multi Availability Zones turned on for RDS Instances                                                                       |
+| AWS NIST 2.5   | S3 bucket replication (cross-region or same-region) should be enabled                                                              |
+| AWS NIST 3.1   | CloudTrail log files should be encrypted with customer managed KMS keys                                                            |
+| AWS NIST 3.2   | CloudWatch log groups should be encrypted with customer managed KMS keys                                                           |
+| AWS NIST 3.3   | DynamoDB tables should be encrypted with AWS or customer managed KMS keys                                                          |
+| AWS NIST 3.4   | EBS volume encryption should be enabled                                                                                            |
+| AWS NIST 3.5   | RDS instances should be encrypted                                                                                                  |
+| AWS NIST 3.6   | S3 bucket server-side encryption should be enabled                                                                                 |
+| AWS NIST 3.7   | SQS queue server-side encryption should be enabled with KMS keys                                                                   |
+| AWS NIST 4.1   | CloudFront distribution origin should be set to S3 or origin protocol policy should be set to https-only                           |
+| AWS NIST 4.2   | CloudFront viewer protocol policy should be set to https-only or redirect-to-https                                                 |
+| AWS NIST 4.3   | ElastiCache transport encryption should be enabled                                                                                 |
+| AWS NIST 4.4   | ELBv1 listener protocol should not be set to http                                                                                  |
+| AWS NIST 4.5   | S3 bucket policies should only allow requests that use HTTPS                                                                       |
+| AWS NIST 4.6   | SNS subscriptions should deny access via HTTP                                                                                      |
+| AWS NIST 6.1   | CloudFront access logging should be enabled                                                                                        |
+| AWS NIST 6.4   | CloudTrail should have at least one CloudTrail trail set to a multi-region trail                                                   |
+| AWS NIST 6.6   | CloudTrail trails should be configured to log management events                                                                    |
+| AWS NIST 6.8   | Exactly one CloudTrail trail should monitor global services                                                                        |
+| AWS NIST 6.9   | Load balancer access logging should be enabled                                                                                     |
+| AWS NIST 6.12  | S3 bucket object-level logging for read events should be enabled                                                                   |
+| AWS NIST 6.13  | S3 bucket object-level logging for write events should be enabled                                                                  |
+| AWS NIST 10.1  | IAM password policies should expire passwords within 90 days                                                                       |
+| AWS NIST 10.2  | IAM password policies should have a minimum length of 7 and include both alphabetic and numeric characters                         |
+| AWS NIST 10.3  | IAM password policies should prevent reuse of previously used passwords                                                            |
+| AWS NIST 10.4  | IAM password policies should prevent reuse of the four previously used passwords                                                   |
+| AWS NIST 10.5  | IAM password policies should require at least one lowercase character                                                              |
+| AWS NIST 10.6  | IAM password policies should require at least one number                                                                           |
+| AWS NIST 10.7  | IAM password policies should require at least one symbol                                                                           |
+| AWS NIST 10.8  | IAM password policies should require at least one uppercase character                                                              |
