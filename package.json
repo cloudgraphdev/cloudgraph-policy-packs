@@ -31,7 +31,7 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "DEBUG='semantic-release:metabranch' NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' multi-semantic-release --no-ci --debug --ignore-scripts",
+    "release": "NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' multi-semantic-release",    
     "clean": "yarn workspaces foreach -p run clean",
     "lint": "yarn workspaces foreach run lint",
     "lint:fix": "yarn workspaces foreach run lint:fix",
