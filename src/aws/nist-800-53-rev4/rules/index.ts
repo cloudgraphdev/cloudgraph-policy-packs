@@ -27,6 +27,8 @@ import Aws_NIST_800_53_68 from './aws-nist-800-53-rev4-6.8'
 import Aws_NIST_800_53_69 from './aws-nist-800-53-rev4-6.9'
 import Aws_NIST_800_53_612 from './aws-nist-800-53-rev4-6.12'
 import Aws_NIST_800_53_613 from './aws-nist-800-53-rev4-6.13'
+import Aws_NIST_800_53_153 from './aws-nist-800-53-rev4-15.3'
+import Aws_NIST_800_53_154 from './aws-nist-800-53-rev4-15.4'
 
 export default [
   Aws_NIST_800_53_11,
@@ -58,4 +60,6 @@ export default [
   Aws_NIST_800_53_69,
   Aws_NIST_800_53_612,
   Aws_NIST_800_53_613,
+  Aws_NIST_800_53_153,
+  Aws_NIST_800_53_154,
 ]
