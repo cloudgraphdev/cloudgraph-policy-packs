@@ -43,7 +43,7 @@
     "typescript": "^4.3.5"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://www.cloudgraph.dev/",
   "keywords": [
@@ -54,11 +54,10 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "yarn clean && tsc -b",
+    "build": "yarn prepack",
     "clean": "rm -rf dist",
     "lint": "eslint",
-    "prepack": "",
-    "prepublish": "",
+    "prepack": "yarn clean && tsc -b",
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   }
