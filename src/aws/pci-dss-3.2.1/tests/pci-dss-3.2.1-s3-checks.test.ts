@@ -119,7 +119,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'No',
             blockPublicAcls: 'No',
-            bucketPolicies: [],
+            policy: null,
           },
         ],
       }
@@ -140,13 +140,9 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'Yes',
             blockPublicAcls: 'Yes',
-            bucketPolicies: [
-              {
-                policy: {
-                  statement: [allowAll, ...allowPublicWriteAccess],
-                },
-              },
-            ],
+            policy: {
+              statement: [allowAll, ...allowPublicWriteAccess],
+            },
           },
         ],
       }
@@ -167,13 +163,9 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'Yes',
             blockPublicAcls: 'Yes',
-            bucketPolicies: [
-              {
-                policy: {
-                  statement: [...allowPublicReadAccess],
-                },
-              },
-            ],
+            policy: {
+              statement: [...allowPublicReadAccess],
+            },
           },
         ],
       }
@@ -194,7 +186,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'Yes',
             blockPublicAcls: 'Yes',
-            bucketPolicies: [],
+            policy: null,
           },
         ],
       }
@@ -238,13 +230,9 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'Yes',
             blockPublicAcls: 'Yes',
-            bucketPolicies: [
-              {
-                policy: {
-                  statement: [allowAll, ...allowPublicReadAccess],
-                },
-              },
-            ],
+            policy: {
+              statement: [allowAll, ...allowPublicReadAccess],
+            },
           },
         ],
       }
@@ -292,7 +280,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
             __typename: 'awsS3',
             blockPublicPolicy: 'Yes',
             blockPublicAcls: 'Yes',
-            bucketPolicies: [],
+            policy: [],
           },
         ],
       }
@@ -389,7 +377,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             __typename: 'awsS3',
-            bucketPolicies: [],
+            policy: null,
           },
         ],
       }
@@ -408,13 +396,9 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             __typename: 'awsS3',
-            bucketPolicies: [
-              {
-                policy: {
-                  statement: [allowSSLRequestsOnly],
-                },
-              },
-            ],
+            policy: {
+              statement: [allowSSLRequestsOnly],
+            },
           },
         ],
       }
@@ -433,13 +417,9 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             __typename: 'awsS3',
-            bucketPolicies: [
-              {
-                policy: {
-                  statement: [allowAll],
-                },
-              },
-            ],
+            policy: {
+              statement: [allowAll],
+            },
           },
         ],
       }

@@ -347,7 +347,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [
+            flowLog: [
               {
                 resourceId: cuid(),
               },
@@ -369,7 +369,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [],
+            flowLog: [],
           },
         ],
       }
