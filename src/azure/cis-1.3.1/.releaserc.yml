@@ -1,6 +1,5 @@
 ---
 branches:
-  - name: chore/test-publish
   - name: alpha
     channel: alpha
     prerelease: true
