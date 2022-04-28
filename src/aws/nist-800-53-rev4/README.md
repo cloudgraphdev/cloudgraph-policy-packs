@@ -151,6 +151,14 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 8.43 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
 | AWS NIST 8.44 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to TCP port 389 (LDAP)                    |
 | AWS NIST 8.45 | VPC security groups attached to RDS instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
+| AWS NIST 10.1 | IAM password policies should expire passwords within 90 days                                                                       |
+| AWS NIST 10.2 | IAM password policies should have a minimum length of 7 and include both alphabetic and numeric characters                         |
+| AWS NIST 10.3 | IAM password policies should prevent reuse of previously used passwords                                                            |
+| AWS NIST 10.4 | IAM password policies should prevent reuse of the four previously used passwords                                                   |
+| AWS NIST 10.5 | IAM password policies should require at least one lowercase character                                                              |
+| AWS NIST 10.6 | IAM password policies should require at least one number                                                                           |
+| AWS NIST 10.7 | IAM password policies should require at least one symbol                                                                           |
+| AWS NIST 10.8 | IAM password policies should require at least one uppercase character                                                              |
 | AWS NIST 13.1 | IAM multi-factor authentication should be enabled for all IAM users that have a console password                                   |
 | AWS NIST 13.2 | IAM should have hardware MFA enabled for the root account                                                                          |
 | AWS NIST 13.3 | IAM should have MFA enabled for the root account                                                                                   |
