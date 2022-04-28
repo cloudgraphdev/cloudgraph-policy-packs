@@ -45,7 +45,6 @@ export default {
   severity: 'medium',
   conditions: {
     path: '@.geoRestrictions',
-    isEmpty: false,
     notIn: ['Blacklist']
 
   },

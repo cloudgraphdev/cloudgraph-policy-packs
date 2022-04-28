@@ -68,7 +68,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
   })
 
   //12.X
-  describe.skip(' AWS 12.1 CloudFront distributions should have geo-restrictions specified', () => {
+  describe(' AWS 12.1 CloudFront distributions should have geo-restrictions specified', () => {
     const getTestRuleFixture = (geoRestrictions: string): any => {
       return {
         queryawsCloudfront: [
