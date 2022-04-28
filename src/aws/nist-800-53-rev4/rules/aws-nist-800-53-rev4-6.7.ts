@@ -1,7 +1,8 @@
+// AWS CIS 1.2.0 Rule equivalent 2.4
 export default {
-  id: 'aws-cis-1.2.0-2.4',
-  title:
-    'AWS CIS 2.4 Ensure CloudTrail trails are integrated with CloudWatch Logs',
+  id: 'aws-nist-800-53-rev4-6.7',  
+  title: 'AWS NIST 6.7 CloudTrail trails should have CloudWatch log integration enabled',
+
   description: `AWS CloudTrail is a web service that records AWS API calls made in a given AWS account.
   The recorded information includes the identity of the API caller, the time of the API call, the
   source IP address of the API caller, the request parameters, and the response elements
@@ -15,6 +16,7 @@ export default {
   Note: The intent of this recommendation is to ensure AWS account activity is being
   captured, monitored, and appropriately alarmed on. CloudWatch Logs is a native way to
   accomplish this using AWS services but does not preclude the use of an alternate solution.`,
+
   audit: `Perform the following to ensure CloudTrail is configured as prescribed:
   Via the AWS management Console
 
@@ -35,7 +37,8 @@ export default {
     aws cloudtrail get-trail-status --name <trail_name>
 
   4. Ensure the *LatestcloudwatchLogdDeliveryTime* property is set to a recent (~one day old) timestamp.`,
-  rationale: `Sending CloudTrail logs to CloudWatch Logs will facilitate real-time and historic activity logging based on user, API, resource, and IP address, and provides the opportunity to establish alarms and notifications for anomalous or sensitivity account activity.`,
+  rationale: 'Sending CloudTrail logs to CloudWatch Logs will facilitate real-time and historic activity logging based on user, API, resource, and IP address, and provides the opportunity to establish alarms and notifications for anomalous or sensitivity account activity.',
+  
   remediation: `Perform the following to establish the prescribed state:
   Via the AWS management Console
 
@@ -56,9 +59,8 @@ export default {
     aws cloudtrail update-trail --name <trail_name> --cloudwatch-logs-log-group-
     arn <cloudtrail_log_group_arn> --cloudwatch-logs-role-arn <cloudtrail_cloudwatchLogs_role_arn>`,
   references: [
-    `https://aws.amazon.com/cloudtrail/`,
-    `CCE- 78916 - 4`,
-    `CIS CSC v6.0 #6.6, #14.6`,
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/send-cloudtrail-events-to-cloudwatch-logs.html#send-cloudtrail-events-to-cloudwatch-logs-console',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/send-cloudtrail-events-to-cloudwatch-logs.html#send-cloudtrail-events-to-cloudwatch-logs-cli',
   ],
   gql: `{
     queryawsCloudtrail {
