@@ -1,15 +1,22 @@
 {
   "name": "policy-packs",
+  "version": "0.0.0",
+  "description": "CloudGraph CSPM policy packs monorepo",
   "packageManager": "yarn@3.2.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git"
+  },
   "workspaces": [
     "src/**/*"
   ],
   "devDependencies": {
-    "@qiwi/multi-semantic-release": "^6.0.2",
+    "@qiwi/multi-semantic-release": "^6.1.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/gitlab": "^8.0.1",
+    "@semantic-release/github": "^8.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "@semrel-extra/npm": "^1.2.0",
     "semantic-release": "^19.0.2"
   },
@@ -24,6 +31,14 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "multi-semantic-release"
+    "release": "NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' multi-semantic-release",    
+    "clean": "yarn workspaces foreach -p run clean",
+    "lint": "yarn workspaces foreach run lint",
+    "lint:fix": "yarn workspaces foreach run lint:fix",
+    "prebuild": "tsc -b",
+    "build": "yarn workspaces foreach run build"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

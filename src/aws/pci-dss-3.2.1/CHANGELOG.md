@@ -1,3 +1,12 @@
+## @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.16.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1-alpha.1) (2022-04-27)
+
+
+### Bug Fixes
+
+* Added missing fields for aws benchmarks ([dfd5874](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/dfd5874e7d015ec5e6ab82fc419faf82a0b8cd4b))
+* rename vpc flowLogs connection to FlowLog ([c31e985](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/c31e985b4a2623fb01f8a29a4c5897becb2e4905))
+* Updated policy field for S3 schema ([dc3d6c8](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/dc3d6c8b4b7e22ba58c1394d0b64e866ab3de519))
+
 # @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.16.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.15.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.0) (2022-04-01)
 
 

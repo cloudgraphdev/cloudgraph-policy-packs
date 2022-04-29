@@ -210,23 +210,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: 'Service',
-                              value: ['cloudtrail.amazonaws.com'],
-                            },
-                          ],
+                          key: 'Service',
+                          value: ['cloudtrail.amazonaws.com'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -248,23 +244,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: '',
-                              value: ['*'],
-                            },
-                          ],
+                          key: '',
+                          value: ['*'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -286,23 +278,19 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect: 'Allow',
+                      principal: [
                         {
-                          effect: 'Allow',
-                          principal: [
-                            {
-                              key: 'AWS',
-                              value: ['*'],
-                            },
-                          ],
+                          key: 'AWS',
+                          value: ['*'],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -360,7 +348,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       expect(processedRule.result).toBe(Result.FAIL)
     })
-    test('Should pass when a trail does not have cloudwatch logs integrated', async () => {
+    test('Should fail when a trail does not have cloudwatch logs integrated', async () => {
       const data = {
         queryawsCloudtrail: [
           {
@@ -375,7 +363,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.PASS)
+      expect(processedRule.result).toBe(Result.FAIL)
     })
   })
 
@@ -712,7 +700,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [
+            flowLog: [
               {
                 resourceId: cuid(),
               },
@@ -734,7 +722,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsVpc: [
           {
             id: cuid(),
-            flowLogs: [],
+            flowLog: [],
           },
         ],
       }
