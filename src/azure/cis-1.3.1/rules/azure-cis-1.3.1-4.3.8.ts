@@ -45,11 +45,12 @@ export default {
   ],
   severity: 'medium',
   gql: `{
-    queryazurePostgreSqlServer{
+    queryazurePostgreSqlServer {
       __typename
-      firewallRules{
+      firewallRules {
         name
-        value
+        startIpAddress
+        endIpAddress
       }
     }
   }`,
