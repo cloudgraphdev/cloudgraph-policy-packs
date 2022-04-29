@@ -84,7 +84,15 @@ export default {
       arn
       accountId
        __typename
-       policy
+      policy {
+        statement {
+          effect
+          principal {
+            key
+            value
+          }
+        }
+      }
     }
   }`,
   resource: 'queryawsLambda[*]',
