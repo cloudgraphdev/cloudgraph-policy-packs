@@ -43,12 +43,8 @@ export interface Policy {
   statement: Statement[]
 }
 
-export interface BucketPolicy {
-  policy: PolicyContent
-}
-
 export interface S3 {
-  bucketPolicies?: BucketPolicy[]
+  policy?: PolicyContent
 }
 
 export interface QueryawsCloudtrail {
@@ -210,23 +206,19 @@ describe('AWS NIST 800-53: Rev. 4', () => {
             id: cuid(),
             s3: [
               {
-                bucketPolicies: [
-                  {
-                    policy: {
-                      statement: [
+                policy: {
+                  statement: [
+                    {
+                      effect,
+                      principal: [
                         {
-                          effect,
-                          principal: [
-                            {
-                              key,
-                              value: [value],
-                            },
-                          ],
+                          key,
+                          value: [value],
                         },
                       ],
                     },
-                  },
-                ],
+                  ],
+                },
               },
             ],
           },
@@ -250,7 +242,11 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when S3 bucket ACLs not have public access on S3 buckets that store CloudTrail log files', async () => {
-      const data: NIS1xQueryResponse = getTestRuleFixture('Allow', 'Service','cloudtrail.amazonaws.com')
+      const data: NIS1xQueryResponse = getTestRuleFixture(
+        'Allow',
+        'Service',
+        'cloudtrail.amazonaws.com'
+      )
       await testRule(data, Result.PASS)
     })
 
