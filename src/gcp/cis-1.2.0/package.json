@@ -1,0 +1,65 @@
+{
+  "name": "@cloudgraph/policy-pack-gcp-cis-1.2.0",
+  "description": "Policy pack implementing CIS Google Cloud Platform Foundations 1.2.0 Benchmark",
+  "version": "1.20.0",
+  "author": "AutoCloud",
+  "license": "MPL-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "directory": "src/gcp/cis-1.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {
+    "@autocloud/eslint-config": "^0.1.0",
+    "@cloudgraph/sdk": "^0.14.0",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@types/pino": "^6.3.11",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "cpx": "^1.5.0",
+    "cuid": "^2.1.8",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
+    "prettier": "^2.5.1",
+    "shx": "^0.3.3",
+    "ts-jest": "^27.0.4",
+    "tslib": "^1",
+    "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "homepage": "https://www.cloudgraph.dev/",
+  "keywords": [
+    "cloudgraph"
+  ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "scripts": {
+    "build": "yarn prepack",
+    "clean": "rm -rf dist",
+    "lint": "eslint",
+    "prepack": "yarn clean && tsc -b",
+    "publish": "yarn npm publish",
+    "test": "NODE_ENV=test jest"
+  }
+}

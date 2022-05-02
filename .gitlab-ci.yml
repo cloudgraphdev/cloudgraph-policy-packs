@@ -1,17 +1,10 @@
 ---
-.configure-registry: &configure-registry
-  - apk --quiet --no-progress --update --no-cache add git openssh
-  - |
-    {
-      echo "//registry.npmjs.com/:_authToken=${NPM_TOKEN}"
-      echo "@cloudgraph:registry=https://registry.npmjs.com/"
-    } | tee -a .npmrc
-  - |
-    {
-      echo "\"@cloudgraph:registry\" \"https://registry.npmjs.com/\""
-      echo "\"//registry.npmjs.com/:_authToken\" \"${NPM_TOKEN}\""
-    } | tee -a .yarnrc
-  - NODE_ENV=cicd yarn install --frozen-lockfile --cache-folder .npm --prefer-offline
+.configure-registry:
+  &configure-registry
+  # - apk --quiet --no-progress --update --no-cache add git openssh
+  - sed -i "s/\$NPM_TOKEN/$NPM_TOKEN/g" .yarnrc.yml
+  - cat .yarnrc.yml
+  - NODE_ENV=cicd yarn install
 default:
   image: node:16-alpine
   before_script:
@@ -19,8 +12,8 @@ default:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - .npm/
-      - lib/
+      - "**/dist/"
+    policy: pull-push
 
 workflow:
   rules:
@@ -28,55 +21,77 @@ workflow:
 
 variables:
   NPM_TOKEN: ${NPM_TOKEN}
+  GITLAB_TOKEN: ${GITLAB_TOKEN}
 
 stages:
-  - build
   - test
   - release
   - publish
   - notify
 
-build:
-  image: node:16-alpine
-  stage: build
+lint:
+  # image: node:16-alpine
+  image: node:16
+  stage: test
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE =~ /^chore\(release\)/'
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: always
   script:
-    - yarn workspaces run prepack
+    - yarn workspaces foreach run lint
 
 test:
-  image: node:16-alpine
+  # image: node:16-alpine
+  image: node:16
   stage: test
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
+      when: never
     - when: always
   script:
-    - yarn workspaces run test
+    - yarn workspaces foreach run test
 
-semantic release:
-  image: node:16-alpine
+release:
+  # image: node:16-alpine
+  image: node:16
   stage: release
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE =~ /^chore\(release\)/'
+    - if: $CI_COMMIT_MESSAGE =~ /^chore\(publish\)/
       when: never
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+    - if: $CI_COMMIT_BRANCH == "alpha"
+      when: always
+    - if: $CI_COMMIT_BRANCH == "beta"
+      when: always
   variables:
     # Set git commit identity
-    GIT_AUTHOR_NAME: 'AutoCloud Deploy Bot'
-    GIT_AUTHOR_EMAIL: 'no-reply@loudcloud.dev'
-    GIT_COMMITTER_NAME: 'AutoCloud Deploy Bot'
-    GIT_COMMITTER_EMAIL: 'no-reply@loudcloud.dev'
+    GIT_AUTHOR_NAME: "AutoCloud Deploy Bot"
+    GIT_AUTHOR_EMAIL: "no-reply@loudcloud.dev"
+    GIT_COMMITTER_NAME: "AutoCloud Deploy Bot"
+    GIT_COMMITTER_EMAIL: "no-reply@loudcloud.dev"
     # Disable Husky for the git step of semantic release (handles all versions, env var name changed in v6)
     HUSKY_SKIP_HOOKS: 1
     HUSKY: 0
   before_script:
     - *configure-registry
   script:
-    - npx semantic-release -r $CI_PROJECT_URL
+    - yarn release
+
+publish:
+  # image: node:16-alpine
+  image: node:16
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: always
+    - if: $CI_COMMIT_BRANCH
+      when: never
+  script:
+    - export NPM_TAG=`./.cicd/release_tag.js $CI_COMMIT_TAG`
+    - export WORKSPACE_NAME=`./.cicd/workspace_name.js $CI_COMMIT_TAG`
+    - yarn workspace $WORKSPACE_NAME publish --tag $NPM_TAG
 
 .curlcmd: &curlcmd >
   curl
