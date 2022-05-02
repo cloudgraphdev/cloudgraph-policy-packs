@@ -167,5 +167,8 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 13.2 | IAM should have hardware MFA enabled for the root account                                                                          |
 | AWS NIST 13.3 | IAM should have MFA enabled for the root account                                                                                   |
 | AWS NIST 13.4 | IAM users should have MFA (virtual or hardware) enabled                                                                            |
+| AWS NIST 14.1 | CloudFront distributions should be protected by WAFs                                                                               |
+| AWS NIST 15.1 | ECS task definitions should not use the root user                                                                                  |
+| AWS NIST 15.2 | IAM roles used for trust relationships should have MFA or external IDs                                                             |
 | AWS NIST 15.3 | IAM root user access key should not exist                                                                                          |
 | AWS NIST 15.4 | IAM root user should not be used                                                                                                   |
