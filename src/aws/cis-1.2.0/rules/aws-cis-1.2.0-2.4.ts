@@ -75,10 +75,10 @@ export default {
   resource: 'queryawsCloudtrail[*]',
   severity: 'medium',
   conditions: {
-    or: [
+    and: [
       {
         path: '@.cloudWatchLogsLogGroupArn',
-        equal: null,
+        notEqual: null,
       },
       {
         value: {

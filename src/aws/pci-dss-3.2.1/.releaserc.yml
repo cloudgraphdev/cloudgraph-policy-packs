@@ -1,10 +1,13 @@
 ---
 branches:
-  - name: main
-  - name: beta
-    prerelease: true
   - name: alpha
+    channel: alpha
     prerelease: true
+  - name: beta
+    channel: beta
+    prerelease: true
+  - name: main
+
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
@@ -12,24 +15,23 @@ plugins:
     - changelogFile: CHANGELOG.md
   - - "@semantic-release/git"
     - assets:
-      - CHANGELOG.md
-      - package.json
-  - - "@semantic-release/npm"
-    - npmPublish: false
-  - "@semantic-release/gitlab"
+        - CHANGELOG.md
+        - package.json
+  - - "@semrel-extra/npm"
+    - npmPublish: true
+  - "@semantic-release/github"
 verifyConditions:
   - "@semantic-release/changelog"
-  - "@semantic-release/gitlab"
+  - "@semantic-release/github"
+  - "@semrel-extra/npm"
 prepare:
   - "@semantic-release/changelog"
-  - "@semantic-release/npm"
+  - "@semrel-extra/npm"
   - - "@semantic-release/git"
-    - message: "chore(publish): ${nextRelease.version} \n\n${nextRelease.notes}"
+    - message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
-  - "@semantic-release/gitlab"
-release:
-   noCi: true
+  - "@semantic-release/github"
+  - "@semrel-extra/npm"
 success: false
 fail: false
-repositoryUrl: https://gitlab.com/auto-cloud/cloudgraph/policy-packs.git
 tagFormat: "${version}"

@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-nist-800-53-rev4-4.',  
+  id: 'aws-nist-800-53-rev4-4.1',  
   title: 'AWS NIST 4.1 CloudFront distribution origin should be set to S3 or origin protocol policy should be set to https-only',
   
   description: 'CloudFront connections should be encrypted during transmission over networks that can be accessed by malicious individuals. If a CloudFront distribution uses a custom origin, CloudFront should only use HTTPS to communicate with it. This does not apply if the CloudFront distribution is configured to use S3 as origin.',
