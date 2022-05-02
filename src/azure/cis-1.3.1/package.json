@@ -1,14 +1,14 @@
 {
   "name": "@cloudgraph/policy-pack-azure-cis-1.3.1",
   "description": "Policy pack implementing CIS Microsoft Azure Foundations 1.3.1 Benchmark",
-  "version": "1.13.0",
+  "version": "1.13.1-beta.1",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
     "directory": "src/azure/cis-1.3.1"
   },
   "bugs": {
@@ -43,7 +43,7 @@
     "typescript": "^4.3.5"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://www.cloudgraph.dev/",
   "keywords": [
@@ -55,10 +55,10 @@
     "arrowParens": "avoid"
   },
   "scripts": {
-    "build": "yarn prepublish",
+    "build": "yarn prepack",
+    "clean": "rm -rf dist",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
-    "prepublish": "rm -rf dist && tsc",
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   }
