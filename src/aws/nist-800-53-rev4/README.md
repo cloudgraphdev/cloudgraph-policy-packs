@@ -151,6 +151,10 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 8.43 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
 | AWS NIST 8.44 | VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to TCP port 389 (LDAP)                    |
 | AWS NIST 8.45 | VPC security groups attached to RDS instances should not permit ingress from ‘0.0.0.0/0’ to all ports                              |
+| AWS NIST 9.1  | ECS container definitions should not mount volumes with mount propagation set to shared                                            |
+| AWS NIST 9.2  | ECS task definitions should mount the container’s root filesystem as read-only                                                     |
+| AWS NIST 9.3  | ECS task definitions should not add Linux capabilities beyond defaults and should drop ‘NET_RAW’                                   |
+| AWS NIST 9.4  | ECS task definitions should not mount sensitive host system directories                                                            |
 | AWS NIST 10.1 | IAM password policies should expire passwords within 90 days                                                                       |
 | AWS NIST 10.2 | IAM password policies should have a minimum length of 7 and include both alphabetic and numeric characters                         |
 | AWS NIST 10.3 | IAM password policies should prevent reuse of previously used passwords                                                            |
