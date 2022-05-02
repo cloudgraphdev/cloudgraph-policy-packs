@@ -88,5 +88,5 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIS 6.13 | S3 bucket object-level logging for write events should be enabled                                        |
 | AWS NIS 11.1 | ECS task definitions should limit memory usage for containers                                            |
 | AWS NIS 11.2 | ECS task definitions should set CPU limit for containers                                                 |
-| AWS NIS 12.1 | CloudFront distributions should have geo-restrictions specified                                            |
-| AWS NIS 12.2 | EC2 instances should not have a public IP association (IPv4) |
+| AWS NIS 12.1 | CloudFront distributions should have geo-restrictions specified                                          |
+| AWS NIS 12.2 | EC2 instances should not have a public IP association (IPv4)                                             |
