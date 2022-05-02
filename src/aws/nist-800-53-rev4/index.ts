@@ -4,4 +4,5 @@ export default {
   provider: 'aws',
   entity: 'NIST',
   rules: PolicyPacksRules,
+  extraFields: ['arn', 'accountId']
 }
