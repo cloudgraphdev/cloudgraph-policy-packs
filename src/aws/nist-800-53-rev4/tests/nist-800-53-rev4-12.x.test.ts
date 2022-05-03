@@ -69,12 +69,16 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
   //12.X
   describe(' AWS 12.1 CloudFront distributions should have geo-restrictions specified', () => {
-    const getTestRuleFixture = (geoRestrictions: string): any => {
+    const getTestRuleFixture = (restrictionType: string): any => {
       return {
         queryawsCloudfront: [
           {
             id: cuid(),
-            geoRestrictions
+            geoRestriction: [
+              {
+                restrictionType
+              },
+            ],
           },
         ],
       }
@@ -96,17 +100,12 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     }
 
     test('Georestrictions allowed. Content is available', async () => {
-      const data: any = getTestRuleFixture('Whitelist')
+      const data: any = getTestRuleFixture('whitelist')
       await testRule(data, Result.PASS)
     })
 
-    test('Georestrictions allowed. Content is available', async () => {
-      const data: any = getTestRuleFixture('None')
-      await testRule(data, Result.PASS)
-    })
-
-    test('Georestrictions allowed. Content is not available', async () => {
-      const data: any = getTestRuleFixture('Blacklist')
+    test('Georestrictions not set. Content is not available', async () => {
+      const data: any = getTestRuleFixture('none')
       await testRule(data, Result.FAIL)
     })
 

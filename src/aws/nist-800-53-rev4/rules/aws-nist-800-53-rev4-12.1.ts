@@ -38,14 +38,18 @@ export default {
       arn
       accountId
       __typename
-      geoRestrictions
+      geoRestriction {
+        restrictionType        
+      }
     }    
   }`,
   resource: 'queryawsCloudfront[*]',
   severity: 'medium',
   conditions: {
-    path: '@.geoRestrictions',
-    notIn: ['Blacklist']
-
+    path: '@.geoRestriction',
+      array_all: {
+        path: '[*].restrictionType',
+        notIn: 'none'
+      },
   },
 }
