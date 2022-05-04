@@ -15,6 +15,7 @@ import Aws_CIS_140_115 from '../rules/aws-cis-1.4.0-1.15'
 import Aws_CIS_140_116 from '../rules/aws-cis-1.4.0-1.16'
 import Aws_CIS_140_117 from '../rules/aws-cis-1.4.0-1.17'
 import Aws_CIS_140_119 from '../rules/aws-cis-1.4.0-1.19'
+import Aws_CIS_140_120 from '../rules/aws-cis-1.4.0-1.20'
 
 export interface VirtualMfaDevice {
   serialNumber: string
@@ -95,6 +96,10 @@ export interface IamPolicy {
   iamRoles: iamRole[]
 }
 
+export interface IamAccessAnalyzer {
+  status: string
+}
+
 export interface QueryawsIamServerCertificate {
   id: string
   expiration: string
@@ -102,7 +107,8 @@ export interface QueryawsIamServerCertificate {
 
 export interface QueryawsAccount {
   id: string
-  iamPolicies: IamPolicy[]
+  iamPolicies?: IamPolicy[]
+  iamAccessAnalyzers?: IamAccessAnalyzer[]
 }
 
 export interface CIS1xQueryResponse {
@@ -845,6 +851,60 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
 
     test('Security Issue when thre are expired SSL/TLS certificates', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture(new Date().toISOString())
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 1.20 Ensure that IAM Access analyzer is enabled for all regions', () => {
+    const getTestRuleFixture = (
+      status: string,
+    ): CIS1xQueryResponse => {
+      return {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            iamAccessAnalyzers: [
+              {
+                status,
+              },
+              {
+                status: 'INACTIVE',
+              }
+            ]
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_140_120 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+      
+    test('No Security Issue when at least one analyzer is enabled', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('ACTIVE')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security problem when no analyzer is enabled', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('INACTIVE')
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when when no analyzer is configured', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('')
+      const account = data.queryawsAccount?.[0] as QueryawsAccount
+      account.iamAccessAnalyzers = []
       await testRule(data, Result.FAIL)
     })
   })

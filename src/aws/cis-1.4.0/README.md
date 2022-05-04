@@ -69,4 +69,5 @@ Policy Pack based on the [AWS Foundations 1.4.0](https://docs.aws.amazon.com/aud
 | AWS CIS 1.16  | Ensure IAM policies that allow full "*:*" administrative privileges are not attached                                        |
 | AWS CIS 1.17  | Ensure a support role has been created to manage incidents with AWS Support                                                 |
 | AWS CIS 1.19  | Ensure that all the expired SSL/TLS certificates stored in AWS IAM are removed                                              |
+| AWS CIS 1.20  | Ensure that IAM Access analyzer is enabled for all regions                                                                  |
 | AWS CIS 1.21  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments (Manual) |
