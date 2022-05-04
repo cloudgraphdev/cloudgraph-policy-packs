@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.4.0-1.21',  
-  title: 'AWS CIS 1.21 Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments (Manual)',
+  title: 'AWS CIS 1.21 Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments',
 
   description: 'In multi-account environments, IAM user centralization facilitates greater user control. User access beyond the initial account is then provided via role assumption. Centralization of users can be accomplished through federation with an external identity provider or through the use of AWS Organizations.',
 

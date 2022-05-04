@@ -1,4 +1,3 @@
-// AWS CIS 1.2.0 Rule equivalent 1.1
 export default {
   id: 'aws-cis-1.4.0-1.7',  
   title: 'AWS CIS 1.7 Eliminate use of the \'root\' user for administrative and daily tasks',
@@ -49,22 +48,54 @@ export default {
        __typename
       passwordLastUsed
       passwordEnabled
+      accessKeysActive
+      accessKeyData {
+        lastUsedDate
+        status
+      }
     }
   }`,
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {
     not: {
-      and: [
+      or: [
         {
-          path: '@.passwordEnabled',
-          equal: true,
+          and: [
+            {
+              path: '@.passwordEnabled',
+              equal: true,
+            },
+            {
+              value: { daysAgo: {}, path: '@.passwordLastUsed' },
+              lessThanInclusive: 90,
+            },
+          ],
         },
         {
-          value: { daysAgo: {}, path: '@.passwordLastUsed' },
-          lessThanInclusive: 30,
-        },
-      ],
+          and: [
+            {
+              path: '@.accessKeysActive',
+              equal: true,
+            },
+            {
+              path: '@.accessKeyData',
+              array_any: {
+                and: [
+                  {
+                    path: '[*].status',
+                    equal: 'Active',
+                  },
+                  {
+                    value: { daysAgo: {}, path: '[*].lastUsedDate' },
+                    lessThanInclusive: 90,
+                  },
+                ],
+              },
+            },
+          ],
+        }
+      ]
     },
   },
 }

@@ -45,7 +45,6 @@ export interface AssumeRolePolicy {
 export interface PolicyContent {
   statement: Statement[]
 }
-
 export interface QueryawsIamPolicy {
   id: string
   policyContent: PolicyContent
@@ -63,6 +62,7 @@ export interface QueryawsIamUser {
   accessKeyData?: AccessKeyData[]
   iamAttachedPolicies?: IamAttachedPolicy[]
   inlinePolicies?: string[]
+  
 }
 
 export interface QueryawsIamPasswordPolicy {
@@ -98,6 +98,7 @@ export interface IamPolicy {
 
 export interface IamAccessAnalyzer {
   status: string
+  region: string
 }
 
 export interface QueryawsIamServerCertificate {
@@ -107,6 +108,7 @@ export interface QueryawsIamServerCertificate {
 
 export interface QueryawsAccount {
   id: string
+  regions?: string[]
   iamPolicies?: IamPolicy[]
   iamAccessAnalyzers?: IamAccessAnalyzer[]
 }
@@ -305,7 +307,9 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
 
   describe('AWS CIS 1.7 Eliminate use of the root user for administrative and daily tasks', () => {
     const getTestRuleFixture = (
-      passwordLastUsed: string
+      passwordLastUsed: string,
+      status: string,
+      lastUsedDate: string
     ): CIS1xQueryResponse => {
       return {
         queryawsIamUser: [
@@ -313,6 +317,17 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
             id: cuid(),
             passwordEnabled: true,
             passwordLastUsed,
+            accessKeysActive: true,
+            accessKeyData: [
+              {
+                status,
+                lastUsedDate,
+              },
+              {
+                status: 'Active',
+                lastUsedDate: '2022-01-01T17:20:19.000Z',
+              }
+            ],
           },
         ],
       }
@@ -333,13 +348,25 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
       
-    test('No Security Issue when when a root account does not uses his password in the last 30 days', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('2021-04-08T17:20:19.000Z')
+    test('No Security Issue when when a root account does not uses his password in the last 90 days', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('2021-04-08T17:20:19.000Z', 'Active', '2021-10-08T17:20:19.000Z')
       await testRule(data, Result.PASS)
     })
 
-    test('Security Issue when a root account uses his password in the last 30 days', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture(new Date().toISOString())
+    test('No Security Issue when when a root account does not uses his password in the last 90 days and not have access Keys', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('2021-04-08T17:20:19.000Z', '', '')
+      const user = data.queryawsIamUser?.[0] as QueryawsIamUser
+      user.accessKeyData = []
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when a root account uses his password in the last 90 days', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture(new Date().toISOString(), 'Active', '2021-10-08T17:20:19.000Z')
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when a root account uses his access Keys in the last 90 days', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('2021-04-08T17:20:19.000Z', 'Active', new Date().toISOString())
       await testRule(data, Result.FAIL)
     })
   })
@@ -857,18 +884,22 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
 
   describe('AWS CIS 1.20 Ensure that IAM Access analyzer is enabled for all regions', () => {
     const getTestRuleFixture = (
-      status: string,
+      statusRegion1: string,
+      statusRegion2: string,
     ): CIS1xQueryResponse => {
       return {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1', 'us-east-2'],
             iamAccessAnalyzers: [
               {
-                status,
+                region: 'us-east-1',
+                status: statusRegion1,
               },
               {
-                status: 'INACTIVE',
+                region: 'us-east-2',
+                status: statusRegion2,
               }
             ]
           },
@@ -891,18 +922,23 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
       
-    test('No Security Issue when at least one analyzer is enabled', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('ACTIVE')
+    test('No Security Issue when at least one analyzer is enabled for all regions', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('ACTIVE','ACTIVE')
       await testRule(data, Result.PASS)
     })
 
-    test('Security problem when no analyzer is enabled', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('INACTIVE')
+    test('Security Issue when there are an analyzer disabled for some region', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('ACTIVE', 'INACTIVE')
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when no analyzer enabled for any region', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('INACTIVE', 'INACTIVE')
       await testRule(data, Result.FAIL)
     })
 
     test('Security Issue when when no analyzer is configured', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('')
+      const data: CIS1xQueryResponse = getTestRuleFixture('','')
       const account = data.queryawsAccount?.[0] as QueryawsAccount
       account.iamAccessAnalyzers = []
       await testRule(data, Result.FAIL)

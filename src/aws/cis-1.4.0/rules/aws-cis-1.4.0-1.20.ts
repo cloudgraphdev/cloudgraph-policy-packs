@@ -60,7 +60,9 @@ export default {
       arn
       accountId
       __typename
+      regions
       iamAccessAnalyzers {
+        region
         status
       }
     }
@@ -68,10 +70,19 @@ export default {
   resource: 'queryawsAccount[*]',
   severity: 'high',
   conditions: {
-    path: '@.iamAccessAnalyzers',
-    array_any: {
-      path: '[*].status',
-      equal: 'ACTIVE',
-    },
+    and: [
+      {
+        path: '@.iamAccessAnalyzers',
+        isEmpty: false,
+      },
+      {
+        path: '@',
+        jq: '[.regions[] as $scanned | { scannedRegion: $scanned, analyzers: [.iamAccessAnalyzers[] | select(.region == $scanned )] }]',
+        array_all: {
+          path: '[*].analyzers[0].status',
+          equal: 'ACTIVE',
+        },
+      },
+    ],
   },
 }
