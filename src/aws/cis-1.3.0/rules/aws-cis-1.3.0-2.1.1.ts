@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.3.0-2.1.1',  
-  title: 'AWS CIS 2.1.1 Ensure all S3 buckets employ encryption-at-rest (Manual)',
+  title: 'AWS CIS 2.1.1 Ensure all S3 buckets employ encryption-at-rest',
   
   description: 'Amazon S3 provides a variety of no, or low, cost encryption options to protect data at rest.',
   

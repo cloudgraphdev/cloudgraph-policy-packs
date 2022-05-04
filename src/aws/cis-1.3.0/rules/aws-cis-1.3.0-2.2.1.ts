@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.3.0-2.2.1',  
-  title: 'AWS CIS 2.2.1 Ensure EBS volume encryption is enabled (Manual)',
+  title: 'AWS CIS 2.2.1 Ensure EBS volume encryption is enabled',
   
   description: 'Elastic Compute Cloud (EC2) supports encryption at rest when using the Elastic Block Store (EBS) service. While disabled by default, forcing encryption at EBS volume creation is supported.',
   

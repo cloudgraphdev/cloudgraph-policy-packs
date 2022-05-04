@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.3.0-1.11',  
-  title: 'AWS CIS 1.11 Do not setup access keys during initial user setup for all IAM users that have a console password (Manual)',
+  title: 'AWS CIS 1.11 Do not setup access keys during initial user setup for all IAM users that have a console password',
   
   description: `AWS console defaults to no check boxes selected when creating a new IAM user. When cerating the IAM User credentials you have to determine what type of access they require.
   

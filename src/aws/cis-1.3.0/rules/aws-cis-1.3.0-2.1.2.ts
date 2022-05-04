@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.3.0-2.1.2',  
-  title: 'AWS CIS 2.1.2 Ensure S3 Bucket Policy allows HTTPS requests (Manual)',
+  title: 'AWS CIS 2.1.2 Ensure S3 Bucket Policy allows HTTPS requests',
 
   description:
     'At the Amazon S3 bucket level, you can configure permissions through a bucket policy making the objects accessible only through HTTPS.',

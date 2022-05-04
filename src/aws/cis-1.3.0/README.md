@@ -57,13 +57,13 @@ Policy Pack based on the [AWS Foundations 1.3.0](https://docs.aws.amazon.com/aud
 
 | Rule          | Description                                                                                                                 |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| AWS CIS 1.1   | Maintain current contact details (Manual)                                                                                   |
-| AWS CIS 1.2   | Ensure security contact information is registered (Manual)                                                                  |
+| AWS CIS 1.1   | Maintain current contact details                                                                                            |
+| AWS CIS 1.2   | Ensure security contact information is registered                                                                           |
 | AWS CIS 1.3   | Ensure security questions are registered in the AWS account                                                                 |
-| AWS CIS 1.11  | Do not setup access keys during initial user setup for all IAM users that have a console password (Manual)                  |
-| AWS CIS 1.18  | Ensure IAM instance roles are used for AWS resource access from instances (Manual)                                          |
-| AWS CIS 1.22  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments (Manual) |
-| AWS CIS 2.1.1 | Ensure all S3 buckets employ encryption-at-rest (Manual)                                                                    |
-| AWS CIS 2.1.2 | Ensure S3 Bucket Policy allows HTTPS requests (Manual)                                                                      |
-| AWS CIS 2.2.1 | Ensure EBS volume encryption is enabled (Manual)                                                                            |
-| AWS CIS 5.4   | Ensure routing tables for VPC peering are "least access" (Manual)                                                           |
+| AWS CIS 1.11  | Do not setup access keys during initial user setup for all IAM users that have a console password                           |
+| AWS CIS 1.18  | Ensure IAM instance roles are used for AWS resource access from instances                                                   |
+| AWS CIS 1.22  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments          |
+| AWS CIS 2.1.1 | Ensure all S3 buckets employ encryption-at-rest                                                                             |
+| AWS CIS 2.1.2 | Ensure S3 Bucket Policy allows HTTPS requests                                                                               |
+| AWS CIS 2.2.1 | Ensure EBS volume encryption is enabled                                                                                     |
+| AWS CIS 5.4   | Ensure routing tables for VPC peering are "least access"                                                                    |
