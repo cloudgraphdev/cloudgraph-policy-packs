@@ -53,11 +53,9 @@ Policy Pack based on the [AWS Foundations 1.4.0](https://docs.aws.amazon.com/aud
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
-## Available Ruleset
-
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| Rule          | Description                                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS CIS 2.1.3 | Ensure MFA Delete is enable on S3 buckets                                                                                   |
+| AWS CIS 2.1.4 | Ensure all data in Amazon S3 has been discovered, classified and secured when required                                      |
+| AWS CIS 2.1.5 | Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'                                          |
+| AWS CIS 2.3.1 | Ensure that encryption is enabled for RDS Instances                                                                         |
