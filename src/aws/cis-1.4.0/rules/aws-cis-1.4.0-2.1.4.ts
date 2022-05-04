@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.4.0-2.1.4',  
-  title: 'AWS CIS 2.1.4 Ensure all data in Amazon S3 has been discovered, classified and secured when required. (Manual)',
+  title: 'AWS CIS 2.1.4 Ensure all data in Amazon S3 has been discovered, classified and secured when required',
 
   description: 'Amazon S3 buckets can contain sensitive data, that for security purposes should be discovered, monitored, classified and protected. Macie along with other 3rd party tools can automatically provide an inventory of Amazon S3 buckets.',
 

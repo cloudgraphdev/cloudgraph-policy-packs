@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.4.0-1.2',  
-  title: 'AWS CIS 1.2 Ensure security contact information is registered (Manual)',
+  title: 'AWS CIS 1.2 Ensure security contact information is registered',
   
   description: 'AWS provides customers with the option of specifying the contact information for account\'s security team. It is recommended that this information be provided.',
   

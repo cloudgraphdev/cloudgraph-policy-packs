@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.4.0-1.',  
-  title: 'AWS CIS 1.1 Maintain current contact details (Manual)',
+  title: 'AWS CIS 1.1 Maintain current contact details',
   
   description: `Ensure contact email and telephone details for AWS accounts are current and map to more than one individual in your organization.
   

@@ -1,7 +1,7 @@
 export default {
   id: 'aws-cis-1.4.0-5.4',
   title:
-    'AWS CIS 5.4 Ensure routing tables for VPC peering are "least access" (Manual)',
+    'AWS CIS 5.4 Ensure routing tables for VPC peering are "least access"',
 
   description:
     'Once a VPC peering connection is established, routing tables must be updated to establish any connections between the peered VPCs. These routes can be as specific as desired - even peering a VPC to only a single host on the other side of the connection.',

@@ -1,6 +1,6 @@
 export default {
   id: 'aws-cis-1.4.0-1.3',  
-  title: 'AWS CIS 1.3 Ensure security questions are registered in the AWS account (Manual)',
+  title: 'AWS CIS 1.3 Ensure security questions are registered in the AWS account',
   
   description: 'The AWS support portal allows account owners to establish security questions that can be used to authenticate individuals calling AWS customer service for support. It is recommended that security questions be established.',
   
