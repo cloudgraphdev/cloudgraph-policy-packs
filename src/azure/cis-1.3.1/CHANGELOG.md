@@ -1,3 +1,17 @@
+## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.1) (2022-05-02)
+
+
+### Bug Fixes
+
+* azure-cis-1.3.1-4.3.8 and pci-dss-3.2.1-lambda-check-1 rules ([5eca392](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/5eca392468b3d0457e7c16b44f367cd5f9cf2824))
+
+## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.1-beta.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.1-beta.1) (2022-05-02)
+
+
+### Bug Fixes
+
+* azure-cis-1.3.1-4.3.8 and pci-dss-3.2.1-lambda-check-1 rules ([5eca392](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/5eca392468b3d0457e7c16b44f367cd5f9cf2824))
+
 # @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.12.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.0) (2022-03-31)
 
 

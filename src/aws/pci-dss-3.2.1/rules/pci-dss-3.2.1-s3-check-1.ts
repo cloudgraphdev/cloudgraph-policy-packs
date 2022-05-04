@@ -50,15 +50,13 @@ export default {
       __typename
       blockPublicPolicy
       blockPublicAcls
-      bucketPolicies {
-        policy {
-          statement {
-            action
-            effect
-            principal {
-              key
-              value
-            }
+      policy {
+        statement {
+          action
+          effect
+          principal {
+            key
+            value
           }
         }
       }
@@ -77,67 +75,56 @@ export default {
         equal: 'Yes',
       },
       {
-        or: [
-          {
-            path: '@.bucketPolicies',
-            isEmpty: true,
-          },
-          {
-            path: '@.bucketPolicies',
-            array_all: {
-              path: '[*].policy.statement',
-              array_all: {
-                not: {
+        path: '@.policy.statement',
+        array_all: {
+          not: {
+            and: [
+              {
+                path: '[*].effect',
+                equal: 'Allow',
+              },
+              {
+                or: [
+                  {
+                    path: '[*].action',
+                    contains: '*',
+                  },
+                  {
+                    path: '[*].action',
+                    contains: 's3:DeleteObject',
+                  },
+                  {
+                    path: '[*].action',
+                    contains: 's3:PutObject',
+                  },
+                ],
+              },
+              {
+                path: '[*].principal',
+                array_any: {
                   and: [
                     {
-                      path: '[*].effect',
-                      equal: 'Allow',
+                      path: '[*].key',
+                      in: ['', 'AWS'],
                     },
                     {
                       or: [
                         {
-                          path: '[*].action',
+                          path: '[*].value',
                           contains: '*',
                         },
                         {
-                          path: '[*].action',
-                          contains: 's3:DeleteObject',
-                        },
-                        {
-                          path: '[*].action',
-                          contains: 's3:PutObject',
+                          path: '[*].value',
+                          matchAny: /\s*:root\s*/,
                         },
                       ],
-                    },
-                    {
-                      path: '[*].principal',
-                      array_any: {
-                        and: [
-                          {
-                            path: '[*].key',
-                            in: ['', 'AWS'],
-                          },
-                          {
-                            or: [
-                              {
-                                path: '[*].value',
-                                contains: '*',
-                              },
-                              {
-                                path: '[*].value',
-                                matchAny: /\s*:root\s*/,
-                              },
-                            ],
-                          },
-                        ],
-                      },
                     },
                   ],
                 },
               },
-            },
+            ],
           },
-        ],
+        },
       },
     ],
   },
