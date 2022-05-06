@@ -53,11 +53,8 @@ Policy Pack based on the [AWS Foundations 1.3.0](https://docs.aws.amazon.com/aud
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
-## Available Ruleset
-
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| Rule          | Description                                                                                                                 |
+| ------------  | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS CIS 5.1   | Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports                                   |
+| AWS CIS 5.2   | Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports                                |
+| AWS CIS 5.3   | Ensure the default security group of every VPC restricts all traffic                                                        |
