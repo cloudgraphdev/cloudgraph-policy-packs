@@ -1,3 +1,29 @@
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0) (2022-05-02)
+
+
+### Bug Fixes
+
+* rename vpc flowLogs connection to FlowLog ([c31e985](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/c31e985b4a2623fb01f8a29a4c5897becb2e4905))
+* Updated policy field for S3 schema ([dc3d6c8](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/dc3d6c8b4b7e22ba58c1394d0b64e866ab3de519))
+
+
+### Features
+
+* Included 6.x rules for aws nist 800-53 ([b51f652](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b51f6522e7721928ea8dc30d009ac5530f6e86eb))
+
+# @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.0-beta.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0-beta.1) (2022-05-02)
+
+
+### Bug Fixes
+
+* rename vpc flowLogs connection to FlowLog ([c31e985](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/c31e985b4a2623fb01f8a29a4c5897becb2e4905))
+* Updated policy field for S3 schema ([dc3d6c8](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/dc3d6c8b4b7e22ba58c1394d0b64e866ab3de519))
+
+
+### Features
+
+* Included 6.x rules for aws nist 800-53 ([b51f652](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b51f6522e7721928ea8dc30d009ac5530f6e86eb))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.0-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.1-alpha.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0-alpha.1) (2022-04-27)
 
 
