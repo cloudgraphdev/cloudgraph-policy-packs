@@ -71,6 +71,10 @@ Policy Pack based on the [AWS Foundations 1.4.0](https://docs.aws.amazon.com/aud
 | AWS CIS 1.19  | Ensure that all the expired SSL/TLS certificates stored in AWS IAM are removed                                              |
 | AWS CIS 1.20  | Ensure that IAM Access analyzer is enabled for all regions                                                                  |
 | AWS CIS 1.21  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments          |
+| AWS CIS 2.1.3 | Ensure MFA Delete is enable on S3 buckets                                                                                   |
+| AWS CIS 2.1.4 | Ensure all data in Amazon S3 has been discovered, classified and secured when required                                      |
+| AWS CIS 2.1.5 | Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'                                          |
+| AWS CIS 2.3.1 | Ensure that encryption is enabled for RDS Instances                                                                         |
 | AWS CIS 3.1   | Ensure CloudTrail is enabled in all regions                                                                                 |
 | AWS CIS 3.2   | Ensure CloudTrail log file validation is enabled                                                                            |
 | AWS CIS 3.3   | Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible                                               |
