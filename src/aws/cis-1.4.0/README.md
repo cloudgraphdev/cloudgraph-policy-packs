@@ -53,11 +53,20 @@ Policy Pack based on the [AWS Foundations 1.4.0](https://docs.aws.amazon.com/aud
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
-## Available Ruleset
-
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| Rule          | Description                                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS CIS 2.1.3 | Ensure MFA Delete is enable on S3 buckets                                                                                   |
+| AWS CIS 2.1.4 | Ensure all data in Amazon S3 has been discovered, classified and secured when required                                      |
+| AWS CIS 2.1.5 | Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'                                          |
+| AWS CIS 2.3.1 | Ensure that encryption is enabled for RDS Instances                                                                         |
+| AWS CIS 3.1   | Ensure CloudTrail is enabled in all regions                                                                                 |
+| AWS CIS 3.2   | Ensure CloudTrail log file validation is enabled                                                                            |
+| AWS CIS 3.3   | Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible                                               |
+| AWS CIS 3.4   | Ensure CloudTrail trails are integrated with CloudWatch Logs                                                                |
+| AWS CIS 3.5   | Ensure AWS Config is enabled in all regions                                                                                 |
+| AWS CIS 3.6   | Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket                                                      |
+| AWS CIS 3.7   | Ensure CloudTrail logs are encrypted at rest using KMS CMKs                                                                 |
+| AWS CIS 3.8   | Ensure rotation for customer created CMKs is enabled                                                                        |
+| AWS CIS 3.9   | Ensure VPC flow logging is enabled in all VPCs                                                                              |
+| AWS CIS 3.10  | Ensure that Object-level logging for write events is enabled for S3 bucket                                                  |
+| AWS CIS 3.11  | Ensure that Object-level logging for read events is enabled for S3 bucket                                                   |
