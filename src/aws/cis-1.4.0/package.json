@@ -1,15 +1,15 @@
 {
-  "name": "@cloudgraph/policy-pack-azure-cis-1.3.1",
-  "description": "Policy pack implementing CIS Microsoft Azure Foundations 1.3.1 Benchmark",
-  "version": "1.13.1",
+  "name": "@cloudgraph/policy-pack-aws-cis-1.4.0",
+  "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.4.0 Benchmark",
+  "version": "0.0.1",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
-    "directory": "src/azure/cis-1.3.1"
+    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "directory": "src/aws/cis-1.4.0"
   },
   "bugs": {
     "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs/issues"
@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
-    "@cloudgraph/sdk": "^0.14.0",
-    "@types/jest": "^27.4.0",
-    "@types/node": "^17.0.8",
+    "@cloudgraph/sdk": "^0.18.1",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^15.12.4",
     "@types/pino": "^6.3.11",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
@@ -36,14 +36,14 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
-    "prettier": "^2.5.1",
+    "prettier": "^2.4.1",
     "shx": "^0.3.3",
     "ts-jest": "^27.0.4",
     "tslib": "^1",
     "typescript": "^4.3.5"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=14.0.0"
   },
   "homepage": "https://www.cloudgraph.dev/",
   "keywords": [
@@ -51,14 +51,13 @@
   ],
   "prettier": {
     "semi": false,
-    "singleQuote": true,
-    "arrowParens": "avoid"
+    "singleQuote": true
   },
   "scripts": {
-    "build": "yarn prepack",
-    "clean": "rm -rf dist",
+    "build": "yarn prepublish",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
+    "prepublish": "rm -rf dist && tsc",
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   }
