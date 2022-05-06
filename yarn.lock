@@ -469,6 +469,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cloudgraph/policy-pack-aws-cis-1.3.0@workspace:src/aws/cis-1.3.0":
+  version: 0.0.0-use.local
+  resolution: "@cloudgraph/policy-pack-aws-cis-1.3.0@workspace:src/aws/cis-1.3.0"
+  dependencies:
+    "@autocloud/eslint-config": ^0.1.0
+    "@cloudgraph/sdk": ^0.18.1
+    "@types/jest": ^27.0.3
+    "@types/node": ^15.12.4
+    "@types/pino": ^6.3.11
+    "@typescript-eslint/eslint-plugin": ^4.28.5
+    "@typescript-eslint/parser": ^4.28.5
+    cpx: ^1.5.0
+    cuid: ^2.1.8
+    eslint: ^7.25.0
+    eslint-config-airbnb-base: 14.2.1
+    eslint-config-prettier: ^6.11.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    jest: ^27.0.6
+    prettier: ^2.4.1
+    shx: ^0.3.3
+    ts-jest: ^27.0.4
+    tslib: ^1
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@cloudgraph/policy-pack-aws-cis-1.4.0@workspace:src/aws/cis-1.4.0":
   version: 0.0.0-use.local
   resolution: "@cloudgraph/policy-pack-aws-cis-1.4.0@workspace:src/aws/cis-1.4.0"
@@ -1785,17 +1812,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^12.7.1":
-  version: 12.20.49
-  resolution: "@types/node@npm:12.20.49"
-  checksum: 08d77520d1bb35a4adee97e753134f9671fada882717b4f0511de37259b379cdd6982fdef89104316c191fee758e4f50922b0136f114159a22ef9e3bcac32fda
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^15.12.4":
-  version: 15.14.9
-  resolution: "@types/node@npm:15.14.9"
-  checksum: 49f7f0522a3af4b8389aee660e88426490cd54b86356672a1fedb49919a8797c00d090ec2dcc4a5df34edc2099d57fc2203d796c4e7fbd382f2022ccd789eee7
+"@types/node@npm:*, @types/node@npm:^12.7.1, @types/node@npm:^15.12.4":
+  version: 12.20.41
+  resolution: "@types/node@npm:12.20.41"
+  checksum: ff90d10f9831e86abf1f17581a70a81e5b6c3be97ec0b02972e6c3201fd19a40f6b230d4346ef7aaf023f24fef07a2131aeb68773ef3b14c3a17da8fbe05e439
   languageName: node
   linkType: hard
 
