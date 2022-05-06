@@ -1,3 +1,7 @@
+import Aws_CIS_140_213 from './aws-cis-1.4.0-2.1.3'
+import Aws_CIS_140_214 from './aws-cis-1.4.0-2.1.4'
+import Aws_CIS_140_215 from './aws-cis-1.4.0-2.1.5'
+import Aws_CIS_140_231 from './aws-cis-1.4.0-2.3.1'
 import Aws_CIS_140_31 from './aws-cis-1.4.0-3.1'
 import Aws_CIS_140_32 from './aws-cis-1.4.0-3.2'
 import Aws_CIS_140_33 from './aws-cis-1.4.0-3.3'
@@ -26,6 +30,10 @@ import Aws_CIS_140_414 from './aws-cis-1.4.0-4.14'
 import Aws_CIS_140_415 from './aws-cis-1.4.0-4.15'
 
 export default [
+  Aws_CIS_140_213,
+  Aws_CIS_140_214,
+  Aws_CIS_140_215,
+  Aws_CIS_140_231,
   Aws_CIS_140_31,
   Aws_CIS_140_32,
   Aws_CIS_140_33,
