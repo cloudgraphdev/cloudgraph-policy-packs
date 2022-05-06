@@ -59,10 +59,8 @@ export default {
             in: ['WriteOnly', 'All'],
           },
           {
-            not: {
-              path: '[*].dataResources',
-              isEmpty: true,
-            }
+            path: '[*].dataResources',
+            isEmpty: false,
           },
         ],
       },
