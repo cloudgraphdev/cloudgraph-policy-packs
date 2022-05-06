@@ -1,6 +1,6 @@
 // AWS CIS 1.2.0 Rule equivalent 3.5
 export default {
-  id: 'aws-cis-1.2.0-4.5',
+  id: 'aws-cis-1.4.0-4.5',
   title:
     'AWS CIS 4.5 Ensure a log metric filter and alarm exist for CloudTrail configuration changes',
   description: `Real-time monitoring of API calls can be achieved by directing CloudTrail Logs to
