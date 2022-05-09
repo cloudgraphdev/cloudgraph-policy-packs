@@ -86,3 +86,9 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIS 6.9  | Load balancer access logging should be enabled                                                           |
 | AWS NIS 6.12 | S3 bucket object-level logging for read events should be enabled                                         |
 | AWS NIS 6.13 | S3 bucket object-level logging for write events should be enabled                                        |
+| AWS NIS 16.1 | API Gateway classic custom domains should use secure TLS protocol versions (1.2 and above)                                        |
+| AWS NIS 16.2 | API Gateway v2 custom domains should use secure TLS protocol versions (1.2 and above)                                        |
+| AWS NIS 16.3 | CloudFront distribution custom origins should use secure TLS protocol versions (1.2 and above)                                         |
+| AWS NIS 16.4 | CloudFront distribution viewer certificate should use secure TLS protocol versions (1.2 and above)                                        |
+| AWS NIS 16.5 | ELB HTTPS listeners should use secure TLS protocol versions (1.2 and above)                                        |
+| AWS NIS 16.6 | ELBv2 HTTPS listeners should use secure TLS protocol versions (1.2 and above)                                        |
