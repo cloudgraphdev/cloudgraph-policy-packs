@@ -726,7 +726,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when S3 bucket object-level logging for read events is not enabled', async () => {
       const data: NIS6xQueryResponse = getTestRuleFixture(true, 'ReadOnly', [])
-      await testRule(data, Result.PASS)
+      await testRule(data, Result.FAIL)
     })
   })
 
@@ -780,7 +780,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when S3 bucket object-level logging for write events is not enabled', async () => {
       const data: NIS6xQueryResponse = getTestRuleFixture(true, 'WriteOnly', [])
-      await testRule(data, Result.PASS)
+      await testRule(data, Result.FAIL)
     })
   })
 
