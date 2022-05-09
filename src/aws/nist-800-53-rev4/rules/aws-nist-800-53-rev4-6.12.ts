@@ -59,10 +59,8 @@ export default {
             in: ['ReadOnly', 'All'],
           },
           {
-            not: {
-              path: '[*].dataResources',
-              isEmpty: true,
-            }
+            path: '[*].dataResources',
+            isEmpty: false,
           },
         ],
       },
