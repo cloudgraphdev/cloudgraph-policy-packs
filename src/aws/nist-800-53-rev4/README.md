@@ -79,6 +79,7 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 4.4  | ELBv1 listener protocol should not be set to http                                                                                  |
 | AWS NIST 4.5  | S3 bucket policies should only allow requests that use HTTPS                                                                       |
 | AWS NIST 4.6  | SNS subscriptions should deny access via HTTP                                                                                      |
+| AWS NIST 5.1  | RDS instances should have FedRAMP approved database engines                                                                        |
 | AWS NIST 6.1  | CloudFront access logging should be enabled                                                                                        |
 | AWS NIST 6.2  | CloudTrail log file validation should be enabled                                                                                   |
 | AWS NIST 6.3  | CloudTrail should be enabled in all regions                                                                                        |

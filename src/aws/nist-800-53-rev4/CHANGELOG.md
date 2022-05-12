@@ -1,3 +1,12 @@
+# @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.5.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.4.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.5.0) (2022-05-12)
+
+
+### Features
+
+* Included 3.x rules for aws cis 1.4.0 ([e474424](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/e47442484dcc62ce87ec623bf9208dade74af678))
+* Included 4.x rules for aws cis 1.4.0 ([a1feca4](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/a1feca47e0512f995c77e5ba12c83d77e2f69d0d))
+* Included 5.1 rule for AWS NIST 800-53 rev4 ([f3f04c0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/f3f04c01566e1f14339db50daf39d7b6ab0f9651))
+
 # @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.4.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.3.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.4.0) (2022-05-02)
 
 
