@@ -1779,10 +1779,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^12.7.1, @types/node@npm:^15.12.4":
+"@types/node@npm:*, @types/node@npm:^12.7.1":
   version: 12.20.41
   resolution: "@types/node@npm:12.20.41"
   checksum: ff90d10f9831e86abf1f17581a70a81e5b6c3be97ec0b02972e6c3201fd19a40f6b230d4346ef7aaf023f24fef07a2131aeb68773ef3b14c3a17da8fbe05e439
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^15.12.4":
+  version: 15.14.9
+  resolution: "@types/node@npm:15.14.9"
+  checksum: 49f7f0522a3af4b8389aee660e88426490cd54b86356672a1fedb49919a8797c00d090ec2dcc4a5df34edc2099d57fc2203d796c4e7fbd382f2022ccd789eee7
   languageName: node
   linkType: hard
 
