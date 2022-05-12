@@ -1,12 +1,11 @@
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
-
-describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
+describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
+      providerName: 'gcp',
+      entityName: 'PCI',
     })
   })
 
