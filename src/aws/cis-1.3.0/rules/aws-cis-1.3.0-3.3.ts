@@ -63,6 +63,9 @@ export default {
       accountId
       __typename
       s3 {
+        aclGrants {
+          granteeUri
+        }
         policy {
           statement {
             effect
@@ -81,30 +84,41 @@ export default {
     not: {
       path: '@.s3',
       array_any: {
-        path: '[*].policy.statement',
-        array_any: {
-          and: [
-            {
-              path: '[*].effect',
-              equal: 'Allow',
+        or: [
+          {
+            path: '[*].aclGrants',
+            array_any: {
+              path: '[*].granteeUri',
+              match: /^.*(AllUsers|AuthenticatedUsers).*$/,
             },
-            {
-              path: '[*].principal',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].key',
-                    in: ['', 'AWS'],
+          },
+          {
+            path: '[*].policy.statement',
+            array_any: {
+              and: [
+                {
+                  path: '[*].effect',
+                  equal: 'Allow',
+                },
+                {
+                  path: '[*].principal',
+                  array_any: {
+                    and: [
+                      {
+                        path: '[*].key',
+                        in: ['', 'AWS'],
+                      },
+                      {
+                        path: '[*].value',
+                        contains: '*',
+                      },
+                    ],
                   },
-                  {
-                    path: '[*].value',
-                    contains: '*',
-                  },
-                ],
-              },
+                },
+              ],
             },
-          ],
-        },
+          },
+        ],
       },
     },
   },

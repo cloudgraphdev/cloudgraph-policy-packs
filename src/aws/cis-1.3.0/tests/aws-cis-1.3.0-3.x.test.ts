@@ -50,9 +50,14 @@ export interface Policy {
   statement?: Statement[]
 }
 
+export interface AclGrant {
+  granteeUri: string | undefined
+}
+
 export interface S3 {
   policy?: Policy
   logging?: string
+  aclGrants?: AclGrant[]
 }
 
 export interface RecordingGroup {
@@ -247,7 +252,8 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
     const getTestRuleFixture = (
       effect: string,
       key: string,
-      value: string[]
+      value: string[],
+      granteeUri?: string | undefined,
     ): CIS3xQueryResponse => {
       return {
         queryawsCloudtrail: [
@@ -255,6 +261,11 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
             id: cuid(),
             s3: [
               {
+                aclGrants: [
+                  {
+                    granteeUri
+                  }
+                ],
                 policy: {
                   statement: [
                     {
@@ -297,6 +308,13 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
       await testRule(data, Result.PASS)
     })
 
+    test('No Security Issue when no exists any ACL Grantee set to Everyone or Any Authenticated User.', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture('Allow', 'Service', [
+        'cloudtrail.amazonaws.com',
+      ], 'http://acs.amazonaws.com/groups/s3/LogDelivery')
+      await testRule(data, Result.PASS)
+    })
+
     test('Security Issue when a policy contains a statement having an Effect set to Allow and a Principal set to "*"', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('Allow', '', ['*'])
       await testRule(data, Result.FAIL)
@@ -304,6 +322,20 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
 
     test('Security Issue when a policy contains a statement having an Effect set to Allow and a Principal set to {"AWS" : "*"}', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('Allow', 'AWS', ['*'])
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when exists an ACL Grantee set to Everyone.', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture('Allow', 'Service', [
+        'cloudtrail.amazonaws.com',
+      ], 'http://acs.amazonaws.com/groups/global/AllUsers')
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when exists an ACL Grantee set to Any Authenticated User.', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture('Allow', 'Service', [
+        'cloudtrail.amazonaws.com',
+      ], 'http://acs.amazonaws.com/groups/global/AuthenticatedUsers')
       await testRule(data, Result.FAIL)
     })
   })
