@@ -53,8 +53,19 @@ Policy Pack based on the [AWS Foundations 1.3.0](https://docs.aws.amazon.com/aud
    }
    ```
 
+## Available Ruleset
+
 | Rule          | Description                                                                                                                 |
-| ------------  | --------------------------------------------------------------------------------------------------------------------------- |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS CIS 1.1   | Maintain current contact details                                                                                            |
+| AWS CIS 1.2   | Ensure security contact information is registered                                                                           |
+| AWS CIS 1.3   | Ensure security questions are registered in the AWS account                                                                 |
+| AWS CIS 1.11  | Do not setup access keys during initial user setup for all IAM users that have a console password                           |
+| AWS CIS 1.18  | Ensure IAM instance roles are used for AWS resource access from instances                                                   |
+| AWS CIS 1.22  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments          |
+| AWS CIS 2.1.1 | Ensure all S3 buckets employ encryption-at-rest                                                                             |
+| AWS CIS 2.1.2 | Ensure S3 Bucket Policy allows HTTPS requests                                                                               |
+| AWS CIS 2.2.1 | Ensure EBS volume encryption is enabled                                                                                     |
 | AWS CIS 3.1   | Ensure CloudTrail is enabled in all regions                                                                                 |
 | AWS CIS 3.2   | Ensure CloudTrail log file validation is enabled                                                                            |
 | AWS CIS 3.3   | Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible                                               |
@@ -81,3 +92,4 @@ Policy Pack based on the [AWS Foundations 1.3.0](https://docs.aws.amazon.com/aud
 | AWS CIS 4.13  | Ensure a log metric filter and alarm exist for route table changes                                                          |
 | AWS CIS 4.14  | Ensure a log metric filter and alarm exist for VPC changes                                                                  |
 | AWS CIS 4.15  | Ensure a log metric filter and alarm exists for AWS Organizations changes                                                   |
+| AWS CIS 5.4   | Ensure routing tables for VPC peering are "least access"                                                                    |
