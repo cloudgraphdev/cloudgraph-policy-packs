@@ -109,15 +109,19 @@ export default {
         ]
       },
       {
-        value: { daysAgo: {}, path: '@.passwordLastUsed' },
-        lessThanInclusive: 90,
-      },
-      {
-        path: '@.accessKeyData',
-        array_any: {
-          value: { daysAgo: {}, path: '[*].lastUsedDate' },
-          lessThanInclusive: 90,
-        },
+        and: [
+          {
+            value: { daysAgo: {}, path: '@.passwordLastUsed' },
+            lessThanInclusive: 90,
+          },
+          {
+            path: '@.accessKeyData',
+            array_any: {
+              value: { daysAgo: {}, path: '[*].lastUsedDate' },
+              lessThanInclusive: 90,
+            },
+          },
+        ],
       },
     ],
   },

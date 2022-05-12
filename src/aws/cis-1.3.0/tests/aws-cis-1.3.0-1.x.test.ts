@@ -548,8 +548,8 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
       
-    test('No Security Issue when there are an access key unused for less than 90 days', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('', new Date().toISOString())
+    test('No Security Issue when there are an access key and password used for less than 90 days', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture(new Date().toISOString(), new Date().toISOString())
       await testRule(data, Result.PASS)
     })
 
@@ -561,17 +561,16 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     })
 
     test('Security Issue when there are an access key unused for more than 90 days', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('', '2021-05-27T20:29:00.000Z')
+      const data: CIS1xQueryResponse = getTestRuleFixture(new Date().toISOString(), '2021-05-27T20:29:00.000Z')
       await testRule(data, Result.FAIL)
     })
 
     test('Security Issue when there are a passwoord unused for more than 90 days', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('2021-05-27T20:29:00.000Z', '')
+      const data: CIS1xQueryResponse = getTestRuleFixture('2021-05-27T20:29:00.000Z', new Date().toISOString())
       const queryawsIamUser = data.queryawsIamUser?.[0] as QueryawsIamUser
       queryawsIamUser.accessKeyData = []
       await testRule(data, Result.FAIL)
     })
-
   })
 
   describe('AWS CIS 1.13 Ensure there is only one active access key available for any single IAM user', () => {
