@@ -1,6 +1,6 @@
 export default {
   id: 'aws-nist-800-53-rev4-12.1',  
-  title: 'CloudFront distributions should have geo-restrictions specified',
+  title: 'AWS NIST 12.1 CloudFront distributions should have geo-restrictions specified',
   
   description: `CloudFront distributions should enable geo-restriction when an organization needs to 
   prevent users in specific geographic locations from accessing content. For example, 
@@ -39,17 +39,23 @@ export default {
       accountId
       __typename
       geoRestriction {
-        restrictionType        
+        restrictionType
+        locations        
       }
     }    
   }`,
   resource: 'queryawsCloudfront[*]',
   severity: 'medium',
   conditions: {
-    path: '@.geoRestriction',
-      array_all: {
-        path: '[*].restrictionType',
-        notIn: 'none'
+    and: [
+      {
+        path: '@.geoRestriction.restrictionType',
+        in: ['whitelist', 'blacklist']
       },
+      {
+        path: '@.geoRestriction.locations',
+        isEmpty: false
+      },
+    ],
   },
 }

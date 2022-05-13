@@ -1,6 +1,6 @@
 export default {
   id: 'aws-nist-800-53-rev4-12.2',  
-  title: 'EC2 instances should not have a public IP association (IPv4)',
+  title: 'AWS NIST 12.2 EC2 instances should not have a public IP association (IPv4)',
   
   description: `EC2 instances are reachable over the internet even if you have protections such as 
   NACLs or security groups if a public IP address is associated with an instance. To minimize the risk 
@@ -50,7 +50,7 @@ Disable the public IP addressing feature
       arn
       accountId
       __typename      
-      subnet {        
+      subnets {        
         autoAssignPublicIpv4Address
       }
     }    
@@ -58,10 +58,12 @@ Disable the public IP addressing feature
   resource: 'queryawsEc2[*]',
   severity: 'medium',
   conditions: {
-    path: '@.subnet',
-    array_all: {
-      path: '[*].autoAssignPublicIpv4Address',
-      notEqual: 'Yes'
+    not: {
+      path: '@.subnets',
+      array_any: {
+        path: '[*].autoAssignPublicIpv4Address',
+        equal: 'Yes',
+      },
     },
   },
 }

@@ -4,58 +4,27 @@ import cuid from 'cuid'
 import Aws_NIST_800_53_121 from '../rules/aws-nist-800-53-rev4-12.1'
 import Aws_NIST_800_53_122 from '../rules/aws-nist-800-53-rev4-12.2'
 
-
-export interface Logging {
-  enabled: boolean
+export interface GeoRestriction {
+  restrictionType: string
+  locations: string[]
 }
 
-export interface DataResource {
-  type: string
+export interface Subnet {
+  autoAssignPublicIpv4Address: string
 }
-
-export interface EventSelector {
-  readWriteType?: string
-  includeManagementEvents?: boolean
-  dataResources?: DataResource[]
-}
-
-export interface Cloudtrail {
-  isMultiRegionTrail?: string
-  eventSelectors?: EventSelector[]
-  includeGlobalServiceEvents?: string
+export interface QueryawsEc2 {
+  id: string
+  subnets: Subnet[]
 }
 
 export interface QueryawsCloudfront {
   id: string
-  logging: Logging
+  geoRestriction: GeoRestriction
 }
 
-export interface QueryawsAccount {
-  id: string
-  cloudtrail: Cloudtrail[]
-}
-
-export interface QueryawsCloudtrail {
-  id: string
-  eventSelectors?: EventSelector[]
-}
-
-export interface QueryawsAlb {
-  id: string
-  accessLogsEnabled: string
-}
-
-export interface QueryawsElb {
-  id: string
-  accessLogs: string
-}
-
-export interface NIS6xQueryResponse {
+export interface NIST12xQueryResponse {
   queryawsCloudfront?: QueryawsCloudfront[]
-  queryawsAccount?: QueryawsAccount[]
-  queryawsCloudtrail?: QueryawsCloudtrail[]
-  queryawsAlb?: QueryawsAlb[]
-  queryawsElb?: QueryawsElb[]
+  queryawsEc2?: QueryawsEc2[]
 }
 
 describe('AWS NIST 800-53: Rev. 4', () => {
@@ -67,18 +36,19 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     })
   })
 
-  //12.X
-  describe(' AWS 12.1 CloudFront distributions should have geo-restrictions specified', () => {
-    const getTestRuleFixture = (restrictionType: string): any => {
+  describe('AWS NIST 12.1 CloudFront distributions should have geo-restrictions specified', () => {
+    const getTestRuleFixture = (
+      restrictionType: string,
+      locations: string[]
+      ): NIST12xQueryResponse => {
       return {
         queryawsCloudfront: [
           {
             id: cuid(),
-            geoRestriction: [
-              {
-                restrictionType
-              },
-            ],
+            geoRestriction: {
+              restrictionType,
+              locations
+            },
           },
         ],
       }
@@ -86,7 +56,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     // Act
     const testRule = async (
-      data: any,
+      data: NIST12xQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
@@ -99,25 +69,29 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('Georestrictions allowed. Content is available', async () => {
-      const data: any = getTestRuleFixture('whitelist')
+    test('No Security Issue when there is an inbound rule with a restrictionType equal to whitelist and locations specified', async () => {
+      const data: NIST12xQueryResponse = getTestRuleFixture('whitelist', ['CA','US'])
       await testRule(data, Result.PASS)
     })
 
-    test('Georestrictions not set. Content is not available', async () => {
-      const data: any = getTestRuleFixture('none')
-      await testRule(data, Result.FAIL)
+    test('No Security Issue when there is an inbound rule with a restrictionType equal to whitelist and locations specified', async () => {
+      const data: NIST12xQueryResponse = getTestRuleFixture('blacklist', ['CA','US'])
+      await testRule(data, Result.PASS)
     })
 
+    test('Security Issue when there is an inbound rule without geoRestriction specified', async () => {
+      const data: NIST12xQueryResponse = getTestRuleFixture('none', [])
+      await testRule(data, Result.FAIL)
+    })
   })
 
-  describe(' AWS 12.2 EC2 instances should not have a public IP association (IPv4)', () => {
-    const getTestRuleFixture = (autoAssignPublicIpv4Address: string): any => {
+  describe('AWS NIST 12.2 EC2 instances should not have a public IP association (IPv4)', () => {
+    const getTestRuleFixture = (autoAssignPublicIpv4Address: string): NIST12xQueryResponse => {
       return {
         queryawsEc2: [
           {
             id: cuid(),            
-            subnet: [              
+            subnets: [              
               {
                 autoAssignPublicIpv4Address,
               },
@@ -129,7 +103,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     // Act
     const testRule = async (
-      data: any,
+      data: NIST12xQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
@@ -142,16 +116,14 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('Subnet is Default and auto assign attribute is true', async () => {
-      const data: any = getTestRuleFixture('Yes')
-      await testRule(data, Result.FAIL)
-    })
-
-    test('Subnet is nonDefault and auto assign attribute cannot be false', async () => {
-      const data: any = getTestRuleFixture('No')
+    test('No Security Issue when EC2 instances not have a public IP association (IPv4)', async () => {
+      const data: NIST12xQueryResponse = getTestRuleFixture('No')
       await testRule(data, Result.PASS)
     })
 
+    test('Security Issue when EC2 instances have a public IP association (IPv4)', async () => {
+      const data: NIST12xQueryResponse = getTestRuleFixture('Yes')
+      await testRule(data, Result.FAIL)
+    })
   })
-
 })
