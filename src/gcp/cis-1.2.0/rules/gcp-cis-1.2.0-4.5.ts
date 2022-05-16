@@ -63,7 +63,7 @@ export default {
   You can prevent VMs from having serial port access enable by *Disable VM serial port
   access* organization policy: https://console.cloud.google.com/iam-admin/orgpolicies/compute-disableSerialPortAccess.`,
   references: [
-    `https://cloud.google.com/compute/docs/instances/interacting-with-serial-console`,
+    'https://cloud.google.com/compute/docs/instances/interacting-with-serial-console',
   ],
   gql: `{
     querygcpVmInstance{
@@ -80,34 +80,20 @@ export default {
   resource: 'querygcpVmInstance[*]',
   severity: 'medium',
   conditions: {
-    path: '@.metadata.items',
-    array_any: {
-      or: [
-        {
-          and: [
-            {
-              path: '[*].key',
-              equal: 'serial-port-enable',
-            },
-            {
-              path: '[*].value',
-              equal: '0',
-            },
-          ],
-        },
-        {
-          and: [
-            {
-              path: '[*].key',
-              equal: 'serial-port-enable',
-            },
-            {
-              path: '[*].value',
-              equal: 'false',
-            },
-          ],
-        },
-      ],
+    not: {
+      path: '@.metadata.items',
+      array_any: {
+        and: [
+          {
+            path: '[*].key',
+            equal: 'serial-port-enable',
+          },
+          {
+            path: '[*].value',
+            in: ['1', 'true'],
+          },
+        ],
+      },
     },
   },
 }
