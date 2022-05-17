@@ -51,10 +51,8 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
 ## Available Ruleset
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+
+| Rule               | Description                                                                                                                   |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| logging-check-1    | At least one project-level logging sink should be configured with an empty filter                                             |
