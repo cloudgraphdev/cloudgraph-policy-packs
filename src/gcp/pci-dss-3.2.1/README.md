@@ -69,3 +69,4 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | networking-check-2 | Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)                                            |
 | networking-check-3 | The default network for a project should be deleted                                                                           |
 | networking-check-4 | Load balancer HTTPS or SSL proxy SSL policies should not have weak cipher suites                                              |
+| logging-check-1    | At least one project-level logging sink should be configured with an empty filter                                             |

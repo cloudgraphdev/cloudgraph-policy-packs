@@ -1,5 +1,6 @@
 import Gcp_PCI_DSS_321_IAM_1 from './pci-dss-3.2.1-iam-check-1'
 import Gcp_PCI_DSS_321_IAM_2 from './pci-dss-3.2.1-iam-check-2'
+import Gcp_PCI_DSS_321_Logging_1 from './pci-dss-3.2.1-logging-check-1'
 import Gcp_PCI_DSS_321_Monitoring_1 from './pci-dss-3.2.1-monitoring-check-1'
 import Gcp_PCI_DSS_321_Monitoring_2 from './pci-dss-3.2.1-monitoring-check-2'
 import Gcp_PCI_DSS_321_Monitoring_3 from './pci-dss-3.2.1-monitoring-check-3'
@@ -16,6 +17,7 @@ import Gcp_PCI_DSS_321_Networking_4 from './pci-dss-3.2.1-networking-check-4'
 export default [
   Gcp_PCI_DSS_321_IAM_1,
   Gcp_PCI_DSS_321_IAM_2,
+  Gcp_PCI_DSS_321_Logging_1,
   Gcp_PCI_DSS_321_Monitoring_1,
   Gcp_PCI_DSS_321_Monitoring_2,
   Gcp_PCI_DSS_321_Monitoring_3,
