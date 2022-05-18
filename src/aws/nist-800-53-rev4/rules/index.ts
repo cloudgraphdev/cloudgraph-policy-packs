@@ -19,6 +19,7 @@ import Aws_NIST_800_53_43 from './aws-nist-800-53-rev4-4.3'
 import Aws_NIST_800_53_44 from './aws-nist-800-53-rev4-4.4'
 import Aws_NIST_800_53_45 from './aws-nist-800-53-rev4-4.5'
 import Aws_NIST_800_53_46 from './aws-nist-800-53-rev4-4.6'
+import Aws_NIST_800_53_51 from './aws-nist-800-53-rev4-5.1'
 import Aws_NIST_800_53_61 from './aws-nist-800-53-rev4-6.1'
 import Aws_NIST_800_53_62 from './aws-nist-800-53-rev4-6.2'
 import Aws_NIST_800_53_63 from './aws-nist-800-53-rev4-6.3'
@@ -116,6 +117,12 @@ import Aws_NIST_800_53_151 from './aws-nist-800-53-rev4-15.1'
 import Aws_NIST_800_53_152 from './aws-nist-800-53-rev4-15.2'
 import Aws_NIST_800_53_153 from './aws-nist-800-53-rev4-15.3'
 import Aws_NIST_800_53_154 from './aws-nist-800-53-rev4-15.4'
+import Aws_NIST_800_53_161 from './aws-nist-800-53-rev4-16.1'
+import Aws_NIST_800_53_162 from './aws-nist-800-53-rev4-16.2'
+import Aws_NIST_800_53_163 from './aws-nist-800-53-rev4-16.3'
+import Aws_NIST_800_53_164 from './aws-nist-800-53-rev4-16.4'
+import Aws_NIST_800_53_165 from './aws-nist-800-53-rev4-16.5'
+import Aws_NIST_800_53_166 from './aws-nist-800-53-rev4-16.6'
 
 export default [
   Aws_NIST_800_53_11,
@@ -139,6 +146,7 @@ export default [
   Aws_NIST_800_53_44,
   Aws_NIST_800_53_45,
   Aws_NIST_800_53_46,
+  Aws_NIST_800_53_51,
   Aws_NIST_800_53_61,
   Aws_NIST_800_53_62,
   Aws_NIST_800_53_63,
@@ -236,4 +244,10 @@ export default [
   Aws_NIST_800_53_152,
   Aws_NIST_800_53_153,
   Aws_NIST_800_53_154,
+  Aws_NIST_800_53_161,
+  Aws_NIST_800_53_162,
+  Aws_NIST_800_53_163,
+  Aws_NIST_800_53_164,
+  Aws_NIST_800_53_165,
+  Aws_NIST_800_53_166,
 ]
