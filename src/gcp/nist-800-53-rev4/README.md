@@ -55,6 +55,16 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 | Rule          | Description                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| GCP NIST 1.1  | Compute instances should not use the default service account                                                                       |
+| GCP NIST 1.2  | Compute instances should not use the default service account with full access to all Cloud APIs                                    |
+| GCP NIST 1.3  | Compute instance "block-project-ssh-keys should be enabled                                                                         |
+| GCP NIST 1.4  | Compute instances should not have public IP addresses                                                                              |
+| GCP NIST 1.5  | Compute instances "Enable connecting to serial ports" should not be enabled                                                        |
+| GCP NIST 1.6  | SQL database instances should not permit access from 0.0.0.0/0                                                                     |
+| GCP NIST 1.7  | SQL database instances should not have public IPs                                                                                  |
+| GCP NIST 2.1  | DNS managed zone DNSSEC should be enabled                                                                                          |
+| GCP NIST 2.2  | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                    |
+| GCP NIST 2.3  | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                   |
 | GCP NIST 5.1  | Logging metric filter and alert for project ownership assignments/changes should be configured                                     |
 | GCP NIST 5.2  | Logging metric filter and alert for audit configuration changes should be configured                                               |
 | GCP NIST 5.3  | Logging metric filter and alert for Custom Role changes should be configured                                                       |

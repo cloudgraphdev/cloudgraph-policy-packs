@@ -103,16 +103,8 @@ export default {
           array_any: {
             path: '[*].accessConfigs',
             array_any: {
-              and: [
-                {
-                  path: '[*].natIP',
-                  notEqual: null,
-                },
-                {
-                  path: '[*].natIP',
-                  notEqual: '',
-                },
-              ],
+              path: '[*].natIP',
+              notIn: [null, ''],
             },
           },
         },
