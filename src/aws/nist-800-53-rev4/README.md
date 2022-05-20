@@ -166,6 +166,8 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | AWS NIST 10.8 | IAM password policies should require at least one uppercase character                                                              |
 | AWS NIST 11.1 | ECS task definitions should limit memory usage for containers                                                                      |
 | AWS NIST 11.2 | ECS task definitions should set CPU limit for containers                                                                           |
+| AWS NIST 12.1 | CloudFront distributions should have geo-restrictions specified                                                                    |
+| AWS NIST 12.2 | EC2 instances should not have a public IP association (IPv4)                                                                       |
 | AWS NIST 13.1 | IAM multi-factor authentication should be enabled for all IAM users that have a console password                                   |
 | AWS NIST 13.2 | IAM should have hardware MFA enabled for the root account                                                                          |
 | AWS NIST 13.3 | IAM should have MFA enabled for the root account                                                                                   |
