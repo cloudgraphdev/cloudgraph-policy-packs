@@ -34,7 +34,7 @@ export default {
 
   - When ALL TCP ports are allowed in a rule, PORT does not have any value set (*NULL*)
   - When ALL Protocols are allowed in a rule, PORT does not have any value set (*NULL*)`,
-  rationale: `GCP *Firewall Rule*s within a *VPC Network*. These rules apply to outgoing (egress) traffic from instances and incoming (ingress) traffic to instances in the network. Egress and ingress traffic flows are controlled even if the traffic stays within the network (for example, instance-to-instance communication). For an instance to have outgoing Internet access, the network must have a valid Internet gateway route or custom route whose destination IP is specified. This route simply defines the path to the Internet, to avoid the most general (0.0.0.0/0) destination IP Range specified from the Internet through RDP with the default *Port 3389*. Generic access from the Internet to a specific IP Range should be restricted.`,
+  rationale: 'GCP *Firewall Rule*s within a *VPC Network*. These rules apply to outgoing (egress) traffic from instances and incoming (ingress) traffic to instances in the network. Egress and ingress traffic flows are controlled even if the traffic stays within the network (for example, instance-to-instance communication). For an instance to have outgoing Internet access, the network must have a valid Internet gateway route or custom route whose destination IP is specified. This route simply defines the path to the Internet, to avoid the most general (0.0.0.0/0) destination IP Range specified from the Internet through RDP with the default *Port 3389*. Generic access from the Internet to a specific IP Range should be restricted.',
   remediation: `**From the Console:**
 
   1. Go to *VPC Network*.
@@ -48,7 +48,7 @@ export default {
   1. Update RDP Firewall rule with new *SOURCE_RANGE* from the below command:
 
           gcloud compute firewall-rules update FirewallName --allow=[PROTOCOL[:PORT[-PORT]],...] --source-ranges=[CIDR_RANGE,...]`,
-  references: [`https://cloud.google.com/vpc/docs/firewalls#blockedtraffic`],
+  references: ['https://cloud.google.com/vpc/docs/firewalls#blockedtraffic'],
   gql: `{
     querygcpFirewall(filter: {direction:{eq: "INGRESS"}}){
       id
@@ -109,11 +109,11 @@ export default {
                     and: [
                       {
                         path: '[*].fromPort',
-                        lessThanInclusive: 3986,
+                        lessThanInclusive: 3389,
                       },
                       {
                         path: '[*].toPort',
-                        greaterThanInclusive: 3986,
+                        greaterThanInclusive: 3389,
                       },
                     ],
                   },

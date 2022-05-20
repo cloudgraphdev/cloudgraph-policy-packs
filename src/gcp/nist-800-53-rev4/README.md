@@ -55,6 +55,16 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 | Rule          | Description                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| AWS NIST 1.1  | Compute instances should not use the default service account                                                                       |
+| AWS NIST 1.2  | Compute instances should not use the default service account with full access to all Cloud APIs                                    |
+| AWS NIST 1.3  | Compute instance "block-project-ssh-keys should be enabled                                                                         |
+| AWS NIST 1.4  | Compute instances should not have public IP addresses                                                                              |
+| AWS NIST 1.5  | Compute instances "Enable connecting to serial ports" should not be enabled                                                        |
+| AWS NIST 1.6  | SQL database instances should not permit access from 0.0.0.0/0                                                                     |
+| AWS NIST 1.7  | SQL database instances should not have public IPs                                                                                  |
+| AWS NIST 2.1  | DNS managed zone DNSSEC should be enabled                                                                                          |
+| AWS NIST 2.2  | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                    |
+| AWS NIST 2.3  | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                   |
 | AWS NIST 3.1  | IAM default audit log config should not exempt any users                                                                           |
 | AWS NIST 3.2  | PostgreSQL database instance 'log_checkpoints' database flag should be set to 'on'                                                 |
 | AWS NIST 3.3  | PostgreSQL database instance 'log_connections' database flag should be set to 'on'                                                 |
