@@ -1,6 +1,8 @@
+// GCP CIS 1.2.0 Rule equivalent 3.7
 export default {
-  id: 'gcp-cis-1.2.0-3.7',
-  title: 'GCP CIS 3.7 Ensure that RDP access is restricted from the internet',
+  id: 'gcp-pci-dss-3.2.1-networking-check-2',  
+  title: 'Networking check 2: Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)',
+
   description: `GCP Firewall Rules are specific to a VPC Network. Each rule either allows or denies
   traffic when its conditions are met. Its conditions allow users to specify the type of traffic,
   such as ports and protocols, and the source or destination of the traffic, including IP
@@ -12,6 +14,7 @@ export default {
   an egress rule by address, an IPv4 address or IPv4 block in CIDR notation can be used.
   Generic (0.0.0.0/0) incoming traffic from the Internet to a VPC or VM instance using RDP
   on Port 3389 can be avoided.`,
+
   audit: `**From the Console:**
 
   1. Go to *VPC network*.
@@ -35,6 +38,7 @@ export default {
   - When ALL TCP ports are allowed in a rule, PORT does not have any value set (*NULL*)
   - When ALL Protocols are allowed in a rule, PORT does not have any value set (*NULL*)`,
   rationale: 'GCP *Firewall Rule*s within a *VPC Network*. These rules apply to outgoing (egress) traffic from instances and incoming (ingress) traffic to instances in the network. Egress and ingress traffic flows are controlled even if the traffic stays within the network (for example, instance-to-instance communication). For an instance to have outgoing Internet access, the network must have a valid Internet gateway route or custom route whose destination IP is specified. This route simply defines the path to the Internet, to avoid the most general (0.0.0.0/0) destination IP Range specified from the Internet through RDP with the default *Port 3389*. Generic access from the Internet to a specific IP Range should be restricted.',
+
   remediation: `**From the Console:**
 
   1. Go to *VPC Network*.
@@ -48,7 +52,8 @@ export default {
   1. Update RDP Firewall rule with new *SOURCE_RANGE* from the below command:
 
           gcloud compute firewall-rules update FirewallName --allow=[PROTOCOL[:PORT[-PORT]],...] --source-ranges=[CIDR_RANGE,...]`,
-  references: ['https://cloud.google.com/vpc/docs/firewalls#blockedtraffic'],
+  
+  references: ['https://cloud.google.com/vpc/docs/firewalls#blockedtraffic'],  
   gql: `{
     querygcpFirewall(filter: {direction:{eq: "INGRESS"}}){
       id
