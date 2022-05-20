@@ -1,7 +1,5 @@
-/* eslint-disable max-len */
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
-import 'jest'
 
 import Gcp_NIST_800_53_31 from '../rules/gcp-nist-800-53-rev4-3.1'
 import Gcp_NIST_800_53_32 from '../rules/gcp-nist-800-53-rev4-3.2'
@@ -11,6 +9,8 @@ import Gcp_NIST_800_53_35 from '../rules/gcp-nist-800-53-rev4-3.5'
 import Gcp_NIST_800_53_36 from '../rules/gcp-nist-800-53-rev4-3.6'
 import Gcp_NIST_800_53_37 from '../rules/gcp-nist-800-53-rev4-3.7'
 import Gcp_NIST_800_53_38 from '../rules/gcp-nist-800-53-rev4-3.8'
+import Gcp_NIST_800_53_39 from '../rules/gcp-nist-800-53-rev4-3.9'
+import Gcp_NIST_800_53_310 from '../rules/gcp-nist-800-53-rev4-3.10'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -48,9 +48,22 @@ export interface SqlInstances {
   ipAddresses?: IpAddress[]
 }
 
+export interface LogBucket {
+  name: string
+  retentionDays: number
+  locked: boolean
+}
+
+export interface LogSink {
+  filter?: string
+  destination?: string
+}
+
 export interface QuerygcpProject {
   id: string
   sqlInstances: SqlInstances[]
+  logSinks?: LogSink[]
+  logBuckets?: LogBucket[]
 }
 
 export interface AuditLogConfig {
@@ -69,10 +82,22 @@ export interface QuerygcpIamPolicy {
   auditConfigs: AuditConfig[]
 }
 
+export interface GcpNetworkSubnet {
+  purpose: string
+  enableFlowLogs: boolean | null
+}
+
+export interface QuerygcpNetwork {
+  id: string
+  subnets?: GcpNetworkSubnet[]
+  name?: string
+  ipV4Range?: string | null
+}
 export interface NIST3xQueryResponse {
   querygcpProject?: QuerygcpProject[]
   querygcpSqlInstance?: SqlInstances[]
   querygcpIamPolicy?: QuerygcpIamPolicy[]
+  querygcpNetwork?: QuerygcpNetwork[]
 }
 
 describe('GCP NIST 800-53: Rev. 4', () => {
@@ -929,6 +954,131 @@ describe('GCP NIST 800-53: Rev. 4', () => {
       const project = data.querygcpProject?.[0] as QuerygcpProject
       project.sqlInstances[0].settings.databaseFlags[0].value = '100'
       await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('GCP NIST 3.9 At least one project-level logging sink should be configured with an empty filter', () => {
+    const getTestRuleFixture = (filter: string): NIST3xQueryResponse => {
+      return {
+        querygcpProject: [
+          {
+            id: cuid(),
+            sqlInstances: [],
+            logSinks: [
+              {
+                filter: 'dummy filter',
+              },
+              {
+                filter,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: NIST3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_NIST_800_53_39 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is a logSink with an empty filter', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture('')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when there is a logSink with an empty filter', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture('dummy-filter')
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+
+  describe('GCP NIST 3.10 Network subnet flow logs should be enabled', () => {
+    const testRule = async (
+      subnets: GcpNetworkSubnet[],
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: NIST3xQueryResponse = {
+        querygcpNetwork: [
+          {
+            id: cuid(),
+            subnets,
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_NIST_800_53_310 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when all PRIVATE subnets have enableFlowLogs set to true', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: null,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'DUMMY',
+          enableFlowLogs: false,
+        },
+      ]
+      await testRule(subnets, Result.PASS)
+    })
+
+    test('Security Issue when at least 1 PRIVATE subnet has enableFlowLogs set to false', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: false,
+        },
+      ]
+      await testRule(subnets, Result.FAIL)
+    })
+    test('Security Issue when at least 1 PRIVATE subnet has enableFlowLogs set to null', async () => {
+      const subnets: GcpNetworkSubnet[] = [
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: true,
+        },
+        {
+          purpose: 'PRIVATE',
+          enableFlowLogs: null,
+        },
+      ]
+      await testRule(subnets, Result.FAIL)
     })
   })
 })
