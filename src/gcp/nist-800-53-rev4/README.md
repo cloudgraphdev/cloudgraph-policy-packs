@@ -55,24 +55,24 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 
 | Rule          | Description                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| AWS NIST 1.1  | Compute instances should not use the default service account                                                                       |
-| AWS NIST 1.2  | Compute instances should not use the default service account with full access to all Cloud APIs                                    |
-| AWS NIST 1.3  | Compute instance "block-project-ssh-keys should be enabled                                                                         |
-| AWS NIST 1.4  | Compute instances should not have public IP addresses                                                                              |
-| AWS NIST 1.5  | Compute instances "Enable connecting to serial ports" should not be enabled                                                        |
-| AWS NIST 1.6  | SQL database instances should not permit access from 0.0.0.0/0                                                                     |
-| AWS NIST 1.7  | SQL database instances should not have public IPs                                                                                  |
-| AWS NIST 2.1  | DNS managed zone DNSSEC should be enabled                                                                                          |
-| AWS NIST 2.2  | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                    |
-| AWS NIST 2.3  | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                   |
-| AWS NIST 3.1  | IAM default audit log config should not exempt any users                                                                           |
-| AWS NIST 3.2  | PostgreSQL database instance 'log_checkpoints' database flag should be set to 'on'                                                 |
-| AWS NIST 3.3  | PostgreSQL database instance 'log_connections' database flag should be set to 'on'                                                 |
-| AWS NIST 3.4  | PostgreSQL database instance 'log_disconnections' database flag should be set to 'on'                                              |
-| AWS NIST 3.5  | PostgreSQL database instance 'log_lock_waits' database flag should be set to 'on'                                                  |
-| AWS NIST 3.6  | PostgreSQL database instance 'log_min_error_statement' database flag should be set appropriately                                   |
-| AWS NIST 3.7  | PostgreSQL database instance 'log_temp_files' database flag should be set to '0' (on)                                              |
-| AWS NIST 3.8  | PostgreSQL database instance 'log_min_duration_statement' database flag should be set to '-1' (disabled)                           |
-| AWS NIST 3.9  | At least one project-level logging sink should be configured with an empty filter                                                  |
-| AWS NIST 4.1  | Compute instance disks should be encrypted with customer-supplied encryption keys (CSEKs)                                          |
-| AWS NIST 4.2  | SQL database instances should require incoming connections to use SSL                                                              |
+| GCP NIST 1.1  | Compute instances should not use the default service account                                                                       |
+| GCP NIST 1.2  | Compute instances should not use the default service account with full access to all Cloud APIs                                    |
+| GCP NIST 1.3  | Compute instance "block-project-ssh-keys should be enabled                                                                         |
+| GCP NIST 1.4  | Compute instances should not have public IP addresses                                                                              |
+| GCP NIST 1.5  | Compute instances "Enable connecting to serial ports" should not be enabled                                                        |
+| GCP NIST 1.6  | SQL database instances should not permit access from 0.0.0.0/0                                                                     |
+| GCP NIST 1.7  | SQL database instances should not have public IPs                                                                                  |
+| GCP NIST 2.1  | DNS managed zone DNSSEC should be enabled                                                                                          |
+| GCP NIST 2.2  | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                    |
+| GCP NIST 2.3  | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                   |
+| GCP NIST 3.1  | IAM default audit log config should not exempt any users                                                                           |
+| GCP NIST 3.2  | PostgreSQL database instance 'log_checkpoints' database flag should be set to 'on'                                                 |
+| GCP NIST 3.3  | PostgreSQL database instance 'log_connections' database flag should be set to 'on'                                                 |
+| GCP NIST 3.4  | PostgreSQL database instance 'log_disconnections' database flag should be set to 'on'                                              |
+| GCP NIST 3.5  | PostgreSQL database instance 'log_lock_waits' database flag should be set to 'on'                                                  |
+| GCP NIST 3.6  | PostgreSQL database instance 'log_min_error_statement' database flag should be set appropriately                                   |
+| GCP NIST 3.7  | PostgreSQL database instance 'log_temp_files' database flag should be set to '0' (on)                                              |
+| GCP NIST 3.8  | PostgreSQL database instance 'log_min_duration_statement' database flag should be set to '-1' (disabled)                           |
+| GCP NIST 3.9  | At least one project-level logging sink should be configured with an empty filter                                                  |
+| GCP NIST 4.1  | Compute instance disks should be encrypted with customer-supplied encryption keys (CSEKs)                                          |
+| GCP NIST 4.2  | SQL database instances should require incoming connections to use SSL                                                              |
