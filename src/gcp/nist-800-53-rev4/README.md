@@ -51,10 +51,18 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
 ## Available Ruleset
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+
+| Rule          | Description                                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| AWS NIST 3.1  | IAM default audit log config should not exempt any users                                                                           |
+| AWS NIST 3.2  | PostgreSQL database instance 'log_checkpoints' database flag should be set to 'on'                                                 |
+| AWS NIST 3.3  | PostgreSQL database instance 'log_connections' database flag should be set to 'on'                                                 |
+| AWS NIST 3.4  | PostgreSQL database instance 'log_disconnections' database flag should be set to 'on'                                              |
+| AWS NIST 3.5  | PostgreSQL database instance 'log_lock_waits' database flag should be set to 'on'                                                  |
+| AWS NIST 3.6  | PostgreSQL database instance 'log_min_error_statement' database flag should be set appropriately                                   |
+| AWS NIST 3.7  | PostgreSQL database instance 'log_temp_files' database flag should be set to '0' (on)                                              |
+| AWS NIST 3.8  | PostgreSQL database instance 'log_min_duration_statement' database flag should be set to '-1' (disabled)                           |
+| AWS NIST 3.9  | At least one project-level logging sink should be configured with an empty filter                                                  |
+| AWS NIST 4.1  | Compute instance disks should be encrypted with customer-supplied encryption keys (CSEKs)                                          |
+| AWS NIST 4.2  | SQL database instances should require incoming connections to use SSL                                                              |
