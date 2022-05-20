@@ -1,17 +1,16 @@
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
-
-describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
+describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
     rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
+      providerName: 'gcp',
+      entityName: 'NIST',
     })
   })
 
   // TODO: Change once we have real checks
-  describe("Dummy Check", () => {
+  describe('Dummy Check', () => {
     test('Dummy Test', async () => {
       expect('PASS').toBe(Result.PASS)
     })

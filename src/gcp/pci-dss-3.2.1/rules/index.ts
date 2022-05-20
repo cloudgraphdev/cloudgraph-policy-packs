@@ -11,6 +11,7 @@ import Gcp_PCI_DSS_321_51 from './pci-dss-3.2.1-5.1'
 import Gcp_PCI_DSS_321_61 from './pci-dss-3.2.1-6.1'
 import Gcp_PCI_DSS_321_71 from './pci-dss-3.2.1-7.1'
 import Gcp_PCI_DSS_321_72 from './pci-dss-3.2.1-7.2'
+import Gcp_PCI_DSS_321_Logging_1 from './pci-dss-3.2.1-logging-check-1'
 
 export default [
   // TODO: Add rules to export
@@ -27,4 +28,5 @@ export default [
   Gcp_PCI_DSS_321_61,
   Gcp_PCI_DSS_321_71,
   Gcp_PCI_DSS_321_72,
+  Gcp_PCI_DSS_321_Logging_1,
 ]

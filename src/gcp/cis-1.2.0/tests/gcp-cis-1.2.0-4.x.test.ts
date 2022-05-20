@@ -1369,7 +1369,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test45Rule(data, Result.PASS)
     })
 
-    test('Security Security Issue when ¨serial-port-enable¨ is set to true', async () => {
+    test('Security Issue when ¨serial-port-enable¨ is set to true', async () => {
       const metadataItems: MetadataItem[] = [
         {
           key: 'serial-port-enable',
@@ -1380,18 +1380,7 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test45Rule(data, Result.FAIL)
     })
 
-    test('Security Security Issue when ¨serial-port-enable¨ is set to 1', async () => {
-      const metadataItems: MetadataItem[] = [
-        {
-          key: 'serial-port-enable',
-          value: 'true',
-        },
-      ]
-      const data: CIS4xQueryResponse = getTest45RuleFixture(metadataItems)
-      await test45Rule(data, Result.FAIL)
-    })
-
-    test('Security Security Issue when ¨serial-port-enable¨ is set to 1', async () => {
+    test('Security Issue when ¨serial-port-enable¨ is set to 1', async () => {
       const metadataItems: MetadataItem[] = [
         {
           key: 'serial-port-enable',
@@ -1402,26 +1391,10 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       await test45Rule(data, Result.FAIL)
     })
 
-    test('Security Security Issue when metadata is empty', async () => {
-      const metadataItems: MetadataItem[] = [
-        {
-          key: 'serial-port-enable',
-          value: '1',
-        },
-      ]
+    test('No Security Issue when metadata is empty', async () => {
+      const metadataItems: MetadataItem[] = []
       const data: CIS4xQueryResponse = getTest45RuleFixture(metadataItems)
-      await test45Rule(data, Result.FAIL)
-    })
-
-    test('Security Security Issue when metadata does NOT contain ¨serial-port-enable¨ key', async () => {
-      const metadataItems: MetadataItem[] = [
-        {
-          key: 'dummy-key',
-          value: 'false',
-        },
-      ]
-      const data: CIS4xQueryResponse = getTest45RuleFixture(metadataItems)
-      await test45Rule(data, Result.FAIL)
+      await test45Rule(data, Result.PASS)
     })
   })
 
