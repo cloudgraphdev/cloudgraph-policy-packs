@@ -51,10 +51,20 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
 ## Available Ruleset
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+
+| Rule          | Description                                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| GCP NIST 5.1  | Logging metric filter and alert for project ownership assignments/changes should be configured                                     |
+| GCP NIST 5.2  | Logging metric filter and alert for audit configuration changes should be configured                                               |
+| GCP NIST 5.3  | Logging metric filter and alert for Custom Role changes should be configured                                                       |
+| GCP NIST 5.4  | Logging metric filter and alert for network firewall rule changes should be configured                                             |
+| GCP NIST 5.5  | Logging metric filter and alert for network route changes should be configured                                                     |
+| GCP NIST 5.6  | Logging metric filter and alert for network changes should be configured                                                           |
+| GCP NIST 5.7  | Logging metric filter and alert for SQL instance configuration changes should be configured                                        |
+| GCP NIST 5.8  | Logging storage bucket retention policies and Bucket Lock should be configured                                                     |
+| GCP NIST 6.1  | The default network for a project should be deleted                                                                                |
+| GCP NIST 6.2  | Network firewall rules should not permit ingress from 0.0.0.0/0 to port 22 (SSH)                                                   |
+| GCP NIST 6.3  | Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)                                                 |
+| GCP NIST 6.4  | Load balancer HTTPS or SSL proxy SSL policies should not have weak cipher suites                                                   |
+| GCP NIST 6.5  | Compute instances "IP forwarding" should not be enabled                                                                            |
