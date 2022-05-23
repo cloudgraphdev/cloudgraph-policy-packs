@@ -56,7 +56,9 @@ export default {
   resource: 'querygcpVmInstance[*]',
   severity: 'medium',
   conditions: {
-    path: '@.canIpForward',
-    equal: false,
+    not: {
+      path: '@.canIpForward',
+      equal: true,
+    },
   },
 }
