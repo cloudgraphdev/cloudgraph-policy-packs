@@ -1,3 +1,15 @@
+# @cloudgraph/policy-pack-aws-cis-1.3.0 [0.2.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.3.0@0.1.0...@cloudgraph/policy-pack-aws-cis-1.3.0@0.2.0) (2022-05-26)
+
+
+### Features
+
+* Added ACL Grants checks to 3.3 rule ([c387273](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/c387273ef475d41937d74be0d865beb1dcff4a53))
+* Fixed rule 1.12 ([6498ad1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/6498ad17405f64f277d8caccf96c853c3805fa88))
+* Included 1.x rules for aws cis 1.3.0 ([6ba595f](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/6ba595ff827880f95650e367214a1e89fdf7aaab))
+* Included 1.x rules for aws cis 1.3.0 ([15c00a0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/15c00a01f52b93dd0319c7adac9d0c08ba72868a))
+* Included 3.x rules for aws cis 1.3.0 ([4e263f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/4e263f23d08dcdcf97adf56ce0d72f9123249c9b))
+* Included 5.1, 5.2, 5.3 rules for aws cis 1.3.0 ([2c15651](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/2c156515a964eb8fe5715c9181ef905bb0dffc4f))
+
 # @cloudgraph/policy-pack-aws-cis-1.3.0 [0.1.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.3.0@0.0.0...@cloudgraph/policy-pack-aws-cis-1.3.0@0.1.0) (2022-05-12)
 
 
