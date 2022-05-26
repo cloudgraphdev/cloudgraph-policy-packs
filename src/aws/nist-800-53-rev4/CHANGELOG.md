@@ -1,3 +1,18 @@
+# @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.6.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.5.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.0) (2022-05-26)
+
+
+### Bug Fixes
+
+* new geoRestriction object and improved logic ([207ef74](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/207ef74f79861ac84654365a274fa9722639dbeb))
+* updated index.ts with rules 12.1 and 12.2 ([a609daf](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/a609dafcc5e476252b7490e540ac75b958e35240))
+
+
+### Features
+
+* add aws 12.1 and tests ([693644f](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/693644f9c7790e06732552e960885dfcb9a9a63b))
+* Included 12.1 and 12.2 rules for aws nist 800-53 rev4 ([54e3947](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/54e3947cafb90516a1c443885e9407e36cda6ce5))
+* Included 16.x rules for aws nist 800-53 rev4 ([7b4bb3b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/7b4bb3b793327112ad15af5ddd1876de6d5d8051))
+
 # @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.5.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.4.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.5.0) (2022-05-12)
 
 
