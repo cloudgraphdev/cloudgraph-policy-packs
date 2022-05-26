@@ -1,3 +1,15 @@
+# @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.21.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.20.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.21.0) (2022-05-26)
+
+
+### Bug Fixes
+
+* [GCP] Fix discrepancies between AutoCloud and Fugue ([7227bc6](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/7227bc637eece1fa8a04e8aca8daa24d051c9dbe))
+
+
+### Features
+
+* Support GCP PCI rules - Part 2 ([86be981](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/86be9816667dfe107f946a8cde90533fb6564f91))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.20.0](https://gitlab.com/auto-cloud/cloudgraph/policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.19.1...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.20.0) (2022-03-17)
 
 
