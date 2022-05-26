@@ -69,10 +69,10 @@ export default {
   resource: 'queryazureSecurityPricing[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'ContainerRegistry',
+        notEqual: 'ContainerRegistry',
       },
       {
         path: '@.pricingTier',
