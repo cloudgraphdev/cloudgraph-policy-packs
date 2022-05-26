@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.1...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.2) (2022-05-26)
+
+
+### Bug Fixes
+
+* Azure CIS 1.3.1 rule 9.6 has the wrong title number ([e27efdb](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/e27efdbb93c820bc39c7e09aae751da7dbdffc5f))
+
 ## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.0...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.1) (2022-05-02)
 
 
