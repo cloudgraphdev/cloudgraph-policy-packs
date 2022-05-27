@@ -4,57 +4,14 @@ import cuid from 'cuid'
 import Aws_NIST_800_53_111 from '../rules/aws-nist-800-53-rev4-11.1'
 import Aws_NIST_800_53_112 from '../rules/aws-nist-800-53-rev4-11.2'
 
-export interface Logging {
-  enabled: boolean
-}
-
-export interface DataResource {
-  type: string
-}
-
-export interface EventSelector {
-  readWriteType?: string
-  includeManagementEvents?: boolean
-  dataResources?: DataResource[]
-}
-
-export interface Cloudtrail {
-  isMultiRegionTrail?: string
-  eventSelectors?: EventSelector[]
-  includeGlobalServiceEvents?: string
-}
-
-export interface QueryawsCloudfront {
+export interface QueryawsEcsTaskDefinition {
   id: string
-  logging: Logging
+  memory?: string | null
+  cpu?: string | null
 }
 
-export interface QueryawsAccount {
-  id: string
-  cloudtrail: Cloudtrail[]
-}
-
-export interface QueryawsCloudtrail {
-  id: string
-  eventSelectors?: EventSelector[]
-}
-
-export interface QueryawsAlb {
-  id: string
-  accessLogsEnabled: string
-}
-
-export interface QueryawsElb {
-  id: string
-  accessLogs: string
-}
-
-export interface NIS6xQueryResponse {
-  queryawsCloudfront?: QueryawsCloudfront[]
-  queryawsAccount?: QueryawsAccount[]
-  queryawsCloudtrail?: QueryawsCloudtrail[]
-  queryawsAlb?: QueryawsAlb[]
-  queryawsElb?: QueryawsElb[]
+export interface NIST11xQueryResponse {
+  queryawsEcsTaskDefinition?: QueryawsEcsTaskDefinition[]
 }
 
 describe('AWS NIST 800-53: Rev. 4', () => {
@@ -66,14 +23,15 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     })
   })
 
-  //11.X
-  describe(' AWS 11.1 ECS task definitions should limit memory usage for containers', () => {
-    const getTestRuleFixture = (memory: string|null|undefined): any => {
+  describe('AWS NIST 11.1 ECS task definitions should limit memory usage for containers', () => {
+    const getTestRuleFixture = (
+      memory: string | null
+    ): NIST11xQueryResponse => {
       return {
         queryawsEcsTaskDefinition: [
           {
             id: cuid(),
-            memory
+            memory,
           },
         ],
       }
@@ -81,7 +39,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     // Act
     const testRule = async (
-      data: any,
+      data: NIST11xQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
@@ -94,34 +52,29 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('Container memory is within the acceptable limit', async () => {
-      const data: any = getTestRuleFixture('512')
+    test('No Security Issue when Container memory is within the acceptable limit (512)', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture('512')
       await testRule(data, Result.PASS)
     })
 
-    test('Container memory is within the acceptable limit', async () => {
-      const data: any = getTestRuleFixture('256')
+    test('No Security Issue when Container memory is within the acceptable limit (256)', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture('256')
       await testRule(data, Result.PASS)
     })
 
-    test('Container memory cannot be null or undefined', async () => {
-      const data: any = getTestRuleFixture(null)
-      await testRule(data, Result.FAIL)
-    })
-
-    test('Container memory cannot be null or undefined', async () => {
-      const data: any = getTestRuleFixture(undefined)
+    test('Security Issue when Container memory is not set', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture(null)
       await testRule(data, Result.FAIL)
     })
   })
 
-  describe(' AWS 11.2 ECS task definitions should set CPU limit for containers', () => {
-    const getTestRuleFixture = (cpu: string|null|undefined): any => {
+  describe('AWS NIST 11.2 ECS task definitions should set CPU limit for containers', () => {
+    const getTestRuleFixture = (cpu: string | null): NIST11xQueryResponse => {
       return {
         queryawsEcsTaskDefinition: [
           {
             id: cuid(),
-            cpu
+            cpu,
           },
         ],
       }
@@ -129,7 +82,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     // Act
     const testRule = async (
-      data: any,
+      data: NIST11xQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
@@ -142,25 +95,19 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('CPU limit is within the acceptable limit', async () => {
-      const data: any = getTestRuleFixture('512')
+    test('No Security Issue when CPU limit is within the acceptable limit (512)', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture('512')
       await testRule(data, Result.PASS)
     })
 
-    test('CPU limit is within the acceptable limit', async () => {
-      const data: any = getTestRuleFixture('256')
+    test('No Security Issue when CPU limit is within the acceptable limit (256)', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture('256')
       await testRule(data, Result.PASS)
     })
 
-    test('CPU limit cannot be null or undefined', async () => {
-      const data: any = getTestRuleFixture(null)
-      await testRule(data, Result.FAIL)
-    })
-
-    test('CPU limit cannot be null or undefined', async () => {
-      const data: any = getTestRuleFixture(undefined)
+    test('Security Issue when CPU limit is not set', async () => {
+      const data: NIST11xQueryResponse = getTestRuleFixture(null)
       await testRule(data, Result.FAIL)
     })
   })
-
 })
