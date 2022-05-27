@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 2.1
 export default {
-  id: 'gcp-pci-dss-3.2.1-7.2',
-  title: 'IAM default audit log config should not exempt any users',
+  id: 'gcp-pci-dss-3.2.1-iam-check-4',
+  title: 'IAM Check 4: IAM default audit log config should not exempt any users',
   description: 'It is recommended that Cloud Audit Logging is configured to track all admin activities and read, write access to user data.',
   audit: `**From Console:**
 

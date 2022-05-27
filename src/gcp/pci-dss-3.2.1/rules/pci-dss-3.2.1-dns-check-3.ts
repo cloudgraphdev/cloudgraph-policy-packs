@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 3.5
 export default {
-  id: 'gcp-pci-dss-3.2.1-3.3',
-  title: 'DNS managed zone DNSSEC zone-signing keys should not use RSASHA1',
+  id: 'gcp-pci-dss-3.2.1-dns-check-3',
+  title: 'DNS Check 3: DNS managed zone DNSSEC zone-signing keys should not use RSASHA1',
   description: `DNSSEC algorithm numbers in this registry may be used in CERT RRs. Zone signing
   (DNSSEC) and transaction security mechanisms (SIG(0) and TSIG) make use of particular
   subsets of these algorithms. The algorithm used for key signing should be a recommended

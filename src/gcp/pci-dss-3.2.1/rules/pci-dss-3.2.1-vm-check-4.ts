@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 4.2
 export default {
-  id: 'gcp-pci-dss-3.2.1-2.2',
-  title: 'Compute instances should not use the default service account with full access to all Cloud APIs',
+  id: 'gcp-pci-dss-3.2.1-vm-check-4',
+  title: 'VM Check 4: Compute instances should not use the default service account with full access to all Cloud APIs',
   description: `To support principle of least privileges and prevent potential privilege escalation it is
   recommended that instances are not assigned to default service account Compute Engine
   default service account with Scope Allow full access to all Cloud APIs.`,

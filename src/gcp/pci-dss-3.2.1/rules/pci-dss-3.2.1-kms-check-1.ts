@@ -1,8 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 1.9
 export default {
-  id: 'gcp-pci-dss-3.2.1-6.1',
-  title: 'KMS keys should not be anonymously or publicly accessible',
-  
+  id: 'gcp-pci-dss-3.2.1-kms-check-1',
+  title: 'KMS Check 1: KMS keys should not be anonymously or publicly accessible',  
   description: 'It is recommended that the IAM policy on Cloud KMS cryptokeys should restrict anonymous and/or public access.',
   audit: `**From Command Line:**
 

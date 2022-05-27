@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 1.5
 export default {
-  id: 'gcp-pci-dss-3.2.1-5.1',
-  title: 'User-managed service accounts should not have admin privileges',
+  id: 'gcp-pci-dss-3.2.1-iam-check-3',
+  title: 'IAM Check 3: User-managed service accounts should not have admin privileges',
   description: `A service account is a special Google account that belongs to an application or a VM, instead
   of to an individual end-user. The application uses the service account to call the service's
   Google API so that users aren't directly involved. It's recommended not to use admin access

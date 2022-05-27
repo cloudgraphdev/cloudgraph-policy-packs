@@ -1,9 +1,10 @@
 import cuid from 'cuid'
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 
-import Gcp_PCI_DSS_321_11 from '../rules/pci-dss-3.2.1-1.1'
-import Gcp_PCI_DSS_321_12 from '../rules/pci-dss-3.2.1-1.2'
-import Gcp_PCI_DSS_321_13 from '../rules/pci-dss-3.2.1-1.3'
+import Gcp_PCI_DSS_321_VM_1 from '../rules/pci-dss-3.2.1-vm-check-1'
+import Gcp_PCI_DSS_321_VM_2 from '../rules/pci-dss-3.2.1-vm-check-2'
+import Gcp_PCI_DSS_321_VM_3 from '../rules/pci-dss-3.2.1-vm-check-3'
+import Gcp_PCI_DSS_321_VM_4 from '../rules/pci-dss-3.2.1-vm-check-4'
 
 export interface ServiceAccount {
   email: string
@@ -66,44 +67,7 @@ export interface QuerygcpVmInstance {
   disks?: Disk[]
 }
 
-export interface DatabaseFlagsItem {
-  name: string
-  value: string | null
-}
-
-export interface AuthorizedNetwork {
-  value: string
-}
-
-export interface IpConfiguration {
-  requireSsl?: boolean | null
-  authorizedNetworks?: AuthorizedNetwork[]
-}
-
-export interface BackupConfiguration {
-  enabled: boolean | null
-  startTime: string | null
-}
-
-export interface Settings {
-  databaseFlags: DatabaseFlagsItem[]
-  ipConfiguration?: IpConfiguration
-  backupConfiguration?: BackupConfiguration
-}
-
-export interface IpAddress {
-  type: string
-}
-
-export interface SqlInstances {
-  id?: string
-  name: string
-  settings: Settings
-  ipAddresses?: IpAddress[]
-}
-
-export interface CIS1xQueryResponse {
-  querygcpSqlInstance?: SqlInstances[]
+export interface CISVMQueryResponse {
   querygcpVmInstance?: QuerygcpVmInstance[]
 }
 
@@ -113,14 +77,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
     rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
   })
 
-  describe('GCP PCI 1.1 Ensure "Block Project-wide SSH keys" is enabled for VM instances', () => {
-    const getTest11RuleFixture = (
+  describe('VM Check 1: Ensure "Block Project-wide SSH keys" is enabled for VM instances', () => {
+    const getTestVM1RuleFixture = (
       name: string,
       projects: Project[],
       labels: Label[],
       serviceAccounts: ServiceAccount[],
       metadataItems: MetadataItem[]
-    ): CIS1xQueryResponse => {
+    ): CISVMQueryResponse => {
       return {
         querygcpVmInstance: [
           {
@@ -137,13 +101,13 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       }
     }
 
-    const test11Rule = async (
-      data: CIS1xQueryResponse,
+    const testVM1Rule = async (
+      data: CISVMQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
-        Gcp_PCI_DSS_321_11 as Rule,
+        Gcp_PCI_DSS_321_VM_1 as Rule,
         { ...data }
       )
 
@@ -174,14 +138,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.PASS)
+      await testVM1Rule(data, Result.PASS)
     })
 
     test(`No Security Issue when the vm name starts with "gke-",
@@ -202,14 +166,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.PASS)
+      await testVM1Rule(data, Result.PASS)
     })
 
     test(`No Security Issue when the vm name does NOT start with "gke-",
@@ -234,14 +198,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.PASS)
+      await testVM1Rule(data, Result.PASS)
     })
 
     test(`No Security Issue when the vm name does NOT start with "gke-",
@@ -266,14 +230,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.PASS)
+      await testVM1Rule(data, Result.PASS)
     })
 
     test(`No Security Issue when the vm name does NOT start with "gke-",
@@ -293,14 +257,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         },
       ]
       const metadataItems: MetadataItem[] = []
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.PASS)
+      await testVM1Rule(data, Result.PASS)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -326,14 +290,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -359,14 +323,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -388,14 +352,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -424,14 +388,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -457,14 +421,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -490,14 +454,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -519,14 +483,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -555,14 +519,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -588,14 +552,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -621,14 +585,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does start with "gke-",
@@ -650,14 +614,14 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
 
     test(`Security Issue when the vm name does NOT start with "gke-",
@@ -686,21 +650,21 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = getTest11RuleFixture(
+      const data: CISVMQueryResponse = getTestVM1RuleFixture(
         name,
         projects,
         labels,
         serviceAccounts,
         metadataItems
       )
-      await test11Rule(data, Result.FAIL)
+      await testVM1Rule(data, Result.FAIL)
     })
   })
 
-  describe('GCP PCI 1.2 Ensure that instances are not configured to use the default service account', () => {
-    const gettest12RuleFixture = (
+  describe('VM Check 2: Ensure that instances are not configured to use the default service account', () => {
+    const gettestVM2RuleFixture = (
       metadataItems: MetadataItem[]
-    ): CIS1xQueryResponse => {
+    ): CISVMQueryResponse => {
       return {
         querygcpVmInstance: [
           {
@@ -717,13 +681,13 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       }
     }
 
-    const test12Rule = async (
-      data: CIS1xQueryResponse,
+    const testVM2Rule = async (
+      data: CISVMQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
-        Gcp_PCI_DSS_321_12 as Rule,
+        Gcp_PCI_DSS_321_VM_2 as Rule,
         { ...data }
       )
 
@@ -738,8 +702,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.PASS)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.PASS)
     })
 
     test('No Security Issue when ¨serial-port-enable¨ is set to 0', async () => {
@@ -749,8 +713,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: '0',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.PASS)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.PASS)
     })
 
     test('Security Security Issue when ¨serial-port-enable¨ is set to true', async () => {
@@ -760,8 +724,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.FAIL)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.FAIL)
     })
 
     test('Security Security Issue when ¨serial-port-enable¨ is set to 1', async () => {
@@ -771,8 +735,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'true',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.FAIL)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.FAIL)
     })
 
     test('Security Security Issue when ¨serial-port-enable¨ is set to 1', async () => {
@@ -782,8 +746,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: '1',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.FAIL)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.FAIL)
     })
 
     test('Security Security Issue when metadata is empty', async () => {
@@ -793,8 +757,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: '1',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.FAIL)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.FAIL)
     })
 
     test('Security Security Issue when metadata does NOT contain ¨serial-port-enable¨ key', async () => {
@@ -804,39 +768,38 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
           value: 'false',
         },
       ]
-      const data: CIS1xQueryResponse = gettest12RuleFixture(metadataItems)
-      await test12Rule(data, Result.FAIL)
+      const data: CISVMQueryResponse = gettestVM2RuleFixture(metadataItems)
+      await testVM2Rule(data, Result.FAIL)
     })
   })
   
-  describe('GCP PCI 1.3 Ensure that Cloud SQL database instances are not open to the world', () => {
-    const getRule13Fixture = (): CIS1xQueryResponse => {
+  describe('VM Check 3: Ensure that instances are not configured to use the default service account', () => {
+    const getTestVM3RuleFixture = (
+      name: string,
+      projects: Project[],
+      labels: Label[],
+      serviceAccounts: ServiceAccount[]
+    ): CISVMQueryResponse => {
       return {
-        querygcpSqlInstance: [
+        querygcpVmInstance: [
           {
             id: cuid(),
-            name: 'test-sql-instance',
-            settings: {
-              ipConfiguration: {
-                authorizedNetworks: [
-                  { value: '192.168.0.0/24' },
-                  { value: '192.168.1.0/24' },
-                ],
-              },
-              databaseFlags: [],
-            },
+            name,
+            project: projects,
+            labels,
+            serviceAccounts,
           },
         ],
       }
     }
 
-    const testRule = async (
-      data: CIS1xQueryResponse,
+    const testVM3Rule = async (
+      data: CISVMQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
-        Gcp_PCI_DSS_321_13 as Rule,
+        Gcp_PCI_DSS_321_VM_3 as Rule,
         { ...data }
       )
 
@@ -844,33 +807,420 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test("No Security Issue when authorizedNetworks is NOT set to '0.0.0.0/0'", async () => {
-      const data: CIS1xQueryResponse = getRule13Fixture()
-      await testRule(data, Result.PASS)
+    test('No Security Issue when the vm name starts with "gke-", it has a "goog-gke-node" label and the service account is the default compute service account', async () => {
+      const projectId = 123456789
+      const name = 'gke-test'
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const labels: Label[] = [
+        {
+          value: 'goog-gke-node',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.PASS)
     })
 
-    test('No Security Issue when authorizedNetworks is empty', async () => {
-      const data: CIS1xQueryResponse = getRule13Fixture()
-      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
-      sqlInstance.settings = {
-        ipConfiguration: {
-          authorizedNetworks: [],
+    test('No Security Issue when the vm name starts with "gke-", it does NOT have a "goog-gke-node" label but the service account is NOT the default compute service account', async () => {
+      const name = 'gke-test'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = []
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
         },
-        databaseFlags: [],
-      }
-      await testRule(data, Result.PASS)
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.PASS)
     })
 
-    test("Security Issue when authorizedNetworks is set to '0.0.0.0/0'", async () => {
-      const data: CIS1xQueryResponse = getRule13Fixture()
-      const sqlInstance = data.querygcpSqlInstance?.[0] as SqlInstances
-      sqlInstance.settings = {
-        ipConfiguration: {
-          authorizedNetworks: [{ value: '0.0.0.0/0' }],
+    test('No Security Issue when the vm name does NOT start with "gke-", it has a "goog-gke-node" label but the service account is NOT the default compute service account', async () => {
+      const name = 'dummy'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = [
+        {
+          value: 'goog-gke-node',
         },
-        databaseFlags: [],
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.PASS)
+    })
+
+    test('No Security Issue when the vm name does NOT start with "gke-", it does NOT have a "goog-gke-node" label but the service account is NOT the default compute service account', async () => {
+      const name = 'dummy'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.PASS)
+    })
+
+    test('Security Issue when the vm name does NOT start with "gke-", it does NOT have a "goog-gke-node" label and the service account is the default compute service account', async () => {
+      const projectId = 123456789
+      const name = 'dummy'
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when the vm name does start with "gke-", it does NOT have a "goog-gke-node" label and the service account is the default compute service account', async () => {
+      const name = 'gke-test'
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when the vm name does start with "gke-", it does NOT have any label and the service account is the default compute service account', async () => {
+      const name = 'gke-test'
+      const labels: Label[] = []
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.FAIL)
+    })
+
+    test('Security Issue when the vm name does NOT start with "gke-", it does have a "goog-gke-node" label and the service account is the default compute service account', async () => {
+      const name = 'dummy'
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+        {
+          value: 'goog-gke-node',
+        },
+      ]
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM3RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM3Rule(data, Result.FAIL)
+    })
+  })
+
+  describe('VM Check 4: Ensure that instances are not configured to use the default service account with full access to all Cloud APIs', () => {
+    const getTestVM4RuleFixture = (
+      name: string,
+      projects: Project[],
+      labels: Label[],
+      serviceAccounts: ServiceAccount[]
+    ): CISVMQueryResponse => {
+      return {
+        querygcpVmInstance: [
+          {
+            id: cuid(),
+            name,
+            project: projects,
+            labels,
+            serviceAccounts,
+          },
+        ],
       }
-      await testRule(data, Result.FAIL)
+    }
+
+    const testVM4Rule = async (
+      data: CISVMQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_PCI_DSS_321_VM_4 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test(`No Security Issue when the vm name starts with "gke-",
+    it has a "goog-gke-node" label
+    and the service account is the default compute service account
+    but it does NOT have the "cloud-platform" scope`, async () => {
+      const projectId = 123456789
+      const name = 'gke-test'
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const labels: Label[] = [
+        {
+          value: 'goog-gke-node',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.PASS)
+    })
+
+    test(`No Security Issue when the vm name starts with "gke-",
+    it does NOT have a "goog-gke-node" label,
+    the service account is NOT the default compute service account,
+    and it has the "cloud-platform" scope`, async () => {
+      const name = 'gke-test'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = []
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+          scopes: [],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.PASS)
+    })
+
+    test('No Security Issue when the vm name does NOT start with "gke-", it has a "goog-gke-node" label but the service account is NOT the default compute service account', async () => {
+      const name = 'dummy'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = [
+        {
+          value: 'goog-gke-node',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.PASS)
+    })
+
+    test(`No Security Issue when the vm name does NOT start with "gke-",
+    it does NOT have a "goog-gke-node" label,
+    the service account is NOT the default compute service account
+    and it has the "cloud-platform" scope`, async () => {
+      const name = 'dummy'
+      const projects: Project[] = [{ id: 'projects/dummy-id' }]
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: 'dummy-compute@test.com',
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.PASS)
+    })
+
+    test(`Security Issue when the vm name does NOT start with "gke-",
+     it does NOT have a "goog-gke-node" label,
+     the service account is the default compute service account,
+     and it has the "cloud-platform" scope`, async () => {
+      const projectId = 123456789
+      const name = 'dummy'
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.FAIL)
+    })
+
+    test(`Security Issue when the vm name does start with "gke-",
+    it does NOT have a "goog-gke-node" label,
+    the service account is the default compute service account,
+    and it has the "cloud-platform" scope`, async () => {
+      const name = 'gke-test'
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+      ]
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.FAIL)
+    })
+
+    test(`Security Issue when the vm name does start with "gke-",
+    it does NOT have any label,
+    the service account is the default compute service account,
+    and it has the "cloud-platform" scope`, async () => {
+      const name = 'gke-test'
+      const labels: Label[] = []
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.FAIL)
+    })
+
+    test(`Security Issue when the vm name does NOT start with "gke-",
+    it does have a "goog-gke-node" label
+    the service account is the default compute service account
+    and it has the "cloud-platform" scope`, async () => {
+      const name = 'dummy'
+      const labels: Label[] = [
+        {
+          value: 'dummy-label',
+        },
+        {
+          value: 'goog-gke-node',
+        },
+      ]
+      const projectId = 123456789
+      const projects: Project[] = [{ id: `projects/${projectId}` }]
+      const serviceAccounts: ServiceAccount[] = [
+        {
+          email: `${projectId}-compute@developer.gserviceaccount.com`,
+          scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+        },
+      ]
+      const data: CISVMQueryResponse = getTestVM4RuleFixture(
+        name,
+        projects,
+        labels,
+        serviceAccounts
+      )
+      await testVM4Rule(data, Result.FAIL)
     })
   })
 

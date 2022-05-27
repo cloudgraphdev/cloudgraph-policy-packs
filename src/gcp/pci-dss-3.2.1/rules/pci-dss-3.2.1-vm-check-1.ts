@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 4.3
 export default {
-  id: 'gcp-pci-dss-3.2.1-1.1',
-  title: 'Compute instance "block-project-ssh-keys" should be enabled',
+  id: 'gcp-pci-dss-3.2.1-vm-check-1',
+  title: 'VM Check 1: Compute instance "block-project-ssh-keys" should be enabled',
   description: `It is recommended to use Instance specific SSH key(s) instead of using common/shared
   project-wide SSH key(s) to access Instances.`,
   audit: `**From Console:**

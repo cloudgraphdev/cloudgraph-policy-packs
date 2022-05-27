@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 6.4
 export default {
-  id: 'gcp-pci-dss-3.2.1-4.1',
-  title: 'SQL database instances should require incoming connections to use SSL',
+  id: 'gcp-pci-dss-3.2.1-storage-check-2',
+  title: 'Storage Check 2: SQL database instances should require incoming connections to use SSL',
   description: 'It is recommended to enforce all incoming connections to SQL database instance to use SSL.',
   audit: `**From Console:**
 

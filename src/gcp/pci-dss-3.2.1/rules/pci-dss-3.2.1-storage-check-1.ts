@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 6.5
 export default {
-  id: 'gcp-pci-dss-3.2.1-1.3',
-  title: 'SQL database instances should not permit access from 0.0.0.0/0',
+  id: 'gcp-pci-dss-3.2.1-storage-check-1',
+  title: 'Storage Check 1: SQL database instances should not permit access from 0.0.0.0/0',
   description: `Database Server should accept connections only from trusted Network(s)/IP(s) and
   restrict access from the world.`,
   audit: `**From Console:**

@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 4.5
 export default {
-  id: 'gcp-pci-dss-3.2.1-1.2',
-  title: 'Compute instances "Enable connecting to serial ports" should not be enabled',
+  id: 'gcp-pci-dss-3.2.1-vm-check-2',
+  title: 'VM Check 2: Compute instances "Enable connecting to serial ports" should not be enabled',
   description: `Interacting with a serial port is often referred to as the serial console, which is similar to
   using a terminal window, in that input and output is entirely in text mode and there is no
   graphical interface or mouse support.

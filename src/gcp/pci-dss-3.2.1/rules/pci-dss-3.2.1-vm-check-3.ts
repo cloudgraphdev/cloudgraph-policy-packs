@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 4.1
 export default {
-  id: 'gcp-pci-dss-3.2.1-2.1',
-  title: 'Compute instances should not use the default service account',
+  id: 'gcp-pci-dss-3.2.1-vm-check-3',
+  title: 'VM Check 3: Compute instances should not use the default service account',
   description: `It is recommended to configure your instance to not use the default Compute Engine
   service account because it has the Editor role on the project.`,
   audit: `**From Console:**

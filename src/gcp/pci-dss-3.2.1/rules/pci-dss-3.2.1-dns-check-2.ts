@@ -1,7 +1,7 @@
 //GCP CIS 1.2.0 Rule equivalent 3.3
 export default {
-  id: 'gcp-pci-dss-3.2.1-3.2',
-  title: 'DNS managed zone DNSSEC should be enabled',
+  id: 'gcp-pci-dss-3.2.1-dns-check-2',
+  title: 'DNS Check 2: DNS managed zone DNSSEC should be enabled',
   description: `Cloud Domain Name System (DNS) is a fast, reliable and cost-effective domain name system
   that powers millions of domains on the internet. Domain Name System Security Extensions
   (DNSSEC) in Cloud DNS enables domain owners to take easy steps to protect their domains
