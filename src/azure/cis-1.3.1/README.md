@@ -94,7 +94,7 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 2.14 | Ensure that 'Notify about alerts with the following severity' is set to 'High'                                                |
 | Azure CIS 3.1  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                    |
 | Azure CIS 3.2  | Ensure that storage account access keys are periodically regenerated (Manual)                                                 |
-| Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests (Manual)                             |
+| Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests                                      |
 | Azure CIS 3.4  | Ensure sure that shared access signature tokens expire within an hour (Manual)                                                |
 | Azure CIS 3.5  | Ensure that 'Public access level' is set to Private for blob containers                                                       |
 | Azure CIS 3.6  | Ensure default network access rule for Storage Accounts is set to deny                                                        |
