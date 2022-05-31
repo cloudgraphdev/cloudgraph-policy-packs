@@ -1,6 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-7.1',  
-  title: 'Azure CIS 7.1 Ensure Virtual Machines are utilizing Managed Disks (Manual)',
+  title: 'Azure CIS 7.1 Ensure Virtual Machines are utilizing Managed Disks',
     
   description: `Migrate BLOB based VHD's to Managed Disks on Virtual Machines to exploit the default features of this configuration. The features include
     
@@ -52,5 +52,20 @@ export default {
       'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/convert-unmanaged-to-managed-disks',  
       'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-governance-strategy#gs-1-define-asset-management-and-data-protection-strategy',  
   ],  
-  severity: 'high'
+  gql: `{
+    queryazureVirtualMachine {
+      id
+      __typename
+      name
+      disks {
+        id
+      }
+    }
+  }`,
+  resource: 'queryazureVirtualMachine[*]',
+  severity: 'high',
+  conditions: {
+    path: '@.disks',
+    isEmpty: false,
+  },
 }
