@@ -55,8 +55,16 @@ export default {
         {
           path: '@.assignableScopes',
           array_any: {
-            path: '[*]',
-            in: ['/', 'subscription'],
+            or: [
+              {
+                path: '[*]',
+                equal: '/',
+              },
+              {
+                path: '[*]',
+                match: /subscriptions/,
+              },
+            ],
           },
         },
         {

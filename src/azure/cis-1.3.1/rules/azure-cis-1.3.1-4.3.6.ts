@@ -42,6 +42,7 @@ export default {
   severity: 'high',
   gql: `{
     queryazurePostgreSqlServer{
+      id
       __typename
       configurations{
         name

@@ -1,8 +1,8 @@
 export default {
   id: 'azure-cis-1.3.1-2.14',  
-  title: `Azure CIS 2.14 Ensure that 'Notify about alerts with the following severity' is set to 'High'`,  
+  title: 'Azure CIS 2.14 Ensure that "Notify about alerts with the following severity" is set to "High"',  
   
-  description: `Enables emailing security alerts to the subscription owner or other designated security contact.`,
+  description: 'Enables emailing security alerts to the subscription owner or other designated security contact.',
   
   audit: `**From Azure Console**
   
@@ -71,10 +71,10 @@ export default {
   resource: 'queryazureSecurityContact[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'default1',
+        notEqual: 'default1',
       },
       {
         path: '@.alertNotifications',

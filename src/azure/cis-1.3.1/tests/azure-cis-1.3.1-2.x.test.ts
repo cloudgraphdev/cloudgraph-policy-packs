@@ -542,13 +542,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe("Azure CIS 2.13 Ensure 'Additional email addresses' is configured with a security contact email", () => {
     const getTestRuleFixture = (
-      name: string | null
+      name: string | null,
+      email: string | null
     ): CIS1xQueryResponse => {
       return {
         queryazureSecurityContact: [
           {
             id: cuid(),
             name,
+            email,
           },
         ],
       }
@@ -568,15 +570,15 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test("No Security Issue when a security contact email is configured", async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('default')
+    test('No Security Issue when a security contact email is configured', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default', 'default@test.com')
 
       await testRule(data, Result.PASS)
     })
 
     
-    test("Security Issue when a security contact email is not configured", async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture(null)
+    test('Security Issue when a security contact email is not configured', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default', null)
 
       await testRule(data, Result.FAIL)
     })

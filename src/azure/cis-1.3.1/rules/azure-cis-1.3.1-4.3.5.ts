@@ -37,31 +37,31 @@ export default {
       'https://docs.microsoft.com/en-us/azure/postgresql/howto-configure-server-parameters-using-portal',
       'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources',
   ],
-  severity: 'high',
   gql: `{
-    queryazurePostgreSqlServer{
+    queryazurePostgreSqlServer {
+      id
       __typename
-      configurations{
+      configurations {
         name
         value
       }
     }
   }`,
   resource: 'queryazurePostgreSqlServer[*]',
+  severity: 'high',
   conditions: {
     path: '@.configurations',
-    array_any:{
-      path: '[*]',
+    array_any: {
       and: [
-        {
+        {      
           path: '[*].name',
           equal: 'log_disconnections',
         },
         {
           path: '[*].value',
           equal: 'on',
-        },
+        }
       ],
-    }
+    },
   },
 }
