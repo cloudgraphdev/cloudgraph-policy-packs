@@ -92,6 +92,7 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 2.12 | Ensure any of the ASC Default policy setting is not set to "Disabled"                                                         |
 | Azure CIS 2.13 | Ensure 'Additional email addresses' is configured with a security contact email                                               |
 | Azure CIS 2.14 | Ensure that 'Notify about alerts with the following severity' is set to 'High'                                                |
+| Azure CIS 2.15 | Ensure that "All users with the following roles" is set to "Owner"                                                            |
 | Azure CIS 3.1  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                    |
 | Azure CIS 3.2  | Ensure that storage account access keys are periodically regenerated (Manual)                                                 |
 | Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests (Manual)                             |

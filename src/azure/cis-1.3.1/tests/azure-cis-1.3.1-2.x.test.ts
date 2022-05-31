@@ -16,6 +16,7 @@ import Azure_CIS_131_210 from '../rules/azure-cis-1.3.1-2.10'
 import Azure_CIS_131_211 from '../rules/azure-cis-1.3.1-2.11'
 import Azure_CIS_131_213 from '../rules/azure-cis-1.3.1-2.13'
 import Azure_CIS_131_214 from '../rules/azure-cis-1.3.1-2.14'
+import Azure_CIS_131_215 from '../rules/azure-cis-1.3.1-2.15'
 
 export interface QueryazureSecurityPricing {
   id: string
@@ -620,6 +621,50 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     
     test("Security Issue when email notification for high severity alerts to Off", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'Off')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe("Azure CIS 2.15 Ensure that 'All users with the following roles' is set to 'Owner'", () => {
+    const getTestRuleFixture = (
+      name: string | null,
+      alertsToAdmins: string | null,
+    ): CIS1xQueryResponse => {
+      return {
+        queryazureSecurityContact: [
+          {
+            id: cuid(),
+            name,
+            alertsToAdmins,
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS1xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_215 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when 'All users with the following roles' is set to 'Owner'", async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'On')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test("Security Issue when 'All users with the following roles' is not set to 'Owner'", async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'Off')
 
       await testRule(data, Result.FAIL)
