@@ -51,10 +51,10 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
 ## Available Ruleset
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+
+| Rule            | Description                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| Azure NIST 1.1  | Virtual Machines unattached disks should be encrypted                                                  |
+| Azure NIST 1.2  | Virtual Machines data disks (non-boot volumes) should be encrypted                                     |
+| Azure NIST 2.1  | Monitor audit profile should log all activities                                                        |
