@@ -51,10 +51,33 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
    }
    ```
 
-<!--
-TODO: Uncomment table when rules available
 ## Available Ruleset
-| Rule         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| -  | -                                    |
--->
+| Rule             | Description                                                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| vm-check-1      | Compute instance 'block-project-ssh-keys' should be enabled                                                                                                     |
+| vm-check-2      | Compute instances 'Enable connecting to serial ports' should not be enabled                                                                                     |
+| storage-check-1 | SQL database instances should not permit access from 0.0.0.0/0                                                                                                  |
+| vm-check-3      | Compute instances should not use the default service account                                                                                                    |
+| vm-check-4      | Compute instances should not use the default service account with full access to all Cloud APIs                                                                 |
+| dns-check-1     | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                                                 |
+| dns-check-2     | DNS managed zone DNSSEC should be enabled                                                                                                                       |
+| dns-check-3     | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                                                |
+| storage-check-2 | SQL database instances should require incoming connections to use SSL                                                                                           |
+| iam-check-3     | User-managed service accounts should not have admin privileges                                                                                                  |
+| kms-check-1     | KMS keys should not be anonymously or publicly accessible                                                                                                       |
+| iam-check-4     | IAM default audit log config should not exempt any users                                                                                                        |
+| iam-check-1        | IAM users should not have both KMS admin and any of the KMS encrypter/decrypter roles                                         |
+| iam-check-2        | IAM users should not have project-level "Service Account User" or "Service Account Token Creator" roles                       |
+| monitoring-check-1 | Logging metric filter and alert for audit configuration changes should be configured                                          |
+| monitoring-check-2 | Logging metric filter and alert for Custom Role changes should be configured                                                  |
+| monitoring-check-3 | Logging metric filter and alert for network changes should be configured                                                      |
+| monitoring-check-4 | Logging metric filter and alert for network firewall rule changes should be configured                                        |
+| monitoring-check-5 | Logging metric filter and alert for network route changes should be configured                                                |
+| monitoring-check-6 | Logging metric filter and alert for project ownership assignments/changes should be configured                                |
+| monitoring-check-7 | Logging metric filter and alert for SQL instance configuration changes should be configured                                   |
+| monitoring-check-8 | Logging metric filter and alert for Storage IAM permission changes should be configured                                       |
+| networking-check-1 | Network firewall rules should not permit ingress from 0.0.0.0/0 to port 22 (SSH)                                              |
+| networking-check-2 | Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)                                            |
+| networking-check-3 | The default network for a project should be deleted                                                                           |
+| networking-check-4 | Load balancer HTTPS or SSL proxy SSL policies should not have weak cipher suites                                              |
+| logging-check-1    | At least one project-level logging sink should be configured with an empty filter                                             |

@@ -1,6 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-7.7',  
-  title: 'Azure CIS 7.7 Ensure that VHD\'s are encrypted (Manual)',
+  title: 'Azure CIS 7.7 Ensure that VHD\'s are encrypted',
     
   description: 'VHD (Virtual Hard Disks) are stored in BLOB storage and are the old style disks that were attached to Virtual Machines, and the BLOB VHD was then leased to the VM. By Default storage accounts are not encrypted, and Azure Defender(Security Centre) would then recommend that the OS disks should be encrypted. Storage accounts can be encrypted as a whole using PMK or CMK and this should be turned on for storage accounts containing VHD\'s.',
     
@@ -47,5 +47,18 @@ export default {
       'Powershell: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disk-encryption-powershell-quickstart',  
       'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-data-protection#dp-5-encrypt-sensitive-data-at-rest',
   ],  
-  severity: 'medium'
+  gql: `{
+    queryazureDisk {
+      id
+      __typename
+      name
+      azureDiskEncryptionEnabled
+    }
+  }`,
+  resource: 'queryazureDisk[*]',
+  severity: 'medium',
+  conditions: {
+    path: '@.azureDiskEncryptionEnabled',
+    equal: true,
+  },
 }

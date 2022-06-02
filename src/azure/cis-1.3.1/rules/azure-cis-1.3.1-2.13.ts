@@ -1,6 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-2.13',  
-  title: `Azure CIS 2.13 Ensure 'Additional email addresses' is configured with a security contact email`,  
+  title: 'Azure CIS 2.13 Ensure "Additional email addresses" is configured with a security contact email',  
   
   description: `Security Center emails the subscription owners whenever a high-severity alert is triggered
   for their subscription. You should provide a security contact email address as an additional
@@ -76,10 +76,10 @@ export default {
   resource: 'queryazureSecurityContact[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'default',
+        notEqual: 'default',
       },
       {
         path: '@.email',

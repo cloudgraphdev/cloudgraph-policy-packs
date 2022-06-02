@@ -1,0 +1,8 @@
+rules/
+tests/
+*.bak
+.*
+jest.config.js
+tsconfig.json
+**/*.ts
+!dist/index.d.ts

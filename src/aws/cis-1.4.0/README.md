@@ -53,6 +53,8 @@ Policy Pack based on the [AWS Foundations 1.4.0](https://docs.aws.amazon.com/aud
    }
    ```
 
+## Available Ruleset
+
 | Rule          | Description                                                                                                                 |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | AWS CIS 1.1   | Maintain current contact details                                                                                            |

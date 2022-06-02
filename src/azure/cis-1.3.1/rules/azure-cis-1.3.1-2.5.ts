@@ -70,10 +70,10 @@ export default {
   resource: 'queryazureSecurityPricing[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'StorageAccounts',
+        notEqual: 'StorageAccounts',
       },
       {
         path: '@.pricingTier',
