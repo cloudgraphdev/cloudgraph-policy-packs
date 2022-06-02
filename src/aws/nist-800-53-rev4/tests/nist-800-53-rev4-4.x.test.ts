@@ -328,14 +328,14 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test('No Security Issue when S3 bucket policies only allow requests that use HTTPS', async () => {
       const principal: Principal = {
         key: 'AWS',
-        value: ['arn:aws:iam::111122223333:root'],
+        value: ['*'],
       }
       const condition: Condition = {
         key: 'aws:SecureTransport',
-        value: ['true'],
+        value: ['false'],
       }
       const data: NIS4xQueryResponse = getTestRuleFixture(
-        'Allow',
+        'Deny',
         '*',
         principal,
         condition
