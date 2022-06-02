@@ -68,10 +68,10 @@ export default {
   resource: 'queryazureSecurityPricing[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'AppServices',
+        notEqual: 'AppServices',
       },
       {
         path: '@.pricingTier',

@@ -69,10 +69,10 @@ export default {
   resource: 'queryazureSecuritySetting[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'MCAS',
+        notEqual: 'MCAS',
       },
       {
         path: '@.enabled',

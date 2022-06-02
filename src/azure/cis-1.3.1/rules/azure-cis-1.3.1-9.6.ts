@@ -1,6 +1,6 @@
 export default {
   id: 'azure-cis-1.3.1-9.6',  
-  title: 'Azure CIS 9.2 Ensure that \'PHP version\' is the latest, if used to run the web app (Manual)',
+  title: 'Azure CIS 9.6 Ensure that \'PHP version\' is the latest, if used to run the web app (Manual)',
   
   description: 'Periodically newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version.',
   

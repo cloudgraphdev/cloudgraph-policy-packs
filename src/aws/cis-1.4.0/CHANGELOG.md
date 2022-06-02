@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.4.0 [0.1.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.0...@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.1) (2022-05-26)
+
+
+### Bug Fixes
+
+* fix linting error for AWS CIS 1.4.0 1.1 control ([5cc5c02](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/5cc5c022f1d05f7b90d01d16ca2d2a14b95c30af))
+
 # @cloudgraph/policy-pack-aws-cis-1.4.0 [0.1.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.4.0@0.0.0...@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.0) (2022-05-12)
 
 
