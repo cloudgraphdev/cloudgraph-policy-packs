@@ -658,7 +658,7 @@ __metadata:
     typescript: ^4.3.5
   languageName: unknown
   linkType: soft
-
+  
 "@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0":
   version: 0.0.0-use.local
   resolution: "@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0"
