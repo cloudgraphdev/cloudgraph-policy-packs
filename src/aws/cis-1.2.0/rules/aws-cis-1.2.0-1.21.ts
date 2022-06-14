@@ -62,30 +62,10 @@ export default {
   **Notes**:
   Credential report does not appear to contain "Key Creation Date" - maybe a feature request to AWS?`,
 
-  references: [],
-  gql: `{
-    queryawsIamPolicy {
-      id
-      arn
-      accountId
-       __typename
-      iamUsers {
-        accessKeyData {
-          lastUsedDate
-        }
-      }
-    }
-  }`,
-  resource: 'queryawsIamPolicy[*]',
-  severity: 'medium',
-  conditions: {
-    path: '@.iamUsers',
-    array_any: {
-      path: '[*].accessKeyData',
-      array_any: {
-        path: '[*].lastUsedDate',
-        notIn: [null, 'N/A', ''],
-      },
-    },
-  },
+  references: [
+    'https://docs.aws.amazon.com/cli/latest/reference/iam/delete-access-key.html',
+    'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html',
+  ],
+
+  severity: 'high',
 }
