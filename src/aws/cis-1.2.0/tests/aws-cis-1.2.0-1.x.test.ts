@@ -18,7 +18,6 @@ import Aws_CIS_120_113 from '../rules/aws-cis-1.2.0-1.13'
 import Aws_CIS_120_114 from '../rules/aws-cis-1.2.0-1.14'
 import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
 import Aws_CIS_120_120 from '../rules/aws-cis-1.2.0-1.20'
-import Aws_CIS_120_121 from '../rules/aws-cis-1.2.0-1.21'
 import Aws_CIS_120_122 from '../rules/aws-cis-1.2.0-1.22'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
@@ -873,112 +872,6 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
       const [processedRule] = await rulesEngine.processRule(
         Aws_CIS_120_120 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.FAIL)
-    })
-  })
-
-  describe('AWS CIS 1.21 Do not setup access keys during initial user setup for all IAM users that have a console password', () => {
-    test('Should pass for IAM users who have access key last used date configured', async () => {
-      const data = {
-        queryawsIamPolicy: [
-          {
-            id: cuid(),
-            iamUsers: [
-              {
-                accessKeyData: [
-                  {
-                    lastUsedDate: '2021-10-05T17:29:00.000Z',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_121 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.PASS)
-    })
-
-    test('Should fail for IAM users that have set N/A on the access key last used date', async () => {
-      const data = {
-        queryawsIamPolicy: [
-          {
-            id: cuid(),
-            iamUsers: [
-              {
-                accessKeyData: [
-                  {
-                    lastUsedDate: 'N/A',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_121 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.FAIL)
-    })
-
-    test('Should fail for IAM users that have set null on the access key last used date', async () => {
-      const data = {
-        queryawsIamPolicy: [
-          {
-            id: cuid(),
-            iamUsers: [
-              {
-                accessKeyData: [
-                  {
-                    lastUsedDate: null,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_121 as Rule,
-        { ...data } as any
-      )
-
-      expect(processedRule.result).toBe(Result.FAIL)
-    })
-
-    test('Should fail for IAM users that have set as empty on the access key last used date', async () => {
-      const data = {
-        queryawsIamPolicy: [
-          {
-            id: cuid(),
-            iamUsers: [
-              {
-                accessKeyData: [
-                  {
-                    lastUsedDate: '',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }
-
-      const [processedRule] = await rulesEngine.processRule(
-        Aws_CIS_120_121 as Rule,
         { ...data } as any
       )
 
