@@ -1,6 +1,7 @@
 import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
+import Aws_CIS_140_211 from '../rules/aws-cis-1.4.0-2.1.1'
 import Aws_CIS_140_213 from '../rules/aws-cis-1.4.0-2.1.3'
 import Aws_CIS_140_215 from '../rules/aws-cis-1.4.0-2.1.5'
 import Aws_CIS_140_231 from '../rules/aws-cis-1.4.0-2.3.1'
@@ -10,6 +11,9 @@ export interface QueryawsRdsDbInstance {
   encrypted: boolean
 }
 
+export interface EncryptionRule {
+  sseAlgorithm: string
+}
 export interface QueryawsS3 {
   id: string
   versioning?: string
@@ -18,6 +22,8 @@ export interface QueryawsS3 {
   ignorePublicAcls?: string
   blockPublicPolicy?: string
   restrictPublicBuckets?: string
+  encrypted?: string
+  encryptionRules?: EncryptionRule[]
 }
 export interface CIS2xQueryResponse {
   queryawsS3?: QueryawsS3[]
@@ -30,6 +36,57 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     rulesEngine = new CloudGraph.RulesEngine({
       providerName: 'aws',
       entityName: 'CIS',
+    })
+  })
+
+  describe('AWS CIS 2.1.1 Ensure all S3 buckets employ encryption-at-rest', () => {
+    const getTestRuleFixture = (
+      encrypted: string,
+      sseAlgorithm: string
+      ): CIS2xQueryResponse => {
+      return {
+        queryawsS3: [
+          {
+            id: cuid(),
+            encrypted,
+            encryptionRules: [
+              {
+                sseAlgorithm
+              }
+            ]
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_140_211 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when S3 bucket server-side default encryption is set to AES256', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture('Yes', 'AES256')
+      await testRule(data, Result.PASS)
+    })
+
+    test('No Security Issue when S3 bucket server-side default encryption is set to AES256', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture('Yes', 'aws:kms')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when S3 bucket server-side encryption is not enabled', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture('No', '')
+      await testRule(data, Result.FAIL)
     })
   })
 

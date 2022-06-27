@@ -1,3 +1,4 @@
+// AWS NIST 800-53-rev4 Rule equivalent 4.5
 export default {
   id: 'aws-cis-1.3.0-2.1.2',  
   title: 'AWS CIS 2.1.2 Ensure S3 Bucket Policy allows HTTPS requests',
@@ -116,6 +117,70 @@ export default {
     'https://aws.amazon.com/blogs/security/how-to-use-bucket-policies-and-apply-defense-in-depth-to-help-secure-your-amazon-s3-data/',
     'https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/get-bucket-policy.html',
   ],
-
-  severity: 'high',
+  gql: `{
+    queryawsS3 {
+      id
+      arn
+      accountId
+      __typename
+      policy {
+        statement {
+          effect
+          action
+          principal {
+            key
+            value
+          }
+          condition {
+            key
+            operator
+            value
+          }
+        }
+      }
+    }
+  }`,
+  resource: 'queryawsS3[*]',
+  severity: 'medium',
+  conditions: {
+    path: '@.policy.statement',
+    array_any: {
+      and: [
+        {
+          path: '[*].effect',
+          equal: 'Deny',
+        },
+        {
+          path: '[*].condition',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                equal: 'aws:SecureTransport',
+              },
+              {
+                path: '[*].value',
+                contains: 'false',
+              },
+            ],
+          },
+        },
+        {
+          path: '[*].principal',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                in: ['', 'AWS'],
+              },
+              {
+                path: '[*].value',
+                contains: '*',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
 }
