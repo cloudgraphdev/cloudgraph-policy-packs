@@ -63,6 +63,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.direction', equal: 'INGRESS' } },
   resource: 'querygcpFirewall[*]',
   severity: 'high',
   conditions: {

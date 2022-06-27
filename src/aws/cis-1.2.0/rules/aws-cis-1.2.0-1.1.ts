@@ -35,6 +35,7 @@ Note: there are a few conditions under which the use of the root account is requ
   }`,
   resource: 'queryawsIamUser[*]',
   severity: 'high',
+  exclude: { not: { path: '@.name', equal: 'root' } },
   conditions: {
     not: {
       and: [
