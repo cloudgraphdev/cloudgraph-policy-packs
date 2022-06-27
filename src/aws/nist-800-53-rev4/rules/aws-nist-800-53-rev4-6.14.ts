@@ -46,7 +46,7 @@ export default {
       accountId
        __typename
       flowLog {
-        resourceId
+        logStatus
       }
     }
   }`,
@@ -54,6 +54,9 @@ export default {
   severity: 'medium',
   conditions: {
     path: '@.flowLog',
-    isEmpty: false,
+    array_any: {
+      path: '[*].logStatus',
+      equal: 'ACTIVE'
+    }
   },
 }

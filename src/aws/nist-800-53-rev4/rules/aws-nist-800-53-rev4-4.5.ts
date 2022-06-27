@@ -54,46 +54,40 @@ export default {
   conditions: {
     path: '@.policy.statement',
     array_any: {
-      or: [
+      and: [
         {
           path: '[*].effect',
           equal: 'Deny',
         },
         {
-          and: [
-            {
-              path: '[*].condition',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].key',
-                    equal: 'aws:SecureTransport',
-                  },
-                  {
-                    path: '[*].value',
-                    contains: 'true',
-                  },
-                ],
+          path: '[*].condition',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                equal: 'aws:SecureTransport',
               },
-            },
-            {
-              path: '[*].principal',
-              array_any: {
-                not: {
-                  and: [
-                    {
-                      path: '[*].key',
-                      in: ['', 'AWS'],
-                    },
-                    {
-                      path: '[*].value',
-                      contains: '*',
-                    },
-                  ],
-                }
+              {
+                path: '[*].value',
+                contains: 'false',
               },
-            },
-          ],
+            ],
+          },
+        },
+        {
+          path: '[*].principal',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                in: ['', 'AWS'],
+              },
+              {
+                path: '[*].value',
+                contains: '*',
+              },
+            ],
+          },
         },
       ],
     },
