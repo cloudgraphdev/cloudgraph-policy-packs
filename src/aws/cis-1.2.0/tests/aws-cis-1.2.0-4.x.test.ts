@@ -159,6 +159,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and port range includes the port 22', async () => {
       await test41Rule(0, 1000, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test41Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS CIS 4.2 Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389', () => {
@@ -243,6 +247,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       )
     })
 
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test42Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
+
     test('Security Issue when IPv4 wilcard address and port 3389 ', async () => {
       await test42Rule(3389, 3389, ipV4WildcardAddress, Result.FAIL)
     })
@@ -285,6 +293,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and port range includes the port 3389', async () => {
       await test42Rule(0, 5000, ipV6WildcardAddress, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test42Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
     })
   })
 
@@ -358,6 +370,14 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         ipV6WildcardAddress,
         Result.FAIL
       )
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test43Rule('sg-049c76f349f62e4eb', '', Result.PASS)
+    })
+
+    test('No Security Issue when there is an outbound rule with security group as source', async () => {
+      await test43Rule('', 'sg-049c76f349f62e4eb', Result.PASS)
     })
   })
 })
