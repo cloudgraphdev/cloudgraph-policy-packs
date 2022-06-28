@@ -59,6 +59,7 @@ export default {
       __typename
       cloudtrail {
         eventSelectors {
+          includeManagementEvents
           readWriteType
           dataResources {
             type
@@ -85,7 +86,10 @@ export default {
           },
           {
             path: '[*].dataResources',
-            isEmpty: false,
+            array_any: {
+              path: '[*].type',
+              equal: 'AWS::S3::Object',
+            },
           },
         ],
       },

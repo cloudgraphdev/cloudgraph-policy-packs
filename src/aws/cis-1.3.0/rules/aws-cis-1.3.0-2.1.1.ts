@@ -60,6 +60,33 @@ export default {
       'https://docs.aws.amazon.com/AmazonS3/latest/user-guide/default-bucket-encryption.html',
       'https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-related-resources',
   ],
-  
-  severity: 'high',
+  gql: `{
+    queryawsS3 {
+       id
+       arn
+       accountId
+       __typename
+       encrypted
+       encryptionRules {
+        sseAlgorithm
+      }
+     }
+   }`,
+   resource: 'queryawsS3[*]',
+   severity: 'high',
+   conditions: {
+      and: [
+        {
+          path: '@.encrypted',
+          equal: 'Yes',
+        },
+        {
+          path: '@.encryptionRules',
+          array_any: {
+            path: '[*].sseAlgorithm',
+            in: ['AES256', 'aws:kms'],
+          },
+        },
+      ],
+   },
 }

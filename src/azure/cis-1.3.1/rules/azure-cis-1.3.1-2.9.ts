@@ -68,10 +68,10 @@ export default {
   resource: 'queryazureSecuritySetting[*]',
   severity: 'high',
   conditions: {
-    and: [
+    or: [
       {
         path: '@.name',
-        equal: 'WDATP',
+        notEqual: 'WDATP',
       },
       {
         path: '@.enabled',

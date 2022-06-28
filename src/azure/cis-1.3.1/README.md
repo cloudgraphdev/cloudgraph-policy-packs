@@ -92,9 +92,10 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 2.12 | Ensure any of the ASC Default policy setting is not set to "Disabled"                                                         |
 | Azure CIS 2.13 | Ensure 'Additional email addresses' is configured with a security contact email                                               |
 | Azure CIS 2.14 | Ensure that 'Notify about alerts with the following severity' is set to 'High'                                                |
+| Azure CIS 2.15 | Ensure that "All users with the following roles" is set to "Owner"                                                            |
 | Azure CIS 3.1  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                    |
 | Azure CIS 3.2  | Ensure that storage account access keys are periodically regenerated (Manual)                                                 |
-| Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests (Manual)                             |
+| Azure CIS 3.3  | Ensure Storage logging is enabled for Queue service for read, write, and delete requests                                      |
 | Azure CIS 3.4  | Ensure sure that shared access signature tokens expire within an hour (Manual)                                                |
 | Azure CIS 3.5  | Ensure that 'Public access level' is set to Private for blob containers                                                       |
 | Azure CIS 3.6  | Ensure default network access rule for Storage Accounts is set to deny                                                        |
@@ -142,13 +143,13 @@ Policy Pack based on the Azure Foundations 1.3.1 benchmark provided by the [Cent
 | Azure CIS 6.4  | Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'                                        |
 | Azure CIS 6.5  | Ensure that Network Watcher is 'Enabled' (Manual)                                                                             |
 | Azure CIS 6.6  | Ensure that UDP Services are restricted from the Internet                                                                     |
-| Azure CIS 7.1  | Ensure Virtual Machines are utilizing Managed Disks (Manual)                                                                  |
+| Azure CIS 7.1  | Ensure Virtual Machines are utilizing Managed Disks                                                                           |
 | Azure CIS 7.2  | Ensure that 'OS and Data' disks are encrypted with CMK                                                                        |
 | Azure CIS 7.3  | Ensure that 'Unattached disks' are encrypted with CMK                                                                         |
 | Azure CIS 7.4  | Ensure that only approved extensions are installed (Manual)                                                                   |
 | Azure CIS 7.5  | Ensure that the latest OS Patches for all Virtual Machines are applied (Manual)                                               |
 | Azure CIS 7.6  | Ensure that the endpoint protection for all Virtual Machines is installed (Manual)                                            |
-| Azure CIS 7.7  | Ensure that VHD's are encrypted (Manual)                                                                                      |
+| Azure CIS 7.7  | Ensure that VHD's are encrypted                                                                                               |
 | Azure CIS 8.1  | Ensure that the expiration date is set on all keys                                                                            |
 | Azure CIS 8.2  | Ensure that the expiration date is set on all Secrets                                                                         |
 | Azure CIS 8.3  | Ensure that Resource Locks are set for mission critical Azure resources (Manual)                                              |

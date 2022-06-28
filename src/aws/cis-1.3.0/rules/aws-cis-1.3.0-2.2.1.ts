@@ -1,3 +1,4 @@
+// AWS NIST 800-53-rev4 Rule equivalent 3.4
 export default {
   id: 'aws-cis-1.3.0-2.2.1',  
   title: 'AWS CIS 2.2.1 Ensure EBS volume encryption is enabled',
@@ -52,6 +53,19 @@ export default {
       'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html',
       'https://aws.amazon.com/blogs/aws/new-opt-in-to-default-encryption-for-new-ebs-volumes/',
   ],
-
+  gql: `{
+    queryawsEbs {
+      id
+      arn
+      accountId
+      __typename
+      encrypted
+    }
+  }`,
+  resource: 'queryawsEbs[*]',
   severity: 'high',
+  conditions: {
+    path: '@.encrypted',
+    equal: true,
+  },
 }

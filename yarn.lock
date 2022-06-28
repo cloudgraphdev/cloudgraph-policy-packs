@@ -605,6 +605,60 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cloudgraph/policy-pack-azure-nist-800-53-rev4@workspace:src/azure/nist-800-53-rev4":
+  version: 0.0.0-use.local
+  resolution: "@cloudgraph/policy-pack-azure-nist-800-53-rev4@workspace:src/azure/nist-800-53-rev4"
+  dependencies:
+    "@autocloud/eslint-config": ^0.1.0
+    "@cloudgraph/sdk": ^0.18.1
+    "@types/jest": ^27.4.0
+    "@types/node": ^15.12.4
+    "@types/pino": ^6.3.11
+    "@typescript-eslint/eslint-plugin": ^4.28.5
+    "@typescript-eslint/parser": ^4.28.5
+    cpx: ^1.5.0
+    cuid: ^2.1.8
+    eslint: ^7.25.0
+    eslint-config-airbnb-base: 14.2.1
+    eslint-config-prettier: ^6.11.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    jest: ^27.0.6
+    prettier: ^2.4.1
+    shx: ^0.3.3
+    ts-jest: ^27.0.4
+    tslib: ^1
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@cloudgraph/policy-pack-azure-pci-dss-3.2.1@workspace:src/azure/pci-dss-3.2.1":
+  version: 0.0.0-use.local
+  resolution: "@cloudgraph/policy-pack-azure-pci-dss-3.2.1@workspace:src/azure/pci-dss-3.2.1"
+  dependencies:
+    "@autocloud/eslint-config": ^0.1.0
+    "@cloudgraph/sdk": ^0.18.1
+    "@types/jest": ^27.4.0
+    "@types/node": ^15.12.4
+    "@types/pino": ^6.3.11
+    "@typescript-eslint/eslint-plugin": ^4.28.5
+    "@typescript-eslint/parser": ^4.28.5
+    cpx: ^1.5.0
+    cuid: ^2.1.8
+    eslint: ^7.25.0
+    eslint-config-airbnb-base: 14.2.1
+    eslint-config-prettier: ^6.11.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    jest: ^27.0.6
+    prettier: ^2.4.1
+    shx: ^0.3.3
+    ts-jest: ^27.0.4
+    tslib: ^1
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+  
 "@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0":
   version: 0.0.0-use.local
   resolution: "@cloudgraph/policy-pack-gcp-cis-1.2.0@workspace:src/gcp/cis-1.2.0"
@@ -2781,8 +2835,8 @@ __metadata:
   linkType: hard
 
 "cacache@npm:^16.0.0, cacache@npm:^16.0.2, cacache@npm:^16.0.6, cacache@npm:^16.0.7":
-  version: 16.0.7
-  resolution: "cacache@npm:16.0.7"
+  version: 16.1.0
+  resolution: "cacache@npm:16.1.0"
   dependencies:
     "@npmcli/fs": ^2.1.0
     "@npmcli/move-file": ^2.0.0
@@ -2802,7 +2856,7 @@ __metadata:
     ssri: ^9.0.0
     tar: ^6.1.11
     unique-filename: ^1.1.1
-  checksum: 2155b099b7e0f0369fb1155ca4673532ca7efe2ebdbec63acca8743580b8446b5d4fd7184626b1cb059001af77b981cdc67035c7855544d365d4f048eafca2ca
+  checksum: ddfcf92f079f24ccecef4e2ca1e4428443787b61429b921803b020fd0f33d9ac829ac47837b74b40868d8ae4f1b2ed82e164cdaa5508fbd790eee005a9d88469
   languageName: node
   linkType: hard
 
@@ -8700,8 +8754,8 @@ __metadata:
   linkType: hard
 
 "pacote@npm:^13.0.3, pacote@npm:^13.0.5, pacote@npm:^13.3.0":
-  version: 13.3.0
-  resolution: "pacote@npm:13.3.0"
+  version: 13.4.0
+  resolution: "pacote@npm:13.4.0"
   dependencies:
     "@npmcli/git": ^3.0.0
     "@npmcli/installed-package-contents": ^1.0.7
@@ -8726,7 +8780,7 @@ __metadata:
     tar: ^6.1.11
   bin:
     pacote: lib/bin.js
-  checksum: 49badbafac64e7cd9c87aa14342424ee90946e0ac729faeffb489a94ed6cdab815bd7ffec7673b4863e20e113ee678b8038ace95ee2fc1f58206bc4482ff0bf5
+  checksum: 0fed43864e7a4cd9b90c9dda855c2cb5e6078deb32f224c5906631f4592d6a37b551c011fc229e3eedfeb99d6104e73cb04346d249521867c690233534b22048
   languageName: node
   linkType: hard
 
