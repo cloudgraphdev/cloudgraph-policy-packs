@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
 ## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.1) (2022-06-28)
 
 
