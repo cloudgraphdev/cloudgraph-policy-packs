@@ -60,5 +60,5 @@ export default {
       'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html',
   ],
   
-  severity: 'medium',
+  severity: 'high',
 }

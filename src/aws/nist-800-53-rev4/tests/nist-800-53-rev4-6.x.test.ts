@@ -47,7 +47,7 @@ export interface S3 {
 }
 
 export interface FlowLog {
-  resourceId: string
+  logStatus: string
 }
 
 export interface QueryawsCloudfront {
@@ -331,6 +331,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
   describe('AWS NIST 6.5 CloudTrail trails should be configured to log data events for S3 buckets', () => {
     const getTestRuleFixture = (
+      includeManagementEvents: boolean,
       readWriteType: string,
       dataResources: DataResource[]
     ): NIS6xQueryResponse => {
@@ -340,6 +341,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
             id: cuid(),
             eventSelectors: [
               {
+                includeManagementEvents,
                 readWriteType,
                 dataResources,
               },
@@ -365,14 +367,14 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when CloudTrail trails is configured to log data events for S3 buckets', async () => {
-      const data: NIS6xQueryResponse = getTestRuleFixture('All', [
+      const data: NIS6xQueryResponse = getTestRuleFixture(true, 'All', [
         { type: 'AWS::S3::Object' },
       ])
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when CloudTrail trails is not configured to log data events for S3 buckets', async () => {
-      const data: NIS6xQueryResponse = getTestRuleFixture('All', [])
+      const data: NIS6xQueryResponse = getTestRuleFixture(true, 'All', [])
       await testRule(data, Result.FAIL)
     })
   })
@@ -785,14 +787,14 @@ describe('AWS NIST 800-53: Rev. 4', () => {
   })
 
   describe('AWS NIST 6.14 VPC flow logging should be enabled', () => {
-    const getTestRuleFixture = (resourceId: string): NIS6xQueryResponse => {
+    const getTestRuleFixture = (logStatus: string): NIS6xQueryResponse => {
       return {
         queryawsVpc: [
           {
             id: cuid(),
             flowLog: [
               {
-                resourceId,
+                logStatus,
               },
             ],
           },
@@ -816,12 +818,12 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when flow logging is enabled for each VPC', async () => {
-      const data: NIS6xQueryResponse = getTestRuleFixture(cuid())
+      const data: NIS6xQueryResponse = getTestRuleFixture('ACTIVE')
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when flow logging is disabled on one VPC', async () => {
-      const data: NIS6xQueryResponse = getTestRuleFixture(cuid())
+      const data: NIS6xQueryResponse = getTestRuleFixture('')
       const vpc = data.queryawsVpc?.[0] as QueryawsVpc
       vpc.flowLog = []
       await testRule(data, Result.FAIL)

@@ -66,7 +66,7 @@ export interface ConfigurationRecorder {
 }
 
 export interface FlowLog {
-  resourceId?: string
+  logStatus?: string
 }
 
 export interface QueryawsAccount {
@@ -589,7 +589,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     }
 
     test('No Security Issue when flow logging is enabled for each VPC', async () => {
-      const data: CIS3xQueryResponse = getTestRuleFixture([{resourceId: cuid()}])
+      const data: CIS3xQueryResponse = getTestRuleFixture([{logStatus: 'ACTIVE'}])
       await testRule(data, Result.PASS)
     })
 

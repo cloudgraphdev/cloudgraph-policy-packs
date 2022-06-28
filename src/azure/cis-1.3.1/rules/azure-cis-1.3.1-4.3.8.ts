@@ -46,6 +46,7 @@ export default {
   severity: 'medium',
   gql: `{
     queryazurePostgreSqlServer {
+      id
       __typename
       firewallRules {
         name

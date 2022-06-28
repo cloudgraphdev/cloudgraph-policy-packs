@@ -4,11 +4,20 @@ import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_31 from '../rules/azure-cis-1.3.1-3.1'
+import Azure_CIS_131_33 from '../rules/azure-cis-1.3.1-3.3'
 import Azure_CIS_131_35 from '../rules/azure-cis-1.3.1-3.5'
 import Azure_CIS_131_36 from '../rules/azure-cis-1.3.1-3.6'
 import Azure_CIS_131_38 from '../rules/azure-cis-1.3.1-3.8'
 import Azure_CIS_131_39 from '../rules/azure-cis-1.3.1-3.9'
 
+export interface Logging {
+  read: boolean
+  write: boolean
+  delete: boolean
+}
+export interface QueueServiceProperties {
+  logging: Logging
+}
 export interface BlobServiceProperties {
   deleteRetentionPolicyEnabled: boolean
   deleteRetentionPolicyDays: number | null
@@ -21,6 +30,7 @@ export interface QueryazureStorageAccount {
   networkRuleSetDefaultAction?: string
   encryptionKeySource?: string
   blobServiceProperties?: BlobServiceProperties
+  queueServiceProperties?: QueueServiceProperties
 }
 
 export interface CIS3xQueryResponse {
@@ -70,6 +80,74 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Storage Accounts has "Secure transfer required" set to "Disabled"', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('No')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure CIS 3.3 Ensure Storage logging is enabled for Queue service for read, write, and delete requests', () => {
+    const getTestRuleFixture = (
+      readEnabled: boolean,
+      writeEnabled: boolean,
+      deleteEnabled: boolean
+    ): CIS3xQueryResponse => {
+      return {
+        queryazureStorageAccount: [
+          {
+            id: cuid(),
+            queueServiceProperties: {
+              logging: {
+                read: readEnabled,
+                write: writeEnabled,
+                delete: deleteEnabled,
+              },
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS3xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_33 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Storage logging is enabled for Queue service for read, write, and delete', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture(true, true, true)
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Storage logging is not enabled for Queue service for read', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture(false, true, true)
+
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Storage logging is not enabled for Queue service for write', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture(true, false, true)
+
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Storage logging is not enabled for Queue service for delete', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture(true, true, false)
+
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Storage logging is not enabled for Queue service for read, write, and delete', async () => {
+      const data: CIS3xQueryResponse = getTestRuleFixture(false, false, false)
 
       await testRule(data, Result.FAIL)
     })

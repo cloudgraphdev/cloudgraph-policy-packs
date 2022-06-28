@@ -37,6 +37,7 @@ export default {
       accountId
       __typename
       eventSelectors {
+        includeManagementEvents
         readWriteType
         dataResources {
           type
@@ -50,13 +51,20 @@ export default {
     path: '@.eventSelectors',
     array_any: {
       and: [
+        {
+          path: '[*].includeManagementEvents',
+          equal: true,
+        },
         { 
           path: '[*].readWriteType', 
           equal: 'All',
         },
         {
           path: '[*].dataResources',
-          isEmpty: false,
+          array_any: {
+            path: '[*].type',
+            equal: 'AWS::S3::Object',
+          },
         },
       ],
     },

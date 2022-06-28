@@ -1,3 +1,4 @@
+// AWS NIST 800-53-rev4 Rule equivalent 4.5
 export default {
   id: 'aws-cis-1.4.0-2.1.1',
   title: 'AWS CIS 2.1.1 Ensure all S3 buckets employ encryption-at-rest',
@@ -58,6 +59,33 @@ export default {
     'https://docs.aws.amazon.com/AmazonS3/latest/user-guide/default-bucket-encryption.html',
     'https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-related-resources',
   ],
-
-  severity: 'medium',
+  gql: `{
+    queryawsS3 {
+       id
+       arn
+       accountId
+       __typename
+       encrypted
+       encryptionRules {
+        sseAlgorithm
+      }
+     }
+   }`,
+   resource: 'queryawsS3[*]',
+   severity: 'high',
+   conditions: {
+      and: [
+        {
+          path: '@.encrypted',
+          equal: 'Yes',
+        },
+        {
+          path: '@.encryptionRules',
+          array_any: {
+            path: '[*].sseAlgorithm',
+            in: ['AES256', 'aws:kms'],
+          },
+        },
+      ],
+   },
 }

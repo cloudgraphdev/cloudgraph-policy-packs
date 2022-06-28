@@ -52,9 +52,20 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
    ```
 
 ## Available Ruleset
-
-| Rule               | Description                                                                                                                   |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| Rule             | Description                                                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| vm-check-1      | Compute instance 'block-project-ssh-keys' should be enabled                                                                                                     |
+| vm-check-2      | Compute instances 'Enable connecting to serial ports' should not be enabled                                                                                     |
+| storage-check-1 | SQL database instances should not permit access from 0.0.0.0/0                                                                                                  |
+| vm-check-3      | Compute instances should not use the default service account                                                                                                    |
+| vm-check-4      | Compute instances should not use the default service account with full access to all Cloud APIs                                                                 |
+| dns-check-1     | DNS managed zone DNSSEC key-signing keys should not use RSASHA1                                                                                                 |
+| dns-check-2     | DNS managed zone DNSSEC should be enabled                                                                                                                       |
+| dns-check-3     | DNS managed zone DNSSEC zone-signing keys should not use RSASHA1                                                                                                |
+| storage-check-2 | SQL database instances should require incoming connections to use SSL                                                                                           |
+| iam-check-3     | User-managed service accounts should not have admin privileges                                                                                                  |
+| kms-check-1     | KMS keys should not be anonymously or publicly accessible                                                                                                       |
+| iam-check-4     | IAM default audit log config should not exempt any users                                                                                                        |
 | iam-check-1        | IAM users should not have both KMS admin and any of the KMS encrypter/decrypter roles                                         |
 | iam-check-2        | IAM users should not have project-level "Service Account User" or "Service Account Token Creator" roles                       |
 | monitoring-check-1 | Logging metric filter and alert for audit configuration changes should be configured                                          |

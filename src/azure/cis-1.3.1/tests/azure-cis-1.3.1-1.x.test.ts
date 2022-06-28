@@ -142,9 +142,9 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.PASS)
     })
 
-    test('No Security Issue when ssignableScope is equal to "subscription" and not actions set to "*"', async () => {
+    test('No Security Issue when ssignableScope have subscriptions and not actions set to "*"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture(
-        ['subscription'],
+        ['/subscriptions/123456'],
         [
           'Microsoft.Insights/components/purge/action',
           'Microsoft.OperationalInsights/workspaces/*/read',
@@ -160,9 +160,9 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.FAIL)
     })
 
-    test('Security Issue when ssignableScope is equal to "subscription" and actions set to "*"', async () => {
+    test('Security Issue when ssignableScope have subscriptions and actions set to "*"', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture(
-        ['subscription'],
+        ['/subscriptions/123456'],
         ['*']
       )
 
