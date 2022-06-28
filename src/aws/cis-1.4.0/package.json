@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-aws-cis-1.4.0",
   "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.4.0 Benchmark",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -54,10 +54,10 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "yarn prepublish",
+    "build": "yarn prepack",
+    "clean": "rm -rf dist",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
-    "prepublish": "rm -rf dist && tsc",
     "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   }

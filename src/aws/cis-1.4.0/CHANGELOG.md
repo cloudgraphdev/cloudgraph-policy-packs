@@ -1,3 +1,12 @@
+## @cloudgraph/policy-pack-aws-cis-1.4.0 [0.1.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.1...@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **checks:** Fix discrepancies between AutoCloud and Cyscale ([548927b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/548927b468f1cec096cb7e6c853a2968506368c6))
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+* **checks:** Fixed aws cis 1.3.0 rules ([d08bc39](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/d08bc39612720c41b25fcc404317f489acf90bd6))
+
 ## @cloudgraph/policy-pack-aws-cis-1.4.0 [0.1.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.0...@cloudgraph/policy-pack-aws-cis-1.4.0@0.1.1) (2022-05-26)
 
 
