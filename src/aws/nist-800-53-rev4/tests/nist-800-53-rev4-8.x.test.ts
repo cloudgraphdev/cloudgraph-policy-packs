@@ -255,6 +255,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test(`Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port ${fromPort}`, async () => {
       await testRule(0, fromPort + 100, ipV6WildcardAddress, rule, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
+    })
   }
 
   describe('AWS NIST 8.1 ELB listener security groups should not be set to TCP all', () => {
@@ -323,6 +327,12 @@ describe('AWS NIST 800-53: Rev. 4', () => {
       const inboundRules: InboundRule[] = [ { fromPort: 2000,  toPort: 3000 } as InboundRule] 
       const outboundRules: OutboundRule[] = [ { fromPort: 0,  toPort: 65535 } as OutboundRule] 
       await test81Rule(inboundRules, outboundRules, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound and outbound rule with security group as source', async () => {
+      const inboundRules: InboundRule[] = [ { source: 'sg-049c76f349f62e4eb', fromPort: null,  toPort: null } as InboundRule] 
+      const outboundRules: OutboundRule[] = [ { source: 'sg-049c76f349f62e4eb', fromPort: null,  toPort: null } as OutboundRule] 
+      await test81Rule(inboundRules, outboundRules, Result.PASS)
     })
   })
 
@@ -414,6 +424,22 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         ipV6WildcardAddress
       )
       await test82Rule(data, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      const data: NIS8xQueryResponse = getTestRuleFixture(
+        'sg-049c76f349f62e4eb',
+        ''
+      )
+      await test82Rule(data, Result.PASS)
+    })
+
+    test('No Security Issue when there is an outbound rule with security group as source', async () => {
+      const data: NIS8xQueryResponse = getTestRuleFixture(
+        '',
+        'sg-049c76f349f62e4eb'
+      )
+      await test82Rule(data, Result.PASS)
     })
   })
 
@@ -557,6 +583,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test(`Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port ${fromPort}`, async () => {
       await test83Rule(0, fromPort + 100, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test83Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS NIST 8.4 VPC network ACLs should not allow ingress from 0.0.0.0/0 to TCP/UDP port 3389', () => {
@@ -699,6 +729,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test(`Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port ${fromPort}`, async () => {
       await test84Rule(0, fromPort + 100, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test84Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS NIST 8.5 VPC security group inbound rules should not permit ingress from ‘0.0.0.0/0’ to all ports and protocols', () => {
@@ -755,21 +789,9 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range allow all ports', async () => {
       await testRule(0, 65535, ipV6WildcardAddress, rule, Result.FAIL)
     })
-  })
 
-  describe('AWS NIST 8.6 VPC security group inbound rules should not permit ingress from a public address to all ports and protocols', () => {
-    const rule = Aws_NIST_800_53_86 as Rule
-
-    test('No Security Issue when there is an inbound rule with a random IPv4 CIDR block and not allows all ports range', async () => {
-      await testRule(1000, 2000, '10.10.10.10/16', rule, Result.PASS)
-    })
-
-    test('No Security Issue when there is an inbound rule that allows all ports range with a private CIDR block', async () => {
-      await testRule(0, 65535, '10.0.0.0/8', rule, Result.PASS)
-    })
-
-    test('Security Issue when there is an inbound rule with a random IPv4 CIDR block and allows all ports range', async () => {
-      await testRule(0, 65535, '10.10.10.10/16', rule, Result.FAIL)
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
     })
   })
 
@@ -786,6 +808,14 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when there is an inbound rule with a random IPv4 CIDR block and allows all ports range', async () => {
       await testRule(0, 65535, '10.10.10.10/16', rule, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
     })
   })
 
@@ -810,6 +840,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and allows all ports range', async () => {
       await testRule(0, 65535, ipV6WildcardAddress, rule, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
     })
   })
 
@@ -838,6 +872,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port different to 80 and 443', async () => {
       await testRule(3389, 3389, ipV6WildcardAddress, rule, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
     })
   })
 
@@ -1057,6 +1095,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test(`Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port ${fromPort}`, async () => {
       await testRule(0, fromPort + 100, ipV6WildcardAddress, rule, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', rule, Result.PASS)
+    })
   })
 
   describe('AWS NIST 8.40 VPC security group rules should not permit ingress from ‘0.0.0.0/0’ to TCP/UDP port 8000 (HTTP Alternate)', () => {
@@ -1170,6 +1212,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range allow all ports', async () => {
       await test843Rule(0, 65535, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test843Rule(null, null, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS NIST 8.44 VPC security groups attached to EC2 instances should not permit ingress from ‘0.0.0.0/0’ to TCP port 389 (LDAP)', () => {
@@ -1274,6 +1320,10 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range allow all ports', async () => {
       await test845Rule(0, 65535, ipV6WildcardAddress, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test845Rule(null, null, 'sg-049c76f349f62e4eb', Result.PASS)
     })
   })
 })
