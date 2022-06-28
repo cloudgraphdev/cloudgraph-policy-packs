@@ -49,6 +49,7 @@ export default {
       accountId
        __typename
       inboundRules {
+        source
         toPort
         fromPort
       }
@@ -61,6 +62,10 @@ export default {
       path: '@.inboundRules',
       array_any: {
         and: [
+          {
+            path: '[*].source',
+            mismatch: /^sg-.*$/,
+          },
           {
             path: '[*].fromPort',
             in: [0, null],

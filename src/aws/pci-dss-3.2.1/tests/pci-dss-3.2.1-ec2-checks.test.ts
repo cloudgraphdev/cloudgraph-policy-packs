@@ -339,6 +339,10 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     test('Security Issue when there is an inbound rule with IPv6 wilcard address and port range includes the port 22', async () => {
       await testSGRule(0, 1000, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testSGRule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('EC2 Check 6: VPC flow logging should be enabled in all VPCs', () => {
