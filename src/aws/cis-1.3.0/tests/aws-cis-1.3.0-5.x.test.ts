@@ -201,6 +201,10 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port 3389', async () => {
       await test51Rule(3000, 4000, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await test51Rule(undefined, undefined, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS CIS 5.2 Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports', () => {
@@ -350,6 +354,10 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port 3389', async () => {
       await testRule(3000, 4000, ipV6WildcardAddress, Result.FAIL)
     })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
   })
 
   describe('AWS CIS 5.3 Ensure the default security group of every VPC restricts all traffic', () => {
@@ -422,6 +430,10 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         ipV6WildcardAddress,
         Result.FAIL
       )
+    })
+
+    test('No Security Issue when there is an inbound and outbound rule with security group as source', async () => {
+      await test53Rule('sg-049c76f349f62e4eb', 'sg-049c76f349f62e4eb', Result.PASS)
     })
   })
 })

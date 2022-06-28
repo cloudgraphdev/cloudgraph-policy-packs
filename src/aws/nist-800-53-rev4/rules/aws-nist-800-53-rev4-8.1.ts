@@ -57,10 +57,12 @@ export default {
       __typename
       securityGroups {
         inboundRules {
+          source
           fromPort
           toPort
         }
         outboundRules {
+          source
           fromPort
           toPort
         }
@@ -79,6 +81,10 @@ export default {
             array_any: {
               and: [
                 {
+                  path: '[*].source',
+                  mismatch: /^sg-.*$/,
+                },
+                {
                   path: '[*].fromPort',
                   in: [0, null],
                 },
@@ -93,6 +99,10 @@ export default {
             path: '[*].outboundRules',
             array_any: {
               and: [
+                {
+                  path: '[*].source',
+                  mismatch: /^sg-.*$/,
+                },
                 {
                   path: '[*].fromPort',
                   in: [0, null],
