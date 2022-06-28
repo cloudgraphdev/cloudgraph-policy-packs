@@ -1,3 +1,10 @@
+## @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* **checks:** Make AWS CIS 1.21 rule manual ([1a50e68](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/1a50e68139c1b7fac5fda2d2c946ddded21cf2b4))
+
 # @cloudgraph/policy-pack-aws-cis-1.2.0 [0.11.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.10.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.11.0) (2022-05-02)
 
 
