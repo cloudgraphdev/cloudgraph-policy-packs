@@ -1,3 +1,11 @@
+## @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.6.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.1) (2022-06-29)
+
+
+### Bug Fixes
+
+* **checks:** Fix discrepancies between AutoCloud and Cyscale ([548927b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/548927b468f1cec096cb7e6c853a2968506368c6))
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
 # @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.6.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.5.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.0) (2022-05-26)
 
 
