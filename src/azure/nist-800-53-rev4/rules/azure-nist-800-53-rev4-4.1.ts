@@ -1,3 +1,4 @@
+//similar to azure pci monitoring-check-3
 export default {
   id: 'azure-nist-800-53-rev4-4.1',
   title: 'Azure NIST 4.1 Security Center default policy setting ‘Monitor Network Security Groups’ should be enabled',

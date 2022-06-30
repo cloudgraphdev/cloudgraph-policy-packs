@@ -1,3 +1,4 @@
+//similar to CIS 5.2.9
 export default {
   id: 'azure-nist-800-53-rev4-3.3', 
   title: 'Azure NIST 3.3 Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule',

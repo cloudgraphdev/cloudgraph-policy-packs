@@ -1,3 +1,4 @@
+//similar to CIS 6.2
 export default {
   id: 'azure-nist-800-53-rev4-5.5',  
   title: 'Azure NIST 5.5 Virtual Network security groups should not permit ingress from "0.0.0.0/0" to TCP/UDP port 22 (SSH)',

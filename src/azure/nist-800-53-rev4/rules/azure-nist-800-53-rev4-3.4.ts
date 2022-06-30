@@ -1,3 +1,4 @@
+//similar to CIS 5.2.4
 export default {
   id: 'azure-nist-800-53-rev4-3.4', 
   title: 'Azure NIST 3.4 Monitor Activity Log Alert should exist for Delete Network Security Group',  

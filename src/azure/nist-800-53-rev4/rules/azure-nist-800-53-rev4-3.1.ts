@@ -1,3 +1,4 @@
+//similar to CIS 5.2.5
 export default {
   id: 'azure-nist-800-53-rev4-3.1',
   title: 'Azure NIST 3.1 Monitor Activity Log Alert should exist for Create or Update Network Security Group',  

@@ -1,3 +1,4 @@
+//similar to CIS 6.1
 export default {
   id: 'azure-nist-800-53-rev4-5.6',  
   title: 'Azure NIST 5.6 Virtual Network security groups should not permit ingress from "0.0.0.0/0" to TCP/UDP port 3389 (RDP)',

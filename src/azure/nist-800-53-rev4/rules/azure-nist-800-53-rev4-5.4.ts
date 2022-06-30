@@ -1,3 +1,4 @@
+//similar to CIS 6.3
 export default {
   id: 'azure-nist-800-53-rev4-5.4',  
   title: 'Azure NIST 5.4 Virtual Network security groups attached to SQL Server instances should not permit ingress from 0.0.0.0/0 to all ports and protocols',

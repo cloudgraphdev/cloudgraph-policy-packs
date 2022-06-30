@@ -1,3 +1,4 @@
+//similar to azure pci monitoring-check-3
 export default {
   id: 'azure-nist-800-53-rev4-4.3',
   title: 'Azure NIST 4.3 Security Center default policy setting ‘Monitor Vulnerability Assessment’ should be enabled',

@@ -20,6 +20,16 @@ export interface QueryazureSqlServer {
   firewallRules?: FirewallRules[]
 }
 
+export interface queryazureMySqlServer {
+  id: string
+  firewallRules?: FirewallRules[]
+}
+
+export interface queryazurePostgreSqlServer {
+  id: string
+  firewallRules?: FirewallRules[]
+}
+
 export interface FlowLogs {
   retentionPolicyEnabled?: boolean | undefined
   retentionPolicyDays?: number | undefined
@@ -40,6 +50,8 @@ export interface QueryazureNetworkSecurityGroup {
 
 export interface NIST5xQueryResponse {
   queryazureSqlServer?: QueryazureSqlServer[]
+  queryazureMySqlServer?: queryazureMySqlServer[]
+  queryazurePostgreSqlServer?: queryazurePostgreSqlServer[]
   queryazureNetworkSecurityGroup?: QueryazureNetworkSecurityGroup[]
 }
 
@@ -58,7 +70,7 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       endIpAddress?: string
     ): NIST5xQueryResponse => {
       return {
-        queryazureSqlServer: [
+        queryazureMySqlServer: [
           {
             id: cuid(),
             firewallRules: [
@@ -86,7 +98,7 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
+    test('No Security Issue when no MySQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('127.0.0.0', '127.255.255.255')
 
       await testRule(data, Result.PASS)
@@ -94,18 +106,18 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when there no are any firewall configured', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture()
-      const sqlServer = data.queryazureSqlServer?.[0] as QueryazureSqlServer
+      const sqlServer = data.queryazureMySqlServer?.[0] as queryazureMySqlServer
       sqlServer.firewallRules = []
       await testRule(data, Result.PASS)
     })
 
-    test('Security Issue when SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
+    test('Security Issue when MySQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('0.0.0.0', '0.0.0.0')
 
       await testRule(data, Result.FAIL)
     })
 
-    test('Security Issue when SQL Databases allow ingress 255.255.255.255/0 (ANY IP)', async () => {
+    test('Security Issue when MySQL Databases allow ingress 255.255.255.255/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('255.255.255.255', '0.0.0.0')
 
       await testRule(data, Result.FAIL)
@@ -118,7 +130,7 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       endIpAddress?: string
     ): NIST5xQueryResponse => {
       return {
-        queryazureSqlServer: [
+        queryazurePostgreSqlServer: [
           {
             id: cuid(),
             firewallRules: [
@@ -146,7 +158,7 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
+    test('No Security Issue when no PostgreSQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('127.0.0.0', '127.255.255.255')
 
       await testRule(data, Result.PASS)
@@ -154,18 +166,18 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when there no are any firewall configured', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture()
-      const sqlServer = data.queryazureSqlServer?.[0] as QueryazureSqlServer
+      const sqlServer = data.queryazurePostgreSqlServer?.[0] as queryazurePostgreSqlServer
       sqlServer.firewallRules = []
       await testRule(data, Result.PASS)
     })
 
-    test('Security Issue when SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
+    test('Security Issue when PostgreSQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('0.0.0.0', '0.0.0.0')
 
       await testRule(data, Result.FAIL)
     })
 
-    test('Security Issue when SQL Databases allow ingress 255.255.255.255/0 (ANY IP)', async () => {
+    test('Security Issue when PostgreSQL Databases allow ingress 255.255.255.255/0 (ANY IP)', async () => {
       const data: NIST5xQueryResponse = getTestRuleFixture('255.255.255.255', '0.0.0.0')
 
       await testRule(data, Result.FAIL)

@@ -1,3 +1,4 @@
+//similar to CIS 5.2.9
 export default {
   id: 'azure-nist-800-53-rev4-3.2', 
   title: 'Azure NIST 3.2 Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule',
@@ -162,7 +163,7 @@ export default {
               },
               {
                 path: '[*].equals',
-                equal: 'microsoft.sql/servers/firewallrules/write',
+                equal: 'Microsoft.Network/networkSecurityGroups/securityRules/write',
               },
             ]
           },

@@ -1,3 +1,4 @@
+//similar to CIS 6.3
 export default {
   id: 'azure-nist-800-53-rev4-5.2',  
   title: 'Azure NIST 5.2 PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0',
@@ -65,7 +66,7 @@ export default {
       'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-network-security#ns-1-implement-security-for-internal-traffic',
   ],    
   gql: `{
-    queryazureSqlServer {
+    queryazurePostgreSqlServer {
       id
       __typename
       firewallRules {
@@ -74,7 +75,7 @@ export default {
       }
     }
   }`,
-  resource: 'queryazureSqlServer[*]',
+  resource: 'queryazurePostgreSqlServer[*]',
   severity: 'high',
   conditions: {
     not: {

@@ -237,7 +237,7 @@ describe('Azure NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
+      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'Microsoft.Network/networkSecurityGroups/securityRules/write')
 
       await testRule(data, Result.PASS)
     })
@@ -413,66 +413,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       )
 
       await testRule(rulesEngine, data, Azure_NIST_800_53_35 as Rule, Result.FAIL)
-    })
-  })
-
-  describe('Azure NIST 3.6 Virtual Network Network Watcher should be enabled', () => {
-    const getTestRuleFixture = (
-      startIpAddress?: string,
-      endIpAddress?: string
-    ): NIST3xQueryResponse => {
-      return {
-        queryazureSqlServer: [
-          {
-            id: cuid(),
-            firewallRules: [
-              {
-                startIpAddress,
-                endIpAddress
-              },
-            ],
-          },
-        ],
-      }
-    }
-
-    const testRule = async (
-      data: NIST3xQueryResponse,
-      expectedResult: Result
-    ): Promise<void> => {
-      // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Azure_NIST_800_53_36 as Rule,
-        { ...data }
-      )
-
-      // Asserts
-      expect(processedRule.result).toBe(expectedResult)
-    }
-
-    test('No Security Issue when no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('127.0.0.0', '127.255.255.255')
-
-      await testRule(data, Result.PASS)
-    })
-
-    test('No Security Issue when there no are any firewall configured', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture()
-      const sqlServer = data.queryazureSqlServer?.[0] as QueryazureSqlServer
-      sqlServer.firewallRules = []
-      await testRule(data, Result.PASS)
-    })
-
-    test('Security Issue when SQL Databases allow ingress 0.0.0.0/0 (ANY IP)', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('0.0.0.0', '0.0.0.0')
-
-      await testRule(data, Result.FAIL)
-    })
-
-    test('Security Issue when SQL Databases allow ingress 255.255.255.255/0 (ANY IP)', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('255.255.255.255', '0.0.0.0')
-
-      await testRule(data, Result.FAIL)
     })
   })
 })
