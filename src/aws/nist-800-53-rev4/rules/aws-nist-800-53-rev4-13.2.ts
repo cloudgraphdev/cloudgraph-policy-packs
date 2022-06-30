@@ -1,7 +1,8 @@
 // AWS CIS 1.2.0 Rule equivalent 1.14
 export default {
-  id: 'aws-nist-800-53-rev4-13.2',  
-  title: 'AWS NIST 13.2 IAM should have hardware MFA enabled for the root account',
+  id: 'aws-nist-800-53-rev4-13.2',
+  title:
+    'AWS NIST 13.2 IAM should have hardware MFA enabled for the root account',
 
   description: `The root account is the most privileged user in an AWS account. MFA adds an extra layer of
   protection on top of a user name and password. With MFA enabled, when a user signs in to
@@ -73,14 +74,11 @@ export default {
         equal: true,
       },
       {
-        jq: '[select("arn:aws:iam::" + .accountId + ":mfa/root-account-mfa-device" == .virtualMfaDevices[].serialNumber)] | { "mfaIsVirtual" : (length > 0) }',
-        path: '@',
-        and: [
-          {
-            path: '@.mfaIsVirtual',
-            notEqual: true,
-          },
-        ],
+        path: '@.virtualMfaDevices',
+        array_all: {
+          path: '[*].serialNumber',
+          mismatch: /arn:aws:iam::.*:mfa\/root-account-mfa-device/,
+        },
       },
     ],
   },

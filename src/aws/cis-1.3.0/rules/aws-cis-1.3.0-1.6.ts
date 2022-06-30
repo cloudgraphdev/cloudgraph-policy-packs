@@ -1,7 +1,8 @@
 // AWS CIS 1.2.0 Rule equivalent 1.14
 export default {
   id: 'aws-cis-1.3.0-1.6',
-  title: 'AWS CIS 1.6 Ensure hardware MFA is enabled for the "root user" account',
+  title:
+    'AWS CIS 1.6 Ensure hardware MFA is enabled for the "root user" account',
   description: `The root account is the most privileged user in an AWS account. MFA adds an extra layer of
   protection on top of a user name and password. With MFA enabled, when a user signs in to
   an AWS website, they will be prompted for their user name and password as well as for an
@@ -68,14 +69,11 @@ export default {
         equal: true,
       },
       {
-        jq: '[select("arn:aws:iam::" + .accountId + ":mfa/root-account-mfa-device" == .virtualMfaDevices[].serialNumber)] | { "match" : (length > 0) }',
-        path: '@',
-        and: [
-          {
-            path: '@.match',
-            notEqual: true,
-          },
-        ],
+        path: '@.virtualMfaDevices',
+        array_all: {
+          path: '[*].serialNumber',
+          mismatch: /arn:aws:iam::.*:mfa\/root-account-mfa-device/,
+        },
       },
     ],
   },
