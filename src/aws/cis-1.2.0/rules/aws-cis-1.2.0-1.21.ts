@@ -64,27 +64,32 @@ export default {
 
   references: [],
   gql: `{
-    queryawsIamPolicy {
+    queryawsIamUser {
       id
       arn
       accountId
        __typename
-      iamUsers {
-        accessKeyData {
-          lastUsedDate
-        }
+      accessKeyData {
+        lastUsedDate
       }
     }
   }`,
-  resource: 'queryawsIamPolicy[*]',
+  resource: 'queryawsIamUser[*]',
   severity: 'medium',
   conditions: {
-    path: '@.iamUsers',
-    array_any: {
-      path: '[*].accessKeyData',
+    not: {
+      path: '@.accessKeyData',
       array_any: {
-        path: '[*].lastUsedDate',
-        notIn: [null, 'N/A', ''],
+        or: [
+          {
+            path: '[*].lastUsedDate',
+            isEmpty: true,
+          },
+          {
+            path: '[*].lastUsedDate',
+            in: [null, 'N/A', ''],
+          },
+        ],
       },
     },
   },

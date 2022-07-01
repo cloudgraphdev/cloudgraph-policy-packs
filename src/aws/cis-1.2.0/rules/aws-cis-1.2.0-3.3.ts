@@ -1,3 +1,4 @@
+/*eslint-disable */
 export default {
   id: 'aws-cis-1.2.0-3.3',
   title:
@@ -123,55 +124,44 @@ Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<a
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.cloudtrail',
-    array_any: {
-      and: [
-        {
-          path: '[*].isMultiRegionTrail',
-          equal: 'Yes',
-        },
-        {
-          path: '[*].status.isLogging',
-          equal: true,
-        },
-        {
-          path: '[*].eventSelectors',
-          array_any: {
-            and: [
-              { path: '[*].readWriteType', equal: 'All' },
-              {
-                path: '[*].includeManagementEvents',
-                equal: true,
-              },
-            ],
-          },
-        },
-        {
-          path: '[*].cloudwatchLog',
-          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match:
-                  // eslint-disable-next-line max-len
-                  /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/,
-              },
-              {
-                path: '[*].sns',
-                array_any: {
-                  path: '[*].subscriptions',
-                  array_any: {
-                    path: '[*].arn',
-                    match: /^arn:aws:.*$/,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+  check: ({ resource }: any) => {
+    return resource.cloudtrail
+      .filter(
+        (cloudtrail: any) =>
+          cloudtrail.cloudwatchLog?.length &&
+          cloudtrail.isMultiRegionTrail === 'Yes' &&
+          cloudtrail.status.isLogging &&
+          cloudtrail.eventSelectors.some(
+            (selector: any) =>
+              selector.readWriteType === 'All' &&
+              selector.includeManagementEvents
+          )
+      )
+      .some((cloudtrail: any) => {
+        const log = cloudtrail.cloudwatchLog[0]
+
+        return log?.metricFilters.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations.find(
+            (mt: any) =>
+              log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
+          )
+
+          if (!metricTrasformation) return false
+          const metricCloudwatch = log.cloudwatch.find(
+            (cw: any) => cw.metric === metricTrasformation.metricName
+          )
+
+          return (
+            metricCloudwatch?.sns?.some((sns: any) =>
+              sns?.subscriptions?.some((sub: any) =>
+                sub.arn.includes('arn:aws:')
+              )
+            ) &&
+            /(\$.userIdentity.type)\s*=\s*"Root"*\s&&\s*(\$.userIdentity.invokedBy)\s*NOT\s*EXISTS\s*&&\s*(\$.eventType)\s*!=\s*"AwsServiceEvent"/.test(
+              metricFilter.filterPattern
+            )
+          )
+        })
+      })
   },
 }

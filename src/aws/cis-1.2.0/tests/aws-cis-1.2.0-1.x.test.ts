@@ -883,16 +883,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   describe('AWS CIS 1.21 Do not setup access keys during initial user setup for all IAM users that have a console password', () => {
     test('Should pass for IAM users who have access key last used date configured', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsIamUser: [
           {
             id: cuid(),
-            iamUsers: [
+            accessKeyData: [
               {
-                accessKeyData: [
-                  {
-                    lastUsedDate: '2021-10-05T17:29:00.000Z',
-                  },
-                ],
+                lastUsedDate: '2021-10-05T17:29:00.000Z',
               },
             ],
           },
@@ -909,16 +905,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail for IAM users that have set N/A on the access key last used date', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsIamUser: [
           {
             id: cuid(),
-            iamUsers: [
+            accessKeyData: [
               {
-                accessKeyData: [
-                  {
-                    lastUsedDate: 'N/A',
-                  },
-                ],
+                lastUsedDate: 'N/A',
               },
             ],
           },
@@ -935,16 +927,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail for IAM users that have set null on the access key last used date', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsIamUser: [
           {
             id: cuid(),
-            iamUsers: [
+            accessKeyData: [
               {
-                accessKeyData: [
-                  {
-                    lastUsedDate: null,
-                  },
-                ],
+                lastUsedDate: null,
               },
             ],
           },
@@ -961,16 +949,12 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
 
     test('Should fail for IAM users that have set as empty on the access key last used date', async () => {
       const data = {
-        queryawsIamPolicy: [
+        queryawsIamUser: [
           {
             id: cuid(),
-            iamUsers: [
+            accessKeyData: [
               {
-                accessKeyData: [
-                  {
-                    lastUsedDate: '',
-                  },
-                ],
+                lastUsedDate: '',
               },
             ],
           },
