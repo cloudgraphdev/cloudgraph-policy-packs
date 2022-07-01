@@ -69,7 +69,7 @@ export default {
             { path: '[*].group', notEqual: 'all' },
             {
               path: '[*].userId',
-              notIn: [null, ''],
+              isEmpty: false,
             },
           ],
         },

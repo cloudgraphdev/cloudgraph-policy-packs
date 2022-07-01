@@ -34,6 +34,6 @@ export default {
   severity: 'medium',
   conditions: {
     path: '@.kmsKeyId',
-    notIn: [null, ''],
+    isEmpty: false,
   },
 }

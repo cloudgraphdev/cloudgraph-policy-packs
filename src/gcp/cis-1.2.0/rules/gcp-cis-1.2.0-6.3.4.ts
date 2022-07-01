@@ -104,7 +104,7 @@ export default {
                     },
                     {
                       path: '[*].value',
-                      notIn: [null, ''],
+                      isEmpty: false,
                     },
                   ],
                 },
