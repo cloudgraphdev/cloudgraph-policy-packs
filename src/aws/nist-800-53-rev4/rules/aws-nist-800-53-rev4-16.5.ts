@@ -20,9 +20,9 @@ export default {
       - Choose a certificate from IAM. Refer to Managing server certificates in IAM for more information.
       - Upload a certificate to IAM. Refer to How can I upload and import an SSL certificate to AWS Identity and Access Management (IAM)?
     - Click Save.
-  
+
     **AWS CLI**
-  
+
     Select your Certificate type from the following:
     **To replace an SSL certificate with a certificate provided by ACM:**
     - Use the following request-certificate command to request a new certificate:
@@ -65,7 +65,7 @@ export default {
           },
           {
             path: '[*].sslCertificateId',
-            in: [null, ''],
+            isEmpty: true,
           },
         ],
       },

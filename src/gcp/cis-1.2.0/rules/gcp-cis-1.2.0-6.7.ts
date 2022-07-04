@@ -65,7 +65,7 @@ export default {
       },
       {
         path: '@.settings.backupConfiguration.startTime',
-        notIn: [null, false],
+        isEmpty: false,
       },
     ],
   },
