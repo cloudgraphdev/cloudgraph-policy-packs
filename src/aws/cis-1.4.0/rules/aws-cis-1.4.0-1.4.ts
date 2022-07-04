@@ -1,10 +1,11 @@
 // AWS CIS 1.2.0 Rule equivalent 1.12
 export default {
-  id: 'aws-cis-1.4.0-1.4',  
-  title: 'AWS CIS 1.4 Ensure no \'root\' user account access key exists',
-  
-  description: 'The \'root\' user account is the most privileged user in an AWS account. AWS Access Keys provide programmatic access to a given AWS account. It is recommended that all access keys associated with the \'root\' user account be removed.',
-  
+  id: 'aws-cis-1.4.0-1.4',
+  title: "AWS CIS 1.4 Ensure no 'root' user account access key exists",
+
+  description:
+    "The 'root' user account is the most privileged user in an AWS account. AWS Access Keys provide programmatic access to a given AWS account. It is recommended that all access keys associated with the 'root' user account be removed.",
+
   audit: `Perform the following to determine if the 'root' user account has access keys:
   
   **From Console:**
@@ -22,9 +23,10 @@ export default {
       aws iam get-account-summary | grep "AccountAccessKeysPresent"
   
   If no 'root' access keys exist the output will show "AccountAccessKeysPresent": 0,. If the output shows a "1" than 'root' keys exist, refer to the remediation procedure below.`,
-  
-  rationale: 'Removing access keys associated with the \'root\' user account limits vectors by which the account can be compromised. Additionally, removing the \'root\' access keys encourages the creation and use of role based accounts that are least privileged.',
-  
+
+  rationale:
+    "Removing access keys associated with the 'root' user account limits vectors by which the account can be compromised. Additionally, removing the 'root' access keys encourages the creation and use of role based accounts that are least privileged.",
+
   remediation: `Perform the following to delete or disable active 'root' user access keys 
   
   **From Console:**
@@ -36,13 +38,13 @@ export default {
   5. Under the *Status* column if there are any Keys which are Active
       - Click on *Make Inactive* - (Temporarily disable Key - may be needed again)
       - Click *Delete* - (Deleted keys cannot be recovered)`,
-  
+
   references: [
-      'http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html',
-      'http://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html',
-      'http://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html',
-      'CCE-78910-7',
-      'https://aws.amazon.com/blogs/security/an-easier-way-to-determine-the-presence-of-aws-account-access-keys/',
+    'http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html',
+    'http://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html',
+    'http://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html',
+    'CCE-78910-7',
+    'https://aws.amazon.com/blogs/security/an-easier-way-to-determine-the-presence-of-aws-account-access-keys/',
   ],
   gql: `{
     queryawsIamUser(filter: { name: { eq: "root" } }) {
@@ -53,6 +55,7 @@ export default {
       accessKeysActive
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {

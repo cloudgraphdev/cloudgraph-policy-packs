@@ -59,6 +59,14 @@ export default {
     }
   }`,
   resource: 'querygcpSqlInstance[*]',
+  exclude: {
+    not: {
+      and: [
+        { path: '@.instanceType', equal: 'CLOUD_SQL_INSTANCE' },
+        { path: '@.backendType', equal: 'SECOND_GEN' },
+      ],
+    },
+  },
   severity: 'unknown',
   conditions: {
     path: '@.ipAddresses',

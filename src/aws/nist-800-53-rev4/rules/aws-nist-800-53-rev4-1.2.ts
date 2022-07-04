@@ -1,8 +1,10 @@
 export default {
   id: 'aws-nist-800-53-rev4-1.2',
-  title: 'AWS NIST 1.2 IAM roles attached to instance profiles should not allow broad list actions on S3 buckets',
+  title:
+    'AWS NIST 1.2 IAM roles attached to instance profiles should not allow broad list actions on S3 buckets',
 
-  description: 'Instance profiles contain trust policies that enable EC2 instances to assume IAM roles. To prevent compromised EC2 instances from being able to effectively survey all S3 buckets and potentially access sensitive data, trust policies attached to instance profiles should not allow broad list actions on S3 buckets, such as ListAllBuckets',
+  description:
+    'Instance profiles contain trust policies that enable EC2 instances to assume IAM roles. To prevent compromised EC2 instances from being able to effectively survey all S3 buckets and potentially access sensitive data, trust policies attached to instance profiles should not allow broad list actions on S3 buckets, such as ListAllBuckets',
 
   audit: '',
 
@@ -34,8 +36,8 @@ export default {
       }`,
 
   references: [
-      'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html',
-      'https://docs.aws.amazon.com/cli/latest/reference/iam/update-assume-role-policy.html',
+    'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html',
+    'https://docs.aws.amazon.com/cli/latest/reference/iam/update-assume-role-policy.html',
   ],
   gql: `{
     queryawsIamRole(filter: { has : iamInstanceProfiles }) {
@@ -56,7 +58,7 @@ export default {
       }
     }
   }`,
-  exclude: { not: { path: '@.iamInstanceProfiles', isEmpty: true } },
+  exclude: { path: '@.iamInstanceProfiles', isEmpty: true },
   resource: 'queryawsIamRole[*]',
   severity: 'medium',
   conditions: {
@@ -74,15 +76,15 @@ export default {
               or: [
                 {
                   path: '[*].action',
-                  contains: 'ListBuckets'
+                  contains: 'ListBuckets',
                 },
                 {
                   path: '[*].action',
-                  contains: 'S3:List*'
+                  contains: 'S3:List*',
                 },
                 {
                   path: '[*].action',
-                  contains: 'S3:*'
+                  contains: 'S3:*',
                 },
               ],
             },

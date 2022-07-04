@@ -1,8 +1,7 @@
 // GCP CIS 1.2.0 Rule equivalent 6.6
 export default {
   id: 'gcp-nist-800-53-rev4-1.7',
-  title:
-    'GCP NIST 1.7 SQL database instances should not have public IPs',
+  title: 'GCP NIST 1.7 SQL database instances should not have public IPs',
   description: `It is recommended to configure Second Generation Sql instance to use private IPs instead of
   public IPs.`,
   audit: `**From Console:**
@@ -21,7 +20,8 @@ export default {
           gcloud sql instances describe INSTANCE_NAME
 
   3. Ensure that the setting *ipAddresses* has an IP address configured of *type: PRIVATE* and has no IP address of type: PRIMARY. PRIMARY email addresses are public addresses. An instance can have both a private and public address at the same time. Note also that you cannot use private IP with First Generation instances.`,
-  rationale: 'To lower the organization\'s attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.',
+  rationale:
+    "To lower the organization's attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.",
   remediation: `**From Console:**
 
   1. Go to the Cloud SQL Instances page in the Google Cloud Console: https://console.cloud.google.com/sql/instances
@@ -60,6 +60,14 @@ export default {
     }
   }`,
   resource: 'querygcpSqlInstance[*]',
+  exclude: {
+    not: {
+      and: [
+        { path: '@.instanceType', equal: 'CLOUD_SQL_INSTANCE' },
+        { path: '@.backendType', equal: 'SECOND_GEN' },
+      ],
+    },
+  },
   severity: 'unknown',
   conditions: {
     path: '@.ipAddresses',

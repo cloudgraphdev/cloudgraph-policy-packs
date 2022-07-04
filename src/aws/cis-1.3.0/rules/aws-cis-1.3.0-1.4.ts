@@ -23,7 +23,8 @@ export default {
     aws iam get-credential-report --query 'Content' --output text | base64 -d | cut -d, -f1,9,14 | grep -B1 '<root_account>'
 
   2. For the *<root_account>* user, ensure the *access_key_1_active* and *access_key_2_active* fields are set to *FALSE*.`,
-  rationale: 'Removing access keys associated with the root account limits vectors by which the account can be compromised. Additionally, removing the root access keys encourages the creation and use of role-based accounts that are least privileged.',
+  rationale:
+    'Removing access keys associated with the root account limits vectors by which the account can be compromised. Additionally, removing the root access keys encourages the creation and use of role-based accounts that are least privileged.',
   remediation: `Perform the following to delete or disable active root access keys being
   Via the AWS Console
 
@@ -50,6 +51,7 @@ export default {
       accessKeysActive
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {

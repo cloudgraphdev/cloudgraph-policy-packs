@@ -20,7 +20,8 @@ export default {
     aws iam get-account-summary | grep "AccountMFAEnabled"
 
   2. Ensure the AccountMFAEnabled property is set to 1`,
-  rationale: 'Enabling MFA provides increased security for console access as it requires the authenticating principal to possess a device that emits a time-sensitive key and have knowledge of a credential.',
+  rationale:
+    'Enabling MFA provides increased security for console access as it requires the authenticating principal to possess a device that emits a time-sensitive key and have knowledge of a credential.',
   remediation: `Perform the following to establish MFA for the root account:
 
   1. Sign in to the AWS Management Console and open the IAM console at https://console.aws.amazon.com/iam/.
@@ -57,6 +58,7 @@ export default {
       mfaActive
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {

@@ -54,12 +54,10 @@ export default {
     `https://dev.mysql.com/doc/refman/5.7/en/load-data-local.html`,
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/MYSQL*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/MYSQL*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -67,40 +65,27 @@ export default {
           }
         }
       }
-    }
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /MYSQL*/ } },
   severity: 'unknown',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'local_infile',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'local_infile',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: 'off',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: 'off',
             },
           ],
         },
