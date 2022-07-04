@@ -1,4 +1,5 @@
-/*eslint-disable */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const filterPatternRegex =
   /\$\.eventName\s*=\s*CreateVpc.+\$\.eventName\s*=\s*DeleteVpc.+\$\.eventName\s*=\s*ModifyVpcAttribute.+\$\.eventName\s*=\s*AcceptVpcPeeringConnection.+\$\.eventName\s*=\s*CreateVpcPeeringConnection.+\$\.eventName\s*=\s*DeleteVpcPeeringConnection.+\$\.eventName\s*=\s*RejectVpcPeeringConnection.+\$\.eventName\s*=\s*AttachClassicLinkVpc.+\$\.eventName\s*=\s*DetachClassicLinkVpc.+\$\.eventName\s*=\s*DisableVpcClassicLink.+\$\.eventName\s*=\s*EnableVpcClassicLink/
 
@@ -22,7 +23,7 @@ export default {
   - Identify Multi region Cloudtrails: *Trails with "IsMultiRegionTrail" set to true*
   - From value associated with CloudWatchLogsLogGroupArn note *<cloudtrail_log_group_name>*
 
-  Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:\*, <cloudtrail_log_group_name>* would be *NewGroup*
+  Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:*, <cloudtrail_log_group_name>* would be *NewGroup*
 
   - Ensure Identified Multi region CloudTrail is active
 
@@ -54,7 +55,7 @@ export default {
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: `Monitoring changes to IAM policies will help ensure authentication and authorization controls remain intact.`,
+  rationale: 'Monitoring changes to IAM policies will help ensure authentication and authorization controls remain intact.',
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on filter pattern provided which checks for VPC changes and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -79,10 +80,10 @@ export default {
 
     aws cloudwatch put-metric-alarm --alarm-name "<vpc_changes_alarm>" -- metric-name "<vpc_changes_metric>" --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --namespace 'CISBenchmark' --alarm-actions <sns_topic_arn>`,
   references: [
-    `CCE- 79199 - 6`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html`,
-    `https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html`,
+    'CCE- 79199 - 6',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html',
+    'https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html',
   ],
   gql: `{
     queryawsAccount {
@@ -125,7 +126,7 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  check: ({ resource }: any) => {
+  check: ({ resource }: any): any => {
     return resource.cloudtrail
       .filter(
         (cloudtrail: any) =>
@@ -141,7 +142,7 @@ export default {
       .some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log?.metricFilters.some((metricFilter: any) => {
+        return log.metricFilters.some((metricFilter: any) => {
           const metricTrasformation = metricFilter.metricTransformations.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)

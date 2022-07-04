@@ -66,6 +66,7 @@ export interface OutboundRule {
 
 export interface QueryawsSecurityGroup {
   id: string
+  name?: string
   inboundRules?: InboundRule[]
   outboundRules?: OutboundRule[]
 }
@@ -335,6 +336,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [
               {
                 source,

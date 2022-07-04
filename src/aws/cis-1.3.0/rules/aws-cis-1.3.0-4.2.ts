@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AWS CIS 1.2.0 Rule equivalent 3.2
 export default {
   id: 'aws-cis-1.3.0-4.2',
@@ -52,7 +54,8 @@ export default {
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: 'Monitoring for single-factor console logins will increase visibility into accounts that are not protected by MFA.',
+  rationale:
+    'Monitoring for single-factor console logins will increase visibility into accounts that are not protected by MFA.',
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on the filter pattern provided which checks for AWS Management Console sign-in without MFA and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -124,57 +127,47 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.cloudtrail',
-    array_any: {
-      and: [
-        {
-          path: '[*].isMultiRegionTrail',
-          equal: 'Yes',
-        },
-        {
-          path: '[*].status.isLogging',
-          equal: true,
-        },
-        {
-          path: '[*].eventSelectors',
-          array_any: {
-            and: [
-              { path: '[*].readWriteType', equal: 'All' },
-              {
-                path: '[*].includeManagementEvents',
-                equal: true,
-              },
-            ],
-          },
-        },
-        {
-          path: '[*].cloudwatchLog',
-          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match: /(\$.errorCode)\s*=\s*"ConsoleLogin"/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.additionalEventData.MFAUsed)\s*!=\s*"Yes"/,
-              },
-              {
-                path: '[*].sns',
-                array_any: {
-                  path: '[*].subscriptions',
-                  array_any: {
-                    path: '[*].arn',
-                    match: /^arn:aws:.*$/,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    }
+  check: ({ resource }: any): any => {
+    return resource.cloudtrail
+      .filter(
+        (cloudtrail: any) =>
+          cloudtrail.cloudwatchLog?.length &&
+          cloudtrail.isMultiRegionTrail === 'Yes' &&
+          cloudtrail.status.isLogging &&
+          cloudtrail.eventSelectors.some(
+            (selector: any) =>
+              selector.readWriteType === 'All' &&
+              selector.includeManagementEvents
+          )
+      )
+      .some((cloudtrail: any) => {
+        const log = cloudtrail.cloudwatchLog[0]
+
+        return log?.metricFilters.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations.find(
+            (mt: any) =>
+              log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
+          )
+
+          if (!metricTrasformation) return false
+          const metricCloudwatch = log.cloudwatch.find(
+            (cw: any) => cw.metric === metricTrasformation.metricName
+          )
+
+          return (
+            metricCloudwatch?.sns?.some((sns: any) =>
+              sns?.subscriptions?.some((sub: any) =>
+                sub.arn.includes('arn:aws:')
+              )
+            ) &&
+            /(\$.errorCode)\s*=\s*"ConsoleLogin"/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.additionalEventData.MFAUsed)\s*!=\s*"Yes"/.test(
+              metricFilter.filterPattern
+            )
+          )
+        })
+      })
   },
 }

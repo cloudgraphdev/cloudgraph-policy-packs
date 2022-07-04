@@ -327,6 +327,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed,
             accessKeysActive: true,

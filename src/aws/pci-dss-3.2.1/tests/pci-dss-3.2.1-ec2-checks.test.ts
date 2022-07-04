@@ -22,6 +22,7 @@ export interface OutboundRulesEntity {
 }
 export interface QueryawsSecurityGroupEntity {
   id: string
+  name?: string
   inboundRules?: InboundRulesEntity[]
   outboundRules?: OutboundRulesEntity[]
 }
@@ -138,6 +139,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [],
             outboundRules: [],
           },

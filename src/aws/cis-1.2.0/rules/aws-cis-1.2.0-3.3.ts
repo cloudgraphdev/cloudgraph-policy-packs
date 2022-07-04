@@ -1,4 +1,5 @@
-/*eslint-disable */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'aws-cis-1.2.0-3.3',
   title:
@@ -17,7 +18,7 @@ export default {
   - Identify Multi region Cloudtrails: Trails with *"IsMultiRegionTrail" set to true*
   - From value associated with CloudWatchLogsLogGroupArn note *<cloudtrail_log_group_name>*
 
-Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:\*, <cloudtrail_log_group_name>* would be *NewGroup*
+Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:*, <cloudtrail_log_group_name>* would be *NewGroup*
 
   - Ensure Identified Multi region CloudTrail is active
 
@@ -124,7 +125,7 @@ Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<a
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  check: ({ resource }: any) => {
+  check: ({ resource }: any): any => {
     return resource.cloudtrail
       .filter(
         (cloudtrail: any) =>
@@ -140,7 +141,7 @@ Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<a
       .some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log?.metricFilters.some((metricFilter: any) => {
+        return log.metricFilters.some((metricFilter: any) => {
           const metricTrasformation = metricFilter.metricTransformations.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)

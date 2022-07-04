@@ -35,6 +35,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed: '2021-04-08T17:20:19.000Z',
           },
@@ -54,6 +55,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed: new Date().toISOString(),
           },
@@ -542,6 +544,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive: true,
           },
         ],
@@ -559,6 +562,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive: false,
           },
         ],

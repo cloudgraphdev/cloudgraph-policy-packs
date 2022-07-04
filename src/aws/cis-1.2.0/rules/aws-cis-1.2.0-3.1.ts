@@ -1,4 +1,5 @@
-/*eslint-disable */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'aws-cis-1.2.0-3.1',
   title:
@@ -46,7 +47,7 @@ export default {
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: `Monitoring unauthorized API calls will help reveal application errors and may reduce time to detect malicious activity.`,
+  rationale: 'Monitoring unauthorized API calls will help reveal application errors and may reduce time to detect malicious activity.',
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on the filter pattern provided which checks for unauthorized API calls and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -71,11 +72,11 @@ export default {
 
     aws cloudwatch put-metric-alarm --alarm-name "<unauthorized_api_calls_alarm>" --metric-name "<unauthorized_api_calls_metric>" --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 -- namespace 'CISBenchmark' --alarm-actions <sns_topic_arn>`,
   references: [
-    `https://aws.amazon.com/sns/`,
-    `CCE- 79186 - 3`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html`,
-    `https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html`,
-    `https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html`,
+    'https://aws.amazon.com/sns/',
+    'CCE- 79186 - 3',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html',
+    'https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail.html',
+    'https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html',
   ],
   gql: `{
     queryawsAccount {
@@ -118,7 +119,7 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  check: ({ resource }: any) => {
+  check: ({ resource }: any) : any => {
     return resource.cloudtrail
       .filter(
         (cloudtrail: any) =>
@@ -134,7 +135,7 @@ export default {
       .some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log?.metricFilters.some((metricFilter: any) => {
+        return log.metricFilters.some((metricFilter: any) => {
           const metricTrasformation = metricFilter.metricTransformations.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)

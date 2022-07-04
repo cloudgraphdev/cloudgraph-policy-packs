@@ -33,6 +33,7 @@ export interface QueryawsEcsTaskDefinition {
 }
 export interface QueryawsIamUser {
   id: string
+  name?: string
   accessKeysActive?: boolean
   passwordLastUsed?: string
   passwordEnabled?: boolean
@@ -150,6 +151,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive,
           },
         ]
@@ -191,6 +193,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordLastUsed,
             passwordEnabled,
           },

@@ -22,6 +22,7 @@ export interface OutboundRulesEntity {
 }
 export interface QueryawsSecurityGroupEntity {
   id: string
+  name?: string
   inboundRules?: InboundRulesEntity[]
   outboundRules?: OutboundRulesEntity[]
 }
@@ -299,6 +300,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [],
             outboundRules: [],
           },
