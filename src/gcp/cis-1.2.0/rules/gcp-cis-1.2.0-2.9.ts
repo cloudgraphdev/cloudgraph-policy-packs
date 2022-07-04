@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const filterPatternRegex =
   /\s*resource.type\s*=\s*gce_network\s*AND\s*protoPayload.methodName\s*=\s*"beta.compute.networks.insert"\s*OR\s*protoPayload.methodName\s*=\s*"beta.compute.networks.patch"\s*OR\s*protoPayload.methodName\s*=\s*"v1.compute.networks.delete"\s*OR\s*protoPayload.methodName\s*=\s*"v1.compute.networks.removePeering"\s*OR\s*protoPayload.methodName\s*=\s*"v1.compute.networks.addPeering"\s*/
 
@@ -55,7 +58,7 @@ export default {
 
   5. Ensure that the output contains at least one alert policy where:
 
-  - *conditions.conditionThreshold.filter* is set to *metric.type=\"logging.googleapis.com/user/<Log Metric Name>\"*
+  - *conditions.conditionThreshold.filter* is set to *metric.type="logging.googleapis.com/user/<Log Metric Name>"*
   - AND *enabled* is set to *true*`,
   rationale: `It is possible to have more than one VPC within a project. In addition, it is also possible to create a peer connection between two VPCs enabling network traffic to route between VPCs.
 
@@ -111,11 +114,11 @@ export default {
   - Use the command: *gcloud alpha monitoring policies create*
   - Reference for command usage: https://cloud.google.com/sdk/gcloud/reference/alpha/monitoring/policies/create`,
   references: [
-    `https://cloud.google.com/logging/docs/logs-based-metrics/`,
-    `https://cloud.google.com/monitoring/custom-metrics/`,
-    `https://cloud.google.com/monitoring/alerts/`,
-    `https://cloud.google.com/logging/docs/reference/tools/gcloud-logging`,
-    `https://cloud.google.com/vpc/docs/overview`,
+    'https://cloud.google.com/logging/docs/logs-based-metrics/',
+    'https://cloud.google.com/monitoring/custom-metrics/',
+    'https://cloud.google.com/monitoring/alerts/',
+    'https://cloud.google.com/logging/docs/reference/tools/gcloud-logging',
+    'https://cloud.google.com/vpc/docs/overview',
   ],
   gql: `{
     querygcpAlertPolicy {
@@ -133,20 +136,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

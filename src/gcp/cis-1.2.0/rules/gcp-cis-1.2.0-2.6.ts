@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const filterPatternRegex =
   /\s*resource.type\s*=\s*"iam_role"\s*AND\s*protoPayload.methodName\s*=\s*"google.iam.admin.v1.CreateRole"\s*OR\s*protoPayload.methodName\s*=\s*"google.iam.admin.v1.DeleteRole"\s*OR\s*protoPayload.methodName\s*=\s*"google.iam.admin.v1.UpdateRole"\s*/
 
@@ -46,9 +49,9 @@ export default {
 
   5. Ensure that the output contains an least one alert policy where:
 
-  - *conditions.conditionThreshold.filter* is set to *metric.type=\"logging.googleapis.com/user/<Log_Metric_Name>\"*
+  - *conditions.conditionThreshold.filter* is set to *metric.type="logging.googleapis.com/user/<Log_Metric_Name>"*
   - AND *enabled* is set to *true*.`,
-  rationale: `Google Cloud IAM provides predefined roles that give granular access to specific Google Cloud Platform resources and prevent unwanted access to other resources. However, to cater to organization-specific needs, Cloud IAM also provides the ability to create custom roles. Project owners and administrators with the Organization Role Administrator role or the IAM Role Administrator role can create custom roles. Monitoring role creation, deletion and updating activities will help in identifying any over-privileged role at early stages.`,
+  rationale: 'Google Cloud IAM provides predefined roles that give granular access to specific Google Cloud Platform resources and prevent unwanted access to other resources. However, to cater to organization-specific needs, Cloud IAM also provides the ability to create custom roles. Project owners and administrators with the Organization Role Administrator role or the IAM Role Administrator role can create custom roles. Monitoring role creation, deletion and updating activities will help in identifying any over-privileged role at early stages.',
   remediation: `**From Console:
   Create the prescribed log metric:**
 
@@ -103,11 +106,11 @@ export default {
   - Use the command: *gcloud alpha monitoring policies create*
   - Reference for command usage: https://cloud.google.com/sdk/gcloud/reference/alpha/monitoring/policies/create`,
   references: [
-    `https://cloud.google.com/logging/docs/logs-based-metrics/`,
-    `https://cloud.google.com/monitoring/custom-metrics/`,
-    `https://cloud.google.com/monitoring/alerts/`,
-    `https://cloud.google.com/logging/docs/reference/tools/gcloud-logging`,
-    `https://cloud.google.com/iam/docs/understanding-custom-roles`,
+    'https://cloud.google.com/logging/docs/logs-based-metrics/',
+    'https://cloud.google.com/monitoring/custom-metrics/',
+    'https://cloud.google.com/monitoring/alerts/',
+    'https://cloud.google.com/logging/docs/reference/tools/gcloud-logging',
+    'https://cloud.google.com/iam/docs/understanding-custom-roles',
   ],
   gql: `{
     querygcpAlertPolicy {
@@ -125,20 +128,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

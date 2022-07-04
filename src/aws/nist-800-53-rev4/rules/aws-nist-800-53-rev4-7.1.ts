@@ -1,13 +1,15 @@
 export default {
-  id: 'aws-nist-800-53-rev4-7.1',  
-  title: 'AWS NIST 7.1 Alarm for denied connections in CloudFront logs should be configured',
-  
-  description: 'Alarms should be configured to alert users to denied connections to CloudFront distributions so users can investigate anomalous traffic.',
-  
+  id: 'aws-nist-800-53-rev4-7.1',
+  title:
+    'AWS NIST 7.1 Alarm for denied connections in CloudFront logs should be configured',
+
+  description:
+    'Alarms should be configured to alert users to denied connections to CloudFront distributions so users can investigate anomalous traffic.',
+
   audit: '',
-  
+
   rationale: '',
-  
+
   remediation: `**Console Remediation Steps**
   
   - Navigate to [CloudFront](https://console.aws.amazon.com/cloudfront).
@@ -31,10 +33,10 @@ export default {
   Similarly, create a CloudWatch alarm to trigger on HTTP 5xx error codes when your system internal errors are outside your expectations.
   
       aws cloudwatch put-metric-alarm --alarm-name <name> --evaluation-periods <number-of-samples> --comparison-operator <comparison-operator> --metric-name 5xxErrorRate --namespace "AWS/CloudFront" --period <evaluated-every-x> --threshold <your-expectation> --statistic <aggregated-by> --unit <unit-of-measure>`,
-  
+
   references: [
-      'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html',
-      'https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-alarm.html',
+    'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html',
+    'https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-alarm.html',
   ],
   gql: `{
     queryawsCloudfront {
@@ -49,14 +51,10 @@ export default {
   }`,
   resource: 'queryawsCloudfront[*]',
   severity: 'medium',
-  conditions: {
-    jq: '.cloudwatch | map(select(.metric == "4xxErrorRate" or .metric == "5xxErrorRate")) | { "twoOrMore" : (length >= 2) }',
-    path: '@',
-    and: [
-      {
-        path: '@.twoOrMore',
-        equal: true,
-      },
-    ],
-  }
+  check: ({ resource }: any): boolean =>
+    resource.cloudwatch.filter(
+      (cloudwatch: any) =>
+        cloudwatch.metric === '4xxErrorRate' ||
+        cloudwatch.metric === '5xxErrorRate'
+    ).length >= 2,
 }

@@ -1,4 +1,5 @@
-/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'aws-cis-1.2.0-2.5',
   title: 'AWS CIS 2.5 Ensure AWS Config is enabled in all regions',
@@ -81,7 +82,9 @@ export default {
     queryawsAccount { 
       id
       __typename
+      regions
       configurationRecorders {
+        region
         recordingGroup {
           allSupported
           includeGlobalResourceTypes
@@ -95,27 +98,20 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.configurationRecorders',
-    array_any: {
-      and: [
-        {
-          path: '[*].recordingGroup.allSupported',
-          equal: true,
-        },
-        {
-          path: '[*].recordingGroup.includeGlobalResourceTypes',
-          equal: true,
-        },
-        {
-          path: '[*].status.recording',
-          equal: true,
-        },
-        {
-          path: '[*].status.lastStatus',
-          equal: 'SUCCESS',
-        },
-      ],
-    },
+  check: ({ resource }: any): boolean => {
+    const regionsWithConfigEnabled: { [region: string]: boolean } = {}
+    resource.configurationRecorders.forEach((recorder: any) => {
+      if (
+        recorder.recordingGroup.allSupported === true &&
+        recorder.recordingGroup.includeGlobalResourceTypes === true &&
+        recorder.status.recording === true &&
+        recorder.status.lastStatus === 'SUCCESS'
+      )
+        regionsWithConfigEnabled[recorder.region] = true
+    })
+
+    return resource.regions.every(
+      (region: string) => regionsWithConfigEnabled[region]
+    )
   },
 }

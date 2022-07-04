@@ -373,8 +373,21 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1', 'us-east-2'],
             configurationRecorders: [
               {
+                region: 'us-east-1',
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+              {
+                region: 'us-east-2',
                 recordingGroup: {
                   allSupported: true,
                   includeGlobalResourceTypes: true,
@@ -397,13 +410,46 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
       expect(processedRule.result).toBe(Result.PASS)
     })
 
+    test('Should fail when a configuration recorder is not enabled in all regions', async () => {
+      const data = {
+        queryawsAccount: [
+          {
+            id: cuid(),
+            regions: ['us-east-1', 'us-east-2'],
+            configurationRecorders: [
+              {
+                region: 'us-east-1',
+                recordingGroup: {
+                  allSupported: true,
+                  includeGlobalResourceTypes: true,
+                },
+                status: {
+                  recording: true,
+                  lastStatus: 'SUCCESS',
+                },
+              },
+            ],
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_120_25 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.FAIL)
+    })
+
     test('Should fail when a configuration recorder has recordingGroup object includes "allSupported": false', async () => {
       const data = {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1'],
             configurationRecorders: [
               {
+                region: 'us-east-1',
                 recordingGroup: {
                   allSupported: false,
                   includeGlobalResourceTypes: true,
@@ -431,8 +477,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1'],
             configurationRecorders: [
               {
+                region: 'us-east-1',
                 recordingGroup: {
                   allSupported: true,
                   includeGlobalResourceTypes: false,
@@ -460,8 +508,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1'],
             configurationRecorders: [
               {
+                region: 'us-east-1',
                 recordingGroup: {
                   allSupported: true,
                   includeGlobalResourceTypes: true,
@@ -489,8 +539,10 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1'],
             configurationRecorders: [
               {
+                region: 'us-east-1',
                 recordingGroup: {
                   allSupported: true,
                   includeGlobalResourceTypes: true,
@@ -518,6 +570,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsAccount: [
           {
             id: cuid(),
+            regions: ['us-east-1'],
             configurationRecorders: [],
           },
         ],
