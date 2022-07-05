@@ -36,7 +36,7 @@ export interface QueryawsIamRole {
   id: string
   assumeRolePolicy?: AssumeRolePolicy
   iamAttachedPolicies?: IamAttachedPolicy[]
-  instanceProfiles?: InstanceProfile[] | undefined
+  iamInstanceProfiles?: InstanceProfile[] | undefined
 }
 
 export interface Policy {
@@ -125,7 +125,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsIamRole: [
           {
             id: cuid(),
-            instanceProfiles: [
+            iamInstanceProfiles: [
               {
                 arn: 'arn:aws:iam::632941798677:instance-profile/autocloud-sandbox-ec2-assume-test',
               },

@@ -44,6 +44,7 @@ export interface ServerVulnerabilityAssessmentRecurringScansProperties {
 
 export interface ServerVulnerabilityAssessment {
   recurringScans?: ServerVulnerabilityAssessmentRecurringScansProperties
+  storageContainerPath?: string
 }
 
 export interface ServerBlobAuditingPolicy {
@@ -309,9 +310,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
             vulnerabilityAssessments: emailSubscriptionAdmins
               ? [
                 {
-                  recurringScans: {
-                    emailSubscriptionAdmins,
-                  },
+                  storageContainerPath: 'test-storage-container-path'
                 },
               ]
               : [],

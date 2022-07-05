@@ -112,6 +112,8 @@ export interface QuerygcpProject {
 export interface QuerygcpSqlInstance {
   id?: string
   name: string
+  instanceType?: string
+  backendType?: string
   settings: Settings
   ipAddresses?: IpAddress[]
 }
@@ -1399,6 +1401,8 @@ describe('GCP NIST 800-53: Rev. 4', () => {
           {
             id: cuid(),
             name: 'test-sql-instance',
+            instanceType: 'CLOUD_SQL_INSTANCE',
+            backendType: 'SECOND_GEN',
             ipAddresses: [
               {
                 type: 'PRIVATE',

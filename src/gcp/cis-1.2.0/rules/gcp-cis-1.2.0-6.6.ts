@@ -53,6 +53,8 @@ export default {
       id
       __typename
       name
+      instanceType
+      backendType
       ipAddresses{
         type
       }

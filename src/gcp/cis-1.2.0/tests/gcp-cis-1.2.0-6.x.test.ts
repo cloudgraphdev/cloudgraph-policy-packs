@@ -66,6 +66,8 @@ export interface SqlInstances {
   id?: string
   name: string
   databaseVersion: string
+  instanceType?: string
+  backendType?: string
   settings: Settings
   ipAddresses?: IpAddress[]
 }
@@ -2141,6 +2143,8 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
         id: cuid(),
         name: 'test-sql-instance',
         databaseVersion: 'SQLSERVER',
+        instanceType: 'CLOUD_SQL_INSTANCE',
+        backendType: 'SECOND_GEN',
         ipAddresses: [
           {
             type: 'PRIVATE',
