@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const filterPatternRegex =
   /\s*resource.type\s*=\s*"gce_route"\s*AND\s*protoPayload.methodName\s*=\s*"beta.compute.routes.patch"\s*OR\s*protoPayload.methodName\s*=\s*"beta.compute.routes.insert"\s*/
 
@@ -42,7 +45,7 @@ export default {
 
   5. Ensure that the output contains an least one alert policy where:
 
-  - *conditions.conditionThreshold.filter* is set to *metric.type=\"logging.googleapis.com/user/<Log_Metric_Name>\"*
+  - *conditions.conditionThreshold.filter* is set to *metric.type="logging.googleapis.com/user/<Log_Metric_Name>"*
   - AND *enabled* is set to *true*`,
   rationale: `Google Cloud Platform (GCP) routes define the paths network traffic takes from a VM instance to another destination. The other destination can be inside the organization VPC network (such as another VM) or outside of it. Every route consists of a destination and a next hop. Traffic whose destination IP is within the destination range is sent to the next hop for delivery.
 
@@ -95,11 +98,11 @@ export default {
   - Reference for command usage: https://cloud.google.com/sdk/gcloud/reference/alpha/monitoring/policies/create
   `,
   references: [
-    `https://cloud.google.com/logging/docs/logs-based-metrics/`,
-    `https://cloud.google.com/monitoring/custom-metrics/`,
-    `https://cloud.google.com/monitoring/alerts/`,
-    `https://cloud.google.com/logging/docs/reference/tools/gcloud-logging`,
-    `https://cloud.google.com/storage/docs/access-control/iam`,
+    'https://cloud.google.com/logging/docs/logs-based-metrics/',
+    'https://cloud.google.com/monitoring/custom-metrics/',
+    'https://cloud.google.com/monitoring/alerts/',
+    'https://cloud.google.com/logging/docs/reference/tools/gcloud-logging',
+    'https://cloud.google.com/storage/docs/access-control/iam',
   ],
   gql: `{
     querygcpAlertPolicy {
@@ -117,20 +120,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

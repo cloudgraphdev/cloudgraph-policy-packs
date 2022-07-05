@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'aws-pci-dss-3.2.1-guardDuty-check-1',
   title: 'GuardDuty Check 1: GuardDuty should be enabled',
@@ -43,58 +45,32 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'high',
-  conditions: {
-    and: [
-      {
-        path: '@.guardDutyDetectors',
-        isEmpty: false,
-      },
-      {
-        path: '@',
-        jq: '[.regions[]  as $scanned |  { scannedRegion: $scanned, detectors: [.guardDutyDetectors[] | select(.region == $scanned )]  }]',
-        array_all: {
-          or: [
-            {
-              path: '[*].scannedRegion',
-              // GuardDuty not supported
-              in: [
-                'ap-northeast-3',
-                'af-south-1',
-                'eu-south-1',
-                'me-south-1',
-                'us-gov-east-1',
-                'us-gov-west-1',
-                'cn-northwest-1',
-                'cn-north-1',
-              ],
-            },
-            {
-              and: [
-                {
-                  path: '[*].detectors[0].status',
-                  equal: 'ENABLED',
-                },
-                {
-                  path: '[*].detectors[0].dataSources.cloudTrail.status',
-                  notEqual: 'ENABLED',
-                },
-                {
-                  path: '[*].detectors[0].dataSources.dnsLogs.status',
-                  notEqual: 'ENABLED',
-                },
-                {
-                  path: '[*].detectors[0].dataSources.flowLogs.status',
-                  notEqual: 'ENABLED',
-                },
-                {
-                  path: '[*].detectors[0].dataSources.s3Logs.status',
-                  notEqual: 'ENABLED',
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ],
+  check: ({ resource }: any): any => {
+    const regionsWithGuardDutyEnabled: { [region: string]: boolean } = {}
+    const excludedRegions: string[] = [
+      'ap-northeast-3',
+      'af-south-1',
+      'eu-south-1',
+      'me-south-1',
+      'us-gov-east-1',
+      'us-gov-west-1',
+      'cn-northwest-1',
+      'cn-north-1',
+    ]
+    resource.guardDutyDetectors.forEach((gd: any) => {
+      if (
+        excludedRegions.some((r: any) => r === gd.region) ||
+        (gd.status === 'ENABLED' &&
+          gd.dataSources.cloudTrail.status !== 'ENABLED' &&
+          gd.dataSources.dnsLogs.status !== 'ENABLED' &&
+          gd.dataSources.flowLogs.status !== 'ENABLED' &&
+          gd.dataSources.s3Logs.status !== 'ENABLED')
+      )
+        regionsWithGuardDutyEnabled[gd.region] = true
+    })
+
+    return resource.regions.every(
+      (region: string) => regionsWithGuardDutyEnabled[region]
+    )
   },
 }

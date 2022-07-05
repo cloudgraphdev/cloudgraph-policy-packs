@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // GCP CIS 1.2.0 Rule equivalent 2.3
 export default {
   id: 'gcp-nist-800-53-rev4-5.8',
@@ -68,51 +71,21 @@ export default {
     }
   }`,
   resource: 'querygcpProject[*]',
-  severity: 'unknown',
-  conditions: {
-    jq: ` {
-            "id": .id,
-            "logSinks" : [
-              {
-                  "destination" :
-                      .logSinks[].destination
-                      | select(startswith("storage.googleapis.com/"))
-                      | sub("storage.googleapis.com/"; "") ,
-                  "logBuckets" :.logBuckets
-              }
-            ] | map({
-                "destination" : .destination,
-                "logBuckets" : [. as $parent | .logBuckets[] | select($parent.destination == .name)]
-              })
-          }`,
-    path: '@',
-    and: [
-      {
-        path: '[*].logSinks',
-        array_all: {
-          and: [
-            {
-              path: '[*].logBuckets',
-              isEmpty: false,
-            },
-            {
-              path: '[*].logBuckets',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].retentionDays',
-                    greaterThan: 0,
-                  },
-                  {
-                    path: '[*].locked',
-                    equal: true,
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-    ],
+  severity: 'medium',
+  check: ({ resource }: any): boolean => {
+    const logSinks =
+      resource.logSinks?.filter((logSink: any) =>
+        logSink.destination?.startsWith('storage.googleapis.com/')
+      ) || []
+
+    return logSinks.every(
+      (ls: any) =>
+        resource.logBuckets?.some(
+          (lb: any) =>
+            ls.destination.includes(lb.name) &&
+            lb.retentionDays > 0 &&
+            lb.locked === true
+        )
+    )
   },
 }

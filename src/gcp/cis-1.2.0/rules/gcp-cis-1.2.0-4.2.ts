@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'gcp-cis-1.2.0-4.2',
   title:
@@ -83,43 +85,22 @@ export default {
   }`,
   resource: 'querygcpVmInstance[*]',
   severity: 'medium',
-  conditions: {
-    path: '@',
-    or: [
-      {
-        path: '@',
-        and: [
-          {
-            path: '[*].name',
-            match: /^gke-.*$/,
-          },
-          {
-            path: '[*].labels',
-            array_any: {
-              path: '[*].value',
-              equal: 'goog-gke-node',
-            },
-          },
-        ],
-      },
-      {
-        jq: `[{ "defaultEmail" : (.project[].id | split("/") | .[1] + "-compute@developer.gserviceaccount.com")} + .serviceAccounts[]]
-        | [.[] | select(.defaultEmail == .email) ]
-        | {"match" : (length > 0), "scopes": .[].scopes} // {"match" : false, "scopes": []}`,
-        path: '@',
-        and: [
-          {
-            path: '@.match',
-            notEqual: true,
-          },
-          {
-            path: '[*].scopes',
-            array_all: {
-              notEqual: 'https://www.googleapis.com/auth/cloud-platform',
-            },
-          },
-        ],
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    (/^gke-.*$/.test(resource.name) &&
+      resource.labels?.some((l: any) => l.value === 'goog-gke-node')) ||
+    !(
+      (resource.project.length &&
+        resource.serviceAccounts.length &&
+        resource.serviceAccounts.some(
+          (sa: any) =>
+            sa.email ===
+            `${
+              resource.project[0].id.split('/')[1]
+            }-compute@developer.gserviceaccount.com`
+        )) ||
+      resource.serviceAccounts?.scopes?.some(
+        (scope: any) =>
+          scope === 'https://www.googleapis.com/auth/cloud-platform'
+      )
+    ),
 }

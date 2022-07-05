@@ -89,61 +89,19 @@ export default {
   }`,
   resource: 'querygcpProject[*]',
   severity: 'unknown',
-  conditions: {
-    path: '@',
-    jq: '.  | [(.computeProject[].commonInstanceMetadata.items | map({"cimKey": .key, "cimValue": .value }))[] + ((.vmInstances[].metadata.items  | map({"vmiKey": .key, "vmiValue": .value}))[] // {"vmiKey": null, "vmiValue": null} )  | select(.cimKey == "enable-oslogin" and .cimValue == "true" )  ]',
-    and: [
-      {
-        path: '@',
-        isEmpty: false,
-      },
-      {
-        path: '@',
-        array_all: {
-          or: [
-            {
-              and: [
-                {
-                  path: '[*].cimValue',
-                  equal: 'true',
-                },
-                {
-                  path: '[*].vmiKey',
-                  equal: null,
-                },
-              ],
-            },
-            {
-              and: [
-                {
-                  path: '[*].cimValue',
-                  equal: 'true',
-                },
-                {
-                  path: '[*].vmiKey',
-                  notEqual: 'enable-oslogin',
-                },
-              ],
-            },
-            {
-              and: [
-                {
-                  path: '[*].cimValue',
-                  equal: 'true',
-                },
-                {
-                  path: '[*].vmiKey',
-                  equal: 'enable-oslogin',
-                },
-                {
-                  path: '[*].vmiValue',
-                  equal: 'true',
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ],
+  check: ({ resource }: any) => {
+    const { computeProject, vmInstances } = resource
+    const osloginEnabled =
+      computeProject?.length &&
+      computeProject[0].commonInstanceMetadata.items?.some(
+        (item: any) => item.key === 'enable-oslogin' && item.value === 'true'
+      )
+    const osloginDisabled = vmInstances?.some((vm: any) =>
+      vm.metadata.items.some(
+        (item: any) => item.key === 'enable-oslogin' && item.value === 'false'
+      )
+    )
+
+    return osloginEnabled && !osloginDisabled
   },
 }

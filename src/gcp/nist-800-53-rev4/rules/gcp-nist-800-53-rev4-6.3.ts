@@ -1,7 +1,8 @@
 // GCP CIS 1.2.0 Rule equivalent 3.7
 export default {
   id: 'gcp-nist-800-53-rev4-6.3',
-  title: 'GCP NIST 6.3 Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)',
+  title:
+    'GCP NIST 6.3 Network firewall rules should not permit ingress from 0.0.0.0/0 to port 3389 (RDP)',
   description: `GCP Firewall Rules are specific to a VPC Network. Each rule either allows or denies
   traffic when its conditions are met. Its conditions allow users to specify the type of traffic,
   such as ports and protocols, and the source or destination of the traffic, including IP
@@ -35,7 +36,8 @@ export default {
 
   - When ALL TCP ports are allowed in a rule, PORT does not have any value set (*NULL*)
   - When ALL Protocols are allowed in a rule, PORT does not have any value set (*NULL*)`,
-  rationale: 'GCP *Firewall Rule*s within a *VPC Network*. These rules apply to outgoing (egress) traffic from instances and incoming (ingress) traffic to instances in the network. Egress and ingress traffic flows are controlled even if the traffic stays within the network (for example, instance-to-instance communication). For an instance to have outgoing Internet access, the network must have a valid Internet gateway route or custom route whose destination IP is specified. This route simply defines the path to the Internet, to avoid the most general (0.0.0.0/0) destination IP Range specified from the Internet through RDP with the default *Port 3389*. Generic access from the Internet to a specific IP Range should be restricted.',
+  rationale:
+    'GCP *Firewall Rule*s within a *VPC Network*. These rules apply to outgoing (egress) traffic from instances and incoming (ingress) traffic to instances in the network. Egress and ingress traffic flows are controlled even if the traffic stays within the network (for example, instance-to-instance communication). For an instance to have outgoing Internet access, the network must have a valid Internet gateway route or custom route whose destination IP is specified. This route simply defines the path to the Internet, to avoid the most general (0.0.0.0/0) destination IP Range specified from the Internet through RDP with the default *Port 3389*. Generic access from the Internet to a specific IP Range should be restricted.',
   remediation: `**From the Console:**
 
   1. Go to *VPC Network*.
@@ -64,66 +66,28 @@ export default {
     }
   }`,
   resource: 'querygcpFirewall[*]',
+  exclude: { not: { path: '@.direction', equal: 'INGRESS' } },
   severity: 'high',
-  conditions: {
-    not: {
-      path: '@',
-      and: [
-        {
-          path: '[*].sourceRanges',
-          jq: 'map({"range": .})',
-          array_any: {
-            path: '[*].range',
-            in: ['0.0.0.0/0', '::/0'],
-          },
-        },
-        {
-          path: '[*].direction',
-          in: ['INGRESS'],
-        },
-        {
-          path: '@.allowed',
-          jq: `[.[]
-          | { "ipProtocol": .ipProtocol}
-          + (if .ports | length > 0  then .ports[] else [""][] end  | split("-")  | {fromPort: (.[0]), toPort: (.[1] // .[0])}) ]`,
-          array_any: {
-            and: [
-              {
-                path: '[*].ipProtocol',
-                in: ['tcp', 'all'],
-              },
-              {
-                or: [
-                  {
-                    and: [
-                      {
-                        path: '[*].fromPort',
-                        equal: null,
-                      },
-                      {
-                        path: '[*].toPort',
-                        equal: null,
-                      },
-                    ],
-                  },
-                  {
-                    and: [
-                      {
-                        path: '[*].fromPort',
-                        lessThanInclusive: 3389,
-                      },
-                      {
-                        path: '[*].toPort',
-                        greaterThanInclusive: 3389,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
-    },
+  check: ({ resource }: any): boolean => {
+    return !(
+      resource.direction === 'INGRESS' &&
+      resource.sourceRanges.some((ip: string) =>
+        ['0.0.0.0/0', '::/0'].includes(ip)
+      ) &&
+      resource.allowed.some(
+        ({ ipProtocol, ports }: { ipProtocol: string; ports: string[] }) => {
+          return (
+            ['tcp', 'all'].includes(ipProtocol) &&
+            (!ports.length ||
+              ports.some((port: string) => {
+                const range = port.includes('-')
+                  ? port.split('-')
+                  : [port, port]
+                return Number(range[0]) <= 3389 && Number(range[1]) >= 3389
+              }))
+          )
+        }
+      )
+    )
   },
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AWS CIS 1.2.0 Rule equivalent 3.8
 export default {
   id: 'aws-cis-1.3.0-4.8',
@@ -119,93 +121,51 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.cloudtrail',
-    array_any: {
-      and: [
-        {
-          path: '[*].isMultiRegionTrail',
-          equal: 'Yes',
-        },
-        {
-          path: '[*].status.isLogging',
-          equal: true,
-        },
-        {
-          path: '[*].eventSelectors',
-          array_any: {
-            and: [
-              { path: '[*].readWriteType', equal: 'All' },
-              {
-                path: '[*].includeManagementEvents',
-                equal: true,
-              },
-            ],
-          },
-        },
-        {
-          path: '[*].cloudwatchLog',
-          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-          array_any: {
-            and: [
-              {
-                and: [
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*PutBucketAcl\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*PutBucketPolicy\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*PutBucketCors\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*PutBucketLifecycle\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*PutBucketReplication\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*DeleteBucketCors\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*/,
-                  },
-                  {
-                    path: '[*].filterPattern',
-                    match: /\s*\$.eventName\s*=\s*DeleteBucketReplication\s*/,
-                  },
-                ],
-              },
-              {
-                path: '[*].sns',
-                array_any: {
-                  path: '[*].subscriptions',
-                  array_any: {
-                    path: '[*].arn',
-                    match: /^arn:aws:.*$/,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    }
+  check: ({ resource }: any): any => {
+    return resource.cloudtrail
+      .filter(
+        (cloudtrail: any) =>
+          cloudtrail.cloudwatchLog?.length &&
+          cloudtrail.isMultiRegionTrail === 'Yes' &&
+          cloudtrail.status.isLogging &&
+          cloudtrail.eventSelectors.some(
+            (selector: any) =>
+              selector.readWriteType === 'All' &&
+              selector.includeManagementEvents
+          )
+      )
+      .some((cloudtrail: any) => {
+        const log = cloudtrail.cloudwatchLog[0]
+
+        return log.metricFilters.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations.find(
+            (mt: any) =>
+              log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
+          )
+
+          if (!metricTrasformation) return false
+          const metricCloudwatch = log.cloudwatch.find(
+            (cw: any) => cw.metric === metricTrasformation.metricName
+          )
+
+          return (
+            metricCloudwatch?.sns?.some((sns: any) =>
+              sns?.subscriptions?.some((sub: any) =>
+                sub.arn.includes('arn:aws:')
+              )
+            ) &&
+            /\s*\$.eventSource\s*=\s*s3.amazonaws.com\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*PutBucketAcl\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*PutBucketPolicy\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*PutBucketCors\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*PutBucketLifecycle\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*PutBucketReplication\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*DeleteBucketPolicy\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*DeleteBucketCors\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*DeleteBucketLifecycle\s*/.test(metricFilter.filterPattern) &&
+            /\s*\$.eventName\s*=\s*DeleteBucketReplication\s*/.test(metricFilter.filterPattern)
+          )
+        })
+      })
   },
 }

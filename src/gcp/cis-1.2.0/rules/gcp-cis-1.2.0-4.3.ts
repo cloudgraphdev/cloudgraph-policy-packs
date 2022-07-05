@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
   id: 'gcp-cis-1.2.0-4.3',
   title:
@@ -25,7 +27,8 @@ export default {
   **Exception:**
   Instances created by GKE should be excluded. These instances have names that start with
   "gke-" and are labeled "goog-gke-node".`,
-  rationale: 'Project-wide SSH keys are stored in Compute/Project-meta-data. Project wide SSH keys can be used to login into all the instances within project. Using project-wide SSH keys eases the SSH key management but if compromised, poses the security risk which can impact all the instances within project. It is recommended to use Instance specific SSH keys which can limit the attack surface if the SSH keys are compromised.',
+  rationale:
+    'Project-wide SSH keys are stored in Compute/Project-meta-data. Project wide SSH keys can be used to login into all the instances within project. Using project-wide SSH keys eases the SSH key management but if compromised, poses the security risk which can impact all the instances within project. It is recommended to use Instance specific SSH keys which can limit the attack surface if the SSH keys are compromised.',
   remediation: `**From Console:**
 
   1. Go to the *VM instances* page by visiting: https://console.cloud.google.com/compute/instances. It will list all the instances in your project.
@@ -68,60 +71,24 @@ export default {
   }`,
   resource: 'querygcpVmInstance[*]',
   severity: 'medium',
-  conditions: {
-    path: '@',
-    or: [
-      {
-        path: '@',
-        and: [
-          {
-            path: '[*].name',
-            match: /^gke-.*$/,
-          },
-          {
-            path: '[*].labels',
-            array_any: {
-              path: '[*].value',
-              equal: 'goog-gke-node',
-            },
-          },
-        ],
-      },
-      {
-        path: '[*].metadata.items',
-        isEmpty: true
-      },
-      {
-        and: [
-          {
-            path: '[*].metadata.items',
-            array_any: {
-              and: [
-                {
-                  path: '[*].key',
-                  equal: 'block-project-ssh-keys',
-                },
-                {
-                  path: '[*].value',
-                  equal: 'true',
-                },
-              ],
-            },
-          },
-          {
-            jq: `[{ "defaultEmail" : (.project[].id | split("/") | .[1] + "-compute@developer.gserviceaccount.com")} + .serviceAccounts[]]
-            | [.[] | select(.defaultEmail == .email) ]
-            | {"match" : (length > 0)} // {"match" : false}`,
-            path: '@',
-            and: [
-              {
-                path: '@.match',
-                notEqual: true,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    (/^gke-.*$/.test(resource.name) &&
+      resource.labels?.some((l: any) => l.value === 'goog-gke-node')) ||
+    !resource.metadata?.items ||
+    resource.metadata?.items?.length === 0 ||
+    (!(
+      resource.project.length &&
+      resource.serviceAccounts.length &&
+      resource.serviceAccounts.some(
+        (sa: any) =>
+          sa.email ===
+          `${
+            resource.project[0].id.split('/')[1]
+          }-compute@developer.gserviceaccount.com`
+      )
+    ) &&
+      resource.metadata?.items?.some(
+        (item: any) =>
+          item.key === 'block-project-ssh-keys' && item.value === 'true'
+      )),
 }

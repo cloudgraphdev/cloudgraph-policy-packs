@@ -44,6 +44,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {
@@ -53,14 +54,11 @@ export default {
         equal: true,
       },
       {
-        jq: '[select("arn:aws:iam::" + .accountId + ":mfa/root-account-mfa-device" == .virtualMfaDevices[].serialNumber)] | { "match" : (length > 0) }',
-        path: '@',
-        and: [
-          {
-            path: '@.match',
-            notEqual: true,
-          },
-        ],
+        path: '@.virtualMfaDevices',
+        array_all: {
+          path: '[*].serialNumber',
+          mismatch: /arn:aws:iam::.*:mfa\/root-account-mfa-device/,
+        },
       },
     ],
   },
