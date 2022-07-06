@@ -52,7 +52,7 @@ export default {
   resource: 'queryawsCloudfront[*]',
   severity: 'medium',
   check: ({ resource }: any): boolean =>
-    resource.cloudwatch.filter(
+    resource.cloudwatch?.filter(
       (cloudwatch: any) =>
         cloudwatch.metric === '4xxErrorRate' ||
         cloudwatch.metric === '5xxErrorRate'

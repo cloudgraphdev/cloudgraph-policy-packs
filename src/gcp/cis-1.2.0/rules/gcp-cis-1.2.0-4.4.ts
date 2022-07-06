@@ -93,11 +93,11 @@ export default {
     const { computeProject, vmInstances } = resource
     const osloginEnabled =
       computeProject?.length &&
-      computeProject[0].commonInstanceMetadata.items?.some(
+      computeProject[0].commonInstanceMetadata?.items?.some(
         (item: any) => item.key === 'enable-oslogin' && item.value === 'true'
       )
     const osloginDisabled = vmInstances?.some((vm: any) =>
-      vm.metadata.items.some(
+      vm.metadata?.items?.some(
         (item: any) => item.key === 'enable-oslogin' && item.value === 'false'
       )
     )

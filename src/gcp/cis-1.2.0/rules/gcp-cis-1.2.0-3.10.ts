@@ -54,10 +54,10 @@ export default {
   severity: 'unknown',
   check: ({ resource }: any): boolean => {
     return (
-      resource.sourceRanges.every((ip: string) =>
+      resource.sourceRanges?.every((ip: string) =>
         ['35.191.0.0/16', '130.211.0.0/22'].includes(ip)
       ) &&
-      resource.allowed.every(
+      resource.allowed?.every(
         ({ ipProtocol, ports }: { ipProtocol: string; ports: string[] }) => {
           return (
             ['tcp', 'all'].includes(ipProtocol) &&

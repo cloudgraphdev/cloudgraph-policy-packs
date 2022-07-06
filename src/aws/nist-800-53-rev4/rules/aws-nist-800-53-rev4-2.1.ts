@@ -51,5 +51,5 @@ export default {
   }`,
   resource: 'queryawsAsg[*]',
   severity: 'medium',
-  check: ({ resource }: any) => resource.availabilityZones.length >= 2,
+  check: ({ resource }: any) => resource.availabilityZones?.length >= 2,
 }

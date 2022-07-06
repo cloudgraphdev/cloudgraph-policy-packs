@@ -132,14 +132,14 @@ Example: for CloudWatchLogsLogGroupArn that looks like _arn:aws:logs:<region>:<a
         (cloudtrail: any) =>
           cloudtrail.cloudwatchLog?.length &&
           cloudtrail.isMultiRegionTrail === 'Yes' &&
-          cloudtrail.status.isLogging &&
-          cloudtrail.eventSelectors.some(
+          cloudtrail.status?.isLogging &&
+          cloudtrail.eventSelectors?.some(
             (selector: any) =>
               selector.readWriteType === 'All' &&
               selector.includeManagementEvents
           )
       )
-      .some((cloudtrail: any) => {
+      ?.some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
         return log?.metricFilters?.some((metricFilter: any) => {

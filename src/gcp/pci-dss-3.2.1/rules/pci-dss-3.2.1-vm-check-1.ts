@@ -76,9 +76,8 @@ export default {
     !resource.metadata?.items ||
     resource.metadata?.items?.length === 0 ||
     (!(
-      resource.project.length &&
-      resource.serviceAccounts.length &&
-      resource.serviceAccounts.some(
+      resource.project?.length &&
+      resource.serviceAccounts?.some(
         (sa: any) =>
           sa.email ===
           `${

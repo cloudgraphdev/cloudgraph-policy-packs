@@ -57,14 +57,15 @@ export default {
       'cn-northwest-1',
       'cn-north-1',
     ]
-    resource.guardDutyDetectors.forEach((gd: any) => {
+    resource.guardDutyDetectors?.forEach((gd: any) => {
       if (
         excludedRegions.some((r: any) => r === gd.region) ||
         (gd.status === 'ENABLED' &&
-          gd.dataSources.cloudTrail.status !== 'ENABLED' &&
-          gd.dataSources.dnsLogs.status !== 'ENABLED' &&
-          gd.dataSources.flowLogs.status !== 'ENABLED' &&
-          gd.dataSources.s3Logs.status !== 'ENABLED')
+          gd.dataSources &&
+          gd.dataSources.cloudTrail?.status !== 'ENABLED' &&
+          gd.dataSources.dnsLogs?.status !== 'ENABLED' &&
+          gd.dataSources.flowLogs?.status !== 'ENABLED' &&
+          gd.dataSources.s3Logs?.status !== 'ENABLED')
       )
         regionsWithGuardDutyEnabled[gd.region] = true
     })

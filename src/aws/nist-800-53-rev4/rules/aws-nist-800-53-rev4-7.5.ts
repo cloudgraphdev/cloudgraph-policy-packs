@@ -126,28 +126,28 @@ export default {
   severity: 'medium',
   check: ({ resource }: any): any => {
     return resource.cloudtrail
-      .filter(
+      ?.filter(
         (cloudtrail: any) =>
           cloudtrail.cloudwatchLog?.length &&
           cloudtrail.isMultiRegionTrail === 'Yes' &&
-          cloudtrail.status.isLogging &&
-          cloudtrail.eventSelectors.some(
+          cloudtrail.status?.isLogging &&
+          cloudtrail.eventSelectors?.some(
             (selector: any) =>
               selector.readWriteType === 'All' &&
               selector.includeManagementEvents
           )
       )
-      .some((cloudtrail: any) => {
+      ?.some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log.metricFilters.some((metricFilter: any) => {
-          const metricTrasformation = metricFilter.metricTransformations.find(
+        return log.metricFilters?.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations?.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
           )
 
           if (!metricTrasformation) return false
-          const metricCloudwatch = log.cloudwatch.find(
+          const metricCloudwatch = log.cloudwatch?.find(
             (cw: any) => cw.metric === metricTrasformation.metricName
           )
 

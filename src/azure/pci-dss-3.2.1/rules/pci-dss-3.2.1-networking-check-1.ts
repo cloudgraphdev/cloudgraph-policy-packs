@@ -55,10 +55,10 @@ export default {
   resource: 'queryazureVirtualMachine[*]',
   severity: 'high',
   check: ({ resource }: any) => {
-    const rules = resource.networkInterfaces.reduce(
+    const rules = resource.networkInterfaces?.reduce(
       (acc: any, networkInterface: any) => {
         return acc.concat(
-          networkInterface.securityGroups.reduce(
+          networkInterface.securityGroups?.reduce(
             (acc: any, securityGroup: any) => {
               return acc.concat(securityGroup.securityRules)
             },

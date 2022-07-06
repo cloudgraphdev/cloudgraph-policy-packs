@@ -69,10 +69,10 @@ export default {
   check: ({ resource }: any): boolean => {
     return !(
       resource.direction === 'INGRESS' &&
-      resource.sourceRanges.some((ip: string) =>
+      resource.sourceRanges?.some((ip: string) =>
         ['0.0.0.0/0', '::/0'].includes(ip)
       ) &&
-      resource.allowed.some(
+      resource.allowed?.some(
         ({ ipProtocol, ports }: { ipProtocol: string; ports: string[] }) => {
           return (
             ['tcp', 'all'].includes(ipProtocol) &&

@@ -66,25 +66,18 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-incident-response#ir-2-preparation--setup-incident-notification',
   ],
   gql: `{
-    queryazureSecurityContact {
+    queryazureSecurityContact(filter: { name: { eq: "default" } }) {
       id
       __typename
       name
       email
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'default' } },
   resource: 'queryazureSecurityContact[*]',
   severity: 'high',
   conditions: {
-    and: [
-      {
-        path: '@.name',
-        equal: 'default',
-      },
-      {
-        path: '@.email',
-        isEmpty: false,
-      },
-    ],
+    path: '@.email',
+    isEmpty: false,
   },
 }

@@ -65,12 +65,12 @@ export default {
   severity: 'high',
   check: ({ resource }: any) => {
     const regionsWithAnalyzer: { [region: string]: boolean } = {}
-    resource.iamAccessAnalyzers.forEach((a: any) => {
+    resource.iamAccessAnalyzers?.forEach((a: any) => {
       if (a.status === 'ACTIVE') {
         regionsWithAnalyzer[a.region] = true
       }
     })
-    return resource.regions.every(
+    return resource.regions?.every(
       (region: string) => regionsWithAnalyzer[region]
     )
   },

@@ -83,6 +83,6 @@ export default {
   resource: 'queryawsIamUser[*]',
   severity: 'medium',
   check: ({ resource }: any): boolean =>
-    resource.accessKeyData.filter(({ status }: any) => status === 'Active')
+    resource.accessKeyData?.filter(({ status }: any) => status === 'Active')
       .length <= 1,
 }

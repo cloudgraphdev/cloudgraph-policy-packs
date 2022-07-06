@@ -89,9 +89,8 @@ export default {
     (/^gke-.*$/.test(resource.name) &&
       resource.labels?.some((l: any) => l.value === 'goog-gke-node')) ||
     !(
-      (resource.project.length &&
-        resource.serviceAccounts.length &&
-        resource.serviceAccounts.some(
+      (resource.project?.length &&
+        resource.serviceAccounts?.some(
           (sa: any) =>
             sa.email ===
             `${
