@@ -1,3 +1,11 @@
+# [@cloudgraph/policy-pack-gcp-pci-dss-3.2.1-v1.2.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.1.0...@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.2.0) (2022-07-05)
+
+
+### Features
+
+* **checks:** Added pci-dss rules 1.x onwards ([98f14f4](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/98f14f4ae480cb6554f6810a17873ef377d70c80))
+* **checks:** Renamed and organized rules 1.x onwards ([b0d0b14](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b0d0b143324020197a2818efbc41c86b1140dc93))
+
 # @cloudgraph/policy-pack-gcp-pci-dss-3.2.1 [1.1.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.0.0...@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.1.0) (2022-05-26)
 
 
