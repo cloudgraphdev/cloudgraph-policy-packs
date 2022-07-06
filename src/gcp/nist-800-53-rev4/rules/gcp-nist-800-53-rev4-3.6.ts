@@ -25,7 +25,8 @@ export default {
   2. Use the below command for every Cloud SQL PostgreSQL database instance to verify the value of *log_min_error_statement* is set to *ERROR* or stricter.
 
           gcloud sql instances describe INSTANCE_NAME --format=json | jq '.settings.databaseFlags[] | select(.name=="log_min_error_statement")|.value'`,
-  rationale: 'Auditing helps in troubleshooting operational problems and also permits forensic analysis. If *log_min_error_statement* is not set to the correct value, messages may not be classified as error messages appropriately. Considering general log messages as error messages would make is difficult to find actual errors and considering only stricter severity levels as error messages may skip actual errors to log their SQL statements. The *log_min_error_statement* flag should be set to *ERROR* or stricter. This recommendation is applicable to PostgreSQL database instances.',
+  rationale:
+    'Auditing helps in troubleshooting operational problems and also permits forensic analysis. If *log_min_error_statement* is not set to the correct value, messages may not be classified as error messages appropriately. Considering general log messages as error messages would make is difficult to find actual errors and considering only stricter severity levels as error messages may skip actual errors to log their SQL statements. The *log_min_error_statement* flag should be set to *ERROR* or stricter. This recommendation is applicable to PostgreSQL database instances.',
   remediation: `**Using Console:**
 
   1. Go to the Cloud SQL Instances page in the Google Cloud Console by visiting https://console.cloud.google.com/sql/instances.
@@ -54,12 +55,10 @@ export default {
     'https://www.postgresql.org/docs/9.6/runtime-config-logging.html#RUNTIME-CONFIG-LOGGING-WHEN',
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -67,40 +66,28 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /POSTGRES*/ } },
   severity: 'medium',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'log_min_error_statement',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'log_min_error_statement',
-                  },
-                  {
-                    path: '[*].value',
-                    in: ['error', 'log', 'fatal', 'panic'],
-                  },
-                ],
-              },
+              path: '[*].value',
+              in: ['error', 'log', 'fatal', 'panic'],
             },
           ],
         },

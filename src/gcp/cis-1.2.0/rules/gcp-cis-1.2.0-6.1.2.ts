@@ -49,53 +49,38 @@ export default {
     `https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_skip_show_database`,
   ],
   gql: `{
-    querygcpProject{
+    querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/MYSQL*/"}}){
       id
-      projectId
       __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/MYSQL*/"}}){
-        name
-        settings{
-          databaseFlags{
-            name
-            value
-          }
+      name
+      settings{
+        databaseFlags{
+          name
+          value
         }
       }
     }
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /MYSQL*/ } },
   severity: 'high',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'skip_show_database',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'skip_show_database',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: 'on',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: 'on',
             },
           ],
         },

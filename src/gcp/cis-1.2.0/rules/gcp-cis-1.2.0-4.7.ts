@@ -77,7 +77,7 @@ export default {
         },
         {
           path: '[*].diskEncryptionKey.sha256',
-          notIn: [null, ''],
+          isEmpty: false,
         },
       ],
     },

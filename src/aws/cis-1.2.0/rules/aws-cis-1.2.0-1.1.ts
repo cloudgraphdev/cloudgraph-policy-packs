@@ -33,6 +33,7 @@ Note: there are a few conditions under which the use of the root account is requ
       passwordEnabled
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {

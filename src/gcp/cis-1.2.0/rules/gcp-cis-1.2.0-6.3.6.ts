@@ -48,12 +48,10 @@ export default {
     `https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-traceon-trace-flags-transact-sql?view=sql-server-ver15#trace-flags`,
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -61,40 +59,28 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /SQLSERVER*/ } },
   severity: 'unknown',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: '3625 (trace flag)',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: '3625 (trace flag)',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: 'off',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: 'off',
             },
           ],
         },

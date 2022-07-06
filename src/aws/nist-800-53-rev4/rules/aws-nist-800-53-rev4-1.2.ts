@@ -56,6 +56,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.iamInstanceProfiles', isEmpty: true } },
   resource: 'queryawsIamRole[*]',
   severity: 'medium',
   conditions: {

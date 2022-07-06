@@ -4,11 +4,11 @@ export default {
   description: `This control checks whether Elasticsearch domains are in a VPC.
 
   It does not evaluate the VPC subnet routing configuration to determine public reachability.
-  
+
   This AWS control also does not check whether the OpenSearch Service resource-based policy permits public access by other accounts or external entities. You should ensure that Elasticsearch domains are not attached to public subnets. See [Resource-based policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ac.html#ac-types-resource) in the Amazon OpenSearch Service Developer Guide.
-  
+
   You should also ensure that your VPC is configured according to the recommended best practices. See [Security best practices for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html) in the Amazon VPC User Guide.
-  
+
   This control is not supported in Asia Pacific (Osaka).`,
   rationale: `**PCI DSS 1.2.1: Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment (CDE), and specifically deny all other traffic.**
 
@@ -37,7 +37,7 @@ You can also use a resource-based policy and specify an IP condition for restric
 This method is used to block unauthorized outbound traffic from the cardholder data environment to the internet.
 
   **PCI DSS 1.3.6: Place system components that store cardholder data (such as a database) in an internal network zone, segregated from the DMZ and other untrusted networks.**
-  
+
   If your OpenSearch Service clusters contain cardholder data, the OpenSearch Service domains should be placed in a VPC. Doing so enables secure communication between OpenSearch Service and other services within the VPC without the need for an internet gateway, NAT device, or VPN connection port.
 
 This method is used to place system components that store cardholder data in an internal network zone, segregated from the DMZ and other untrusted networks.`,
@@ -45,7 +45,7 @@ This method is used to place system components that store cardholder data in an 
 
   The reverse is also true. If you create a domain within a VPC, it cannot have a public endpoint. Instead, you must either [create another domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html) or disable this control.`,
   references: [
-    'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-es-1'
+    'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html#pcidss-es-1',
   ],
   gql: `{
     queryawsElasticSearchDomain {
@@ -62,6 +62,6 @@ This method is used to place system components that store cardholder data in an 
   severity: 'high',
   conditions: {
     path: '@.vpcOptions.vpcId',
-    notIn: [null, '']
+    isEmpty: false,
   },
 }
