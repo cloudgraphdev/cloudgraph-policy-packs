@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Azure_NIST_800_53_11 from '../rules/azure-nist-800-53-rev4-1.1'
 import Azure_NIST_800_53_12 from '../rules/azure-nist-800-53-rev4-1.2'
@@ -28,10 +29,7 @@ export interface NIS1xQueryResponse {
 describe('Azure NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('azure', 'NIST')
   })
 
   describe('Azure NIST 1.1 Virtual Machines unattached disks should be encrypted', () => {

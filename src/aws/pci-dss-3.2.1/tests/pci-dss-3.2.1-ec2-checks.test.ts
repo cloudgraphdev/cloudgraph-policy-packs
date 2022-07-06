@@ -1,11 +1,12 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_EC2_1 from '../rules/pci-dss-3.2.1-ec2-check-1'
 import Aws_PCI_DSS_321_EC2_2 from '../rules/pci-dss-3.2.1-ec2-check-2'
 import Aws_PCI_DSS_321_EC2_4 from '../rules/pci-dss-3.2.1-ec2-check-4'
 import Aws_PCI_DSS_321_EC2_5 from '../rules/pci-dss-3.2.1-ec2-check-5'
 import Aws_PCI_DSS_321_EC2_6 from '../rules/pci-dss-3.2.1-ec2-check-6'
+import { initRuleEngine } from '../../../utils/test'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -22,6 +23,7 @@ export interface OutboundRulesEntity {
 }
 export interface QueryawsSecurityGroupEntity {
   id: string
+  name?: string
   inboundRules?: InboundRulesEntity[]
   outboundRules?: OutboundRulesEntity[]
 }
@@ -32,10 +34,7 @@ export interface CISsgQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('EC2 Check 1: Amazon EBS snapshots should not be publicly restorable', () => {
@@ -138,6 +137,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [],
             outboundRules: [],
           },

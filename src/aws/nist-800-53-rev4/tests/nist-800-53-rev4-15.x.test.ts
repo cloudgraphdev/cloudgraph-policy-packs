@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Aws_NIST_800_53_151 from '../rules/aws-nist-800-53-rev4-15.1'
 import Aws_NIST_800_53_152 from '../rules/aws-nist-800-53-rev4-15.2'
@@ -33,6 +34,7 @@ export interface QueryawsEcsTaskDefinition {
 }
 export interface QueryawsIamUser {
   id: string
+  name?: string
   accessKeysActive?: boolean
   passwordLastUsed?: string
   passwordEnabled?: boolean
@@ -46,10 +48,7 @@ export interface NIST15xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   describe('AWS NIST 15.1 ECS task definitions should not use the root user', () => {
@@ -150,6 +149,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive,
           },
         ]
@@ -191,6 +191,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordLastUsed,
             passwordEnabled,
           },

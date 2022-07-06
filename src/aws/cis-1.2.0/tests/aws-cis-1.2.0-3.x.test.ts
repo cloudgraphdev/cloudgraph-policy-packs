@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Aws_CIS_120_31 from '../rules/aws-cis-1.2.0-3.1'
@@ -16,6 +16,7 @@ import Aws_CIS_120_311 from '../rules/aws-cis-1.2.0-3.11'
 import Aws_CIS_120_312 from '../rules/aws-cis-1.2.0-3.12'
 import Aws_CIS_120_313 from '../rules/aws-cis-1.2.0-3.13'
 import Aws_CIS_120_314 from '../rules/aws-cis-1.2.0-3.14'
+import { initRuleEngine } from '../../../utils/test'
 
 const Aws_CIS_120_31_Filter_Pattern =
   '{ ($.errorCode =  "UnauthorizedOperation") || ($.errorCode = "AccessDenied") }'
@@ -110,10 +111,7 @@ export interface QueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
 
   const get3xValidResponse = (metricFilterPattern: string): QueryResponse => ({

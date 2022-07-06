@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_21 from '../rules/aws-cis-1.2.0-2.1'
 import Aws_CIS_120_22 from '../rules/aws-cis-1.2.0-2.2'
@@ -11,14 +11,12 @@ import Aws_CIS_120_26 from '../rules/aws-cis-1.2.0-2.6'
 import Aws_CIS_120_27 from '../rules/aws-cis-1.2.0-2.7'
 import Aws_CIS_120_28 from '../rules/aws-cis-1.2.0-2.8'
 import Aws_CIS_120_29 from '../rules/aws-cis-1.2.0-2.9'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
   describe('AWS CIS 2.1 Ensure CloudTrail is enabled in all regions', () => {
     test('Should pass when a trail has set IsMultiRegionTrail and isLogging as true with at least one Event Selector with IncludeManagementEvents set to true and ReadWriteType set to All', async () => {

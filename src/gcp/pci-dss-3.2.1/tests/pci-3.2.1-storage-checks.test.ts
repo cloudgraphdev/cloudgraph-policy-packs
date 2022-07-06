@@ -1,8 +1,9 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_Storage_1 from '../rules/pci-dss-3.2.1-storage-check-1'
 import Gcp_PCI_DSS_321_Storage_2 from '../rules/pci-dss-3.2.1-storage-check-2'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -47,7 +48,7 @@ export interface CISStorageQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('Storage Check 1: Ensure that Cloud SQL database instances are not open to the world', () => {

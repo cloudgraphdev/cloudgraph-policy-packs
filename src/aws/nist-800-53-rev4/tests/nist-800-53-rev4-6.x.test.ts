@@ -1,4 +1,4 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_NIST_800_53_61 from '../rules/aws-nist-800-53-rev4-6.1'
@@ -15,6 +15,7 @@ import Aws_NIST_800_53_611 from '../rules/aws-nist-800-53-rev4-6.11'
 import Aws_NIST_800_53_612 from '../rules/aws-nist-800-53-rev4-6.12'
 import Aws_NIST_800_53_613 from '../rules/aws-nist-800-53-rev4-6.13'
 import Aws_NIST_800_53_614 from '../rules/aws-nist-800-53-rev4-6.14'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Logging {
   enabled: boolean
@@ -101,10 +102,7 @@ export interface NIS6xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   describe('AWS NIST 6.1 CloudFront access logging should be enabled', () => {

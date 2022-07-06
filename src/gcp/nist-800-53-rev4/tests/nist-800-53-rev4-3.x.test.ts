@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_31 from '../rules/gcp-nist-800-53-rev4-3.1'
 import Gcp_NIST_800_53_32 from '../rules/gcp-nist-800-53-rev4-3.2'
@@ -11,6 +11,7 @@ import Gcp_NIST_800_53_37 from '../rules/gcp-nist-800-53-rev4-3.7'
 import Gcp_NIST_800_53_38 from '../rules/gcp-nist-800-53-rev4-3.8'
 import Gcp_NIST_800_53_39 from '../rules/gcp-nist-800-53-rev4-3.9'
 import Gcp_NIST_800_53_310 from '../rules/gcp-nist-800-53-rev4-3.10'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -104,10 +105,7 @@ export interface NIST3xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 3.1 IAM default audit log config should not exempt any users', () => {

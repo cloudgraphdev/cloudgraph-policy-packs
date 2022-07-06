@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_91 from '../rules/azure-cis-1.3.1-9.1'
@@ -10,6 +10,7 @@ import Azure_CIS_131_94 from '../rules/azure-cis-1.3.1-9.4'
 import Azure_CIS_131_95 from '../rules/azure-cis-1.3.1-9.5'
 import Azure_CIS_131_99 from '../rules/azure-cis-1.3.1-9.9'
 import Azure_CIS_131_910 from '../rules/azure-cis-1.3.1-9.10'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface SiteConfig {
   minTlsVersion?: string
@@ -44,10 +45,7 @@ export interface CIS9xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 9.1 Ensure App Service Authentication is set on Azure App Service', () => {

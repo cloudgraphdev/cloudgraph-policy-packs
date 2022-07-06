@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_13 from '../rules/azure-cis-1.3.1-1.3'
 import Azure_CIS_131_121 from '../rules/azure-cis-1.3.1-1.21'
 import Azure_CIS_131_122 from '../rules/azure-cis-1.3.1-1.22'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Permission {
   actions: string[]
@@ -37,7 +38,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 1.3 Ensure guest users are reviewed on a monthly basis', () => {

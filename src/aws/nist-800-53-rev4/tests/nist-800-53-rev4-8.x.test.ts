@@ -1,4 +1,4 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_NIST_800_53_81 from '../rules/aws-nist-800-53-rev4-8.1'
@@ -46,6 +46,7 @@ import Aws_NIST_800_53_842 from '../rules/aws-nist-800-53-rev4-8.42'
 import Aws_NIST_800_53_843 from '../rules/aws-nist-800-53-rev4-8.43'
 import Aws_NIST_800_53_844 from '../rules/aws-nist-800-53-rev4-8.44'
 import Aws_NIST_800_53_845 from '../rules/aws-nist-800-53-rev4-8.45'
+import { initRuleEngine } from '../../../utils/test'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -66,6 +67,7 @@ export interface OutboundRule {
 
 export interface QueryawsSecurityGroup {
   id: string
+  name?: string
   inboundRules?: InboundRule[]
   outboundRules?: OutboundRule[]
 }
@@ -100,10 +102,7 @@ export interface NIS8xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   const testRule = async (
@@ -345,6 +344,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [
               {
                 source,

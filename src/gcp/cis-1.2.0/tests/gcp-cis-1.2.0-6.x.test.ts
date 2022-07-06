@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_612 from '../rules/gcp-cis-1.2.0-6.1.2'
@@ -32,6 +32,7 @@ import Gcp_CIS_120_64 from '../rules/gcp-cis-1.2.0-6.4'
 import Gcp_CIS_120_65 from '../rules/gcp-cis-1.2.0-6.5'
 import Gcp_CIS_120_66 from '../rules/gcp-cis-1.2.0-6.6'
 import Gcp_CIS_120_67 from '../rules/gcp-cis-1.2.0-6.7'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -80,10 +81,7 @@ export interface QuerygcpProject {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe("GCP CIS 6.1.2 Ensure 'skip_show_database' database flag for Cloud SQL Mysql instance is set to 'on'", () => {

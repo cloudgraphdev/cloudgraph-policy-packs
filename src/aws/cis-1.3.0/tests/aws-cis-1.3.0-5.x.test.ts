@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Aws_CIS_130_51 from '../rules/aws-cis-1.3.0-5.1'
 import Aws_CIS_130_52 from '../rules/aws-cis-1.3.0-5.2'
@@ -25,6 +26,7 @@ export interface OutboundRule {
 
 export interface QueryawsSecurityGroup {
   id: string
+  name?: string
   inboundRules?: InboundRule[]
   outboundRules?: OutboundRule[]
 }
@@ -43,10 +45,7 @@ export interface QueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
 
   describe('AWS CIS 5.1 Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports', () => {
@@ -371,6 +370,7 @@ describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [],
             outboundRules: [],
           },

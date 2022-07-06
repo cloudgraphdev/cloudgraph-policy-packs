@@ -15,11 +15,7 @@ import Azure_CIS_131_526 from '../rules/azure-cis-1.3.1-5.2.6'
 import Azure_CIS_131_527 from '../rules/azure-cis-1.3.1-5.2.7'
 import Azure_CIS_131_528 from '../rules/azure-cis-1.3.1-5.2.8'
 import Azure_CIS_131_529 from '../rules/azure-cis-1.3.1-5.2.9'
-import { initRuleEngine, testRule } from './utils'
-
-export interface azureActivityLogAlertAllOfCondition {
-  allOf: [azureActivityLogAlertLeafCondition]
-}
+import { initRuleEngine, testRule } from '../../../utils/test'
 
 export interface azureActivityLogAlertLeafCondition {
   id: string

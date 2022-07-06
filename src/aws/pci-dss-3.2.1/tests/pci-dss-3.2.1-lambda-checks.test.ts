@@ -1,16 +1,15 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Lambda_1 from '../rules/pci-dss-3.2.1-lambda-check-1'
 import Aws_PCI_DSS_321_Lambda_2 from '../rules/pci-dss-3.2.1-lambda-check-2'
+import { initRuleEngine } from '../../../utils/test'
+
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('Lambda Check 1: Lambda functions should prohibit public access', () => {

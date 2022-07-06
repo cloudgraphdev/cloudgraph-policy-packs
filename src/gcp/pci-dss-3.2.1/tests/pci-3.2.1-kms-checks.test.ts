@@ -1,7 +1,8 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_KMS_1 from '../rules/pci-dss-3.2.1-kms-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Bindings {
   members: string[]
@@ -30,7 +31,7 @@ export interface CISKMSQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('KMS Check 1: KMS keys should not be anonymously or publicly accessible', () => {
