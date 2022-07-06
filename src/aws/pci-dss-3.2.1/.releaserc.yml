@@ -8,6 +8,8 @@ branches:
     prerelease: true
   - name: main
 
+dryRun: false
+
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
@@ -28,10 +30,10 @@ prepare:
   - "@semantic-release/changelog"
   - "@semrel-extra/npm"
   - - "@semantic-release/git"
-    - message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+    - message: "chore(release): @cloudgraph/policy-pack-aws-pci-dss-3.2.1 ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/github"
   - "@semrel-extra/npm"
 success: false
 fail: false
-tagFormat: "${version}"
+tagFormat: "@cloudgraph/policy-pack-aws-pci-dss-3.2.1@${version}"

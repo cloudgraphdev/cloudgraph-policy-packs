@@ -1,3 +1,45 @@
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-07-05)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-07-05)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-07-05)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-07-05)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-06-30)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.16.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.2) (2022-06-30)
+
+
+### Bug Fixes
+
+* **checks:** Fix how we check security groups ([76c333b](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/76c333ba2b083826d2348d964d1a1ae3fc733711))
+
 ## @cloudgraph/policy-pack-aws-pci-dss-3.2.1 [1.16.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.16.1) (2022-05-02)
 
 
