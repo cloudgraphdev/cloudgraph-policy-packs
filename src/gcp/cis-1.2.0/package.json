@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-gcp-cis-1.2.0",
   "description": "Policy pack implementing CIS Google Cloud Platform Foundations 1.2.0 Benchmark",
-  "version": "1.21.0",
+  "version": "1.21.1",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -55,11 +55,10 @@
     "arrowParens": "avoid"
   },
   "scripts": {
-    "build": "yarn prepack",
+    "build": "pnpm prepack",
     "clean": "rm -rf dist",
     "lint": "eslint",
-    "prepack": "yarn clean && tsc -b",
-    "publish": "yarn npm publish",
+    "prepack": "pnpm clean && tsc -b",
     "test": "NODE_ENV=test jest"
   }
 }
