@@ -1,3 +1,6 @@
+# [@cloudgraph/policy-pack-azure-cis-1.3.1-v1.14.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.2...@cloudgraph/policy-pack-azure-cis-1.3.1@1.14.0) (2022-07-05)
+
+
 ## @cloudgraph/policy-pack-azure-cis-1.3.1 [1.13.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.1...@cloudgraph/policy-pack-azure-cis-1.3.1@1.13.2) (2022-05-26)
 
 
