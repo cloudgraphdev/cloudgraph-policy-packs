@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-azure-nist-800-53-rev4",
   "description": "Policy pack implementing The National Institute of Standards and Technology 800-53 Rev. 4 Benchmark for Microsoft Azure services",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -54,11 +54,10 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "yarn prepack",
+    "build": "pnpm prepack",
     "clean": "rm -rf dist",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
-    "publish": "yarn npm publish",
     "test": "NODE_ENV=test jest"
   }
 }

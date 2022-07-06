@@ -5,4 +5,4 @@ tests/
 jest.config.js
 tsconfig.json
 **/*.ts
-!dist/index.d.ts
+!dist/**/*.d.ts
