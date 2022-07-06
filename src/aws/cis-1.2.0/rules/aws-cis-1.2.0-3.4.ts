@@ -53,7 +53,8 @@ export default {
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: 'Monitoring changes to IAM policies will help ensure authentication and authorization controls remain intact.',
+  rationale:
+    'Monitoring changes to IAM policies will help ensure authentication and authorization controls remain intact.',
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on the filter pattern provided which checks for IAM policy changes and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -126,7 +127,7 @@ export default {
   severity: 'medium',
   check: ({ resource }: any): any => {
     return resource.cloudtrail
-      .filter(
+      ?.filter(
         (cloudtrail: any) =>
           cloudtrail.cloudwatchLog?.length &&
           cloudtrail.isMultiRegionTrail === 'Yes' &&
@@ -140,14 +141,14 @@ export default {
       .some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log.metricFilters.some((metricFilter: any) => {
-          const metricTrasformation = metricFilter.metricTransformations.find(
+        return log.metricFilters?.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations?.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
           )
 
           if (!metricTrasformation) return false
-          const metricCloudwatch = log.cloudwatch.find(
+          const metricCloudwatch = log.cloudwatch?.find(
             (cw: any) => cw.metric === metricTrasformation.metricName
           )
 
@@ -157,22 +158,54 @@ export default {
                 sub.arn.includes('arn:aws:')
               )
             ) &&
-            /(\$.eventName)\s*=\s*DeleteGroupPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DeleteRolePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DeleteUserPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*PutGroupPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*PutRolePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*PutUserPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*CreatePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DeletePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*CreatePolicyVersion/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DeletePolicyVersion/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*AttachRolePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DetachRolePolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*AttachUserPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DetachUserPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*AttachGroupPolicy/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DetachGroupPolicy/.test(metricFilter.filterPattern)
+            /(\$.eventName)\s*=\s*DeleteGroupPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DeleteRolePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DeleteUserPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*PutGroupPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*PutRolePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*PutUserPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*CreatePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DeletePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*CreatePolicyVersion/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DeletePolicyVersion/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*AttachRolePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DetachRolePolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*AttachUserPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DetachUserPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*AttachGroupPolicy/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DetachGroupPolicy/.test(
+              metricFilter.filterPattern
+            )
           )
         })
       })

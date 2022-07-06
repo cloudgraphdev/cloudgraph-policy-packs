@@ -50,7 +50,8 @@ export default {
   at least one subscription should have "SubscriptionArn" with valid aws ARN.
 
     Example of valid "SubscriptionArn": "arn:aws:sns:<region>:<aws_account_number>:<SnsTopicName>:<SubscriptionID>"`,
-  rationale: 'Monitoring changes to CloudTrail\'s configuration will help ensure sustained visibility to activities performed in the AWS account.',
+  rationale:
+    "Monitoring changes to CloudTrail's configuration will help ensure sustained visibility to activities performed in the AWS account.",
   remediation: `Perform the following to setup the metric filter, alarm, SNS topic, and subscription:
 
   1. Create a metric filter based on filter pattern provided which checks for cloudtrail configuration changes and the *<cloudtrail_log_group_name>* taken from audit step 1.
@@ -123,7 +124,7 @@ export default {
   severity: 'medium',
   check: ({ resource }: any): any => {
     return resource.cloudtrail
-      .filter(
+      ?.filter(
         (cloudtrail: any) =>
           cloudtrail.cloudwatchLog?.length &&
           cloudtrail.isMultiRegionTrail === 'Yes' &&
@@ -137,14 +138,14 @@ export default {
       .some((cloudtrail: any) => {
         const log = cloudtrail.cloudwatchLog[0]
 
-        return log.metricFilters.some((metricFilter: any) => {
-          const metricTrasformation = metricFilter.metricTransformations.find(
+        return log.metricFilters?.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations?.find(
             (mt: any) =>
               log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
           )
 
           if (!metricTrasformation) return false
-          const metricCloudwatch = log.cloudwatch.find(
+          const metricCloudwatch = log.cloudwatch?.find(
             (cw: any) => cw.metric === metricTrasformation.metricName
           )
 
@@ -154,10 +155,18 @@ export default {
                 sub.arn.includes('arn:aws:')
               )
             ) &&
-            /(\$.eventName)\s*=\s*CreateTrail/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*UpdateTrail/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*DeleteTrail/.test(metricFilter.filterPattern) &&
-            /(\$.eventName)\s*=\s*StartLogging/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*CreateTrail/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*UpdateTrail/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*DeleteTrail/.test(
+              metricFilter.filterPattern
+            ) &&
+            /(\$.eventName)\s*=\s*StartLogging/.test(
+              metricFilter.filterPattern
+            ) &&
             /(\$.eventName)\s*=\s*StopLogging/.test(metricFilter.filterPattern)
           )
         })
