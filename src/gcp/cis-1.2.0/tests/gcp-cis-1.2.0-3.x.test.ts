@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_31 from '../rules/gcp-cis-1.2.0-3.1'
@@ -13,6 +13,7 @@ import Gcp_CIS_120_37 from '../rules/gcp-cis-1.2.0-3.7'
 import Gcp_CIS_120_38 from '../rules/gcp-cis-1.2.0-3.8'
 import Gcp_CIS_120_39 from '../rules/gcp-cis-1.2.0-3.9'
 import Gcp_CIS_120_310 from '../rules/gcp-cis-1.2.0-3.10'
+import { initRuleEngine } from '../../../utils/test'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -87,10 +88,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
   describe('GCP CIS 3.1 Ensure that the default network does not exist in a project', () => {
     const test31Rule = async (

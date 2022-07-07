@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const filterPatternRegex =
   /\s*protoPayload.methodName\s*=\s*"SetIamPolicy"\s*AND\s*protoPayload.serviceData.policyDelta.auditConfigDeltas:*\s*/
 
@@ -49,7 +52,7 @@ export default {
 
   5. Ensure that the output contains at least one alert policy where:
 
-  - *conditions.conditionThreshold.filter* is set to *metric.type=\"logging.googleapis.com/user/<Log_Metric_Name>\"*
+  - *conditions.conditionThreshold.filter* is set to *metric.type="logging.googleapis.com/user/<Log_Metric_Name>"*
   - AND *enabled* is set to *true*`,
   rationale: `Admin activity and data access logs produced by cloud audit logging enable security analysis, resource change tracking, and compliance auditing.
 
@@ -97,11 +100,11 @@ export default {
   - Use the command: *gcloud alpha monitoring policies create*
   - Reference for command usage: https://cloud.google.com/sdk/gcloud/reference/alpha/monitoring/policies/create`,
   references: [
-    `https://cloud.google.com/logging/docs/logs-based-metrics/`,
-    `https://cloud.google.com/monitoring/custom-metrics/`,
-    `https://cloud.google.com/monitoring/alerts/`,
-    `https://cloud.google.com/logging/docs/reference/tools/gcloud-logging`,
-    `https://cloud.google.com/logging/docs/audit/configure-data-access#getiampolicy-setiampolicy`,
+    'https://cloud.google.com/logging/docs/logs-based-metrics/',
+    'https://cloud.google.com/monitoring/custom-metrics/',
+    'https://cloud.google.com/monitoring/alerts/',
+    'https://cloud.google.com/logging/docs/reference/tools/gcloud-logging',
+    'https://cloud.google.com/logging/docs/audit/configure-data-access#getiampolicy-setiampolicy',
   ],
   gql: `{
     querygcpAlertPolicy {
@@ -119,20 +122,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

@@ -1,9 +1,10 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_21 from '../rules/gcp-nist-800-53-rev4-2.1'
 import Gcp_NIST_800_53_22 from '../rules/gcp-nist-800-53-rev4-2.2'
 import Gcp_NIST_800_53_23 from '../rules/gcp-nist-800-53-rev4-2.3'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DnssecConfigDefaultKeySpecs {
   keyType: string
@@ -24,10 +25,7 @@ export interface NIST2xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 2.1 DNS managed zone DNSSEC should be enabled', () => {

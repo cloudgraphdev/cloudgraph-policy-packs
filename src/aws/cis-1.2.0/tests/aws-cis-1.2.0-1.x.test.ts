@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_CIS_120_11 from '../rules/aws-cis-1.2.0-1.1'
 import Aws_CIS_120_12 from '../rules/aws-cis-1.2.0-1.2'
@@ -19,14 +19,12 @@ import Aws_CIS_120_114 from '../rules/aws-cis-1.2.0-1.14'
 import Aws_CIS_120_116 from '../rules/aws-cis-1.2.0-1.16'
 import Aws_CIS_120_120 from '../rules/aws-cis-1.2.0-1.20'
 import Aws_CIS_120_122 from '../rules/aws-cis-1.2.0-1.22'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
   describe("AWS CIS 1.1 Avoid the use of 'root' account. Show used in last 30 days", () => {
     test('Should fail when a root account uses his password in the last 30 days', async () => {
@@ -34,6 +32,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed: '2021-04-08T17:20:19.000Z',
           },
@@ -53,6 +52,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed: new Date().toISOString(),
           },
@@ -541,6 +541,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive: true,
           },
         ],
@@ -558,6 +559,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive: false,
           },
         ],
@@ -993,3 +995,4 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
     })
   })
 })
+

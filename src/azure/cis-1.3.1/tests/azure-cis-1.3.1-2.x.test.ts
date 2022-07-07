@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_21 from '../rules/azure-cis-1.3.1-2.1'
@@ -17,6 +17,7 @@ import Azure_CIS_131_211 from '../rules/azure-cis-1.3.1-2.11'
 import Azure_CIS_131_213 from '../rules/azure-cis-1.3.1-2.13'
 import Azure_CIS_131_214 from '../rules/azure-cis-1.3.1-2.14'
 import Azure_CIS_131_215 from '../rules/azure-cis-1.3.1-2.15'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface QueryazureSecurityPricing {
   id: string
@@ -54,7 +55,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 2.1 Ensure that Azure Defender is set to On for Servers', () => {
@@ -615,14 +616,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test("No Security Issue when email notification for high severity alerts to On", async () => {
+    test('No Security Issue when email notification for high severity alerts to On', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'On')
 
       await testRule(data, Result.PASS)
     })
 
     
-    test("Security Issue when email notification for high severity alerts to Off", async () => {
+    test('Security Issue when email notification for high severity alerts to Off', async () => {
       const data: CIS1xQueryResponse = getTestRuleFixture('default1', 'Off')
 
       await testRule(data, Result.FAIL)

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export default {
   id: 'gcp-cis-1.2.0-2.3',
   title:
@@ -49,8 +52,8 @@ export default {
 
   For more information, visit https://cloud.google.com/storage/docs/using-bucket-lock#set-policy.`,
   references: [
-    `https://cloud.google.com/storage/docs/bucket-lock`,
-    `https://cloud.google.com/storage/docs/using-bucket-lock`,
+    'https://cloud.google.com/storage/docs/bucket-lock',
+    'https://cloud.google.com/storage/docs/using-bucket-lock',
   ],
   gql: `{
     querygcpProject {
@@ -67,51 +70,21 @@ export default {
     }
   }`,
   resource: 'querygcpProject[*]',
-  severity: 'unknown',
-  conditions: {
-    jq: ` {
-            "id": .id,
-            "logSinks" : [
-              {
-                  "destination" :
-                      .logSinks[].destination
-                      | select(startswith("storage.googleapis.com/"))
-                      | sub("storage.googleapis.com/"; "") ,
-                  "logBuckets" :.logBuckets
-              }
-            ] | map({
-                "destination" : .destination,
-                "logBuckets" : [. as $parent | .logBuckets[] | select($parent.destination == .name)]
-              })
-          }`,
-    path: '@',
-    and: [
-      {
-        path: '[*].logSinks',
-        array_all: {
-          and: [
-            {
-              path: '[*].logBuckets',
-              isEmpty: false,
-            },
-            {
-              path: '[*].logBuckets',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].retentionDays',
-                    greaterThan: 0,
-                  },
-                  {
-                    path: '[*].locked',
-                    equal: true,
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-    ],
+  severity: 'medium',
+  check: ({ resource }: any): boolean => {
+    const logSinks =
+      resource.logSinks?.filter((logSink: any) =>
+        logSink.destination?.startsWith('storage.googleapis.com/')
+      ) || []
+
+    return logSinks.every(
+      (ls: any) =>
+        resource.logBuckets?.some(
+          (lb: any) =>
+            ls.destination.includes(lb.name) &&
+            lb.retentionDays > 0 &&
+            lb.locked === true
+        )
+    )
   },
 }

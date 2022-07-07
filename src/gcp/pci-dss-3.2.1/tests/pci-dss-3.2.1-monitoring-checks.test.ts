@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_Monitoring_1 from '../rules/pci-dss-3.2.1-monitoring-check-1'
 import Gcp_PCI_DSS_321_Monitoring_2 from '../rules/pci-dss-3.2.1-monitoring-check-2'
@@ -9,6 +9,7 @@ import Gcp_PCI_DSS_321_Monitoring_5 from '../rules/pci-dss-3.2.1-monitoring-chec
 import Gcp_PCI_DSS_321_Monitoring_6 from '../rules/pci-dss-3.2.1-monitoring-check-6'
 import Gcp_PCI_DSS_321_Monitoring_7 from '../rules/pci-dss-3.2.1-monitoring-check-7'
 import Gcp_PCI_DSS_321_Monitoring_8 from '../rules/pci-dss-3.2.1-monitoring-check-8'
+import { initRuleEngine } from '../../../utils/test'
 
 const Gcp_PCI_DSS_321_Monitoring_1_Filter =
   'protoPayload.methodName="SetIamPolicy" AND protoPayload.serviceData.policyDelta.auditConfigDeltas:*'
@@ -104,7 +105,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('Monitoring check 1: Logging metric filter and alert for audit configuration changes should be configured', () => {

@@ -104,7 +104,7 @@ export default {
             path: '[*].accessConfigs',
             array_any: {
               path: '[*].natIP',
-              notIn: [null, ''],
+              isEmpty: false,
             },
           },
         },

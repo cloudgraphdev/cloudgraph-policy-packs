@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Azure_PCI_DSS_321_Networking_1 from '../rules/pci-dss-3.2.1-networking-check-1'
 import Azure_PCI_DSS_321_Networking_2 from '../rules/pci-dss-3.2.1-networking-check-2'
@@ -48,10 +49,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('azure', 'PCI')
   })
 
   describe('Networking Check 1: Virtual Network security groups should not permit ingress from ‘0.0.0.0/0’ to TCP port 3389 (RDP)', () => {

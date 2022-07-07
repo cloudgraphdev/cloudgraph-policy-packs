@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_S3_1 from '../rules/pci-dss-3.2.1-s3-check-1'
 import Aws_PCI_DSS_321_S3_2 from '../rules/pci-dss-3.2.1-s3-check-2'
@@ -7,6 +7,7 @@ import Aws_PCI_DSS_321_S3_3 from '../rules/pci-dss-3.2.1-s3-check-3'
 import Aws_PCI_DSS_321_S3_4 from '../rules/pci-dss-3.2.1-s3-check-4'
 import Aws_PCI_DSS_321_S3_5 from '../rules/pci-dss-3.2.1-s3-check-5'
 import Aws_PCI_DSS_321_S3_6 from '../rules/pci-dss-3.2.1-s3-check-6'
+import { initRuleEngine } from '../../../utils/test'
 
 const allowAll = {
   action: ['*'],
@@ -105,10 +106,7 @@ const allowSSLRequestsOnly = {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
   describe('S3 Check 1: S3 buckets should prohibit public write access', () => {
     test('Should fail when it has blockPublicPolicy and blockPublicAcls disabled', async () => {

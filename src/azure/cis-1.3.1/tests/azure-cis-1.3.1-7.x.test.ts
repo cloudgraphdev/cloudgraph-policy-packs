@@ -1,10 +1,11 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Azure_CIS_131_71 from '../rules/azure-cis-1.3.1-7.1'
 import Azure_CIS_131_72 from '../rules/azure-cis-1.3.1-7.2'
 import Azure_CIS_131_73 from '../rules/azure-cis-1.3.1-7.3'
 import Azure_CIS_131_77 from '../rules/azure-cis-1.3.1-7.7'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Disk {
   id: string
@@ -28,10 +29,7 @@ export interface CIS7xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 7.1 Ensure Virtual Machines are utilizing Managed Disks', () => {

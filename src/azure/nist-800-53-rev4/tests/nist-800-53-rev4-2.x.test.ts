@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Azure_NIST_800_53_21 from '../rules/azure-nist-800-53-rev4-2.1'
 
@@ -15,10 +16,7 @@ export interface NIS2xQueryResponse {
 describe('Azure NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('azure', 'NIST')
   })
 
   describe('Azure NIST 2.1 Monitor audit profile should log all activities', () => {

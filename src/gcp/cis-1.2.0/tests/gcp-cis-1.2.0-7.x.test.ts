@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_71 from '../rules/gcp-cis-1.2.0-7.1'
 import Gcp_CIS_120_72 from '../rules/gcp-cis-1.2.0-7.2'
 import Gcp_CIS_120_73 from '../rules/gcp-cis-1.2.0-7.3'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Access {
   role: string
@@ -33,7 +34,7 @@ export interface CIS7xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe('GCP CIS 7.1 Ensure that BigQuery datasets are not anonymously or publicly accessible', () => {

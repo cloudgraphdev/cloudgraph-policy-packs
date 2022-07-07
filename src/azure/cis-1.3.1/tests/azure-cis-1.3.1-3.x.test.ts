@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_31 from '../rules/azure-cis-1.3.1-3.1'
@@ -9,6 +9,7 @@ import Azure_CIS_131_35 from '../rules/azure-cis-1.3.1-3.5'
 import Azure_CIS_131_36 from '../rules/azure-cis-1.3.1-3.6'
 import Azure_CIS_131_38 from '../rules/azure-cis-1.3.1-3.8'
 import Azure_CIS_131_39 from '../rules/azure-cis-1.3.1-3.9'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Logging {
   read: boolean
@@ -40,7 +41,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 3.1 Ensure that "Secure transfer required" is set to "Enabled"', () => {

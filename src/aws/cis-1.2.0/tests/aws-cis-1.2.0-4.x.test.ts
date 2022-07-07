@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Aws_CIS_120_41 from '../rules/aws-cis-1.2.0-4.1'
 import Aws_CIS_120_42 from '../rules/aws-cis-1.2.0-4.2'
 import Aws_CIS_120_43 from '../rules/aws-cis-1.2.0-4.3'
+import { initRuleEngine } from '../../../utils/test'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -22,6 +23,7 @@ export interface OutboundRulesEntity {
 }
 export interface QueryawsSecurityGroupEntity {
   id: string
+  name?: string
   inboundRules?: InboundRulesEntity[]
   outboundRules?: OutboundRulesEntity[]
 }
@@ -32,7 +34,7 @@ export interface CIS4xQueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'aws', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
   describe('AWS CIS 4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22', () => {
     const test41Rule = async (
@@ -311,6 +313,7 @@ describe('CIS Amazon Web Services Foundations: 1.2.0', () => {
         queryawsSecurityGroup: [
           {
             id: cuid(),
+            name: 'default',
             inboundRules: [],
             outboundRules: [],
           },

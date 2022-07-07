@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Aws_NIST_800_53_121 from '../rules/aws-nist-800-53-rev4-12.1'
 import Aws_NIST_800_53_122 from '../rules/aws-nist-800-53-rev4-12.2'
@@ -30,10 +31,7 @@ export interface NIST12xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   describe('AWS NIST 12.1 CloudFront distributions should have geo-restrictions specified', () => {

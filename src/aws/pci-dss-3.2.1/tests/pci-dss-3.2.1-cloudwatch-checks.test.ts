@@ -1,7 +1,8 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Cloudwatch_1 from '../rules/pci-dss-3.2.1-cloudwatch-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 const Filter_Pattern =
   '{ $.userIdentity.type = "Root" && $.userIdentity.invokedBy NOT EXISTS && $.eventType != "AwsServiceEvent" }'
@@ -145,10 +146,7 @@ const getValidResponse = (metricFilterPattern: string): QueryResponse => ({
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('Cloudwatch Check 1: A log metric filter and alarm should exist for usage of the "root" user', () => {

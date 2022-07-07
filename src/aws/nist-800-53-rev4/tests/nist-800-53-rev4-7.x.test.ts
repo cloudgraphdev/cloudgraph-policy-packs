@@ -1,4 +1,4 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_NIST_800_53_71 from '../rules/aws-nist-800-53-rev4-7.1'
@@ -14,6 +14,7 @@ import Aws_NIST_800_53_711 from '../rules/aws-nist-800-53-rev4-7.11'
 import Aws_NIST_800_53_712 from '../rules/aws-nist-800-53-rev4-7.12'
 import Aws_NIST_800_53_713 from '../rules/aws-nist-800-53-rev4-7.13'
 import Aws_NIST_800_53_714 from '../rules/aws-nist-800-53-rev4-7.14'
+import { initRuleEngine } from '../../../utils/test'
 
 const Aws_NIST_800_53_72_Filter_Pattern =
   '{ ($.eventSource = organizations.amazonaws.com) && (($.eventName = "AcceptHandshake") || ($.eventName = "AttachPolicy") || ($.eventName = "CreateAccount") || ($.eventName = "CreateOrganizationalUnit") || ($.eventName = "CreatePolicy") || ($.eventName = "DeclineHandshake") || ($.eventName = "DeleteOrganization") || ($.eventName = "DeleteOrganizationalUnit") || ($.eventName = "DeletePolicy") || ($.eventName = "DetachPolicy") || ($.eventName = "DisablePolicyType") || ($.eventName = "EnablePolicyType") || ($.eventName = "InviteAccountToOrganization") || ($.eventName = "LeaveOrganization") || ($.eventName = "MoveAccount") || ($.eventName = "RemoveAccountFromOrganization") || ($.eventName = "UpdatePolicy") || ($.eventName = "UpdateOrganizationalUnit")) }'
@@ -113,10 +114,7 @@ export interface NIST7xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   const get7xValidResponse = (

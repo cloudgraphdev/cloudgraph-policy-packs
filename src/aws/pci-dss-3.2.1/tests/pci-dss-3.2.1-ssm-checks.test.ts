@@ -1,17 +1,15 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Ssm_1 from '../rules/pci-dss-3.2.1-ssm-check-1'
 import Aws_PCI_DSS_321_Ssm_2 from '../rules/pci-dss-3.2.1-ssm-check-2'
 import Aws_PCI_DSS_321_Ssm_3 from '../rules/pci-dss-3.2.1-ssm-check-3'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('SSM Check 1: Amazon EC2 instances managed by Systems Manager should have a patch compliance status of COMPLIANT after a patch installation', () => {

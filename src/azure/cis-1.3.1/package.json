@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
-    "@cloudgraph/sdk": "^0.14.0",
+    "@cloudgraph/sdk": "^0.21.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
     "@types/pino": "^6.3.11",

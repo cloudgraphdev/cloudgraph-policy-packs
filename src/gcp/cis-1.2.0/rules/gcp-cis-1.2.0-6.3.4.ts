@@ -60,12 +60,10 @@ export default {
     `https://www.stigviewer.com/stig/ms_sql_server_2016_instance/2018- 03-09/finding/V-79335`,
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -73,44 +71,32 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /SQLSERVER*/ } },
   severity: 'high',
   conditions: {
-    path: '@',
     or: [
       {
-        path: '[*].sqlInstances',
+        path: '@.settings.databaseFlags',
         isEmpty: true,
       },
       {
-        path: '[*].sqlInstances',
+        path: '@.settings.databaseFlags',
         array_all: {
-          path: '[*]',
-          or: [
-            {
-              path: '[*].settings.databaseFlags',
-              isEmpty: true,
-            },
-            {
-              path: '[*].settings.databaseFlags',
-              array_all: {
-                not: {
-                  and: [
-                    {
-                      path: '[*].name',
-                      equal: 'user options',
-                    },
-                    {
-                      path: '[*].value',
-                      notIn: [null, ''],
-                    },
-                  ],
-                },
+          not: {
+            and: [
+              {
+                path: '[*].name',
+                equal: 'user options',
               },
-            },
-          ],
+              {
+                path: '[*].value',
+                isEmpty: false,
+              },
+            ],
+          },
         },
       },
     ],

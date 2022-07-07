@@ -1,6 +1,6 @@
 // AWS CIS 1.2.0 Rule equivalent 4.3
 export default {
-  id: 'aws-nist-800-53-rev4-8.2',  
+  id: 'aws-nist-800-53-rev4-8.2',
   title: 'AWS NIST 8.2 VPC default security group should restrict all traffic',
 
   description: `A VPC comes with a default security group whose initial settings deny all inbound traffic,
@@ -45,7 +45,8 @@ export default {
   5. Change to the EC2 Management Console at https://console.aws.amazon.com/ec2/v2/home
   6. In the filter column type 'Security Group ID : < security group id from #4 >`,
 
-  rationale: 'Configuring all VPC default security groups to restrict all traffic will encourage least privilege security group development and mindful placement of AWS resources into security groups which will, in turn, reduce the exposure of those resources.',
+  rationale:
+    'Configuring all VPC default security groups to restrict all traffic will encourage least privilege security group development and mindful placement of AWS resources into security groups which will, in turn, reduce the exposure of those resources.',
 
   remediation: `Security Group Members
   Perform the following to implement the prescribed state:
@@ -92,6 +93,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'default' } },
   resource: 'queryawsSecurityGroup[*]',
   severity: 'high',
   conditions: {

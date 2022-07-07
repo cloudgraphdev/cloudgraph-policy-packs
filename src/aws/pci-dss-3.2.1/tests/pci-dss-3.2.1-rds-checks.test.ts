@@ -1,16 +1,14 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Rds_1 from '../rules/pci-dss-3.2.1-rds-check-1'
 import Aws_PCI_DSS_321_Rds_2 from '../rules/pci-dss-3.2.1-rds-check-2'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
   describe('RDS check 1: RDS snapshots should prohibit public access', () => {
     test('Should fail when snapshots have a resotre - all attribute', async () => {

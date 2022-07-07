@@ -52,39 +52,23 @@ export default {
   }`,
   resource: 'querygcpFirewall[*]',
   severity: 'unknown',
-  conditions: {
-    path: '@',
-    and: [
-      {
-        path: '[*].sourceRanges',
-        jq: 'map({"range": .})',
-        array_all: {
-          path: '[*].range',
-          in: ['35.191.0.0/16', '130.211.0.0/22'],
-        },
-      },
-      {
-        path: '@.allowed',
-        jq: `[.[]
-          | { "ipProtocol": .ipProtocol}
-          + (if .ports | length > 0  then .ports[] else [""][] end  | split("-")  | {fromPort: (.[0]), toPort: (.[1] // .[0])}) ]`,
-        array_all: {
-          and: [
-            {
-              path: '[*].ipProtocol',
-              in: ['tcp', 'all'],
-            },
-            {
-              path: '[*].fromPort',
-              lessThanInclusive: 80,
-            },
-            {
-              path: '[*].toPort',
-              greaterThanInclusive: 80,
-            },
-          ],
-        },
-      },
-    ],
+  check: ({ resource }: any): boolean => {
+    return (
+      resource.sourceRanges?.every((ip: string) =>
+        ['35.191.0.0/16', '130.211.0.0/22'].includes(ip)
+      ) &&
+      resource.allowed?.every(
+        ({ ipProtocol, ports }: { ipProtocol: string; ports: string[] }) => {
+          return (
+            ['tcp', 'all'].includes(ipProtocol) &&
+            ports.length &&
+            ports.every((port: string) => {
+              const range = port.includes('-') ? port.split('-') : [port, port]
+              return Number(range[0]) === 80 && Number(range[1]) === 80
+            })
+          )
+        }
+      )
+    )
   },
 }
