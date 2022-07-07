@@ -23,7 +23,8 @@ export default {
 
           gcloud sql instances describe INSTANCE_NAME --format=json | jq '.settings.databaseFlags[] | select(.name=="log_connections")|.value'
   `,
-  rationale: 'PostgreSQL does not log attempted connections by default. Enabling the *log_connections* setting will create log entries for each attempted connection as well as successful completion of client authentication which can be useful in troubleshooting issues and to determine any unusual connection attempts to the server. This recommendation is applicable to PostgreSQL database instances.',
+  rationale:
+    'PostgreSQL does not log attempted connections by default. Enabling the *log_connections* setting will create log entries for each attempted connection as well as successful completion of client authentication which can be useful in troubleshooting issues and to determine any unusual connection attempts to the server. This recommendation is applicable to PostgreSQL database instances.',
   remediation: `**From Console:**
 
   1. Go to the Cloud SQL Instances page in the Google Cloud Console by visiting https://console.cloud.google.com/sql/instances.
@@ -52,12 +53,10 @@ export default {
     'https://www.postgresql.org/docs/9.6/runtime-config-logging.html#RUNTIME-CONFIG-LOGGING-WHAT',
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -65,40 +64,28 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /POSTGRES*/ } },
   severity: 'medium',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'log_connections',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'log_connections',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: 'on',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: 'on',
             },
           ],
         },

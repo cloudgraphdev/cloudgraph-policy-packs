@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_PCI_DSS_321_Networking_1 from '../rules/pci-dss-3.2.1-networking-check-1'
 import Gcp_PCI_DSS_321_Networking_2 from '../rules/pci-dss-3.2.1-networking-check-2'
 import Gcp_PCI_DSS_321_Networking_3 from '../rules/pci-dss-3.2.1-networking-check-3'
 import Gcp_PCI_DSS_321_Networking_4 from '../rules/pci-dss-3.2.1-networking-check-4'
+import { initRuleEngine } from '../../../utils/test'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -80,10 +81,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('Networking check 1: Network firewall rules should not permit ingress from 0.0.0.0/0 to port 22 (SSH)', () => {

@@ -1,15 +1,13 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Redshift_1 from '../rules/pci-dss-3.2.1-redshift-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
   describe('Redshift Check 1: Amazon Redshift clusters should prohibit public access', () => {
     test('Should fail when publiclyAccessible is true', async () => {

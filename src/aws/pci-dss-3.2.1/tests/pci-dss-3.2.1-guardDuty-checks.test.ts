@@ -1,7 +1,8 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_GuardDuty_1 from '../rules/pci-dss-3.2.1-guardDuty-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 interface GuardDutyData {
   region: string
@@ -27,7 +28,7 @@ const generateDetectors = (
   enabledGuardDuty = 'ENABLED',
   enabledDataSource = 'DISABLED'
 ): GuardDutyData[] =>
-  regions.map((r) => ({
+  regions.map((r: any) => ({
     region: r,
     status: enabledGuardDuty,
     dataSources: {
@@ -49,10 +50,7 @@ const generateDetectors = (
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('GuardDuty Check 1: GuardDuty should be enabled', () => {

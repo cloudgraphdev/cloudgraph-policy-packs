@@ -1,16 +1,14 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_ElasticSearch_1 from '../rules/pci-dss-3.2.1-elasticSearch-check-1'
 import Aws_PCI_DSS_321_ElasticSearch_2 from '../rules/pci-dss-3.2.1-elasticSearch-check-2'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('ElasticSearch Check 1: ElasticSearch domains should be in a VPC', () => {

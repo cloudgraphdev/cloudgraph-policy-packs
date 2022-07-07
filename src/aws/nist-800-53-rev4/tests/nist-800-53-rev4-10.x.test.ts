@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Aws_NIST_800_53_101 from '../rules/aws-nist-800-53-rev4-10.1'
 import Aws_NIST_800_53_102 from '../rules/aws-nist-800-53-rev4-10.2'
@@ -40,10 +41,7 @@ export interface NIST10xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   describe('AWS NIST 10.1 IAM password policies should expire passwords within 90 days', () => {

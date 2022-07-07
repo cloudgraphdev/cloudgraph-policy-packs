@@ -1,8 +1,9 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_IAM_3 from '../rules/pci-dss-3.2.1-iam-check-3'
 import Gcp_PCI_DSS_321_IAM_4 from '../rules/pci-dss-3.2.1-iam-check-4'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface AuditLogConfig {
   logType: string
@@ -46,7 +47,7 @@ export interface CISIAMQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
   
   describe('IAM Check 1: User-managed service accounts should not have admin privileges', () => {

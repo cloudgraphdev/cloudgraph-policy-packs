@@ -85,6 +85,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'default' } },
   resource: 'queryawsSecurityGroup[*]',
   severity: 'high',
   conditions: {

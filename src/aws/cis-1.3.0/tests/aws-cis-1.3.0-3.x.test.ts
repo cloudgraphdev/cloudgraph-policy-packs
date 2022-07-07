@@ -1,4 +1,4 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_CIS_130_31 from '../rules/aws-cis-1.3.0-3.1'
@@ -12,6 +12,7 @@ import Aws_CIS_130_38 from '../rules/aws-cis-1.3.0-3.8'
 import Aws_CIS_130_39 from '../rules/aws-cis-1.3.0-3.9'
 import Aws_CIS_130_310 from '../rules/aws-cis-1.3.0-3.10'
 import Aws_CIS_130_311 from '../rules/aws-cis-1.3.0-3.11'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DataResource {
   type: string
@@ -110,10 +111,7 @@ export interface CIS3xQueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.3.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
 
   describe('AWS CIS 3.1 Ensure CloudTrail is enabled in all regions', () => {

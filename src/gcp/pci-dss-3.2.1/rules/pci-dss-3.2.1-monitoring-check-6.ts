@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // GCP CIS 1.2.0 Rule equivalent 2.4
 const filterPatternRegex =
   /\s*\(\s*protoPayload.serviceName\s*=\s*"cloudresourcemanager.googleapis.com"\s*\)\s*AND\s*\(\s*ProjectOwnership\s*OR\s*projectOwnerInvitee\s*\)\s*OR\s*\(\s*protoPayload.serviceData.policyDelta.bindingDeltas.action\s*=\s*"REMOVE"\s*AND\s*protoPayload.serviceData.policyDelta.bindingDeltas.role\s*=\s*"roles\/owner"\s*\)\s*OR\s*\(\s*protoPayload.serviceData.policyDelta.bindingDeltas.action\s*=\s*"ADD"\s*AND\s*protoPayload.serviceData.policyDelta.bindingDeltas.role\s*=\s*"roles\/owner"\s*\)\s*/
@@ -139,20 +142,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'high',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

@@ -1,9 +1,10 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_DNS_1 from '../rules/pci-dss-3.2.1-dns-check-1'
 import Gcp_PCI_DSS_321_DNS_2 from '../rules/pci-dss-3.2.1-dns-check-2'
 import Gcp_PCI_DSS_321_DNS_3 from '../rules/pci-dss-3.2.1-dns-check-3'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DnssecConfigDefaultKeySpecs {
   keyType: string
@@ -24,10 +25,7 @@ export interface CISDNSQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('DNS Check 1: Ensure that RSASHA1 is not used for the key-signing key in Cloud DNS DNSSEC', () => {
@@ -179,3 +177,4 @@ describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   })
 
 })
+

@@ -1,10 +1,11 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_51 from '../rules/gcp-cis-1.2.0-5.1'
 import Gcp_CIS_120_52 from '../rules/gcp-cis-1.2.0-5.2'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface UniformBucketLevelAccess {
   enabled: boolean
@@ -36,7 +37,7 @@ export interface CIS5xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe('GCP CIS 5.1 Ensure that Cloud Storage bucket is not anonymously or publicly accessible', () => {

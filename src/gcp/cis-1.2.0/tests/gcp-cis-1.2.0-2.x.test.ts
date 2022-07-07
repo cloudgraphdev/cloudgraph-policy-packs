@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_21 from '../rules/gcp-cis-1.2.0-2.1'
@@ -15,6 +15,7 @@ import Gcp_CIS_120_29 from '../rules/gcp-cis-1.2.0-2.9'
 import Gcp_CIS_120_210 from '../rules/gcp-cis-1.2.0-2.10'
 import Gcp_CIS_120_211 from '../rules/gcp-cis-1.2.0-2.11'
 import Gcp_CIS_120_212 from '../rules/gcp-cis-1.2.0-2.12'
+import { initRuleEngine } from '../../../utils/test'
 
 const Gcp_CIS_120_24_Filter =
   '( protoPayload.serviceName="cloudresourcemanager.googleapis.com" ) AND ( ProjectOwnership OR projectOwnerInvitee ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="REMOVE" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="ADD" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" )'
@@ -109,7 +110,7 @@ export interface CIS2xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe('GCP CIS 2.1 Ensure that Cloud Audit Logging is configured properly across all services and all users from a project', () => {

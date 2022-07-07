@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_NIST_800_53_61 from '../rules/gcp-nist-800-53-rev4-6.1'
@@ -8,6 +8,7 @@ import Gcp_NIST_800_53_62 from '../rules/gcp-nist-800-53-rev4-6.2'
 import Gcp_NIST_800_53_63 from '../rules/gcp-nist-800-53-rev4-6.3'
 import Gcp_NIST_800_53_64 from '../rules/gcp-nist-800-53-rev4-6.4'
 import Gcp_NIST_800_53_65 from '../rules/gcp-nist-800-53-rev4-6.5'
+import { initRuleEngine } from '../../../utils/test'
 
 
 const ipV4WildcardAddress = '0.0.0.0/0'
@@ -132,10 +133,7 @@ export interface NIST6xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'gcp',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 6.1 The default network for a project should be deleted', () => {

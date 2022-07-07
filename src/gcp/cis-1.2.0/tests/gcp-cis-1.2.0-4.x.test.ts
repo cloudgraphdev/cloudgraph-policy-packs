@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_41 from '../rules/gcp-cis-1.2.0-4.1'
@@ -13,6 +13,7 @@ import Gcp_CIS_120_47 from '../rules/gcp-cis-1.2.0-4.7'
 import Gcp_CIS_120_48 from '../rules/gcp-cis-1.2.0-4.8'
 import Gcp_CIS_120_49 from '../rules/gcp-cis-1.2.0-4.9'
 import Gcp_CIS_120_411 from '../rules/gcp-cis-1.2.0-4.11'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface ServiceAccount {
   email: string
@@ -93,7 +94,7 @@ export interface CIS4xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe('GCP CIS 4.1 Ensure that instances are not configured to use the default service account', () => {

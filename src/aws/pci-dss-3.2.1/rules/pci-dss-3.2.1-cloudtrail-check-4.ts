@@ -65,7 +65,7 @@ export default {
     and: [
       {
         path: '@.cloudWatchLogsRoleArn',
-        notIn: [null, ''],
+        isEmpty: false,
       },
       {
         value: {

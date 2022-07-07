@@ -50,12 +50,10 @@ export default {
     `https://www.stigviewer.com/stig/ms_sql_server_2016_instance/2018-03-09/finding/V- 79337`,
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/SQLSERVER*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -63,40 +61,28 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /SQLSERVER*/ } },
   severity: 'medium',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'remote access',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'remote access',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: 'off',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: 'off',
             },
           ],
         },

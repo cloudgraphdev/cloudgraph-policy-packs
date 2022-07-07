@@ -1,16 +1,14 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Codebuild_1 from '../rules/pci-dss-3.2.1-codebuild-check-1'
 import Aws_PCI_DSS_321_Codebuild_2 from '../rules/pci-dss-3.2.1-codebuild-check-2'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('CodeBuild Check 1: CodeBuild GitHub or Bitbucket source repository URLs should use OAuth', () => {
@@ -43,7 +41,8 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
       let passedRules = 0
       let failedRules = 0
-      processedRules.forEach((processedRule) =>
+      processedRules.forEach((processedRule: any) =>
+        // eslint-disable-next-line no-plusplus
         processedRule.result === Result.FAIL ? failedRules++ : passedRules++
       )
 

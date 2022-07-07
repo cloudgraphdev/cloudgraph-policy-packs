@@ -1,18 +1,16 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Cloudtrail_1 from '../rules/pci-dss-3.2.1-cloudtrail-check-1'
 import Aws_PCI_DSS_321_Cloudtrail_2 from '../rules/pci-dss-3.2.1-cloudtrail-check-2'
 import Aws_PCI_DSS_321_Cloudtrail_3 from '../rules/pci-dss-3.2.1-cloudtrail-check-3'
 import Aws_PCI_DSS_321_Cloudtrail_4 from '../rules/pci-dss-3.2.1-cloudtrail-check-4'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
 
   describe('CloudTrail Check 1: CloudTrail logs should be encrypted at rest using AWS KMS keys', () => {

@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_51 from '../rules/gcp-nist-800-53-rev4-5.1'
 import Gcp_NIST_800_53_52 from '../rules/gcp-nist-800-53-rev4-5.2'
@@ -9,6 +9,7 @@ import Gcp_NIST_800_53_55 from '../rules/gcp-nist-800-53-rev4-5.5'
 import Gcp_NIST_800_53_56 from '../rules/gcp-nist-800-53-rev4-5.6'
 import Gcp_NIST_800_53_57 from '../rules/gcp-nist-800-53-rev4-5.7'
 import Gcp_NIST_800_53_58 from '../rules/gcp-nist-800-53-rev4-5.8'
+import { initRuleEngine } from '../../../utils/test'
 
 const Gcp_NIST_800_53_51_Filter =
   '( protoPayload.serviceName="cloudresourcemanager.googleapis.com" ) AND ( ProjectOwnership OR projectOwnerInvitee ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="REMOVE" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" ) OR ( protoPayload.serviceData.policyDelta.bindingDeltas.action="ADD" AND protoPayload.serviceData.policyDelta.bindingDeltas.role="roles/owner" )'
@@ -101,7 +102,7 @@ export interface NIST5xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'NIST'} )
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 5.1 Logging metric filter and alert for project ownership assignments/changes should be configured', () => {

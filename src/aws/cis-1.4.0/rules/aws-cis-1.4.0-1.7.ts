@@ -55,6 +55,7 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {
