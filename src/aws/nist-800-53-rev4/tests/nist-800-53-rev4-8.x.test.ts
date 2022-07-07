@@ -330,7 +330,7 @@ describe('AWS NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when there is an inbound and outbound rule with security group as source', async () => {
       const inboundRules: InboundRule[] = [ { source: 'sg-049c76f349f62e4eb', fromPort: null,  toPort: null } as InboundRule] 
-      const outboundRules: OutboundRule[] = [ { source: 'sg-049c76f349f62e4eb', fromPort: null,  toPort: null } as OutboundRule] 
+      const outboundRules: OutboundRule[] = [ { destination: 'sg-049c76f349f62e4eb', fromPort: null,  toPort: null } as OutboundRule] 
       await test81Rule(inboundRules, outboundRules, Result.PASS)
     })
   })
