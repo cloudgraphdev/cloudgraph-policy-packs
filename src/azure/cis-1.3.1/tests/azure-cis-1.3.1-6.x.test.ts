@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_61 from '../rules/azure-cis-1.3.1-6.1'
@@ -8,6 +8,7 @@ import Azure_CIS_131_62 from '../rules/azure-cis-1.3.1-6.2'
 import Azure_CIS_131_63 from '../rules/azure-cis-1.3.1-6.3'
 import Azure_CIS_131_64 from '../rules/azure-cis-1.3.1-6.4'
 import Azure_CIS_131_66 from '../rules/azure-cis-1.3.1-6.6'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface FlowLogs {
   retentionPolicyEnabled?: boolean | undefined
@@ -45,10 +46,7 @@ export interface CIS6xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 6.1 Ensure that RDP access is restricted from the internet', () => {

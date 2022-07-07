@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // GCP CIS 1.2.0 Rule equivalent 2.10
 const filterPatternRegex =
   /\s*resource.type\s*=\s*gcs_bucket\s*AND\s*protoPayload.methodName\s*=\s*"storage.setIamPermissions"\s*/
@@ -116,20 +119,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

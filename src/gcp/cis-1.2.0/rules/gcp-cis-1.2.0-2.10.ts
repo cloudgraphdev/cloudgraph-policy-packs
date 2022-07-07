@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const filterPatternRegex =
   /\s*resource.type\s*=\s*gcs_bucket\s*AND\s*protoPayload.methodName\s*=\s*"storage.setIamPermissions"\s*/
 
@@ -42,9 +45,10 @@ export default {
 
   5. Ensure that the output contains an least one alert policy where:
 
-  - *conditions.conditionThreshold.filter* is set to *metric.type=\"logging.googleapis.com/user/<Log_Metric_Name>\"*
+  - *conditions.conditionThreshold.filter* is set to *metric.type="logging.googleapis.com/user/<Log_Metric_Name>"*
   - AND *enabled* is set to *true*`,
-  rationale: `Monitoring changes to cloud storage bucket permissions may reduce the time needed to detect and correct permissions on sensitive cloud storage buckets and objects inside the bucket.`,
+  rationale:
+    'Monitoring changes to cloud storage bucket permissions may reduce the time needed to detect and correct permissions on sensitive cloud storage buckets and objects inside the bucket.',
   remediation: `**From Console:
   Create the prescribed log metric:**
 
@@ -88,12 +92,12 @@ export default {
   - Use the command: *gcloud alpha monitoring policies create*
   - Reference for command usage: https://cloud.google.com/sdk/gcloud/reference/alpha/monitoring/policies/create`,
   references: [
-    `https://cloud.google.com/logging/docs/logs-based-metrics/`,
-    `https://cloud.google.com/monitoring/custom-metrics/`,
-    `https://cloud.google.com/monitoring/alerts/`,
-    `https://cloud.google.com/logging/docs/reference/tools/gcloud-logging`,
-    `https://cloud.google.com/storage/docs/overview`,
-    `https://cloud.google.com/storage/docs/access-control/iam-roles`,
+    'https://cloud.google.com/logging/docs/logs-based-metrics/',
+    'https://cloud.google.com/monitoring/custom-metrics/',
+    'https://cloud.google.com/monitoring/alerts/',
+    'https://cloud.google.com/logging/docs/reference/tools/gcloud-logging',
+    'https://cloud.google.com/storage/docs/overview',
+    'https://cloud.google.com/storage/docs/access-control/iam-roles',
   ],
   gql: `{
     querygcpAlertPolicy {
@@ -115,20 +119,14 @@ export default {
   }`,
   resource: 'querygcpAlertPolicy[*]',
   severity: 'medium',
-  conditions: {
-    and: [
-      {
-        path: '@.enabled.value',
-        equal: true,
-      },
-      {
-        path: '@.project',
-        jq: '[.[].logMetrics[] | select( "logging.googleapis.com/user/" + .name == .metricDescriptor.type)]',
-        array_any: {
-          path: '[*].filter',
-          match: filterPatternRegex,
-        },
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    resource.enabled?.value === true &&
+    resource.project?.every((p: any) =>
+      p.logMetrics?.some(
+        (lm: any) =>
+          lm.metricDescriptor?.type ===
+            `logging.googleapis.com/user/${lm.name}` &&
+          filterPatternRegex.test(lm.filter)
+      )
+    ),
 }

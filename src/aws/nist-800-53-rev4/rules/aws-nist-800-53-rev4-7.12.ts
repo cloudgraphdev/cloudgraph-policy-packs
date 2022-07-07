@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AWS CIS 1.2.0 Rule equivalent 3.14
 const filterPatternRegex =
   /\$\.eventName\s*=\s*CreateVpc.+\$\.eventName\s*=\s*DeleteVpc.+\$\.eventName\s*=\s*ModifyVpcAttribute.+\$\.eventName\s*=\s*AcceptVpcPeeringConnection.+\$\.eventName\s*=\s*CreateVpcPeeringConnection.+\$\.eventName\s*=\s*DeleteVpcPeeringConnection.+\$\.eventName\s*=\s*RejectVpcPeeringConnection.+\$\.eventName\s*=\s*AttachClassicLinkVpc.+\$\.eventName\s*=\s*DetachClassicLinkVpc.+\$\.eventName\s*=\s*DisableVpcClassicLink.+\$\.eventName\s*=\s*EnableVpcClassicLink/
@@ -22,7 +24,7 @@ export default {
   - Identify Multi region Cloudtrails: *Trails with "IsMultiRegionTrail" set to true*
   - From value associated with CloudWatchLogsLogGroupArn note *<cloudtrail_log_group_name>*
 
-  Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:\*, <cloudtrail_log_group_name>* would be *NewGroup*
+  Example: for CloudWatchLogsLogGroupArn that looks like *arn:aws:logs:<region>:<aws_account_number>:log-group:NewGroup:*, <cloudtrail_log_group_name>* would be *NewGroup*
 
   - Ensure Identified Multi region CloudTrail is active
 
@@ -126,53 +128,42 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.cloudtrail',
-    array_any: {
-      and: [
-        {
-          path: '[*].isMultiRegionTrail',
-          equal: 'Yes',
-        },
-        {
-          path: '[*].status.isLogging',
-          equal: true,
-        },
-        {
-          path: '[*].eventSelectors',
-          array_any: {
-            and: [
-              { path: '[*].readWriteType', equal: 'All' },
-              {
-                path: '[*].includeManagementEvents',
-                equal: true,
-              },
-            ],
-          },
-        },
-        {
-          path: '[*].cloudwatchLog',
-          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match: filterPatternRegex,
-              },
-              {
-                path: '[*].sns',
-                array_any: {
-                  path: '[*].subscriptions',
-                  array_any: {
-                    path: '[*].arn',
-                    match: /^arn:aws:.*$/,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+  check: ({ resource }: any): any => {
+    return resource.cloudtrail
+      ?.filter(
+        (cloudtrail: any) =>
+          cloudtrail.cloudwatchLog?.length &&
+          cloudtrail.isMultiRegionTrail === 'Yes' &&
+          cloudtrail.status?.isLogging &&
+          cloudtrail.eventSelectors?.some(
+            (selector: any) =>
+              selector.readWriteType === 'All' &&
+              selector.includeManagementEvents
+          )
+      )
+      ?.some((cloudtrail: any) => {
+        const log = cloudtrail.cloudwatchLog[0]
+
+        return log.metricFilters?.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations?.find(
+            (mt: any) =>
+              log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
+          )
+
+          if (!metricTrasformation) return false
+          const metricCloudwatch = log.cloudwatch?.find(
+            (cw: any) => cw.metric === metricTrasformation.metricName
+          )
+
+          return (
+            metricCloudwatch?.sns?.some((sns: any) =>
+              sns?.subscriptions?.some((sub: any) =>
+                sub.arn.includes('arn:aws:')
+              )
+            ) &&
+            filterPatternRegex.test(metricFilter.filterPattern)
+          )
+        })
+      })
   },
 }

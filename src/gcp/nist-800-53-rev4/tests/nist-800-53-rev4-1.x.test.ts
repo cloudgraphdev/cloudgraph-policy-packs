@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_11 from '../rules/gcp-nist-800-53-rev4-1.1'
 import Gcp_NIST_800_53_12 from '../rules/gcp-nist-800-53-rev4-1.2'
@@ -8,6 +8,7 @@ import Gcp_NIST_800_53_14 from '../rules/gcp-nist-800-53-rev4-1.4'
 import Gcp_NIST_800_53_15 from '../rules/gcp-nist-800-53-rev4-1.5'
 import Gcp_NIST_800_53_16 from '../rules/gcp-nist-800-53-rev4-1.6'
 import Gcp_NIST_800_53_17 from '../rules/gcp-nist-800-53-rev4-1.7'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -114,6 +115,8 @@ export interface QuerygcpSqlInstance {
   name: string
   settings: Settings
   ipAddresses?: IpAddress[]
+  instanceType?: string
+  backendType?: string
 }
 
 export interface NIST1xQueryResponse {
@@ -125,7 +128,7 @@ export interface NIST1xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'NIST'} )
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 1.1 Compute instances should not use the default service account', () => {
@@ -1399,6 +1402,8 @@ describe('GCP NIST 800-53: Rev. 4', () => {
           {
             id: cuid(),
             name: 'test-sql-instance',
+            instanceType: 'CLOUD_SQL_INSTANCE',
+            backendType: 'SECOND_GEN',
             ipAddresses: [
               {
                 type: 'PRIVATE',

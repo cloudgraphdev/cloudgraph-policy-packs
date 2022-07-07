@@ -62,7 +62,7 @@ export default {
           toPort
         }
         outboundRules {
-          source
+          destination
           fromPort
           toPort
         }
@@ -100,7 +100,7 @@ export default {
             array_any: {
               and: [
                 {
-                  path: '[*].source',
+                  path: '[*].destination',
                   mismatch: /^sg-.*$/,
                 },
                 {

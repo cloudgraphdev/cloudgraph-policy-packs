@@ -1,8 +1,9 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_41 from '../rules/gcp-nist-800-53-rev4-4.1'
 import Gcp_NIST_800_53_42 from '../rules/gcp-nist-800-53-rev4-4.2'
+import { initRuleEngine } from '../../../utils/test'
 
 
 export interface ServiceAccount {
@@ -110,7 +111,7 @@ export interface NIST4xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'NIST'} )
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 4.1 Compute instance disks should be encrypted with customer-supplied encryption keys (CSEKs)', () => {

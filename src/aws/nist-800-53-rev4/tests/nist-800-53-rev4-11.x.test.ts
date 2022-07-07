@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Aws_NIST_800_53_111 from '../rules/aws-nist-800-53-rev4-11.1'
 import Aws_NIST_800_53_112 from '../rules/aws-nist-800-53-rev4-11.2'
@@ -17,10 +18,7 @@ export interface NIST11xQueryResponse {
 describe('AWS NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'NIST',
-    })
+    rulesEngine = initRuleEngine('aws', 'NIST')
   })
 
   describe('AWS NIST 11.1 ECS task definitions should limit memory usage for containers', () => {

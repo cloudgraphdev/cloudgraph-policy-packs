@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // GCP CIS 1.2.0 Rule equivalent 1.11
 export default {
   id: 'gcp-pci-dss-3.2.1-iam-check-1',  
@@ -46,22 +48,29 @@ export default {
   }`,
   resource: 'querygcpIamPolicy[*]',
   severity: 'unknown',
-  conditions: {
-    jq: `[({"member" : .bindings[].members[], "roles" : .bindings[].role}) ]  
-    | group_by(.member) 
-    | map({ "member" : .[].member, "roles" : map(.roles) }) 
-    | [.[] 
-    | select(.roles 
-    | contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyEncrypterDecrypter"]) 
-      or contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyEncrypter"]) 
-      or contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyDecrypter"]))] 
-    | {"userHasInvalidRoles":  ( (. | length) > 0)}`,
-    path: '@',
-    and: [
-      {
-        path: '@.userHasInvalidRoles',
-        notEqual: true,
-      },
-    ],
+  check: ({ resource }: any): boolean => {
+    const memberInvalidRoles: string[] = []
+    const memberRoles: { [member: string]: string[] } = {}
+
+    resource.bindings?.forEach((binding: any) =>
+      binding.members?.forEach((member: any) => {
+        if (member.startsWith('user:')) {
+          if (!memberRoles[member]) memberRoles[member] = [binding.role]
+          else memberRoles[member].push(binding.role)
+        }
+      })
+    )
+
+    Object.entries(memberRoles).forEach(([key, value]) => {
+      if (
+        value.includes('roles/cloudkms.admin') &&
+        (value.includes('roles/cloudkms.cryptoKeyEncrypterDecrypter') ||
+          value.includes('roles/cloudkms.cryptoKeyEncrypter') ||
+          value.includes('roles/cloudkms.cryptoKeyDecrypter'))
+      )
+        memberInvalidRoles.push(key)
+    })
+
+    return memberInvalidRoles.length === 0
   },
 }

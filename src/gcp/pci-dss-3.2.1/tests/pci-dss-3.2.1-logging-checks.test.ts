@@ -1,7 +1,8 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_Logging_1 from '../rules/pci-dss-3.2.1-logging-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface LogSink {
   filter?: string
@@ -20,7 +21,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('Logging check 1: At least one project-level logging sink should be configured with an empty filter', () => {

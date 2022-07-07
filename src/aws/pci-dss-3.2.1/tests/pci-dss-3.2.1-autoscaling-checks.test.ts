@@ -1,15 +1,13 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Aws_PCI_DSS_321_Autoscaling_1 from '../rules/pci-dss-3.2.1-autoscaling-check-1'
+import { initRuleEngine } from '../../../utils/test'
 
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('aws', 'PCI')
   })
   describe('Autoscaling Check 1: Auto Scaling groups associated with a load balancer should use health checks', () => {
     test('Should fail when it contains an invalid health check type and zero load balancers', async () => {

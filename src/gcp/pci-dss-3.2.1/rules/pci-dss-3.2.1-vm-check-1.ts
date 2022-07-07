@@ -1,4 +1,6 @@
-//GCP CIS 1.2.0 Rule equivalent 4.3
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// GCP CIS 1.2.0 Rule equivalent 4.3
 export default {
   id: 'gcp-pci-dss-3.2.1-vm-check-1',
   title: 'VM Check 1: Compute instance "block-project-ssh-keys" should be enabled',
@@ -68,60 +70,23 @@ export default {
   }`,
   resource: 'querygcpVmInstance[*]',
   severity: 'medium',
-  conditions: {
-    path: '@',
-    or: [
-      {
-        path: '@',
-        and: [
-          {
-            path: '[*].name',
-            match: /^gke-.*$/,
-          },
-          {
-            path: '[*].labels',
-            array_any: {
-              path: '[*].value',
-              equal: 'goog-gke-node',
-            },
-          },
-        ],
-      },
-      {
-        path: '[*].metadata.items',
-        isEmpty: true
-      },
-      {
-        and: [
-          {
-            path: '[*].metadata.items',
-            array_any: {
-              and: [
-                {
-                  path: '[*].key',
-                  equal: 'block-project-ssh-keys',
-                },
-                {
-                  path: '[*].value',
-                  equal: 'true',
-                },
-              ],
-            },
-          },
-          {
-            jq: `[{ "defaultEmail" : (.project[].id | split("/") | .[1] + "-compute@developer.gserviceaccount.com")} + .serviceAccounts[]]
-            | [.[] | select(.defaultEmail == .email) ]
-            | {"match" : (length > 0)} // {"match" : false}`,
-            path: '@',
-            and: [
-              {
-                path: '@.match',
-                notEqual: true,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  check: ({ resource }: any): boolean =>
+    (/^gke-.*$/.test(resource.name) &&
+      resource.labels?.some((l: any) => l.value === 'goog-gke-node')) ||
+    !resource.metadata?.items ||
+    resource.metadata?.items?.length === 0 ||
+    (!(
+      resource.project?.length &&
+      resource.serviceAccounts?.some(
+        (sa: any) =>
+          sa.email ===
+          `${
+            resource.project[0].id.split('/')[1]
+          }-compute@developer.gserviceaccount.com`
+      )
+    ) &&
+      resource.metadata?.items?.some(
+        (item: any) =>
+          item.key === 'block-project-ssh-keys' && item.value === 'true'
+      )),
 }

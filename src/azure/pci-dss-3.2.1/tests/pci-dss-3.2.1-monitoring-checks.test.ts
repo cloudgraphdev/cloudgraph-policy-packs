@@ -1,5 +1,6 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
+import { initRuleEngine } from '../../../utils/test'
 
 import Azure_PCI_DSS_321_Monitoring_1 from '../rules/pci-dss-3.2.1-monitoring-check-1'
 import Azure_PCI_DSS_321_Monitoring_2 from '../rules/pci-dss-3.2.1-monitoring-check-2'
@@ -57,10 +58,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'PCI',
-    })
+    rulesEngine = initRuleEngine('azure', 'PCI')
   })
 
   describe('Monitoring Check 1: Monitor audit profile should log all activities', () => {

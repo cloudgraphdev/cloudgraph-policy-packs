@@ -1,4 +1,4 @@
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import cuid from 'cuid'
 
 import Aws_CIS_140_14 from '../rules/aws-cis-1.4.0-1.4'
@@ -16,6 +16,7 @@ import Aws_CIS_140_116 from '../rules/aws-cis-1.4.0-1.16'
 import Aws_CIS_140_117 from '../rules/aws-cis-1.4.0-1.17'
 import Aws_CIS_140_119 from '../rules/aws-cis-1.4.0-1.19'
 import Aws_CIS_140_120 from '../rules/aws-cis-1.4.0-1.20'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface VirtualMfaDevice {
   serialNumber: string
@@ -124,10 +125,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'aws',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('aws', 'CIS')
   })
 
   describe('AWS CIS 1.4 Ensure no root user account access key exists', () => {
@@ -138,6 +136,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             accessKeysActive,
           },
         ]
@@ -315,6 +314,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         queryawsIamUser: [
           {
             id: cuid(),
+            name: 'root',
             passwordEnabled: true,
             passwordLastUsed,
             accessKeysActive: true,
@@ -945,3 +945,4 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     })
   })
 })
+

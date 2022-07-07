@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_81 from '../rules/azure-cis-1.3.1-8.1'
 import Azure_CIS_131_82 from '../rules/azure-cis-1.3.1-8.2'
 import Azure_CIS_131_84 from '../rules/azure-cis-1.3.1-8.4'
 import Azure_CIS_131_85 from '../rules/azure-cis-1.3.1-8.5'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Attributes {
   enabled: boolean
@@ -46,7 +47,7 @@ export interface CIS8xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'azure', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 8.1 Ensure that the expiration date is set on all keys', () => {

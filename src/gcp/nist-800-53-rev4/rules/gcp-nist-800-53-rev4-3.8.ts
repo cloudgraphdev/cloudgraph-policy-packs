@@ -22,7 +22,8 @@ export default {
   2. Use the below command for every Cloud SQL PostgreSQL database instance to verify the value of *log_min_duration_statement* is set to *-1*.
 
           gcloud sql instances describe INSTANCE_NAME --format=json | jq '.settings.databaseFlags[] | select(.name=="log_min_duration_statement")|.value'`,
-  rationale: 'Logging SQL statements may include sensitive information that should not be recorded in logs. This recommendation is applicable to PostgreSQL database instances.',
+  rationale:
+    'Logging SQL statements may include sensitive information that should not be recorded in logs. This recommendation is applicable to PostgreSQL database instances.',
   remediation: `**From Console:**
 
   1. Go to the Cloud SQL Instances page in the Google Cloud Console by visiting https://console.cloud.google.com/sql/instances.
@@ -51,12 +52,10 @@ export default {
     'https://www.postgresql.org/docs/current/runtime-config-logging.html#RUNTIME-CONFIG-LOGGING-WHAT',
   ],
   gql: `{
-    querygcpProject{
-      id
-      projectId
-      __typename
-      sqlInstances(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
+     querygcpSqlInstance(filter:{ databaseVersion: {regexp:  "/POSTGRES*/"}}){
         name
+        id
+        __typename
         settings{
           databaseFlags{
             name
@@ -64,40 +63,28 @@ export default {
           }
         }
       }
-    }
+
   }`,
-  resource: 'querygcpProject[*]',
+  resource: 'querygcpSqlInstance[*]',
+  exclude: { not: { path: '@.databaseVersion', match: /POSTGRES*/ } },
   severity: 'medium',
   conditions: {
-    path: '@',
-    or: [
+    and: [
       {
-        path: '[*].sqlInstances',
-        isEmpty: true,
+        path: '@.settings.databaseFlags',
+        isEmpty: false,
       },
       {
-        path: '[*].sqlInstances',
-        array_all: {
-          path: '[*]',
+        path: '@.settings.databaseFlags',
+        array_any: {
           and: [
             {
-              path: '[*].settings.databaseFlags',
-              isEmpty: false,
+              path: '[*].name',
+              equal: 'log_min_duration_statement',
             },
             {
-              path: '[*].settings.databaseFlags',
-              array_any: {
-                and: [
-                  {
-                    path: '[*].name',
-                    equal: 'log_min_duration_statement',
-                  },
-                  {
-                    path: '[*].value',
-                    equal: '-1',
-                  },
-                ],
-              },
+              path: '[*].value',
+              equal: '-1',
             },
           ],
         },

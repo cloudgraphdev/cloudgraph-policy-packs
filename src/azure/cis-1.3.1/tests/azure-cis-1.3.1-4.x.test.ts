@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Azure_CIS_131_411 from '../rules/azure-cis-1.3.1-4.1.1'
@@ -21,6 +21,7 @@ import Azure_CIS_131_437 from '../rules/azure-cis-1.3.1-4.3.7'
 import Azure_CIS_131_438 from '../rules/azure-cis-1.3.1-4.3.8'
 import Azure_CIS_131_44 from '../rules/azure-cis-1.3.1-4.4'
 import Azure_CIS_131_45 from '../rules/azure-cis-1.3.1-4.5'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface EncryptionProtectors {
   kind?: string | null
@@ -44,6 +45,7 @@ export interface ServerVulnerabilityAssessmentRecurringScansProperties {
 
 export interface ServerVulnerabilityAssessment {
   recurringScans?: ServerVulnerabilityAssessmentRecurringScansProperties
+  storageContainerPath?: string
 }
 
 export interface ServerBlobAuditingPolicy {
@@ -107,10 +109,7 @@ export interface CIS4xQueryResponse {
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({
-      providerName: 'azure',
-      entityName: 'CIS',
-    })
+    rulesEngine = initRuleEngine('azure', 'CIS')
   })
 
   describe('Azure CIS 4.1.1 Ensure that \'Auditing\' is set to \'On\'', () => {
@@ -309,9 +308,7 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
             vulnerabilityAssessments: emailSubscriptionAdmins
               ? [
                 {
-                  recurringScans: {
-                    emailSubscriptionAdmins,
-                  },
+                  storageContainerPath: cuid()
                 },
               ]
               : [],

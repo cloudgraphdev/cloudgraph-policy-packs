@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AWS CIS 1.2.0 Rule equivalent 3.4
 export default {
   id: 'aws-cis-1.4.0-4.4',
@@ -123,113 +125,57 @@ export default {
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
-    path: '@.cloudtrail',
-    array_any: {
-      and: [
-        {
-          path: '[*].isMultiRegionTrail',
-          equal: 'Yes',
-        },
-        {
-          path: '[*].status.isLogging',
-          equal: true,
-        },
-        {
-          path: '[*].eventSelectors',
-          array_any: {
-            and: [
-              { path: '[*].readWriteType', equal: 'All' },
-              {
-                path: '[*].includeManagementEvents',
-                equal: true,
-              },
-            ],
-          },
-        },
-        {
-          path: '[*].cloudwatchLog',
-          jq: '[.[].metricFilters[] + .[].cloudwatch[] | select(.metricTransformations[].metricName  == .metric)]',
-          array_any: {
-            and: [
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeleteUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*PutUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*CreatePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeletePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*CreatePolicyVersion/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DeletePolicyVersion/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachRolePolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachUserPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*AttachGroupPolicy/,
-              },
-              {
-                path: '[*].filterPattern',
-                match: /(\$.eventName)\s*=\s*DetachGroupPolicy/,
-              },
-              {
-                path: '[*].sns',
-                array_any: {
-                  path: '[*].subscriptions',
-                  array_any: {
-                    path: '[*].arn',
-                    match: /^arn:aws:.*$/,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    }
+  check: ({ resource }: any): any => {
+    return resource.cloudtrail
+      ?.filter(
+        (cloudtrail: any) =>
+          cloudtrail.cloudwatchLog?.length &&
+          cloudtrail.isMultiRegionTrail === 'Yes' &&
+          cloudtrail.status?.isLogging &&
+          cloudtrail.eventSelectors?.some(
+            (selector: any) =>
+              selector.readWriteType === 'All' &&
+              selector.includeManagementEvents
+          )
+      )
+      ?.some((cloudtrail: any) => {
+        const log = cloudtrail.cloudwatchLog[0]
+
+        return log.metricFilters?.some((metricFilter: any) => {
+          const metricTrasformation = metricFilter.metricTransformations?.find(
+            (mt: any) =>
+              log.cloudwatch?.find((cw: any) => cw.metric === mt.metricName)
+          )
+
+          if (!metricTrasformation) return false
+          const metricCloudwatch = log.cloudwatch?.find(
+            (cw: any) => cw.metric === metricTrasformation.metricName
+          )
+
+          return (
+            metricCloudwatch?.sns?.some((sns: any) =>
+              sns?.subscriptions?.some((sub: any) =>
+                sub.arn.includes('arn:aws:')
+              )
+            ) &&
+            /(\$.eventName)\s*=\s*DeleteGroupPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DeleteRolePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DeleteUserPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*PutGroupPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*PutRolePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*PutUserPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*CreatePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DeletePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*CreatePolicyVersion/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DeletePolicyVersion/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*AttachRolePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DetachRolePolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*AttachUserPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DetachUserPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*AttachGroupPolicy/.test(metricFilter.filterPattern) &&
+            /(\$.eventName)\s*=\s*DetachGroupPolicy/.test(metricFilter.filterPattern)
+          )
+        })
+      })
   },
 }

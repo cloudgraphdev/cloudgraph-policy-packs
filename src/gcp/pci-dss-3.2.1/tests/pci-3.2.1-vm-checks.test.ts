@@ -1,10 +1,11 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_VM_1 from '../rules/pci-dss-3.2.1-vm-check-1'
 import Gcp_PCI_DSS_321_VM_2 from '../rules/pci-dss-3.2.1-vm-check-2'
 import Gcp_PCI_DSS_321_VM_3 from '../rules/pci-dss-3.2.1-vm-check-3'
 import Gcp_PCI_DSS_321_VM_4 from '../rules/pci-dss-3.2.1-vm-check-4'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface ServiceAccount {
   email: string
@@ -74,7 +75,7 @@ export interface CISVMQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
   describe('VM Check 1: Ensure "Block Project-wide SSH keys" is enabled for VM instances', () => {

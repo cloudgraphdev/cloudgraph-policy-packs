@@ -1,9 +1,12 @@
-/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {
-  id: 'gcp-cis-1.2.0-1.11',  
-  title: 'GCP CIS 1.11 Ensure that Separation of duties is enforced while assigning KMS related roles to users',  
-  
-  description: 'It is recommended that the principle of "Separation of Duties" is enforced while assigning KMS related roles to users.',  
+  id: 'gcp-cis-1.2.0-1.11',
+  title:
+    'GCP CIS 1.11 Ensure that Separation of duties is enforced while assigning KMS related roles to users',
+
+  description:
+    'It is recommended that the principle of "Separation of Duties" is enforced while assigning KMS related roles to users.',
 
   audit: `**From Console:**
 
@@ -18,7 +21,7 @@ export default {
           gcloud projects get-iam-policy PROJECT_ID
   
   2. Ensure that there are no common users found in the member section for roles cloudkms.admin and any one of Cloud KMS CryptoKey Encrypter/Decrypter, Cloud KMS CryptoKey Encrypter, Cloud KMS CryptoKey Decrypter`,
-  
+
   rationale: `The built-in/predefined IAM role Cloud KMS Admin allows the user/identity to create, delete, and manage service account(s). The built-in/predefined IAM role Cloud KMS CryptoKey Encrypter/Decrypter allows the user/identity (with adequate privileges on concerned resources) to encrypt and decrypt data at rest using an encryption key(s).
   
   The built-in/predefined IAM role Cloud KMS CryptoKey Encrypter allows the user/identity (with adequate privileges on concerned resources) to encrypt data at rest using an encryption key(s). The built-in/predefined IAM role Cloud KMS CryptoKey Decrypter allows the user/identity (with adequate privileges on concerned resources) to decrypt data at rest using an encryption key(s).
@@ -32,8 +35,8 @@ export default {
   1. Go to IAM & Admin/IAM using https://console.cloud.google.com/iam-admin/iam
   
   2. For any member having Cloud KMS Admin and any of the Cloud KMS CryptoKey Encrypter/Decrypter, Cloud KMS CryptoKey Encrypter, Cloud KMS CryptoKey Decrypter roles granted assigned, click the Delete Bin icon to remove the role from the member.`,
-  
-  references: ['https://cloud.google.com/kms/docs/separation-of-duties'],  
+
+  references: ['https://cloud.google.com/kms/docs/separation-of-duties'],
   gql: `{
     querygcpIamPolicy { 
       id 
@@ -45,23 +48,30 @@ export default {
     }
   }`,
   resource: 'querygcpIamPolicy[*]',
-  severity: 'unknown',
-  conditions: {
-    jq: `[({"member" : .bindings[].members[], "roles" : .bindings[].role}) ]  
-    | group_by(.member) 
-    | map({ "member" : .[].member, "roles" : map(.roles) }) 
-    | [.[] 
-    | select(.roles 
-    | contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyEncrypterDecrypter"]) 
-      or contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyEncrypter"]) 
-      or contains(["roles/cloudkms.admin", "roles/cloudkms.cryptoKeyDecrypter"]))] 
-    | {"userHasInvalidRoles":  ( (. | length) > 0)}`,
-    path: '@',
-    and: [
-      {
-        path: '@.userHasInvalidRoles',
-        notEqual: true,
-      },
-    ],
+  severity: 'medium',
+  check: ({ resource }: any): boolean => {
+    const memberInvalidRoles: string[] = []
+    const memberRoles: { [member: string]: string[] } = {}
+
+    resource.bindings?.forEach((binding: any) =>
+      binding.members?.forEach((member: any) => {
+        if (member.startsWith('user:')) {
+          if (!memberRoles[member]) memberRoles[member] = [binding.role]
+          else memberRoles[member].push(binding.role)
+        }
+      })
+    )
+
+    Object.entries(memberRoles).forEach(([key, value]) => {
+      if (
+        value.includes('roles/cloudkms.admin') &&
+        (value.includes('roles/cloudkms.cryptoKeyEncrypterDecrypter') ||
+          value.includes('roles/cloudkms.cryptoKeyEncrypter') ||
+          value.includes('roles/cloudkms.cryptoKeyDecrypter'))
+      )
+        memberInvalidRoles.push(key)
+    })
+
+    return memberInvalidRoles.length === 0
   },
 }

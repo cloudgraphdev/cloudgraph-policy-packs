@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 import 'jest'
 
 import Gcp_CIS_120_11 from '../rules/gcp-cis-1.2.0-1.1'
@@ -15,6 +15,7 @@ import Gcp_CIS_120_111 from '../rules/gcp-cis-1.2.0-1.11'
 import Gcp_CIS_120_112 from '../rules/gcp-cis-1.2.0-1.12'
 import Gcp_CIS_120_113 from '../rules/gcp-cis-1.2.0-1.13'
 import Gcp_CIS_120_115 from '../rules/gcp-cis-1.2.0-1.15'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface MetricDescriptor {
   type: string
@@ -114,7 +115,7 @@ export interface CIS1xQueryResponse {
 describe('CIS Google Cloud Platform Foundations: 1.2.0', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'CIS'} )
+    rulesEngine = initRuleEngine('gcp', 'CIS')
   })
 
   describe('GCP CIS 1.1 Ensure that corporate login credentials are used', () => {

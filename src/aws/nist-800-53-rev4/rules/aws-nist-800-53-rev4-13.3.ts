@@ -1,6 +1,6 @@
 // AWS CIS 1.2.0 Rule equivalent 1.13
 export default {
-  id: 'aws-nist-800-53-rev4-13.3',  
+  id: 'aws-nist-800-53-rev4-13.3',
   title: 'AWS NIST 13.3 IAM should have MFA enabled for the root account',
 
   description: `The root account is the most privileged user in an AWS account. MFA adds an extra layer of
@@ -22,8 +22,9 @@ export default {
     aws iam get-account-summary | grep "AccountMFAEnabled"
 
   2. Ensure the AccountMFAEnabled property is set to 1`,
-  
-  rationale: 'Enabling MFA provides increased security for console access as it requires the authenticating principal to possess a device that emits a time-sensitive key and have knowledge of a credential.',
+
+  rationale:
+    'Enabling MFA provides increased security for console access as it requires the authenticating principal to possess a device that emits a time-sensitive key and have knowledge of a credential.',
 
   remediation: `Perform the following to establish MFA for the root account:
 
@@ -46,7 +47,7 @@ export default {
   When you are finished, the virtual MFA device starts generating one-time passwords.
 
   1. In the Manage MFA Device wizard, in the Authentication Code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait up to 30 seconds for the device to generate a new one-time password. Then type the second one-time password into the Authentication Code 2 box. Choose Active Virtual MFA.`,
-  
+
   references: [
     'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html#enable-virt-mfa-for-root',
     'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_u2f.html#enable-u2f-mfa-for-root',
@@ -63,6 +64,7 @@ export default {
       mfaActive
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {

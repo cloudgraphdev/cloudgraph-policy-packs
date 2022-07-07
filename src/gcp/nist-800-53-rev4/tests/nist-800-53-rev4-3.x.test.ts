@@ -1,5 +1,5 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_NIST_800_53_31 from '../rules/gcp-nist-800-53-rev4-3.1'
 import Gcp_NIST_800_53_32 from '../rules/gcp-nist-800-53-rev4-3.2'
@@ -11,6 +11,7 @@ import Gcp_NIST_800_53_37 from '../rules/gcp-nist-800-53-rev4-3.7'
 import Gcp_NIST_800_53_38 from '../rules/gcp-nist-800-53-rev4-3.8'
 import Gcp_NIST_800_53_39 from '../rules/gcp-nist-800-53-rev4-3.9'
 import Gcp_NIST_800_53_310 from '../rules/gcp-nist-800-53-rev4-3.10'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
   name: string
@@ -44,6 +45,7 @@ export interface IpAddress {
 export interface SqlInstances {
   id?: string
   name: string
+  databaseVersion: string
   settings: Settings
   ipAddresses?: IpAddress[]
 }
@@ -103,7 +105,7 @@ export interface NIST3xQueryResponse {
 describe('GCP NIST 800-53: Rev. 4', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'NIST'} )
+    rulesEngine = initRuleEngine('gcp', 'NIST')
   })
 
   describe('GCP NIST 3.1 IAM default audit log config should not exempt any users', () => {
@@ -303,54 +305,40 @@ describe('GCP NIST 800-53: Rev. 4', () => {
   })
 
   describe("GCP NIST 3.2 PostgreSQL database instance 'log_checkpoints' database flag should be set to 'on'", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_checkpoints',
-                      value: 'on',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_checkpoints',
+              value: 'on',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_32 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_checkpoints' set to 'on'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -364,21 +352,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_checkpoints' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'on',
@@ -388,62 +374,48 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_checkpoints' database flag set to 'off'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = 'off'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = 'off'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GGCP NIST 3.3 PostgreSQL database instance 'log_connections' database flag should be set to 'on'", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_connections',
-                      value: 'on',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_connections',
+              value: 'on',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_33 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_connections' set to 'on'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -457,21 +429,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_connections' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'on',
@@ -481,62 +451,48 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_connections' database flag set to 'off'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = 'off'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = 'off'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GCP NIST 3.4 PostgreSQL database instance 'log_disconnections' database flag should be set to 'on'", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_disconnections',
-                      value: 'on',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_disconnections',
+              value: 'on',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_34 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_disconnections' set to 'on'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -550,21 +506,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_disconnections' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'on',
@@ -574,62 +528,48 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_disconnections' database flag set to 'off'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = 'off'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = 'off'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GCP NIST 3.5 PostgreSQL database instance 'log_lock_waits' database flag should be set to 'on'", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_lock_waits',
-                      value: 'on',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_lock_waits',
+              value: 'on',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_35 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_lock_waits' set to 'on'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -643,21 +583,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_lock_waits' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'on',
@@ -667,65 +605,50 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_lock_waits' database flag set to 'off'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = 'off'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = 'off'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GCP NIST 3.6 PostgreSQL database instance 'log_min_error_statement' database flag should be set appropriately", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_min_error_statement',
-                      value: 'error',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_min_error_statement',
+              value: 'error',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_36 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_min_error_statement' set to any value: ['error', 'log', 'fatal', 'panic']", async () => {
       const validValues = ['error', 'log', 'fatal', 'panic']
       for (const validValue of validValues) {
-        const data: NIST3xQueryResponse = getRuleFixture()
-        const project = data.querygcpProject?.[0] as QuerygcpProject
-        project.sqlInstances[0].settings.databaseFlags[0].value = validValue
-        project.sqlInstances.push({
+        const data = {
+          id: cuid(),
+          databaseVersion: 'POSTGRES',
           name: 'test-postgres-instance',
           settings: {
             databaseFlags: [
@@ -739,22 +662,20 @@ describe('GCP NIST 800-53: Rev. 4', () => {
               },
             ],
           },
-        })
+        }
         await testRule(data, Result.PASS)
       }
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_min_error_statement' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'off',
@@ -764,62 +685,48 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_min_error_statement' database flag set to an invalid value", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = 'dummy'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = 'dummy'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GCP NIST 3.7 PostgreSQL database instance 'log_temp_files' database flag should be set to '0' (on)", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_temp_files',
-                      value: '0',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_temp_files',
+              value: '0',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_37 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_temp_files' set to '0'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -833,21 +740,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_temp_files' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: 'off',
@@ -857,62 +762,48 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_temp_files' database flag set to '1'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = '1'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = '1'
       await testRule(data, Result.FAIL)
     })
   })
 
   describe("GCP NIST 3.8 PostgreSQL database instance 'log_min_duration_statement' database flag should be set to '-1' (disabled)", () => {
-    const getRuleFixture = (): NIST3xQueryResponse => {
+    const getRuleFixture = (): SqlInstances => {
       return {
-        querygcpProject: [
-          {
-            id: cuid(),
-            sqlInstances: [
-              {
-                name: 'test-postgres-instance',
-                settings: {
-                  databaseFlags: [
-                    {
-                      name: 'log_min_duration_statement',
-                      value: '-1',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        ],
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
+
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'log_min_duration_statement',
+              value: '-1',
+            },
+          ],
+        },
       }
     }
 
     const testRule = async (
-      data: NIST3xQueryResponse,
+      data: SqlInstances,
       expectedResult: Result
     ): Promise<void> => {
       // Act
       const [processedRule] = await rulesEngine.processRule(
         Gcp_NIST_800_53_38 as Rule,
-        { ...data }
+        { querygcpSqlInstance: [data] }
       )
 
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is NO POSTGRES instances', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances = []
-      await testRule(data, Result.PASS)
-    })
-
     test("No Security Issue when all POSTGRES instances have the 'log_min_duration_statement' set to '-1'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances.push({
+      const data = {
+        id: cuid(),
+        databaseVersion: 'POSTGRES',
         name: 'test-postgres-instance',
         settings: {
           databaseFlags: [
@@ -926,21 +817,19 @@ describe('GCP NIST 800-53: Rev. 4', () => {
             },
           ],
         },
-      })
+      }
       await testRule(data, Result.PASS)
     })
 
     test('Security Issue when the POSTGRES instances have no database flags', async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = []
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
       await testRule(data, Result.FAIL)
     })
 
     test("Security Issue when the POSTGRES instances do NOT have a 'log_min_duration_statement' database flag", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags = [
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
         {
           name: 'dummy_key',
           value: '-1',
@@ -950,9 +839,8 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
 
     test("Security Issue when the POSTGRES instances do have a 'log_min_duration_statement' database flag set to '100'", async () => {
-      const data: NIST3xQueryResponse = getRuleFixture()
-      const project = data.querygcpProject?.[0] as QuerygcpProject
-      project.sqlInstances[0].settings.databaseFlags[0].value = '100'
+      const data = getRuleFixture()
+      data.settings.databaseFlags[0].value = '100'
       await testRule(data, Result.FAIL)
     })
   })
@@ -1001,7 +889,6 @@ describe('GCP NIST 800-53: Rev. 4', () => {
       await testRule(data, Result.FAIL)
     })
   })
-
 
   describe('GCP NIST 3.10 Network subnet flow logs should be enabled', () => {
     const testRule = async (

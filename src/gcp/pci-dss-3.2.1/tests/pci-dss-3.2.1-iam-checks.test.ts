@@ -1,8 +1,9 @@
 import cuid from 'cuid'
-import CloudGraph, { Rule, Result, Engine } from '@cloudgraph/sdk'
+import { Rule, Result, Engine } from '@cloudgraph/sdk'
 
 import Gcp_PCI_DSS_321_IAM_1 from '../rules/pci-dss-3.2.1-iam-check-1'
 import Gcp_PCI_DSS_321_IAM_2 from '../rules/pci-dss-3.2.1-iam-check-2'
+import { initRuleEngine } from '../../../utils/test'
 
 export interface Bindings {
   members: string[]
@@ -37,7 +38,7 @@ export interface PCIQueryResponse {
 describe('PCI Data Security Standard: 3.2.1', () => {
   let rulesEngine: Engine
   beforeAll(() => {
-    rulesEngine = new CloudGraph.RulesEngine({ providerName: 'gcp', entityName: 'PCI'} )
+    rulesEngine = initRuleEngine('gcp', 'PCI')
   })
 
 

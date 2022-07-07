@@ -63,67 +63,29 @@ export default {
       }
     }
   }`,
+  exclude: { not: { path: '@.direction', equal: 'INGRESS' } },
   resource: 'querygcpFirewall[*]',
   severity: 'high',
-  conditions: {
-    not: {
-      path: '@',
-      and: [
-        {
-          path: '[*].sourceRanges',
-          jq: 'map({"range": .})',
-          array_any: {
-            path: '[*].range',
-            in: ['0.0.0.0/0', '::/0'],
-          },
-        },
-        {
-          path: '[*].direction',
-          in: ['INGRESS'],
-        },
-        {
-          path: '@.allowed',
-          jq: `[.[]
-          | { "ipProtocol": .ipProtocol}
-          + (if .ports | length > 0  then .ports[] else [""][] end  | split("-")  | {fromPort: (.[0]), toPort: (.[1] // .[0])}) ]`,
-          array_any: {
-            and: [
-              {
-                path: '[*].ipProtocol',
-                in: ['tcp', 'all'],
-              },
-              {
-                or: [
-                  {
-                    and: [
-                      {
-                        path: '[*].fromPort',
-                        equal: null,
-                      },
-                      {
-                        path: '[*].toPort',
-                        equal: null,
-                      },
-                    ],
-                  },
-                  {
-                    and: [
-                      {
-                        path: '[*].fromPort',
-                        lessThanInclusive: 22,
-                      },
-                      {
-                        path: '[*].toPort',
-                        greaterThanInclusive: 22,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
-    },
+  check: ({ resource }: any): boolean => {
+    return !(
+      resource.direction === 'INGRESS' &&
+      resource.sourceRanges?.some((ip: string) =>
+        ['0.0.0.0/0', '::/0'].includes(ip)
+      ) &&
+      resource.allowed?.some(
+        ({ ipProtocol, ports }: { ipProtocol: string; ports: string[] }) => {
+          return (
+            ['tcp', 'all'].includes(ipProtocol) &&
+            (!ports.length ||
+              ports.some((port: string) => {
+                const range = port.includes('-')
+                  ? port.split('-')
+                  : [port, port]
+                return Number(range[0]) <= 22 && Number(range[1]) >= 22
+              }))
+          )
+        }
+      )
+    )
   },
 }
