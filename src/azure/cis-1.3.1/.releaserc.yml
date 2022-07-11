@@ -19,21 +19,21 @@ plugins:
     - assets:
         - CHANGELOG.md
         - package.json
-  - - "@semrel-extra/npm"
+  - - "@semantic-release/npm"
     - npmPublish: true
   - "@semantic-release/github"
 verifyConditions:
   - "@semantic-release/changelog"
   - "@semantic-release/github"
-  - "@semrel-extra/npm"
+  - "@semantic-release/npm"
 prepare:
   - "@semantic-release/changelog"
-  - "@semrel-extra/npm"
+  - "@semantic-release/npm"
   - - "@semantic-release/git"
     - message: "chore(release): @cloudgraph/policy-pack-azure-cis-1.3.1 ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/github"
-  - "@semrel-extra/npm"
+  - "@semantic-release/npm"
 success: false
 fail: false
 tagFormat: "@cloudgraph/policy-pack-azure-cis-1.3.1@${version}"
