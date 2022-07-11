@@ -1,3 +1,18 @@
+# [@cloudgraph/policy-pack-aws-nist-800-53-rev4-v1.7.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.1...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.7.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* add validation for null references ([ddd7f53](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ddd7f537b1843b14fee55690e61bbdd605386daf))
+* changed wrong source property by destination on SG query ([700d370](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/700d3707b0cd4a5cc91e06d9dfb773d09529b113))
+* fixed unit tests ([3f454f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3f454f220ea0d1b73721a343a52f06c30619508b))
+
+
+### Features
+
+* fixed and migrated rules from jq to js (rules-exclude branch) ([ba9a6f6](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ba9a6f607acbe85cdfc291fd2075681d96122fe5))
+* fixed and migrated rules from jq to js (rules-exclude branch) ([7c426ca](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/7c426ca709b68bc0af8bfad96e50e3bcf31eaca2))
+
 ## @cloudgraph/policy-pack-aws-nist-800-53-rev4 [1.6.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.6.1) (2022-06-29)
 
 
