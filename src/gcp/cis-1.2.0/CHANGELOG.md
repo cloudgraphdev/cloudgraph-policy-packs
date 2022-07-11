@@ -1,3 +1,10 @@
+# [@cloudgraph/policy-pack-gcp-cis-1.2.0-v1.22.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.22.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.22.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* update .npmignore to include all rules in package ([3dd7a87](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3dd7a874ee4ff52ae8d6f948f39dcf8655eeda87))
+
 # [@cloudgraph/policy-pack-gcp-cis-1.2.0-v1.22.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.21.1...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.22.0) (2022-07-11)
 
 
