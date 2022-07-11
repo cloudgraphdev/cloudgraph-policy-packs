@@ -1,3 +1,10 @@
+# [@cloudgraph/policy-pack-azure-pci-dss-3.2.1-v1.0.3](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.2...@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.3) (2022-07-11)
+
+
+### Bug Fixes
+
+* update .npmignore to include all rules in package ([3dd7a87](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3dd7a874ee4ff52ae8d6f948f39dcf8655eeda87))
+
 # [@cloudgraph/policy-pack-azure-pci-dss-3.2.1-v1.0.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.1...@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.2) (2022-07-11)
 
 
