@@ -1,3 +1,16 @@
+# [@cloudgraph/policy-pack-gcp-pci-dss-3.2.1-v1.3.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.2.0...@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.3.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* add validation for null references ([ddd7f53](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ddd7f537b1843b14fee55690e61bbdd605386daf))
+* fixed unit tests ([3f454f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3f454f220ea0d1b73721a343a52f06c30619508b))
+
+
+### Features
+
+* fixed and migrated rules from jq to js (rules-exclude branch) ([7c426ca](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/7c426ca709b68bc0af8bfad96e50e3bcf31eaca2))
+
 # [@cloudgraph/policy-pack-gcp-pci-dss-3.2.1-v1.2.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.1.0...@cloudgraph/policy-pack-gcp-pci-dss-3.2.1@1.2.0) (2022-07-05)
 
 
