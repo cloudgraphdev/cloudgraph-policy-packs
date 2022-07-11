@@ -1,3 +1,17 @@
+# [@cloudgraph/policy-pack-gcp-cis-1.2.0-v1.22.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.21.1...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.22.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* add validation for null references ([ddd7f53](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ddd7f537b1843b14fee55690e61bbdd605386daf))
+* fixed unit tests ([3f454f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3f454f220ea0d1b73721a343a52f06c30619508b))
+
+
+### Features
+
+* fixed and migrated rules from jq to js (rules-exclude branch) ([ba9a6f6](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ba9a6f607acbe85cdfc291fd2075681d96122fe5))
+* fixed and migrated rules from jq to js (rules-exclude branch) ([7c426ca](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/7c426ca709b68bc0af8bfad96e50e3bcf31eaca2))
+
 # @cloudgraph/policy-pack-gcp-cis-1.2.0 [1.21.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.2.0@1.20.0...@cloudgraph/policy-pack-gcp-cis-1.2.0@1.21.0) (2022-05-26)
 
 
