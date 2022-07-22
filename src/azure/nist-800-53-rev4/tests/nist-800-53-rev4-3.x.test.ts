@@ -8,6 +8,7 @@ import Azure_NIST_800_53_32 from '../rules/azure-nist-800-53-rev4-3.2'
 import Azure_NIST_800_53_33 from '../rules/azure-nist-800-53-rev4-3.3'
 import Azure_NIST_800_53_34 from '../rules/azure-nist-800-53-rev4-3.4'
 import Azure_NIST_800_53_35 from '../rules/azure-nist-800-53-rev4-3.5'
+import Azure_NIST_800_53_37 from '../rules/azure-nist-800-53-rev4-3.7'
 import { initRuleEngine, testRule } from '../../../utils/test'
 
 export interface azureActivityLogAlertLeafCondition {
@@ -355,6 +356,61 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       )
 
       await testRule(rulesEngine, data, Azure_NIST_800_53_35 as Rule, Result.FAIL)
+    })
+  })
+
+  describe('Azure NIST 3.7 Ensure that Activity Log Alert exists for Create or Update Network Security Group', () => {
+    const getTestRuleFixture_527 = (
+      region: string,
+      enabled: boolean,
+      field: string,
+      equals: string
+    ): NIST3xQueryResponse => {
+      return {
+        queryazureResourceGroup: [
+          {
+            id: cuid(),
+            activityLogAlerts: [
+              {
+                id: cuid(),
+                region,
+                enabled,
+                condition: {
+                  allOf: [
+                    {
+                      id: cuid(),
+                      field,
+                      equals,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    test('No Security Issue when Activity Log Alert exists for the Delete Network Security Group Rule', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture_527(
+        'global',
+        true,
+        'operationName',
+        'microsoft.network/networksecuritygroups/securityrules/delete'
+      )
+
+      await testRule(rulesEngine, data, Azure_NIST_800_53_35 as Rule, Result.PASS)
+    })
+
+    test('Security Issue when Activity Log Alert doesnt exist for the Delete Network Security Group Rule', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture_527(
+        'global',
+        true,
+        '',
+        ''
+      )
+
+      await testRule(rulesEngine, data, Azure_NIST_800_53_37 as Rule, Result.FAIL)
     })
   })
 })
