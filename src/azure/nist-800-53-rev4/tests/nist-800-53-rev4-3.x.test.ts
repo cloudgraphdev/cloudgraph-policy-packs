@@ -19,7 +19,7 @@ export interface azureActivityLogAlertLeafCondition {
 export interface azureActivityLogAlertAllOfCondition {
   allOf: [azureActivityLogAlertLeafCondition]
 }
-export interface QueryazureActivityLogAlert {
+export interface ActivityLogAlert {
   id: string
   region?: string
   enabled?: boolean
@@ -28,9 +28,13 @@ export interface QueryazureActivityLogAlert {
 
 export interface QueryazureResourceGroup {
   id: string
-  activityLogAlerts: QueryazureActivityLogAlert[]
+  activityLogAlerts: ActivityLogAlert[]
 }
 
+export interface QueryazureSubscription {
+  id: string
+  activityLogAlerts: ActivityLogAlert[]
+}
 export interface QueryazureStorageAccountData {
   encryptionKeySource?: string
   storageContainers?: Array<{
@@ -72,8 +76,8 @@ export interface NIST3xQueryResponse {
   queryazureStorageContainer?: QueryazureStorageContainer[]
   queryazureDiagnosticSetting?: QueryazureDiagnosticSetting[]
   queryazureSqlServer?: QueryazureSqlServer[]
-  queryazureActivityLogAlert?: QueryazureActivityLogAlert[]
   queryazureResourceGroup?: QueryazureResourceGroup[]
+  queryazureSubscription?: QueryazureSubscription[]
 }
 
 describe('Azure NIST 800-53: Rev. 4', () => {
@@ -361,19 +365,17 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.7 Ensure that Activity Log Alert exists for Create or Update Network Security Group', () => {
     const getTestRuleFixture_527 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -393,18 +395,16 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when Activity Log Alert exists for the Delete Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_527(
-        'global',
         true,
         'operationName',
-        'microsoft.network/networksecuritygroups/securityrules/delete'
+        'microsoft.network/networksecuritygroups/write'
       )
 
-      await testRule(rulesEngine, data, Azure_NIST_800_53_35 as Rule, Result.PASS)
+      await testRule(rulesEngine, data, Azure_NIST_800_53_37 as Rule, Result.PASS)
     })
 
     test('Security Issue when Activity Log Alert doesnt exist for the Delete Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_527(
-        'global',
         true,
         '',
         ''

@@ -124,11 +124,10 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources',
   ],  
   gql: `{
-    queryazureResourceGroup {
+    queryazureSubscription {
       id
       __typename
       activityLogAlerts {
-        region
         enabled
         condition {
           allOf {
@@ -139,16 +138,12 @@ export default {
       }
     }
   }`,
-  resource: 'queryazureResourceGroup[*]',
+  resource: 'queryazureSubscription[*]',
   severity: 'medium',
   conditions: {
     path: '@.activityLogAlerts',
     array_any: {
       and: [
-        {
-          path: '[*].region',
-          equal: 'global',
-        },
         {
           path: '[*].enabled',
           equal: true,
