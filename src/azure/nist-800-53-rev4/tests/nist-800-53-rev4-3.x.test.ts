@@ -18,16 +18,16 @@ export interface azureActivityLogAlertLeafCondition {
 export interface azureActivityLogAlertAllOfCondition {
   allOf: [azureActivityLogAlertLeafCondition]
 }
-export interface QueryazureActivityLogAlert {
+export interface ActivityLogAlert {
   id: string
   region?: string
   enabled?: boolean
   condition?: azureActivityLogAlertAllOfCondition
 }
 
-export interface QueryazureResourceGroup {
+export interface QueryazureSubscription {
   id: string
-  activityLogAlerts: QueryazureActivityLogAlert[]
+  activityLogAlerts: ActivityLogAlert[]
 }
 
 export interface QueryazureStorageAccountData {
@@ -71,8 +71,7 @@ export interface NIST3xQueryResponse {
   queryazureStorageContainer?: QueryazureStorageContainer[]
   queryazureDiagnosticSetting?: QueryazureDiagnosticSetting[]
   queryazureSqlServer?: QueryazureSqlServer[]
-  queryazureActivityLogAlert?: QueryazureActivityLogAlert[]
-  queryazureResourceGroup?: QueryazureResourceGroup[]
+  queryazureSubscription?: QueryazureSubscription[]
 }
 
 describe('Azure NIST 800-53: Rev. 4', () => {
@@ -83,19 +82,17 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.1 Monitor Activity Log Alert should exist for Create or Update Network Security Group', () => {
     const getTestRuleFixture_525 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -115,7 +112,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when Activity Log Alert exists for Create or Update Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_525(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/securityrules/write'
@@ -126,7 +122,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_525(
-        'global',
         true,
         '',
         ''
@@ -138,18 +133,16 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.2 Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string,
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [{
               id: cuid(),
-              region,
               enabled,
               condition: {
                 allOf: [{
@@ -179,14 +172,14 @@ describe('Azure NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'Microsoft.Network/networkSecurityGroups/securityRules/write')
+      const data: NIST3xQueryResponse = getTestRuleFixture(true, 'operationName', 'Microsoft.Network/networkSecurityGroups/securityRules/write')
 
       await testRule(data, Result.PASS)
     })
 
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: NIST3xQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })
@@ -194,18 +187,16 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.3 Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string,
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [{
               id: cuid(),
-              region,
               enabled,
               condition: {
                 allOf: [{
@@ -235,14 +226,14 @@ describe('Azure NIST 800-53: Rev. 4', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
+      const data: NIST3xQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
 
       await testRule(data, Result.PASS)
     })
 
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: NIST3xQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: NIST3xQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })
@@ -250,19 +241,17 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.4 Monitor Activity Log Alert should exist for Delete Network Security Group', () => {
     const getTestRuleFixture_524 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -282,7 +271,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when Activity Log Alert exists for Delete Network Security Group', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_524(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/delete'
@@ -293,7 +281,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Delete Network Security Group', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_524(
-        'global',
         true,
         '',
         ''
@@ -305,19 +292,17 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
   describe('Azure NIST 3.5 Monitor Activity Log Alert should exist for Delete Network Security Group Rule', () => {
     const getTestRuleFixture_526 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): NIST3xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -337,7 +322,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('No Security Issue when Activity Log Alert exists for the Delete Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_526(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/securityrules/delete'
@@ -348,7 +332,6 @@ describe('Azure NIST 800-53: Rev. 4', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for the Delete Network Security Group Rule', async () => {
       const data: NIST3xQueryResponse = getTestRuleFixture_526(
-        'global',
         true,
         '',
         ''

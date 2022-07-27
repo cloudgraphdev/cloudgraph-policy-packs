@@ -25,21 +25,19 @@ export interface azureActivityLogAlertLeafCondition {
 export interface azureActivityLogAlertAllOfCondition {
   allOf: [azureActivityLogAlertLeafCondition]
 }
-export interface QueryazureActivityLogAlert {
+export interface ActivityLogAlert {
   id: string
-  region?: string
   enabled?: boolean
   condition?: azureActivityLogAlertAllOfCondition
 }
 
-export interface QueryazureResourceGroup {
+export interface QueryazureSubscription {
   id: string
-  activityLogAlerts: QueryazureActivityLogAlert[]
+  activityLogAlerts: ActivityLogAlert[]
 }
 
 export interface CIS5xQueryResponse {
-  queryazureActivityLogAlert?: QueryazureActivityLogAlert[]
-  queryazureResourceGroup?: QueryazureResourceGroup[]
+  queryazureSubscription?: QueryazureSubscription[]
 }
 export interface QueryazureStorageAccountData {
   encryptionKeySource?: string
@@ -219,19 +217,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
   })
   describe('Azure CIS 5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment', () => {
     const getTestRuleFixture_521 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -251,7 +247,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Create Policy Assignment', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_521(
-        'global',
         true,
         'operationName',
         'microsoft.authorization/policyassignments/write'
@@ -262,7 +257,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Create Policy Assignment', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_521(
-        'global',
         true,
         '',
         ''
@@ -274,19 +268,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment', () => {
     const getTestRuleFixture_522 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -306,7 +298,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Delete Policy Assignment', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_522(
-        'global',
         true,
         'operationName',
         'microsoft.authorization/policyassignments/delete'
@@ -317,7 +308,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Delete Policy Assignment', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_522(
-        'global',
         true,
         '',
         ''
@@ -329,19 +319,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group', () => {
     const getTestRuleFixture_523 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -361,7 +349,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Create or Update Network Security Group', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_523(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/write'
@@ -372,7 +359,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update Network Security Group', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_523(
-        'global',
         true,
         '',
         ''
@@ -384,19 +370,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.4 Ensure that Activity Log Alert exists for Delete Network Security Group', () => {
     const getTestRuleFixture_524 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -416,7 +400,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Delete Network Security Group', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_524(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/delete'
@@ -427,7 +410,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Delete Network Security Group', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_524(
-        'global',
         true,
         '',
         ''
@@ -439,19 +421,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.5 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule', () => {
     const getTestRuleFixture_525 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -471,7 +451,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Create or Update Network Security Group Rule', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_525(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/securityrules/write'
@@ -482,7 +461,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update Network Security Group Rule', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_525(
-        'global',
         true,
         '',
         ''
@@ -494,19 +472,17 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.6 Ensure that Activity Log Alert exists for the Delete Network Security Group Rule', () => {
     const getTestRuleFixture_526 = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -526,7 +502,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for the Delete Network Security Group Rule', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_526(
-        'global',
         true,
         'operationName',
         'microsoft.network/networksecuritygroups/securityrules/delete'
@@ -537,7 +512,6 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
     test('Security Issue when Activity Log Alert doesnt exist for the Delete Network Security Group Rule', async () => {
       const data: CIS5xQueryResponse = getTestRuleFixture_526(
-        'global',
         true,
         '',
         ''
@@ -549,18 +523,16 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [{
               id: cuid(),
-              region,
               enabled,
               condition: {
                 allOf: [{
@@ -590,14 +562,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update Security Solution', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.security/securitysolutions/write')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.security/securitysolutions/write')
 
       await testRule(data, Result.PASS)
     })
 
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update Security Solution', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })
@@ -605,18 +577,16 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [{
               id: cuid(),
-              region,
               enabled,
               condition: {
                 allOf: [{
@@ -646,14 +616,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Delete Security Solution', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.security/securitysolutions/delete')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.security/securitysolutions/delete')
 
       await testRule(data, Result.PASS)
     })
 
 
     test('Security Issue when Activity Log Alert doesnt exist for Delete Security Solution', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })
@@ -661,18 +631,16 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
 
   describe('Azure CIS 5.2.9 Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string,
     ): CIS5xQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [{
               id: cuid(),
-              region,
               enabled,
               condition: {
                 allOf: [{
@@ -702,14 +670,14 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
 
       await testRule(data, Result.PASS)
     })
 
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: CIS5xQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: CIS5xQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })

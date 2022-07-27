@@ -23,7 +23,7 @@ export interface QueryazureActivityLogAlert {
   condition?: azureActivityLogAlertAllOfCondition
 }
 
-export interface QueryazureResourceGroup {
+export interface QueryazureSubscription {
   id: string
   activityLogAlerts: QueryazureActivityLogAlert[]
 }
@@ -51,7 +51,7 @@ export interface QueryazurePolicyAssignment {
 
 export interface PCIQueryResponse {
   queryazureLogProfile?: QueryazureLogProfile[]
-  queryazureResourceGroup?: QueryazureResourceGroup[]
+  queryazureSubscription?: QueryazureSubscription[]
   queryazurePolicyAssignment?: QueryazurePolicyAssignment[]
 }
 
@@ -110,19 +110,17 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
   describe('Monitoring Check 2: Monitor Activity Log Alert should exist for Update Security Policy', () => {
     const getTestRuleFixture = (
-      region: string,
       enabled: boolean,
       field: string,
       equals: string
     ): PCIQueryResponse => {
       return {
-        queryazureResourceGroup: [
+        queryazureSubscription: [
           {
             id: cuid(),
             activityLogAlerts: [
               {
                 id: cuid(),
-                region,
                 enabled,
                 condition: {
                   allOf: [
@@ -157,7 +155,6 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('No Security Issue when Activity Log Alert exists for Create Policy Assignment', async () => {
       const data: PCIQueryResponse = getTestRuleFixture(
-        'global',
         true,
         'operationName',
         'Microsoft.Security/policies/write'
@@ -167,7 +164,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     })
 
     test('Security Issue when Activity Log Alert doesnt exist for Create Policy Assignment', async () => {
-      const data: PCIQueryResponse = getTestRuleFixture('global', true, '', '')
+      const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
 
       await testRule(data, Result.FAIL)
     })
