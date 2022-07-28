@@ -58,6 +58,10 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | Azure NIST 1.1  | Virtual Machines unattached disks should be encrypted                                                                                               |
 | Azure NIST 1.2  | Virtual Machines data disks (non-boot volumes) should be encrypted                                                                                  |
 | Azure NIST 2.1  | Monitor audit profile should log all activities                                                                                                     |
+| Azure NIST 2.2  | Key Vault logging should be enabled                                                                                                                 |
+| Azure NIST 2.3  | Monitor log profile should be created                                                                                                               |
+| Azure NIST 2.4  | Monitor log profile should have activity logs for global services and all regions                                                                   |
+| Azure NIST 2.5  | SQL Server auditing should be enabled                                                                                                               |
 | Azure NIST 3.1  | Monitor Activity Log Alert should exist for Create or Update Network Security Group                                                                 |
 | Azure NIST 3.2  | Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule                                                            |
 | Azure NIST 3.3  | Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule                                                     |
@@ -68,6 +72,10 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | Azure NIST 4.1  | Security Center default policy setting ‘Monitor Network Security Groups’ should be enabled                                                          |
 | Azure NIST 4.2  | Security Center default policy setting ‘Monitor OS Vulnerabilities’ should be enabled                                                               |
 | Azure NIST 4.3  | Security Center default policy setting ‘Monitor Vulnerability Assessment’ should be enabled                                                         |
+| Azure NIST 4.1  | Security Center default policy setting ‘Monitor Network Security Groups’ should be enabled                                                          |
+| Azure NIST 4.2  | Security Center default policy setting ‘Monitor OS Vulnerabilities’ should be enabled                                                               |
+| Azure NIST 4.3  | Security Center default policy setting ‘Monitor Vulnerability Assessment’ should be enabled                                                         |
+| Azure NIST 4.4  | App Service web apps should have 'Minimum TLS Version' set to '1.2'                                                                                 |
 | Azure NIST 5.1  | MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                     |
 | Azure NIST 5.2  | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                |
 | Azure NIST 5.3  | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                                |
@@ -78,3 +86,5 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | Azure NIST 6.2  | Ensure 'Enforce SSL connection' is set to 'ENABLED' for MySQL Database Server                                                                       |
 | Azure NIST 6.3  | Ensure 'Enforce SSL connection' is set to 'ENABLED' for PostgreSQL Database Server                                                                  |
 | Azure NIST 6.4  | Ensure that 'Secure transfer required' is set to 'Enabled'                                                                                          |
+| Azure NIST 7.1  | PostgreSQL Database configuration "connection_throttling" should be on                                                                              |
+| Azure NIST 8.1  | Active Directory custom subscription owner roles should not be created                                                                              |

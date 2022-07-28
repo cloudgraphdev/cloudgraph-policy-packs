@@ -2,7 +2,7 @@ export default {
   id: 'azure-cis-1.3.1-5.2.7',  
   title: 'Azure CIS 5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution',
   
-  description: `Create an activity log alert for the Create or Update Security Solution event.`,
+  description: 'Create an activity log alert for the Create or Update Security Solution event.',
   
   audit: `**From Azure Console:**
   
@@ -124,11 +124,10 @@ export default {
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources'
   ],  
   gql: `{
-    queryazureResourceGroup {
+    queryazureSubscription {
       id
       __typename
       activityLogAlerts {
-        region
         enabled
         condition {
           allOf {
@@ -139,16 +138,12 @@ export default {
       }
     }
   }`,
-  resource: 'queryazureResourceGroup[*]',
+  resource: 'queryazureSubscription[*]',
   severity: 'medium',
   conditions: {
     path: '@.activityLogAlerts',
     array_any: {
       and: [
-        {
-          path: '[*].region',
-          equal: 'global',
-        },
         {
           path: '[*].enabled',
           equal: true,
