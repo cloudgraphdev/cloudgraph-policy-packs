@@ -123,7 +123,7 @@ export default {
     'https://azure.microsoft.com/en-us/services/blueprints/'
   ],  
   gql: `{
-    queryazureResourceGroup {
+    queryazureSubscription {
       id
       __typename
       activityLogAlerts {
@@ -138,16 +138,12 @@ export default {
       }
     }
   }`,
-  resource: 'queryazureResourceGroup[*]',
+  resource: 'queryazureSubscription[*]',
   severity: 'medium',
   conditions: {
     path: '@.activityLogAlerts',
     array_any: {
       and: [
-        {
-          path: '[*].region',
-          equal: 'global',
-        },
         {
           path: '[*].enabled',
           equal: true,
