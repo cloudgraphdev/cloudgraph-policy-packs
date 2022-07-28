@@ -2,7 +2,7 @@
 export default {
   id: 'gcp-nist-800-53-rev4-3.3',
   title:
-    "GGCP NIST 3.3 PostgreSQL database instance 'log_connections' database flag should be set to 'on'",
+    "GCP NIST 3.3 PostgreSQL database instance 'log_connections' database flag should be set to 'on'",
   description: `Enabling the log_connections setting causes each attempted connection to the server to
   be logged, along with successful completion of client authentication. This parameter cannot
   be changed after the session starts.`,

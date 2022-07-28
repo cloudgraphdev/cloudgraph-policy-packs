@@ -380,7 +380,7 @@ describe('GCP NIST 800-53: Rev. 4', () => {
     })
   })
 
-  describe("GGCP NIST 3.3 PostgreSQL database instance 'log_connections' database flag should be set to 'on'", () => {
+  describe("GCP NIST 3.3 PostgreSQL database instance 'log_connections' database flag should be set to 'on'", () => {
     const getRuleFixture = (): SqlInstances => {
       return {
         id: cuid(),

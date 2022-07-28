@@ -45,5 +45,41 @@ export default {
     'https://docs.microsoft.com/en-us/azure/key-vault/key-vault-logging',
     'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources',
   ],
+  gql: `{
+    queryazureKeyVault {
+      id
+      __typename
+      diagnosticSettings {
+        logs {
+          category
+          retentionPolicyEnabled
+          retentionPolicyDays
+        }
+      }
+    }
+  }`,
+  resource: 'queryazureKeyVault[*]',
   severity: 'medium',
+  conditions: {
+    path: '@.diagnosticSettings',
+    array_any: {
+      path: '[*].logs',
+      array_any: {
+        and: [
+          {
+            path: '[*].category',
+            equal: 'AuditEvent',
+          },
+          {
+            path: '[*].retentionPolicyEnabled',
+            equal: true,
+          },
+          {
+            path: '[*].retentionPolicyDays',
+            greaterThanInclusive: 180,
+          },
+        ], 
+      },
+    },
+  },
 }
