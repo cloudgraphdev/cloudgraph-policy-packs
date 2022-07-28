@@ -1,7 +1,7 @@
 export default {
-  id: 'azure-cis-1.3.1-5.1.5',
-  title: "Azure CIS 5.1.5 Ensure that logging for Azure KeyVault is 'Enabled'",
-
+  id: 'azure-nist-800-53-rev4-2.2',  
+  title: 'Azure NIST 2.2 Key Vault logging should be enabled',
+  
   description:
     'Enable AuditEvent logging for key vault instances to ensure interactions with key vaults are logged and available.',
 

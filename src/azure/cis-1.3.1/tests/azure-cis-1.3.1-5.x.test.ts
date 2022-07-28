@@ -6,6 +6,7 @@ import 'jest'
 import Azure_CIS_131_152 from '../rules/azure-cis-1.3.1-5.1.2'
 import Azure_CIS_131_153 from '../rules/azure-cis-1.3.1-5.1.3'
 import Azure_CIS_131_154 from '../rules/azure-cis-1.3.1-5.1.4'
+import Azure_CIS_131_515 from '../rules/azure-cis-1.3.1-5.1.5'
 import Azure_CIS_131_521 from '../rules/azure-cis-1.3.1-5.2.1'
 import Azure_CIS_131_522 from '../rules/azure-cis-1.3.1-5.2.2'
 import Azure_CIS_131_523 from '../rules/azure-cis-1.3.1-5.2.3'
@@ -54,7 +55,7 @@ export interface QueryazureStorageContainer {
 }
 export interface QueryazureDiagnosticSettingLog {
   category: string
-  enabled: boolean
+  enabled?: boolean
   retentionPolicyEnabled: boolean
   retentionPolicyDays: number | null
 }
@@ -66,9 +67,14 @@ export interface QueryazureDiagnosticSetting {
   storageAccount?: QueryazureStorageAccountData
 }
 
+export interface QueryazureKeyVault {
+  id: string
+  diagnosticSettings: QueryazureDiagnosticSetting[]
+}
 export interface CIS51xQueryResponse {
   queryazureStorageContainer?: QueryazureStorageContainer[]
   queryazureDiagnosticSetting?: QueryazureDiagnosticSetting[]
+  queryazureKeyVault?: QueryazureKeyVault[]
 }
 
 type CIS51xQueryType =
@@ -215,6 +221,84 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(rulesEngine, data, Azure_CIS_131_154 as Rule, Result.FAIL)
     })
   })
+
+  describe('Azure NIST 2.2 Key Vault logging should be enabled', () => {
+    const getTestRuleFixture = (
+      category: string,
+      retentionPolicyEnabled: boolean,
+      retentionPolicyDays: number
+    ): CIS51xQueryResponse => {
+      return {
+        queryazureKeyVault: [
+          {
+            id: cuid(),
+            diagnosticSettings: [
+              {
+                id: cuid(),
+                logs: [
+                  {
+                    category,
+                    retentionPolicyEnabled,
+                    retentionPolicyDays,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: CIS51xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_515 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Key Vault logging is enabled', async () => {
+      const data: CIS51xQueryResponse = getTestRuleFixture(
+        'AuditEvent',
+        true,
+        180
+      )
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Key Vault logging is not enabled', async () => {
+      const data: CIS51xQueryResponse = getTestRuleFixture(
+        'AuditEvent',
+        false,
+        180
+      )
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Key Vault logging retentionPolicyDays is less than 180', async () => {
+      const data: CIS51xQueryResponse = getTestRuleFixture(
+        'AuditEvent',
+        true,
+        179
+      )
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Key Vault logging is empty', async () => {
+      const data: CIS51xQueryResponse = getTestRuleFixture('', false, 0)
+      const keyVaults = data.queryazureKeyVault?.[0] as QueryazureKeyVault
+      keyVaults.diagnosticSettings = []
+      await testRule(data, Result.FAIL)
+    })
+  })
+
   describe('Azure CIS 5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment', () => {
     const getTestRuleFixture_521 = (
       enabled: boolean,
