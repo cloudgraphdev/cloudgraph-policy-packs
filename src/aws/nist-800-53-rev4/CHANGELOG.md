@@ -1,3 +1,10 @@
+# [@cloudgraph/policy-pack-aws-nist-800-53-rev4-v1.8.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.7.1...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.8.0) (2022-08-01)
+
+
+### Features
+
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+
 # [@cloudgraph/policy-pack-aws-nist-800-53-rev4-v1.7.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.7.0...@cloudgraph/policy-pack-aws-nist-800-53-rev4@1.7.1) (2022-07-11)
 
 
