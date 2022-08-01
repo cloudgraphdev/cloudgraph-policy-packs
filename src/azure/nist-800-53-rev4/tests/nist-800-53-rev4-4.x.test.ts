@@ -5,6 +5,7 @@ import { initRuleEngine } from '../../../utils/test'
 import Azure_NIST_800_53_41 from '../rules/azure-nist-800-53-rev4-4.1'
 import Azure_NIST_800_53_42 from '../rules/azure-nist-800-53-rev4-4.2'
 import Azure_NIST_800_53_43 from '../rules/azure-nist-800-53-rev4-4.3'
+import Azure_NIST_800_53_44 from '../rules/azure-nist-800-53-rev4-4.4'
 
 export interface KeyValue {
   key: string
@@ -16,14 +17,30 @@ export interface Parameter {
   value: KeyValue[]
 }
 
+export interface SiteConfig {
+  minTlsVersion?: string
+  http20Enabled?: boolean
+  ftpsState?: string
+  managedServiceIdentityId?: number | null
+}
 export interface QueryazurePolicyAssignment {
   id: string
   displayName: string
   parameters: Parameter[]
 }
 
+export interface QueryazureAppServiceWebApp {
+  id: string
+  name?: string
+  httpsOnly?: boolean
+  siteConfig?: SiteConfig
+  clientCertEnabled?: boolean
+  authEnabled?: boolean
+  identityPrincipalId?: string | null
+}
 export interface NIST4XQueryResponse {
   queryazurePolicyAssignment?: QueryazurePolicyAssignment[]
+  queryazureAppServiceWebApp?: QueryazureAppServiceWebApp[]
 }
 
 describe('Azure NIST 800-53: Rev. 4', () => {
@@ -525,6 +542,47 @@ describe('Azure NIST 800-53: Rev. 4', () => {
         'Vulnerability assessment should be enabled on virtual machines',
         parameters
       )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Azure NIST 4.4 App Service web apps should have Minimum TLS Version set to 1.2', () => {
+    const getTestRuleFixture = (minTlsVersion: string): NIST4XQueryResponse => {
+      return {
+        queryazureAppServiceWebApp: [
+          {
+            id: cuid(),
+            siteConfig: {
+              minTlsVersion,
+            },
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: NIST4XQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_NIST_800_53_44 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when App Service web apps have Minimum TLS Version set to 1.2', async () => {
+      const data: NIST4XQueryResponse = getTestRuleFixture('1.2')
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when App Service web apps have Minimum TLS Version that is not set to 1.2', async () => {
+      const data: NIST4XQueryResponse = getTestRuleFixture('1.1')
 
       await testRule(data, Result.FAIL)
     })

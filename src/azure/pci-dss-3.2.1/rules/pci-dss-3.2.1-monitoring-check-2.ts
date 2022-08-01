@@ -39,11 +39,10 @@ export default {
       'https://docs.microsoft.com/en-us/cli/azure/monitor/activity-log/alert?view=azure-cli-latest#az-monitor-activity-log-alert-create',
   ],
   gql: `{
-    queryazureResourceGroup {
+    queryazureSubscription {
       id
       __typename
       activityLogAlerts {
-        region
         enabled
         condition {
           allOf {
@@ -54,16 +53,12 @@ export default {
       }
     }
   }`,
-  resource: 'queryazureResourceGroup[*]',
+  resource: 'queryazureSubscription[*]',
   severity: 'medium',
   conditions: {
     path: '@.activityLogAlerts',
     array_any: {
       and: [
-        {
-          path: '[*].region',
-          equal: 'global',
-        },
         {
           path: '[*].enabled',
           equal: true,
