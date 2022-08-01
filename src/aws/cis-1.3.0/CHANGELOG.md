@@ -1,3 +1,10 @@
+# [@cloudgraph/policy-pack-aws-cis-1.3.0-v0.4.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.3.0@0.3.1...@cloudgraph/policy-pack-aws-cis-1.3.0@0.4.0) (2022-08-01)
+
+
+### Features
+
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+
 # [@cloudgraph/policy-pack-aws-cis-1.3.0-v0.3.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.3.0@0.3.0...@cloudgraph/policy-pack-aws-cis-1.3.0@0.3.1) (2022-07-11)
 
 
