@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-aws-cis-1.2.0",
   "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.2.0 Benchmark",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@autocloud/eslint-config": "^0.1.0",
-    "@cloudgraph/sdk": "^0.21.0",
+    "@cloudgraph/sdk": "^0.21.1",
     "@types/jest": "^27.0.3",
     "@types/node": "^15.12.4",
     "@types/pino": "^6.3.11",
