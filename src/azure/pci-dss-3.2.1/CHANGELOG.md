@@ -1,3 +1,15 @@
+# [@cloudgraph/policy-pack-azure-pci-dss-3.2.1-v1.1.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.3...@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.1.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* rewritten rules to be scoped to the subscription level ([997aaad](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/997aaadafbb47a15cd492dced445c0f0537c7246))
+
+
+### Features
+
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+
 # [@cloudgraph/policy-pack-azure-pci-dss-3.2.1-v1.0.3](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.2...@cloudgraph/policy-pack-azure-pci-dss-3.2.1@1.0.3) (2022-07-11)
 
 

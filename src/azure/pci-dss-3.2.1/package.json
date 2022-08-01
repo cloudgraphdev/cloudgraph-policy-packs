@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-azure-pci-dss-3.2.1",
   "description": "Policy pack implementing Payment Card Industry Data Security Standard version 3.2.1 Benchmark for Microsoft Azure Services",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
