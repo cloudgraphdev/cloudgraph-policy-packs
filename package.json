@@ -2,7 +2,6 @@
   "name": "policy-packs",
   "version": "0.0.0",
   "description": "CloudGraph CSPM policy packs monorepo",
-  "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": {
     "type": "git",
