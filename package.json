@@ -11,14 +11,12 @@
     "src/**/*"
   ],
   "devDependencies": {
-    "@qiwi/multi-semantic-release": "^6.1.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.1",
     "@semantic-release/npm": "^9.0.1",
-    "@semrel-extra/npm": "^1.2.0",
-    "npm": "^8.8.0",
-    "semantic-release": "^19.0.2"
+    "semantic-release": "^19.0.2",
+    "semantic-release-monorepo": "^7.0.5"
   },
   "resolutions": {
     "chalk": "^4.1.2"
@@ -31,12 +29,11 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' multi-semantic-release --ignore-scripts",
-    "clean": "yarn workspaces foreach -p run clean",
-    "lint": "yarn workspaces foreach run lint",
-    "lint:fix": "yarn workspaces foreach run lint:fix",
-    "prebuild": "tsc -b",
-    "build": "yarn workspaces foreach run build"
+    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- pnpm semantic-release -e semantic-release-monorepo",
+    "clean": "pnpm -r --workspace-concurrency=1 exec -- pnpm clean",
+    "lint": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint",
+    "build": "pnpm -r --workspace-concurrency=1 exec -- pnpm build",
+    "test": "pnpm -r --workspace-concurrency=1 exec -- pnpm test"
   },
   "dependencies": {
     "lodash": "^4.17.21"
