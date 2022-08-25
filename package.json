@@ -30,12 +30,14 @@
   },
   "scripts": {
     "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- pnpm semantic-release -e semantic-release-monorepo",
+    "install": "pnpm -r --workspace-concurrency=1 exec -- pnpm install",
     "clean": "pnpm -r --workspace-concurrency=1 exec -- pnpm clean",
     "lint": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint",
     "build": "pnpm -r --workspace-concurrency=1 exec -- pnpm build",
     "test": "pnpm -r --workspace-concurrency=1 exec -- pnpm test"
   },
   "dependencies": {
+    "@cloudgraph/sdk": "0.21.1",
     "lodash": "^4.17.21"
   }
 }
