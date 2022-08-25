@@ -28,9 +28,6 @@ jobs:
         with:
           version: 7
           run_install: false
-        env:
-          NPM_TOKEN: ${{secrets.npm_token}}
-          GITHUB_TOKEN: ${{secrets.gh_token}}
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -47,6 +44,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          NPM_TOKEN: ${{secrets.npm_token}}
+          GITHUB_TOKEN: ${{secrets.gh_token}}
 
       - name: Lint
         run: pnpm lint
