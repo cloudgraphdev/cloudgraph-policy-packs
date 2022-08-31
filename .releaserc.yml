@@ -1,0 +1,36 @@
+---
+branches:
+  - name: main
+  - name: beta
+    channel: beta
+    prerelease: beta
+  - name: alpha
+    channel: alpha
+    prerelease: alpha
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - - "@semantic-release/changelog"
+    - changelogFile: CHANGELOG.md
+  - - "@semantic-release/git"
+    - assets:
+      - CHANGELOG.md
+      - package.json
+  - - "semantic-release-pnpm"
+    - npmPublish: true
+  - "@semantic-release/github"
+verifyConditions:
+  - "@semantic-release/changelog"
+  - "@semantic-release/github"
+  - "semantic-release-pnpm"
+prepare:
+  - "@semantic-release/changelog"
+  - "semantic-release-pnpm"
+  - - "@semantic-release/git"
+    - message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+publish:
+  - "@semantic-release/github"
+  - "semantic-release-pnpm"
+success: false
+fail: false
+tagFormat: "${version}"
