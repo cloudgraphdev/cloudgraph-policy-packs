@@ -14,7 +14,7 @@ importers:
       lodash: ^4.17.21
       semantic-release: ^19.0.2
       semantic-release-monorepo: ^7.0.5
-      semantic-release-pnpm: ^1.0.1
+      semantic-release-pnpm: ^1.0.2
     dependencies:
       '@cloudgraph/sdk': 0.21.1
       lodash: 4.17.21
@@ -24,7 +24,7 @@ importers:
       '@semantic-release/github': 8.0.5_semantic-release@19.0.3
       semantic-release: 19.0.3
       semantic-release-monorepo: 7.0.5_semantic-release@19.0.3
-      semantic-release-pnpm: 1.0.1_semantic-release@19.0.3
+      semantic-release-pnpm: 1.0.2_semantic-release@19.0.3
 
   src/aws/cis-1.2.0:
     specifiers:
@@ -5991,8 +5991,8 @@ packages:
       semantic-release: 19.0.3
     dev: true
 
-  /semantic-release-pnpm/1.0.1_semantic-release@19.0.3:
-    resolution: {integrity: sha512-wdLFsZxtMt2RHqf3ATziz3ZpjNKz3C15EUY8JNrYNxyc7zoQ1pKyAQDsjBwg1AOb2C4PoHZ/WMZBJgxVaGzkSw==}
+  /semantic-release-pnpm/1.0.2_semantic-release@19.0.3:
+    resolution: {integrity: sha512-jYG+287heOL/uAp8mgwx3wSe+9K9J3RNSnbDNoOd2kcmEDM9HLfA2VnOmv6fx/X3/KijBNITPXQogYcNjLvf3Q==}
     engines: {node: '>=16 || ^14.17'}
     peerDependencies:
       semantic-release: '>=19.0.0'
