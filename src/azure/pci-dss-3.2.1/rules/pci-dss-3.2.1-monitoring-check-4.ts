@@ -1,6 +1,6 @@
 export default {
-  id: 'azure-pci-dss-3.2.1-logging-check-1',
-  title: 'Logging Check 1: Monitor log profile should be created',
+  id: 'pci-dss-3.2.1-monitoring-check-4',
+  title: 'Monitoring Check 4: Monitor log profile should be created',
   
   description: 'A log profile controls how an activity log is exported. By default, activity logs are retained only for 90 days. Log profiles should be defined so that logs can be exported and stored for a longer duration in order to analyze security activities within an Azure subscription.',
   

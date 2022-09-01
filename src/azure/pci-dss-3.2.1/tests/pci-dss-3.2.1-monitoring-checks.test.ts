@@ -5,6 +5,7 @@ import { initRuleEngine } from '../../../utils/test'
 import Azure_PCI_DSS_321_Monitoring_1 from '../rules/pci-dss-3.2.1-monitoring-check-1'
 import Azure_PCI_DSS_321_Monitoring_2 from '../rules/pci-dss-3.2.1-monitoring-check-2'
 import Azure_PCI_DSS_321_Monitoring_3 from '../rules/pci-dss-3.2.1-monitoring-check-3'
+import Azure_PCI_DSS_321_Monitoring_4 from '../rules/pci-dss-3.2.1-monitoring-check-4'
 
 export interface azureActivityLogAlertLeafCondition {
   id: string
@@ -28,9 +29,14 @@ export interface QueryazureSubscription {
   activityLogAlerts: QueryazureActivityLogAlert[]
 }
 
+export interface RetentionPolicy {
+  enabled: boolean
+  days: number
+}
 export interface QueryazureLogProfile {
   id: string
-  categories: string[]
+  categories?: string[]
+  retentionPolicy?: RetentionPolicy | null
 }
 
 export interface KeyValue {
@@ -332,6 +338,62 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         parameters
       )
 
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 4: Monitor log profile should be created', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      days: number,
+    ): PCIQueryResponse => {
+      return {
+        queryazureLogProfile: [
+          {
+            id: cuid(),
+            retentionPolicy: {
+              enabled,
+              days,
+            },
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_4 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Monitor audit profile log is created', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 0)
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Monitor audit profile log is not created', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(false, 0)
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Monitor audit profile log is empty', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(false, 0)
+      const logProfile = data.queryazureLogProfile?.[0] as QueryazureLogProfile
+      logProfile.retentionPolicy = null
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Monitor audit profile is not set to retain the events indefinitely', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 7)
       await testRule(data, Result.FAIL)
     })
   })
