@@ -55,6 +55,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 | Rule               | Description                                                                                                                          |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| logging-check-1    | Monitor log profile should be created                                                                                               |
 | monitoring-check-1 | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-2 | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-3 | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
