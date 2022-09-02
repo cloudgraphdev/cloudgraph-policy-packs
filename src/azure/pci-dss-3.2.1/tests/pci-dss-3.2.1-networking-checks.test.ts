@@ -4,6 +4,7 @@ import { initRuleEngine } from '../../../utils/test'
 
 import Azure_PCI_DSS_321_Networking_1 from '../rules/pci-dss-3.2.1-networking-check-1'
 import Azure_PCI_DSS_321_Networking_2 from '../rules/pci-dss-3.2.1-networking-check-2'
+import Azure_PCI_DSS_321_Networking_3 from '../rules/pci-dss-3.2.1-networking-check-3'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
 const ipV6WildcardAddress = '::/0'
@@ -41,9 +42,29 @@ export interface QueryazureSqlServer {
   firewallRules: FirewallRule[]
 }
 
+export interface SecurityRules {
+  access: string | undefined
+  destinationPortRange: string | undefined
+  direction: string | undefined
+  protocol: string | undefined
+  sourceAddressPrefix: string | undefined
+}
+
+export interface FlowLogs {
+  retentionPolicyEnabled?: boolean | undefined
+  retentionPolicyDays?: number | undefined
+}
+
+export interface QueryazureNetworkSecurityGroup {
+  id: string
+  securityRules?: SecurityRules[]
+  flowLogs?: FlowLogs[]
+}
+
 export interface PCIQueryResponse {
   queryazureVirtualMachine?: QueryazureVirtualMachine[]
   queryazureSqlServer?: QueryazureSqlServer[]
+  queryazureNetworkSecurityGroup?: QueryazureNetworkSecurityGroup[]
 }
 
 describe('PCI Data Security Standard: 3.2.1', () => {
@@ -209,6 +230,99 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     test('No Security Issue when there is an inbound that allow any IP', async () => {
       await testRule('255.255.255.255', '0.0.0.0', Result.FAIL)
     })
+  })
 
+  describe('Networking Check 3: Virtual Network security groups should not permit ingress from 0.0.0.0/0 to TCP/UDP port 22 (SSH)', () => {
+    const getTestRuleFixture = (
+      access?: string,
+      destinationPortRange?: string,
+      direction?: string,
+      protocol?: string,
+      sourceAddressPrefix?: string
+    ): PCIQueryResponse => {
+      return {
+        queryazureNetworkSecurityGroup: [
+          {
+            id: cuid(),
+            securityRules: [
+              {
+                access,
+                destinationPortRange,
+                direction,
+                protocol,
+                sourceAddressPrefix,
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Networking_3 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when SSH access is restricted from the internet', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Deny', '22', 'Inbound', 'Tcp', 'Internet')
+
+      await testRule(data, Result.PASS)
+    })
+    test('No Security Issue when SSH access is restricted from the internet (No inbound rules configured)', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture()
+      const securityGroup = data.queryazureNetworkSecurityGroup?.[0] as QueryazureNetworkSecurityGroup
+      securityGroup.securityRules = []
+      await testRule(data, Result.PASS)
+    })
+    test('Security Issue when there is an inbound rule with destinationPortRange equal to 22', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', 'Internet')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with destinationPortRange equal to *', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '*', 'Inbound', 'Tcp', 'Internet')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with destinationPortRange containing port 22', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '["3389-3390","22","23"]', 'Inbound', 'Tcp', 'Internet')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with sourceAddressPrefix equal to *', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', '*')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with sourceAddressPrefix equal to 0.0.0.0,', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', '0.0.0.0')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with sourceAddressPrefix equal to <nw>/0,', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', '<nw>/0')
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is an inbound rule with sourceAddressPrefix equal to Internet,', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', 'Internet')
+
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when there is an inbound rule with sourceAddressPrefix equal to any,', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Allow', '22', 'Inbound', 'Tcp', 'any')
+
+      await testRule(data, Result.FAIL)
+    })
   })
 })
