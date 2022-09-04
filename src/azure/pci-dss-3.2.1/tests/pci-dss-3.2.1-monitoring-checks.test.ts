@@ -6,6 +6,14 @@ import Azure_PCI_DSS_321_Monitoring_1 from '../rules/pci-dss-3.2.1-monitoring-ch
 import Azure_PCI_DSS_321_Monitoring_2 from '../rules/pci-dss-3.2.1-monitoring-check-2'
 import Azure_PCI_DSS_321_Monitoring_3 from '../rules/pci-dss-3.2.1-monitoring-check-3'
 import Azure_PCI_DSS_321_Monitoring_4 from '../rules/pci-dss-3.2.1-monitoring-check-4'
+import Azure_PCI_DSS_321_Monitoring_5 from '../rules/pci-dss-3.2.1-monitoring-check-5'
+import Azure_PCI_DSS_321_Monitoring_6 from '../rules/pci-dss-3.2.1-monitoring-check-6'
+import Azure_PCI_DSS_321_Monitoring_7 from '../rules/pci-dss-3.2.1-monitoring-check-7'
+import Azure_PCI_DSS_321_Monitoring_8 from '../rules/pci-dss-3.2.1-monitoring-check-8'
+import Azure_PCI_DSS_321_Monitoring_9 from '../rules/pci-dss-3.2.1-monitoring-check-9'
+import Azure_PCI_DSS_321_Monitoring_10 from '../rules/pci-dss-3.2.1-monitoring-check-10'
+import Azure_PCI_DSS_321_Monitoring_11 from '../rules/pci-dss-3.2.1-monitoring-check-11'
+import Azure_PCI_DSS_321_Monitoring_12 from '../rules/pci-dss-3.2.1-monitoring-check-12'
 
 export interface azureActivityLogAlertLeafCondition {
   id: string
@@ -394,6 +402,479 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('Security Issue when Monitor audit profile is not set to retain the events indefinitely', async () => {
       const data: PCIQueryResponse = getTestRuleFixture(true, 7)
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 5: Monitor Activity Log Alert should exist for Create or Update Network Security Group', () => {
+    const getTestRuleFixture_525 = (
+      enabled: boolean,
+      field: string,
+      equals: string
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [
+              {
+                id: cuid(),
+                enabled,
+                condition: {
+                  allOf: [
+                    {
+                      id: cuid(),
+                      field,
+                      equals,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      rulesEngine: Engine,
+      data: any,
+      rule: Rule,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(rule as Rule, {
+        ...data,
+      })
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update Network Security Group Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture_525(
+        true,
+        'operationName',
+        'microsoft.network/networksecuritygroups/securityrules/write'
+      )
+
+      await testRule(rulesEngine, data, Azure_PCI_DSS_321_Monitoring_5 as Rule, Result.PASS)
+    })
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update Network Security Group Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture_525(
+        true,
+        '',
+        ''
+      )
+
+      await testRule(rulesEngine, data, Azure_PCI_DSS_321_Monitoring_5 as Rule, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 6: Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [{
+              id: cuid(),
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_6 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 'operationName', 'Microsoft.Network/networkSecurityGroups/securityRules/write')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 7: Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [{
+              id: cuid(),
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_7 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.sql/servers/firewallrules/write')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update or Delete SQL Server Firewall Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 8: Monitor Activity Log Alert should exist for Create or Update Security Solution', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [{
+              id: cuid(),
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_8 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create or Update Security Solution', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.security/securitysolutions/write')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create or Update Security Solution', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 9: Monitor Activity Log Alert should exist for Create Policy Assignment', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [
+              {
+                id: cuid(),
+                enabled,
+                condition: {
+                  allOf: [
+                    {
+                      id: cuid(),
+                      field,
+                      equals,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_9 as Rule, {
+        ...data,
+      })
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Create Policy Assignment', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        'operationName',
+        'microsoft.authorization/policyassignments/write'
+      )
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Activity Log Alert doesnt exist for Create Policy Assignment', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        '',
+        ''
+      )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 10: Monitor Activity Log Alert should exist for Delete Network Security Group', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [
+              {
+                id: cuid(),
+                enabled,
+                condition: {
+                  allOf: [
+                    {
+                      id: cuid(),
+                      field,
+                      equals,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_10 as Rule, {
+        ...data,
+      })
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Delete Network Security Group', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        'operationName',
+        'microsoft.network/networksecuritygroups/delete'
+      )
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Activity Log Alert doesnt exist for Delete Network Security Group', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        '',
+        ''
+      )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 11: Monitor Activity Log Alert should exist for Delete Network Security Group Rule', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [
+              {
+                id: cuid(),
+                enabled,
+                condition: {
+                  allOf: [
+                    {
+                      id: cuid(),
+                      field,
+                      equals,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_11 as Rule, {
+        ...data,
+      })
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for the Delete Network Security Group Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        'operationName',
+        'microsoft.network/networksecuritygroups/securityrules/delete'
+      )
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Activity Log Alert doesnt exist for the Delete Network Security Group Rule', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        '',
+        ''
+      )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 12: Monitor Activity Log Alert should exist for Delete Security Solution', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+      field: string,
+      equals: string,
+    ): PCIQueryResponse => {
+      return {
+        queryazureSubscription: [
+          {
+            id: cuid(),
+            activityLogAlerts: [{
+              id: cuid(),
+              enabled,
+              condition: {
+                allOf: [{
+                  id: cuid(),
+                  field,
+                  equals,
+                }]
+              },
+            }],
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_12 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Activity Log Alert exists for Delete Security Solution', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, 'operationName', 'microsoft.security/securitysolutions/delete')
+
+      await testRule(data, Result.PASS)
+    })
+
+
+    test('Security Issue when Activity Log Alert doesnt exist for Delete Security Solution', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
+
       await testRule(data, Result.FAIL)
     })
   })
