@@ -407,7 +407,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
   })
 
   describe('Monitoring Check 5: Monitor Activity Log Alert should exist for Create or Update Network Security Group', () => {
-    const getTestRuleFixture_525 = (
+    const getTestRuleFixture = (
       enabled: boolean,
       field: string,
       equals: string
@@ -437,37 +437,36 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     }
 
     const testRule = async (
-      rulesEngine: Engine,
-      data: any,
-      rule: Rule,
+      data: PCIQueryResponse,
       expectedResult: Result
     ): Promise<void> => {
       // Act
-      const [processedRule] = await rulesEngine.processRule(rule as Rule, {
-        ...data,
-      })
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_5 as Rule, 
+        { ...data }
+      )
       // Asserts
       expect(processedRule.result).toBe(expectedResult)
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update Network Security Group Rule', async () => {
-      const data: PCIQueryResponse = getTestRuleFixture_525(
+      const data: PCIQueryResponse = getTestRuleFixture(
         true,
         'operationName',
-        'microsoft.network/networksecuritygroups/securityrules/write'
+        'microsoft.network/networksecuritygroups/write'
       )
 
-      await testRule(rulesEngine, data, Azure_PCI_DSS_321_Monitoring_5 as Rule, Result.PASS)
+      await testRule(data, Result.PASS)
     })
 
     test('Security Issue when Activity Log Alert doesnt exist for Create or Update Network Security Group Rule', async () => {
-      const data: PCIQueryResponse = getTestRuleFixture_525(
+      const data: PCIQueryResponse = getTestRuleFixture(
         true,
         '',
         ''
       )
 
-      await testRule(rulesEngine, data, Azure_PCI_DSS_321_Monitoring_5 as Rule, Result.FAIL)
+      await testRule(data, Result.FAIL)
     })
   })
 
@@ -512,7 +511,11 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     }
 
     test('No Security Issue when Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule', async () => {
-      const data: PCIQueryResponse = getTestRuleFixture(true, 'operationName', 'Microsoft.Network/networkSecurityGroups/securityRules/write')
+      const data: PCIQueryResponse = getTestRuleFixture(
+        true,
+        'operationName',
+        'Microsoft.Network/networkSecurityGroups/securityRules/write',
+      )
 
       await testRule(data, Result.PASS)
     })
