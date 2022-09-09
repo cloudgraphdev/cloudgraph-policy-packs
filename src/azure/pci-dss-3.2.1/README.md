@@ -53,12 +53,17 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 ## Available Ruleset
 
-| Rule               | Description                                                                                                                          |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| monitoring-check-1 | Monitor audit profile should log all activities                                                                                      |
-| monitoring-check-2 | Monitor audit profile should log all activities                                                                                      |
-| monitoring-check-3 | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
-| monitoring-check-4 | Monitor log profile should be created                                                                                                |
-| networking-check-1 | Virtual Network security groups should not permit ingress from ‘0.0.0.0/0’ to TCP port 3389 (RDP)                                    |
-| networking-check-2 | Virtual Network security groups attached to SQL Server instances should not permit ingress from 0.0.0.0/0 to all ports and protocols |
-| networking-check-3 | Virtual Network security groups should not permit ingress from '0.0.0.0/0' to TCP/UDP port 22 (SSH)                                  |
+| Rule                   | Description                                                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| monitoring-check-1     | Monitor audit profile should log all activities                                                                                      |
+| monitoring-check-2     | Monitor audit profile should log all activities                                                                                      |
+| monitoring-check-3     | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
+| monitoring-check-4     | Monitor log profile should be created                                                                                                |
+| network-access-check-1 | Network Access Check 1: MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0              |
+| network-access-check-2 | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                 |
+| network-access-check-3 | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                 |
+| network-access-check-4 | Ensure default network access rule for Storage Accounts is set to deny                                                               |
+| networking-check-1     | Virtual Network security groups should not permit ingress from ‘0.0.0.0/0’ to TCP port 3389 (RDP)                                    |
+| networking-check-2     | Virtual Network security groups attached to SQL Server instances should not permit ingress from 0.0.0.0/0 to all ports and protocols |
+| networking-check-3     | Virtual Network security groups should not permit ingress from '0.0.0.0/0' to TCP/UDP port 22 (SSH)                                  |
+| policy-version-check-1 | App Service web apps should have 'Minimum TLS Version' set to '1.2'                                                                  |
