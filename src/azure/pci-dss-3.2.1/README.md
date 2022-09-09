@@ -59,7 +59,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | monitoring-check-2     | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-3     | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
 | monitoring-check-4     | Monitor log profile should be created                                                                                                |
-| network-access-check-1 | Network Access Check 1: MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0              |
+| network-access-check-1 | MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                      |
 | network-access-check-2 | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                 |
 | network-access-check-3 | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                 |
 | network-access-check-4 | Ensure default network access rule for Storage Accounts is set to deny                                                               |
