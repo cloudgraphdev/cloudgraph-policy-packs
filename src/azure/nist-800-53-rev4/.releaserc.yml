@@ -19,21 +19,21 @@ plugins:
     - assets:
         - CHANGELOG.md
         - package.json
-  - - "@semantic-release/npm"
+  - - "semantic-release-pnpm"
     - npmPublish: true
   - "@semantic-release/github"
 verifyConditions:
   - "@semantic-release/changelog"
   - "@semantic-release/github"
-  - "@semantic-release/npm"
+  - "semantic-release-pnpm"
 prepare:
   - "@semantic-release/changelog"
-  - "@semantic-release/npm"
+  - "semantic-release-pnpm"
   - - "@semantic-release/git"
     - message: "chore(release): @cloudgraph/policy-pack-azure-nist-800-53-rev4 ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/github"
-  - "@semantic-release/npm"
+  - "semantic-release-pnpm"
 success: false
 fail: false
 tagFormat: "@cloudgraph/policy-pack-azure-nist-800-53-rev4@${version}"
