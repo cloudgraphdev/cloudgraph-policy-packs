@@ -55,6 +55,10 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 | Rule               | Description                                                                                                                          |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| encryption-check-1 | App Service web apps should have 'HTTPS only' enabled                                                                                |
+| encryption-check-2 | MySQL Database server 'enforce SSL connection' should be enabled                                                                     |
+| encryption-check-3 | PostgreSQL Database server 'enforce SSL connection' should be enabled                                                                |
+| encryption-check-4 | Storage Accounts 'Secure transfer required' should be enabled                                                                        |
 | monitoring-check-1 | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-2 | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-3 | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
