@@ -53,12 +53,20 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 ## Available Ruleset
 
-| Rule               | Description                                                                                                                          |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| monitoring-check-1 | Monitor audit profile should log all activities                                                                                      |
-| monitoring-check-2 | Monitor audit profile should log all activities                                                                                      |
-| monitoring-check-3 | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
-| monitoring-check-4 | Monitor log profile should be created                                                                                                |
-| networking-check-1 | Virtual Network security groups should not permit ingress from ‘0.0.0.0/0’ to TCP port 3389 (RDP)                                    |
-| networking-check-2 | Virtual Network security groups attached to SQL Server instances should not permit ingress from 0.0.0.0/0 to all ports and protocols |
-| networking-check-3 | Virtual Network security groups should not permit ingress from '0.0.0.0/0' to TCP/UDP port 22 (SSH)                                  |
+| Rule                | Description                                                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| monitoring-check-1  | Monitor audit profile should log all activities                                                                                      |
+| monitoring-check-2  | Monitor audit profile should log all activities                                                                                      |
+| monitoring-check-3  | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
+| monitoring-check-4  | Monitor log profile should be created                                                                                                |
+| monitoring-check-5  | Monitor Activity Log Alert should exist for Create or Update Network Security Group                                                  |
+| monitoring-check-6  | Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule                                             |
+| monitoring-check-7  | Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule                                      |
+| monitoring-check-8  | Monitor Activity Log Alert should exist for Create or Update Security Solution                                                       |
+| monitoring-check-9  | Monitor Activity Log Alert should exist for Create Policy Assignment                                                                 |
+| Monitoring Check 10 | Monitor Activity Log Alert should exist for Delete Network Security Group                                                            |
+| Monitoring Check 11 | Monitor Activity Log Alert should exist for Delete Network Security Group Rule                                                       |
+| Monitoring Check 12 | Monitor Activity Log Alert should exist for Delete Security Solution                                                                 |
+| networking-check-1  | Virtual Network security groups should not permit ingress from ‘0.0.0.0/0’ to TCP port 3389 (RDP)                                    |
+| networking-check-2  | Virtual Network security groups attached to SQL Server instances should not permit ingress from 0.0.0.0/0 to all ports and protocols |
+| networking-check-3  | Virtual Network security groups should not permit ingress from '0.0.0.0/0' to TCP/UDP port 22 (SSH)                                  |
