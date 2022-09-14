@@ -59,6 +59,14 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | monitoring-check-2     | Monitor audit profile should log all activities                                                                                      |
 | monitoring-check-3     | Security Center default policy setting ‘Monitor Endpoint Protection’ should be enabled                                               |
 | monitoring-check-4     | Monitor log profile should be created                                                                                                |
+| monitoring-check-5     | Monitor Activity Log Alert should exist for Create or Update Network Security Group                                                  |
+| monitoring-check-6     | Monitor Activity Log Alert should exist for Create or Update Network Security Group Rule                                             |
+| monitoring-check-7     | Monitor Activity Log Alert should exist for Create or Update or Delete SQL Server Firewall Rule                                      |
+| monitoring-check-8     | Monitor Activity Log Alert should exist for Create or Update Security Solution                                                       |
+| monitoring-check-9     | Monitor Activity Log Alert should exist for Create Policy Assignment                                                                 |
+| monitoring-check-10    | Monitor Activity Log Alert should exist for Delete Network Security Group                                                            |
+| monitoring-check-11    | Monitor Activity Log Alert should exist for Delete Network Security Group Rule                                                       |
+| monitoring-check-12    | Monitor Activity Log Alert should exist for Delete Security Solution                                                                 |
 | network-access-check-1 | MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                      |
 | network-access-check-2 | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                 |
 | network-access-check-3 | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                 |
