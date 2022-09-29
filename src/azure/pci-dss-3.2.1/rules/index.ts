@@ -10,6 +10,7 @@ import Azure_PCI_DSS_321_Monitoring_9 from './pci-dss-3.2.1-monitoring-check-9'
 import Azure_PCI_DSS_321_Monitoring_10 from './pci-dss-3.2.1-monitoring-check-10'
 import Azure_PCI_DSS_321_Monitoring_11 from './pci-dss-3.2.1-monitoring-check-11'
 import Azure_PCI_DSS_321_Monitoring_12 from './pci-dss-3.2.1-monitoring-check-12'
+import Azure_PCI_DSS_321_Monitoring_13 from './pci-dss-3.2.1-monitoring-check-13'
 import Azure_PCI_DSS_321_Network_Access_1 from './pci-dss-3.2.1-network-access-check-1'
 import Azure_PCI_DSS_321_Network_Access_2 from './pci-dss-3.2.1-network-access-check-2'
 import Azure_PCI_DSS_321_Network_Access_3 from './pci-dss-3.2.1-network-access-check-3'
@@ -33,6 +34,7 @@ export default [
   Azure_PCI_DSS_321_Monitoring_10,
   Azure_PCI_DSS_321_Monitoring_11,
   Azure_PCI_DSS_321_Monitoring_12,
+  Azure_PCI_DSS_321_Monitoring_13,
   Azure_PCI_DSS_321_Network_Access_1,
   Azure_PCI_DSS_321_Network_Access_2,
   Azure_PCI_DSS_321_Network_Access_3,

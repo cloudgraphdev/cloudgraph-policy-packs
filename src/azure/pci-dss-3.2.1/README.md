@@ -67,6 +67,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | monitoring-check-10    | Monitor Activity Log Alert should exist for Delete Network Security Group                                                            |
 | monitoring-check-11    | Monitor Activity Log Alert should exist for Delete Network Security Group Rule                                                       |
 | monitoring-check-12    | Monitor Activity Log Alert should exist for Delete Security Solution                                                                 |
+| monitoring-check-13    | Monitor log profile should have activity logs for global services and all regions                                                    |
 | network-access-check-1 | MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                      |
 | network-access-check-2 | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                 |
 | network-access-check-3 | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                 |

@@ -14,6 +14,7 @@ import Azure_PCI_DSS_321_Monitoring_9 from '../rules/pci-dss-3.2.1-monitoring-ch
 import Azure_PCI_DSS_321_Monitoring_10 from '../rules/pci-dss-3.2.1-monitoring-check-10'
 import Azure_PCI_DSS_321_Monitoring_11 from '../rules/pci-dss-3.2.1-monitoring-check-11'
 import Azure_PCI_DSS_321_Monitoring_12 from '../rules/pci-dss-3.2.1-monitoring-check-12'
+import Azure_PCI_DSS_321_Monitoring_13 from '../rules/pci-dss-3.2.1-monitoring-check-13'
 
 export interface azureActivityLogAlertLeafCondition {
   id: string
@@ -43,6 +44,8 @@ export interface RetentionPolicy {
 }
 export interface QueryazureLogProfile {
   id: string
+  name?: string
+  locations?: string[]
   categories?: string[]
   retentionPolicy?: RetentionPolicy | null
 }
@@ -878,6 +881,78 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     test('Security Issue when Activity Log Alert doesnt exist for Delete Security Solution', async () => {
       const data: PCIQueryResponse = getTestRuleFixture(true, '', '')
 
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 13: Monitor log profile should have activity logs for global services and all regions', () => {
+    const getTestRuleFixture = (
+      name: string,
+      locations: string[]
+    ): PCIQueryResponse => {
+      return {
+        queryazureLogProfile: [
+          {
+            id: cuid(),
+            name,
+            locations
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_13 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Monitor log profile have activity logs for global services and all regions', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('default',  [
+        'centralus',
+        'eastus',
+        'northcentralus',
+        'southcentralus',
+        'westus',
+        'francecentral',
+        'germanynorth',
+        'swedencentral',
+        'global',
+      ])
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Monitor log profile have activity logs for global services but not for all regions', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('default',  [
+        'centralus',
+        'eastus',
+        'northcentralus',
+        'southcentralus',
+      ])
+      await testRule(data, Result.FAIL)
+    })
+
+    test('Security Issue when Monitor log profile not have activity logs for global services and all regions', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('test',  [
+        'centralus',
+        'eastus',
+        'northcentralus',
+        'southcentralus',
+        'westus',
+        'francecentral',
+        'germanynorth',
+        'swedencentral',
+        'global',
+      ])
       await testRule(data, Result.FAIL)
     })
   })
