@@ -55,6 +55,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 | Rule                   | Description                                                                                                                          |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| data-retention-check-1 | Activity Log Retention should be 365 days or greater                                                                                 |
 | encryption-check-1     | App Service web apps should have 'HTTPS only' enabled                                                                                |
 | encryption-check-2     | MySQL Database server 'enforce SSL connection' should be enabled                                                                     |
 | encryption-check-3     | PostgreSQL Database server 'enforce SSL connection' should be enabled                                                                |
