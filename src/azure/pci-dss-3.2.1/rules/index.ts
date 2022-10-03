@@ -1,3 +1,4 @@
+import Azure_PCI_DSS_321_Data_Retention1 from './pci-dss-3.2.1-data-retention-check-1'
 import Azure_PCI_DSS_321_Encryption_1 from './pci-dss-3.2.1-encryption-check-1'
 import Azure_PCI_DSS_321_Encryption_2 from './pci-dss-3.2.1-encryption-check-2'
 import Azure_PCI_DSS_321_Encryption_3 from './pci-dss-3.2.1-encryption-check-3'
@@ -15,6 +16,7 @@ import Azure_PCI_DSS_321_Monitoring_10 from './pci-dss-3.2.1-monitoring-check-10
 import Azure_PCI_DSS_321_Monitoring_11 from './pci-dss-3.2.1-monitoring-check-11'
 import Azure_PCI_DSS_321_Monitoring_12 from './pci-dss-3.2.1-monitoring-check-12'
 import Azure_PCI_DSS_321_Monitoring_13 from './pci-dss-3.2.1-monitoring-check-13'
+import Azure_PCI_DSS_321_Monitoring_14 from './pci-dss-3.2.1-monitoring-check-14'
 import Azure_PCI_DSS_321_Network_Access_1 from './pci-dss-3.2.1-network-access-check-1'
 import Azure_PCI_DSS_321_Network_Access_2 from './pci-dss-3.2.1-network-access-check-2'
 import Azure_PCI_DSS_321_Network_Access_3 from './pci-dss-3.2.1-network-access-check-3'
@@ -26,6 +28,7 @@ import Azure_PCI_DSS_321_Policy_Version_1 from './pci-dss-3.2.1-policy-version-c
 import Azure_PCI_DSS_321_User_1 from './pci-dss-3.2.1-user-check-1'
 
 export default [
+  Azure_PCI_DSS_321_Data_Retention1,
   Azure_PCI_DSS_321_Encryption_1,
   Azure_PCI_DSS_321_Encryption_2,
   Azure_PCI_DSS_321_Encryption_3,
@@ -43,6 +46,7 @@ export default [
   Azure_PCI_DSS_321_Monitoring_11,
   Azure_PCI_DSS_321_Monitoring_12,
   Azure_PCI_DSS_321_Monitoring_13,
+  Azure_PCI_DSS_321_Monitoring_14,
   Azure_PCI_DSS_321_Network_Access_1,
   Azure_PCI_DSS_321_Network_Access_2,
   Azure_PCI_DSS_321_Network_Access_3,

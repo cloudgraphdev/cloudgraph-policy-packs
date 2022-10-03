@@ -15,6 +15,7 @@ import Azure_PCI_DSS_321_Monitoring_10 from '../rules/pci-dss-3.2.1-monitoring-c
 import Azure_PCI_DSS_321_Monitoring_11 from '../rules/pci-dss-3.2.1-monitoring-check-11'
 import Azure_PCI_DSS_321_Monitoring_12 from '../rules/pci-dss-3.2.1-monitoring-check-12'
 import Azure_PCI_DSS_321_Monitoring_13 from '../rules/pci-dss-3.2.1-monitoring-check-13'
+import Azure_PCI_DSS_321_Monitoring_14 from '../rules/pci-dss-3.2.1-monitoring-check-14'
 
 export interface azureActivityLogAlertLeafCondition {
   id: string
@@ -65,11 +66,18 @@ export interface QueryazurePolicyAssignment {
   displayName: string
   parameters: Parameter[]
 }
-
+export interface ServerBlobAuditingPolicy {
+  state: string
+}
+export interface QueryazureSqlServer {
+  id: string
+  serverBlobAuditingPolicies: ServerBlobAuditingPolicy[]
+}
 export interface PCIQueryResponse {
   queryazureLogProfile?: QueryazureLogProfile[]
   queryazureSubscription?: QueryazureSubscription[]
   queryazurePolicyAssignment?: QueryazurePolicyAssignment[]
+  queryazureSqlServer?: QueryazureSqlServer[]
 }
 
 describe('PCI Data Security Standard: 3.2.1', () => {
@@ -953,6 +961,50 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         'swedencentral',
         'global',
       ])
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('Monitoring Check 14: SQL Server auditing should be enabled', () => {
+    const getTestRuleFixture = (
+      state: string
+      ): PCIQueryResponse => {
+      return {
+        queryazureSqlServer: [
+          {
+            id: cuid(),
+            serverBlobAuditingPolicies: [
+              {
+                state
+              }
+            ]
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: PCIQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_PCI_DSS_321_Monitoring_14 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when SQL Server auditing is enabled', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Enabled')
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when SQL Server auditing is disabled', async () => {
+      const data: PCIQueryResponse = getTestRuleFixture('Disabled')
       await testRule(data, Result.FAIL)
     })
   })

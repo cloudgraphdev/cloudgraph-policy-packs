@@ -55,6 +55,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 
 | Rule                   | Description                                                                                                                          |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| data-retention-check-1 | Activity Log Retention should be 365 days or greater                                                                                 |
 | encryption-check-1     | App Service web apps should have 'HTTPS only' enabled                                                                                |
 | encryption-check-2     | MySQL Database server 'enforce SSL connection' should be enabled                                                                     |
 | encryption-check-3     | PostgreSQL Database server 'enforce SSL connection' should be enabled                                                                |
@@ -72,6 +73,7 @@ Policy Pack based on the [PCI DSS version 3.2.1](https://www.pcisecuritystandard
 | monitoring-check-11    | Monitor Activity Log Alert should exist for Delete Network Security Group Rule                                                       |
 | monitoring-check-12    | Monitor Activity Log Alert should exist for Delete Security Solution                                                                 |
 | monitoring-check-13    | Monitor log profile should have activity logs for global services and all regions                                                    |
+| monitoring-check-14    | SQL Server auditing should be enabled                                                                                                |
 | network-access-check-1 | MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                      |
 | network-access-check-2 | PostgreSQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                 |
 | network-access-check-3 | SQL Server firewall rules should not permit start and end IP addresses to be 0.0.0.0                                                 |
