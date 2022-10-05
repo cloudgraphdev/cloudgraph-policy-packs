@@ -23,6 +23,7 @@ import Azure_PCI_DSS_321_Networking_1 from './pci-dss-3.2.1-networking-check-1'
 import Azure_PCI_DSS_321_Networking_2 from './pci-dss-3.2.1-networking-check-2'
 import Azure_PCI_DSS_321_Networking_3 from './pci-dss-3.2.1-networking-check-3'
 import Azure_PCI_DSS_321_Policy_Version_1 from './pci-dss-3.2.1-policy-version-check-1'
+import Azure_PCI_DSS_321_Threat_Mitigation_1 from './pci-dss-3.2.1-threat-mitigation-check-1'
 import Azure_PCI_DSS_321_User_1 from './pci-dss-3.2.1-user-check-1'
 
 export default [
@@ -51,5 +52,6 @@ export default [
   Azure_PCI_DSS_321_Networking_2,
   Azure_PCI_DSS_321_Networking_3,
   Azure_PCI_DSS_321_Policy_Version_1,
+  Azure_PCI_DSS_321_Threat_Mitigation_1,
   Azure_PCI_DSS_321_User_1,
 ]
