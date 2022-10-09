@@ -18,6 +18,7 @@ import Gcp_NIST_800_53_37 from './gcp-nist-800-53-rev4-3.7'
 import Gcp_NIST_800_53_38 from './gcp-nist-800-53-rev4-3.8'
 import Gcp_NIST_800_53_39 from './gcp-nist-800-53-rev4-3.9'
 import Gcp_NIST_800_53_310 from './gcp-nist-800-53-rev4-3.10'
+import Gcp_NIST_800_53_311 from './gcp-nist-800-53-rev4-3.11'
 import Gcp_NIST_800_53_41 from './gcp-nist-800-53-rev4-4.1'
 import Gcp_NIST_800_53_42 from './gcp-nist-800-53-rev4-4.2'
 import Gcp_NIST_800_53_51 from './gcp-nist-800-53-rev4-5.1'
@@ -55,6 +56,7 @@ export default [
   Gcp_NIST_800_53_38,
   Gcp_NIST_800_53_39,
   Gcp_NIST_800_53_310,
+  Gcp_NIST_800_53_311,
   Gcp_NIST_800_53_41,
   Gcp_NIST_800_53_42,
   Gcp_NIST_800_53_51,
