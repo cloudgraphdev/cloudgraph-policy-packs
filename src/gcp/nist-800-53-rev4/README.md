@@ -75,6 +75,7 @@ Policy Pack based on the [800-53 Rev. 4](https://csrc.nist.gov/publications/deta
 | GCP NIST 3.8  | PostgreSQL database instance 'log_min_duration_statement' database flag should be set to '-1' (disabled)                           |
 | GCP NIST 3.9  | At least one project-level logging sink should be configured with an empty filter                                                  |
 | GCP NIST 3.10 | Network subnet flow logs should be enabled                                                                                         |
+| GCP NIST 3.11 | IAM default audit log config should include 'DATA_READ' and 'DATA_WRITE' log types                                                 |
 | GCP NIST 4.1  | Compute instance disks should be encrypted with customer-supplied encryption keys (CSEKs)                                          |
 | GCP NIST 4.2  | SQL database instances should require incoming connections to use SSL                                                              |
 | GCP NIST 5.1  | Logging metric filter and alert for project ownership assignments/changes should be configured                                     |
