@@ -1,6 +1,6 @@
 # CIS Amazon Web Services Foundations 1.5.0
 
-Policy Pack based on the [AWS Foundations 1.5.0](https://docs.aws.amazon.com/audit-manager/latest/userguide/CIS-1-5.html) benchmark provided by the [Center for Internet Security (CIS)](https://www.cisecurity.org/benchmark/amazon_web_services/)
+Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d/10EoDf68wxwA2fmgAntElaX_-r6L5qf4B/view?usp=sharing) benchmark provided by the [Center for Internet Security (CIS)](https://www.cisecurity.org/benchmark/amazon_web_services/)
 
 ## First Steps
 
