@@ -1,5 +1,5 @@
 export default {
-  id: 'aws-cis-1.5.0-5.4',
+  id: 'aws-cis-1.5.0-5.5',
   title:
     'AWS CIS 5.4 Ensure routing tables for VPC peering are "least access"',
 

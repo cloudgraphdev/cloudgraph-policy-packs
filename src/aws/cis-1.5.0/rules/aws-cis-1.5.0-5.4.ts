@@ -1,6 +1,6 @@
 // AWS CIS 1.2.0 Rule equivalent 4.3
 export default {
-  id: 'aws-cis-1.5.0-5.3',
+  id: 'aws-cis-1.5.0-5.4',
   title:
     'AWS CIS 5.3 Ensure the default security group of every VPC restricts all traffic',
   description: `A VPC comes with a default security group whose initial settings deny all inbound traffic,
