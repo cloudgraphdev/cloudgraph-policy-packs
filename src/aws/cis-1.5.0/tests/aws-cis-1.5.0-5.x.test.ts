@@ -4,6 +4,7 @@ import { initRuleEngine } from '../../../utils/test'
 
 import Aws_CIS_150_51 from '../rules/aws-cis-1.5.0-5.1'
 import Aws_CIS_150_52 from '../rules/aws-cis-1.5.0-5.2'
+import Aws_CIS_150_53 from '../rules/aws-cis-1.5.0-5.3'
 import Aws_CIS_150_54 from '../rules/aws-cis-1.5.0-5.4'
 
 const ipV4WildcardAddress = '0.0.0.0/0'
@@ -255,9 +256,9 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       await testRule(3389, 3389, '10.10.10.10/16', Result.PASS)
     })
 
-    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and port 80', async () => {
-      await testRule(80, 80, ipV6WildcardAddress, Result.PASS)
-    })
+    // test('No Security Issue when there is an inbound rule with IPv6 wildcard address and port 80', async () => {
+    //   await testRule(80, 80, ipV6WildcardAddress, Result.PASS)
+    // })
 
     test('No Security Issue when there is an inbound rule with a random IPv4 and a port range not including the port 22', async () => {
       await testRule(
@@ -277,31 +278,8 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       )
     })
 
-    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and a port range not including the port 22', async () => {
-      await testRule(
-        100,
-        200,
-        ipV6WildcardAddress,
-        Result.PASS
-      )
-    })
-
-    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and a port range not including the port 3389 (multiple values)', async () => {
-      await testRule(
-        1000,
-        2000,
-        ipV6WildcardAddress,
-        Result.PASS,
-        true
-      )
-    })
-
     test('Security Issue when IPv4 wildcard address and port 22', async () => {
       await testRule(22, 22, ipV4WildcardAddress, Result.FAIL)
-    })
-
-    test('Security Issue when IPv6 wildcard address and port 3389', async () => {
-      await testRule(3389, 3389, ipV6WildcardAddress, Result.FAIL)
     })
 
     test('Security Issue when IPv4 wildcard address and port 22 (multiple values)', async () => {
@@ -333,6 +311,104 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       )
     })
 
+    test('Security Issue when there is an inbound rule with IPv4 wildcard address and port range includes the port 22', async () => {
+      await testRule(0, 100, ipV4WildcardAddress, Result.FAIL)
+    })
+
+    test('No Security Issue when there is an inbound rule with security group as source', async () => {
+      await testRule(null, null, 'sg-049c76f349f62e4eb', Result.PASS)
+    })
+  })
+
+  describe('AWS CIS 5.3 Ensure no security groups allow ingress from ::/0 to remote server administration ports', () => {
+    const testRule = async (
+      fromPort: number | null ,
+      toPort: number | null,
+      sourceAddress: string,
+      expectedResult: Result,
+      includeRandomValidData = false
+    ): Promise<void> => {
+      // Arrange
+      const validInboundRule = {
+        toPort: 123,
+        fromPort: 456,
+        source: '10.10.10.10/16',
+      }
+  
+      const data: QueryResponse = {
+        queryawsSecurityGroup: [
+          {
+            id: cuid(),
+            inboundRules: [
+              {
+                toPort,
+                fromPort,
+                source: sourceAddress,
+              },
+            ],
+          },
+        ],
+      }
+  
+      if (includeRandomValidData) {
+        data.queryawsSecurityGroup?.[0].inboundRules?.push(validInboundRule)
+        data.queryawsSecurityGroup?.push({
+          id: cuid(),
+          inboundRules: [validInboundRule, validInboundRule],
+        })
+      }
+  
+      // Act
+      const [processedRule] = await rulesEngine.processRule(Aws_CIS_150_53 as Rule, { ...data })
+  
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is an inbound rule with a random IPv4 address and port 22', async () => {
+      await testRule(22, 22, '10.10.10.10/16', Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with a random IPv4 address and port 3389', async () => {
+      await testRule(3389, 3389, '10.10.10.10/16', Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and port 80', async () => {
+      await testRule(80, 80, ipV6WildcardAddress, Result.PASS)
+    })
+
+    test('No Security Issue when there is an inbound rule with a random IPv4 and a port range not including the port 22', async () => {
+      await testRule(
+        100,
+        200,
+        '10.10.10.10/16',
+        Result.PASS
+      )
+    })
+
+    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and a port range not including the port 22', async () => {
+      await testRule(
+        100,
+        200,
+        ipV6WildcardAddress,
+        Result.PASS
+      )
+    })
+
+    test('No Security Issue when there is an inbound rule with IPv6 wildcard address and a port range not including the port 3389 (multiple values)', async () => {
+      await testRule(
+        1000,
+        2000,
+        ipV6WildcardAddress,
+        Result.PASS,
+        true
+      )
+    })
+
+    test('Security Issue when IPv6 wildcard address and port 3389', async () => {
+      await testRule(3389, 3389, ipV6WildcardAddress, Result.FAIL)
+    })
+
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and no port range is specified', async () => {
       await testRule(
         null,
@@ -340,10 +416,6 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         ipV6WildcardAddress,
         Result.FAIL
       )
-    })
-
-    test('Security Issue when there is an inbound rule with IPv4 wildcard address and port range includes the port 22', async () => {
-      await testRule(0, 100, ipV4WildcardAddress, Result.FAIL)
     })
 
     test('Security Issue when there is an inbound rule with IPv6 wildcard address and port range includes the port 3389', async () => {
@@ -355,7 +427,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     })
   })
 
-  describe('AWS CIS 5.3 Ensure the default security group of every VPC restricts all traffic', () => {
+  describe('AWS CIS 5.4 Ensure the default security group of every VPC restricts all traffic', () => {
     const test53Rule = async (
       ingressSource: string,
       egressDestination: string,

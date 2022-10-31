@@ -59,5 +59,6 @@ Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | AWS CIS 5.1   | Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports                                   |
 | AWS CIS 5.2   | Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports                                |
+| AWS CIS 5.3   | Ensure no security groups allow ingress from ::/0 to remote server administration ports                                     |
 | AWS CIS 5.4   | Ensure the default security group of every VPC restricts all traffic                                                        |
 | AWS CIS 5.5   | Ensure routing tables for VPC peering are "least access"                                                                    |
