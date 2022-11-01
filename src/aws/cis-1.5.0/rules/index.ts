@@ -6,6 +6,7 @@ import Aws_CIS_150_214 from './aws-cis-1.5.0-2.1.4'
 import Aws_CIS_150_215 from './aws-cis-1.5.0-2.1.5'
 import Aws_CIS_150_221 from './aws-cis-1.5.0-2.2.1'
 import Aws_CIS_150_231 from './aws-cis-1.5.0-2.3.1'
+import Aws_CIS_150_232 from './aws-cis-1.5.0-2.3.2'
 
 export default [
   Aws_CIS_150_211,
@@ -15,4 +16,5 @@ export default [
   Aws_CIS_150_215,
   Aws_CIS_150_221,
   Aws_CIS_150_231,
+  Aws_CIS_150_232,
 ]

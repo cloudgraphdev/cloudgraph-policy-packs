@@ -64,3 +64,4 @@ Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d
 | AWS CIS 2.1.5 | Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'                                          |
 | AWS CIS 2.2.1 | Ensure EBS volume encryption is enabled                                                                                     |
 | AWS CIS 2.3.1 | Ensure that encryption is enabled for RDS Instances                                                                         |
+| AWS CIS 2.3.2 | Ensure Auto Minor Version Upgrade feature is Enabled for RDS Instances                                                      |

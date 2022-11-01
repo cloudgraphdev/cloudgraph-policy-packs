@@ -6,10 +6,12 @@ import Aws_CIS_150_211 from '../rules/aws-cis-1.5.0-2.1.1'
 import Aws_CIS_150_213 from '../rules/aws-cis-1.5.0-2.1.3'
 import Aws_CIS_150_215 from '../rules/aws-cis-1.5.0-2.1.5'
 import Aws_CIS_150_231 from '../rules/aws-cis-1.5.0-2.3.1'
+import Aws_CIS_150_232 from '../rules/aws-cis-1.5.0-2.3.2'
 
 export interface QueryawsRdsDbInstance {
   id: string
-  encrypted: boolean
+  encrypted?: boolean
+  autoMinorVersionUpgrade?: boolean
 }
 
 export interface EncryptionRule {
@@ -272,6 +274,44 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     })
 
     test('Security Issue when RDS instances are not encrypted', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture(false)
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.3.2 Ensure Auto Minor Version Upgrade feature is Enabled for RDS Instances', () => {
+    const getTestRuleFixture = (autoMinorVersionUpgrade: boolean): CIS2xQueryResponse => {
+      return {
+        queryawsRdsDbInstance: [
+          {
+            id: cuid(),
+            autoMinorVersionUpgrade,
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_150_232 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when RDS instances autoMinorVersionUpgrade are enabled', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture(true)
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when RDS instances autoMinorVersionUpgrade are not enabled', async () => {
       const data: CIS2xQueryResponse = getTestRuleFixture(false)
       await testRule(data, Result.FAIL)
     })
