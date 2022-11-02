@@ -66,3 +66,4 @@ Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d
 | AWS CIS 2.3.1 | Ensure that encryption is enabled for RDS Instances                                                                         |
 | AWS CIS 2.3.2 | Ensure Auto Minor Version Upgrade feature is Enabled for RDS Instances                                                      |
 | AWS CIS 2.3.3 | Ensure that public access is not given to RDS Instance                                                                      |
+| AWS CIS 2.4.1 | Ensure that encryption is enabled for EFS file systems                                                                      |
