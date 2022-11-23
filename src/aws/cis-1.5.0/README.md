@@ -57,6 +57,38 @@ Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d
 
 | Rule          | Description                                                                                                                 |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS CIS 1.1   | Maintain current contact details                                                                                            |
+| AWS CIS 1.2   | Ensure security contact information is registered                                                                           |
+| AWS CIS 1.3   | Ensure security questions are registered in the AWS account                                                                 |
+| AWS CIS 1.4   | Ensure no 'root' user account access key exists                                                                             |
+| AWS CIS 1.5   | Ensure MFA is enabled for the 'root' user account                                                                           |
+| AWS CIS 1.6   | Ensure hardware MFA is enabled for the 'root' user account                                                                  |
+| AWS CIS 1.7   | Eliminate use of the 'root' user for administrative and daily tasks                                                         |
+| AWS CIS 1.8   | Ensure IAM password policy requires minimum length of 14 or greater                                                         |
+| AWS CIS 1.9   | Ensure IAM password policy prevents password reuse                                                                          |
+| AWS CIS 1.10  | Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password                          |
+| AWS CIS 1.11  | Do not setup access keys during initial user setup for all IAM users that have a console password                           |
+| AWS CIS 1.12  | Ensure credentials unused for 45 days or greater are disabled                                                               |
+| AWS CIS 1.13  | Ensure there is only one active access key available for any single IAM user                                                |
+| AWS CIS 1.14  | Ensure access keys are rotated every 90 days or less                                                                        |
+| AWS CIS 1.15  | Ensure IAM Users Receive Permissions Only Through Groups                                                                    |
+| AWS CIS 1.16  | Ensure IAM policies that allow full "*:*" administrative privileges are not attached                                        |
+| AWS CIS 1.17  | Ensure a support role has been created to manage incidents with AWS Support                                                 |
+| AWS CIS 1.18  | Ensure IAM instance roles are used for AWS resource access from instances                                                   |
+| AWS CIS 1.19  | Ensure that all the expired SSL/TLS certificates stored in AWS IAM are removed                                              |
+| AWS CIS 1.20  | Ensure that IAM Access analyzer is enabled for all regions                                                                  |
+| AWS CIS 1.21  | Ensure IAM users are managed centrally via identity federation or AWS Organizations for multi-account environments          |
+| AWS CIS 3.1   | Ensure CloudTrail is enabled in all regions                                                                                 |
+| AWS CIS 3.2   | Ensure CloudTrail log file validation is enabled                                                                            |
+| AWS CIS 3.3   | Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible                                               |
+| AWS CIS 3.4   | Ensure CloudTrail trails are integrated with CloudWatch Logs                                                                |
+| AWS CIS 3.5   | Ensure AWS Config is enabled in all regions                                                                                 |
+| AWS CIS 3.6   | Ensure S3 bucket access logging is enabled on the CloudTrail S3 bucket                                                      |
+| AWS CIS 3.7   | Ensure CloudTrail logs are encrypted at rest using KMS CMKs                                                                 |
+| AWS CIS 3.8   | Ensure rotation for customer created CMKs is enabled                                                                        |
+| AWS CIS 3.9   | Ensure VPC flow logging is enabled in all VPCs                                                                              |
+| AWS CIS 3.10  | Ensure that Object-level logging for write events is enabled for S3 bucket                                                  |
+| AWS CIS 3.11  | Ensure that Object-level logging for read events is enabled for S3 bucket                                                   |
 | AWS CIS 4.1   | Ensure a log metric filter and alarm exist for unauthorized API calls                                                       |
 | AWS CIS 4.2   | Ensure a log metric filter and alarm exist for Management Console sign-in without MFA                                       |
 | AWS CIS 4.3   | Ensure a log metric filter and alarm exist for usage of 'root' account                                                      |
