@@ -3,7 +3,7 @@
 
 export default {
   id: 'gcp-cis-1.3.0-1.17',
-  title: 'GCP CIS 1.16 Ensure Essential Contacts is Configured for Organization',
+  title: 'GCP CIS 1.17 Ensure that Dataproc Cluster is encrypted using CustomerManaged Encryption Key',
   description:
     'When you use Dataproc, cluster and job data is stored on Persistent Disks (PDs) associated with the Compute Engine VMs in your cluster and in a Cloud Storage staging bucket. This PD and bucket data is encrypted using a Google-generated data encryption key (DEK) and key encryption key (KEK). The CMEK feature allows you to create, use, and revoke the key encryption key (KEK). Google still controls the data encryption key (DEK).',
   audit: `**From Console:**
