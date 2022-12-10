@@ -70,6 +70,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 1.13   | Ensure API keys are restricted to use by only specified Hosts and Apps                                                                                              |
 | GCP CIS 1.14   | Ensure API keys are restricted to only APIs that application needs access                                                                                           |
 | GCP CIS 1.15   | Ensure API keys are rotated every 90 days                                                                                                                           |
+| GCP CIS 1.16   | Ensure Essential Contacts is Configured for Organization                                                                                                            |
 | GCP CIS 2.1    | Ensure that Cloud Audit Logging is configured properly across all services and all users from a project                                                             |
 | GCP CIS 2.2    | Ensure that sinks are configured for all log entries                                                                                                                |
 | GCP CIS 2.3    | Ensure that retention policies on log buckets are configured using Bucket Lock                                                                                      |
