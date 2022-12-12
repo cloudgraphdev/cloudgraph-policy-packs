@@ -54,8 +54,8 @@ jobs:
           NPM_TOKEN: ${{secrets.npm_token}}
           GITHUB_TOKEN: ${{secrets.gh_token}}
 
-      - name: Test
-        run: pnpm test
+      # - name: Test
+      #   run: pnpm test
 
       - name: Publish
         run: pnpm release
