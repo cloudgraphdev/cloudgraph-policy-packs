@@ -29,7 +29,13 @@ cg scan aws gcp azure
 | [CIS Amazon Web Services Foundations 1.2.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-cis-1.2.0)         |
 | [CIS Amazon Web Services Foundations 1.3.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-cis-1.3.0)         |
 | [CIS Amazon Web Services Foundations 1.4.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-cis-1.4.0)         |
-| [CIS Google Cloud Platform Foundations 1.2.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-gcp-cis-1.2.0)       |
-| [CIS Microsoft Azure Foundations 1.3.1](https://www.npmjs.com/package/@cloudgraph/policy-pack-azure-cis-1.3.1)           |
+| [CIS Amazon Web Services Foundations 1.5.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-cis-1.5.0)         |
 | [AWS PCI Data Security Standard version 3.2.1](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-pci-dss-3.2.1)      |
 | [NIST 800-53 Rev. 4 for Amazon Web Services](https://www.npmjs.com/package/@cloudgraph/policy-pack-aws-nist-800-53-rev4) |
+| [CIS Google Cloud Platform Foundations 1.2.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-gcp-cis-1.2.0)       |
+| [CIS Google Cloud Platform Foundations 1.3.0](https://www.npmjs.com/package/@cloudgraph/policy-pack-gcp-cis-1.2.0)       |
+| [GCP PCI Data Security Standard version 3.2.1](https://www.npmjs.com/package/@cloudgraph/policy-pack-gcp-pci-dss-3.2.1)   |
+| [NIST 800-53 Rev. 4 for Google Cloud Services](https://www.npmjs.com/package/@cloudgraph/policy-pack-gcp-nist-800-53-rev4)   |
+| [CIS Microsoft Azure Foundations 1.3.1](https://www.npmjs.com/package/@cloudgraph/policy-pack-azure-cis-1.3.1)           |
+| [Azure PCI Data Security Standard version 3.2.1](https://www.npmjs.com/package/@cloudgraph/policy-pack-azure-pci-dss-3.2.1)   |
+| [NIST 800-53 Rev. 4 for Microsoft Azure Services](https://www.npmjs.com/package/@cloudgraph/policy-pack-azure-nist-800-53-rev4)   |
