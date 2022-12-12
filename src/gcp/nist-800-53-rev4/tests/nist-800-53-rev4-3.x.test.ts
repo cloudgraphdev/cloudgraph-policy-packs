@@ -11,6 +11,7 @@ import Gcp_NIST_800_53_37 from '../rules/gcp-nist-800-53-rev4-3.7'
 import Gcp_NIST_800_53_38 from '../rules/gcp-nist-800-53-rev4-3.8'
 import Gcp_NIST_800_53_39 from '../rules/gcp-nist-800-53-rev4-3.9'
 import Gcp_NIST_800_53_310 from '../rules/gcp-nist-800-53-rev4-3.10'
+import Gcp_NIST_800_53_311 from '../rules/gcp-nist-800-53-rev4-3.11'
 import { initRuleEngine } from '../../../utils/test'
 
 export interface DatabaseFlagsItem {
@@ -70,13 +71,13 @@ export interface QuerygcpProject {
 
 export interface AuditLogConfig {
   logType: string
-  exemptedMembers: string[]
+  exemptedMembers?: string[]
 }
 
 export interface AuditConfig {
   auditLogConfigs: AuditLogConfig[]
-  service: string
-  exemptedMembers: string[]
+  service?: string
+  exemptedMembers?: string[]
 }
 
 export interface QuerygcpIamPolicy {
@@ -966,6 +967,76 @@ describe('GCP NIST 800-53: Rev. 4', () => {
         },
       ]
       await testRule(subnets, Result.FAIL)
+    })
+  })
+
+  describe('GCP NIST 3.11 IAM default audit log config should include \'DATA_READ\' and \'DATA_WRITE\' log types', () => {
+    const testRule = async (
+      auditConfigs: AuditConfig[],
+      expectedResult: Result
+      ): Promise<void> => {
+      // Arrange
+      const data: NIST3xQueryResponse = {
+        querygcpIamPolicy: [
+          {
+            id: cuid(),
+            auditConfigs,
+          },
+        ],
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_NIST_800_53_311 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when there is a auditConfig with logtype set to DATA_WRITE and DATA_READ for all services, and exemptedMembers is empty', async () => {
+      const data: AuditConfig[] = [
+        {
+          auditLogConfigs: [
+            {
+              logType: 'DATA_WRITE',
+            },
+            {
+              logType: 'DATA_READ',
+            },
+          ],
+        },
+      ]
+
+      await testRule(data, Result.PASS)
+    })
+    test('Security Issue when there is a auditConfig without logtype set to DATA_WRITE', async () => {
+      const data: AuditConfig[] = [
+        {
+          auditLogConfigs: [
+
+            {
+              logType: 'DATA_READ',
+            },
+          ],
+        },
+      ]
+
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when there is a auditConfig without logtype set to DATA_READ', async () => {
+      const data: AuditConfig[] = [
+        {
+          auditLogConfigs: [
+            {
+              logType: 'DATA_WRITE',
+            },
+          ],
+        },
+      ]
+
+      await testRule(data, Result.FAIL)
     })
   })
 })
