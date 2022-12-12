@@ -1301,11 +1301,11 @@ describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('No Security Issue when there is an inbound rule with dns logging enabled for all VPC networks', async () => {
+    test('No Security Issue when the Assets API is enabled', async () => {
       await test213Rule(true, Result.PASS)
     })
 
-    test('Security Issue when there is an inbound rule that does not have dns logging enabled for all VPC networks', async () => {
+    test('Security Issue when the Assets API is disabled', async () => {
       await test213Rule(false, Result.FAIL)
     })
   })
