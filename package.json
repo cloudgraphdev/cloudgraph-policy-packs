@@ -11,14 +11,12 @@
     "src/**/*"
   ],
   "devDependencies": {
-    "@qiwi/multi-semantic-release": "^6.1.1",
-    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.1",
+    "@semantic-release/github": "^8.0.7",
     "@semantic-release/npm": "^9.0.1",
-    "@semrel-extra/npm": "^1.2.0",
-    "npm": "^8.8.0",
-    "semantic-release": "^19.0.2"
+    "semantic-release": "^19.0.5",
+    "semantic-release-monorepo": "^7.0.5"
   },
   "resolutions": {
     "chalk": "^4.1.2"
