@@ -54,16 +54,16 @@ jobs:
           NPM_TOKEN: ${{secrets.npm_token}}
           GITHUB_TOKEN: ${{secrets.gh_token}}
 
-      # - name: Test
-      #   run: pnpm test
+      - name: Test
+        run: pnpm test
 
-      # - name: Publish
-      #   run: pnpm release
-      #   env:
-      #     NODE_ENV: "cicd"
-      #     NPM_TOKEN: ${{secrets.npm_token}}
-      #     GITHUB_TOKEN: ${{secrets.gh_token}}
-      #     GIT_AUTHOR_NAME: "autocloud-deploy-bot"
-      #     GIT_AUTHOR_EMAIL: "no-reply@autocloud.dev"
-      #     GIT_COMMITTER_NAME: "autocloud-deploy-bot"
-      #     GIT_COMMITTER_EMAIL: "no-reply@autocloud.dev"
+      - name: Publish
+        run: pnpm release
+        env:
+          NODE_ENV: "cicd"
+          NPM_TOKEN: ${{secrets.npm_token}}
+          GITHUB_TOKEN: ${{secrets.gh_token}}
+          GIT_AUTHOR_NAME: "autocloud-deploy-bot"
+          GIT_AUTHOR_EMAIL: "no-reply@autocloud.dev"
+          GIT_COMMITTER_NAME: "autocloud-deploy-bot"
+          GIT_COMMITTER_EMAIL: "no-reply@autocloud.dev"
