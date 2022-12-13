@@ -7,8 +7,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
-    "type": "git",
-    "url": "git+git@github.com:cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "github:cloudgraphdev/cloudgraph-policy-packs",
     "directory": "src/gcp/cis-1.2.0"
   },
   "bugs": {
