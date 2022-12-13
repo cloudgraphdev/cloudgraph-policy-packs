@@ -2,7 +2,6 @@
   "name": "policy-packs",
   "version": "0.0.0",
   "description": "CloudGraph CSPM policy packs monorepo",
-  "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -32,12 +31,12 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' multi-semantic-release --ignore-scripts",
-    "clean": "pnpm -r clean",
-    "lint": "pnpm -r lint",
-    "lint:fix": "pnpm -r lint:fix",
-    "prebuild": "tsc -b",
-    "build": "pnpm -r build"
+    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- npx --no-install semantic-release -e semantic-release-monorepo",
+    "clean": "pnpm -r --workspace-concurrency=1 exec -- pnpm clean",
+    "lint": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint",
+    "lint:fix": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint:fix",
+    "build": "pnpm -r --workspace-concurrency=1 exec -- pnpm build",
+    "test": "pnpm -r --workspace-concurrency=1 exec -- pnpm test"
   },
   "dependencies": {
     "@cloudgraph/sdk": "0.21.1",
