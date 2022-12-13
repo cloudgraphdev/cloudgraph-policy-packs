@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "git@github.com:cloudgraphdev/cloudgraph-policy-packs.git",
     "directory": "src/aws/cis-1.2.0"
   },
   "bugs": {

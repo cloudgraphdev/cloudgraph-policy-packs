@@ -5,7 +5,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git"
+    "url": "git@github.com:cloudgraphdev/cloudgraph-policy-packs.git"
   },
   "workspaces": [
     "src/**/*"

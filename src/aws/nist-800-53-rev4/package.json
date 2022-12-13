@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "git+git@github.com:cloudgraphdev/cloudgraph-policy-packs.git",
     "directory": "src/aws/nist-800-53-rev4"
   },
   "bugs": {

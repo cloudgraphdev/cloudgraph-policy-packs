@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "git+git@github.com:cloudgraphdev/cloudgraph-policy-packs.git",
     "directory": "src/aws/pci-dss-3.2.1"
   },
   "bugs": {
