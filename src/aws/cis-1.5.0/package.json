@@ -54,10 +54,11 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "pnpm prepack",
+    "build": "npm run prepack",
     "clean": "rm -rf dist",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "release": "npx semantic-release -e semantic-release-monorepo"
   }
 }

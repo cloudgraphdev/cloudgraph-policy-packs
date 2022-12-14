@@ -59,6 +59,6 @@
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
     "test": "jest",
-    "release": "npx semantic-release --no-ci -e semantic-release-monorepo"
+    "release": "npx semantic-release -e semantic-release-monorepo"
   }
 }
