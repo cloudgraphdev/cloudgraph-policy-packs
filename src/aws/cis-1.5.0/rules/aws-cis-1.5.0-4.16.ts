@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// AWS NIST 800-53 rev4 Rule equivalent 7.2
-// const filterPatternRegex =
-//   /\(\$\.eventSource\s*=\s*organizations\.amazonaws\.com\)\s*&&\s*\(\(\$\.eventName\s*=\s*"AcceptHandshake"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"AttachPolicy"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"CreateAccount"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"CreateOrganizationalUnit"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"CreatePolicy"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DeclineHandshake"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DeleteOrganization"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DeleteOrganizationalUnit"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DeletePolicy"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DetachPolicy"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"DisablePolicyType"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"EnablePolicyType"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"InviteAccountToOrganization"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"LeaveOrganization"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"MoveAccount"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"RemoveAccountFromOrganization"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"UpdatePolicy"\)\s*\|\|\s*\(\$\.eventName\s*=\s*"UpdateOrganizationalUnit"\)\)/
 
 export default {
   id: 'aws-cis-1.5.0-4.16',  
@@ -12,7 +9,7 @@ export default {
   
   audit: `The process to evaluate AWS Security Hub configuration per region
 
-  From Console:
+  **From Console:**
   1. Sign in to the AWS Management Console and open the AWS Security Hub console at https://console.aws.amazon.com/securityhub/.
   2. On the top right of the console, select the target Region.
   3. If presented with the Security Hub > Summary page then Security Hub is set-up for the selected region.
@@ -51,43 +48,14 @@ export default {
     queryawsAccount {
       id
       __typename
-      cloudtrail {
-        isMultiRegionTrail
-        status {
-          isLogging
-        }
-        eventSelectors {
-          id
-          readWriteType
-          includeManagementEvents
-        }
-        cloudwatchLog {
-          arn
-          metricFilters {
-            id
-            filterName
-            filterPattern
-            metricTransformations {
-              metricName
-            }
-          }
-          cloudwatch {
-            metric
-            arn
-            actions
-            sns {
-              arn
-              subscriptions {
-                arn
-              }
-            }
-          }
-        }
+      securityHub {
+        id
       }
     }
   }`,
   resource: 'queryawsAccount[*]',
   severity: 'medium',
-  conditions: {
+  check: ({ resource }: any): any => {
+    return resource.securityHub && resource.securityHub.length !== 0
   },
 }
