@@ -1,3 +1,20 @@
+# [@cloudgraph/policy-pack-azure-cis-1.3.1-v1.15.0-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.14.1...@cloudgraph/policy-pack-azure-cis-1.3.1@1.15.0-alpha.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* add validation for null references ([ddd7f53](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ddd7f537b1843b14fee55690e61bbdd605386daf))
+* fixed unit tests ([3f454f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3f454f220ea0d1b73721a343a52f06c30619508b))
+* **pnpm:** using semantic-release-pnpm ([eb9f3f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/eb9f3f22e85375b79be205c62adc09aa60628343))
+* rewritten rules to be scoped to the subscription level ([997aaad](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/997aaadafbb47a15cd492dced445c0f0537c7246))
+* update .npmignore to include all rules in package ([3dd7a87](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/3dd7a874ee4ff52ae8d6f948f39dcf8655eeda87))
+
+
+### Features
+
+* fixed and migrated rules from jq to js (rules-exclude branch) ([ba9a6f6](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/ba9a6f607acbe85cdfc291fd2075681d96122fe5))
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+
 # [@cloudgraph/policy-pack-azure-cis-1.3.1-v1.16.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-cis-1.3.1@1.14.1...@cloudgraph/policy-pack-azure-cis-1.3.1@1.15.0) (2022-08-01)
 
 
