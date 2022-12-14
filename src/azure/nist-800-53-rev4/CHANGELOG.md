@@ -1,3 +1,20 @@
+# [@cloudgraph/policy-pack-azure-nist-800-53-rev4-v1.2.0-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-nist-800-53-rev4@1.1.1...@cloudgraph/policy-pack-azure-nist-800-53-rev4@1.2.0-alpha.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **pnpm:** using semantic-release-pnpm ([eb9f3f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/eb9f3f22e85375b79be205c62adc09aa60628343))
+* rewritten rules to be scoped to the subscription level ([997aaad](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/997aaadafbb47a15cd492dced445c0f0537c7246))
+
+
+### Features
+
+* Add rules to readme file ([e0b2291](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/e0b2291b96e674733755db78fec6e928a80de691))
+* **checks:** Support [AZURE NIST] Logging, Performance and Reliability, User and Role Management, and Using Updated Policies and Frameworks rules ([b810b0f](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b810b0f679ed41e7aea6730a705feb7124e11dea))
+* **ckecks:** add azure nist rule 3.7 and 6.x ([af7ae17](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/af7ae17c6e7f5a12204dfa9c6e68d05ffc86a25b))
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+* Update some rules and tests ([5ab30a4](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/5ab30a4fa15885b23b586629afa222faaa7b84b3))
+
 # [@cloudgraph/policy-pack-azure-nist-800-53-rev4-v1.2.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-azure-nist-800-53-rev4@1.1.1...@cloudgraph/policy-pack-azure-nist-800-53-rev4@1.2.0) (2022-08-01)
 
 
