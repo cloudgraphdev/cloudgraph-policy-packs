@@ -36,6 +36,7 @@ import Gcp_CIS_130_36 from './gcp-cis-1.3.0-3.6'
 import Gcp_CIS_130_37 from './gcp-cis-1.3.0-3.7'
 import Gcp_CIS_130_38 from './gcp-cis-1.3.0-3.8'
 import Gcp_CIS_130_39 from './gcp-cis-1.3.0-3.9'
+import Gcp_CIS_130_310 from './gcp-cis-1.3.0-3.10'
 import Gcp_CIS_130_41 from './gcp-cis-1.3.0-4.1'
 import Gcp_CIS_130_42 from './gcp-cis-1.3.0-4.2'
 import Gcp_CIS_130_43 from './gcp-cis-1.3.0-4.3'
@@ -114,6 +115,7 @@ export default [
   Gcp_CIS_130_37,
   Gcp_CIS_130_38,
   Gcp_CIS_130_39,
+  Gcp_CIS_130_310,
   Gcp_CIS_130_41,
   Gcp_CIS_130_42,
   Gcp_CIS_130_43,
