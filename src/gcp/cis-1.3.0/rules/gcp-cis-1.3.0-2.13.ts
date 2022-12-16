@@ -48,9 +48,12 @@ and runtime information gathered within a Google Cloud resource.`,
 `,
   references: ['https://cloud.google.com/asset-inventory/docs'],
   gql: `{
-    querygcpAsset {
+    querygcpProject {
       id
       __typename
+      assets {
+        id
+      }
     }
   }`,
   resource: 'querygcpProject[*]',
