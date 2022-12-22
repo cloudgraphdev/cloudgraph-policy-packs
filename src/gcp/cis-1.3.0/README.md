@@ -84,6 +84,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 2.11   | Ensure that the log metric filter and alerts exist for SQL instance configuration changes                                                                           |
 | GCP CIS 2.12   | Ensure that Cloud DNS logging is enabled for all VPC networks                                                                                                       |
 | GCP CIS 2.13   | Ensure Cloud Asset Inventory Is Enabled                                                                                                                             |
+| GCP CIS 2.14   | Ensure 'Access Transparency' is 'Enabled'                                                                                                                           |
 | GCP CIS 3.1    | Ensure that the default network does not exist in a project                                                                                                         |
 | GCP CIS 3.2    | Ensure legacy networks do not exist for a project                                                                                                                   |
 | GCP CIS 3.3    | Ensure that DNSSEC is enabled for Cloud DNS                                                                                                                         |
