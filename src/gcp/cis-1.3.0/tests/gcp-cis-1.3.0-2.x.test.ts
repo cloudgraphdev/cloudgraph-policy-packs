@@ -15,6 +15,7 @@ import Gcp_CIS_130_29 from '../rules/gcp-cis-1.3.0-2.9'
 import Gcp_CIS_130_210 from '../rules/gcp-cis-1.3.0-2.10'
 import Gcp_CIS_130_211 from '../rules/gcp-cis-1.3.0-2.11'
 import Gcp_CIS_130_212 from '../rules/gcp-cis-1.3.0-2.12'
+import Gcp_CIS_130_213 from '../rules/gcp-cis-1.3.0-2.13'
 import { initRuleEngine } from '../../../utils/test'
 
 const Gcp_CIS_130_24_Filter =
@@ -78,10 +79,15 @@ export interface LogSink {
   destination?: string
 }
 
+export interface Asset {
+  id: string
+}
+
 export interface QuerygcpProject {
   id: string
-  logSinks: LogSink[]
+  logSinks?: LogSink[]
   logBuckets?: LogBucket[]
+  assets?: Asset[]
 }
 
 export interface AuditLogConfig {
@@ -1261,6 +1267,46 @@ describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
 
     test('Security Issue when there is an inbound rule that does not have dns logging enabled for all VPC networks', async () => {
       await test212Rule(false, false, Result.FAIL)
+    })
+  })
+
+  describe('GCP CIS 2.13 Ensure Cloud Asset Inventory Is Enabled', () => {
+    const test213Rule = async (
+      hasAsset: boolean,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Arrange
+      const data: CIS2xQueryResponse = {
+        querygcpProject: [
+          {
+            id: cuid(),
+            assets: hasAsset? [
+              {
+                id: cuid(),
+              },
+            ]
+            : undefined,
+          },
+        ],
+        
+      }
+
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_130_213 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when the Assets API is enabled', async () => {
+      await test213Rule(true, Result.PASS)
+    })
+
+    test('Security Issue when the Assets API is disabled', async () => {
+      await test213Rule(false, Result.FAIL)
     })
   })
 })
