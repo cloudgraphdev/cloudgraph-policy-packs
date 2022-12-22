@@ -106,6 +106,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 4.9    | Ensure that Compute instances do not have public IP addresses                                                                                                       |
 | GCP CIS 4.10   | In order to maintain the highest level of security all connections to an application should be secure by default                                                    |
 | GCP CIS 4.11   | Ensure that Compute instances have Confidential Computing enabled                                                                                                   |
+| GCP CIS 4.12   | Ensure the Latest Operating System Updates Are Installed On Your Virtual Machines in All Projects                                                                   |
 | GCP CIS 5.1    | Ensure that Cloud Storage bucket is not anonymously or publicly accessible                                                                                          |
 | GCP CIS 5.2    | Ensure that Cloud Storage buckets have uniform bucket-level access enabled                                                                                          |
 | GCP CIS 6.1.1  | Ensure that a MySQL database instance does not allow anyone to connect with administrative privileges                                                               |
