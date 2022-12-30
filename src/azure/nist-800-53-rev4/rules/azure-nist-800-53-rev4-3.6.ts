@@ -32,5 +32,19 @@ export default {
       'https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-create',
       'https://docs.microsoft.com/en-us/azure/security/benchmarks/security-controls-v2-logging-threat-detection#lt-3-enable-logging-for-azure-network-activities',
   ],  
-  severity: 'high' 
+  severity: 'high',
+  gql: `{
+    queryazureResourceGroup {
+      id
+      __typename
+      virtualNetworks {
+        id
+      }
+    }
+  }`,
+  resource: 'queryazureResourceGroup[*]',
+  check: ({ resource }: any) => {
+    const { virtualNetworks } = resource
+    return !!virtualNetworks
+  },
 }

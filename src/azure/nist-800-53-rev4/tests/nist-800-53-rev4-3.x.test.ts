@@ -8,6 +8,7 @@ import Azure_NIST_800_53_32 from '../rules/azure-nist-800-53-rev4-3.2'
 import Azure_NIST_800_53_33 from '../rules/azure-nist-800-53-rev4-3.3'
 import Azure_NIST_800_53_34 from '../rules/azure-nist-800-53-rev4-3.4'
 import Azure_NIST_800_53_35 from '../rules/azure-nist-800-53-rev4-3.5'
+import Azure_NIST_800_53_36 from '../rules/azure-nist-800-53-rev4-3.6'
 import Azure_NIST_800_53_37 from '../rules/azure-nist-800-53-rev4-3.7'
 import { initRuleEngine, testRule } from '../../../utils/test'
 
@@ -67,11 +68,21 @@ export interface QueryazureSqlServer {
   firewallRules?: FirewallRules[]
 }
 
+export interface VirtualNetwork {
+  id: string
+}
+
+export interface QueryazureResourceGroup {
+  id: string
+  virtualNetworks?: VirtualNetwork[]
+}
+
 export interface NIST3xQueryResponse {
   queryazureStorageContainer?: QueryazureStorageContainer[]
   queryazureDiagnosticSetting?: QueryazureDiagnosticSetting[]
   queryazureSqlServer?: QueryazureSqlServer[]
   queryazureSubscription?: QueryazureSubscription[]
+  queryazureResourceGroup?: QueryazureResourceGroup[]
 }
 
 describe('Azure NIST 800-53: Rev. 4', () => {
@@ -338,6 +349,41 @@ describe('Azure NIST 800-53: Rev. 4', () => {
       )
 
       await testRule(rulesEngine, data, Azure_NIST_800_53_35 as Rule, Result.FAIL)
+    })
+  })
+
+  describe('Azure NIST 3.6 Virtual Network Network Watcher should be enabled', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+    ): NIST3xQueryResponse => {
+      return {
+        queryazureResourceGroup: [
+          {
+            id: cuid(),
+            virtualNetworks: enabled? [
+              {
+                id: cuid(),
+              },
+            ]: undefined,
+          },
+        ],
+      }
+    }
+
+    test('No Security Issue when Network Watcher is enabled', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture(
+        true,
+      )
+
+      await testRule(rulesEngine, data, Azure_NIST_800_53_36 as Rule, Result.PASS)
+    })
+
+    test('Security Issue when Network Watcher is disabled', async () => {
+      const data: NIST3xQueryResponse = getTestRuleFixture(
+        false,
+      )
+
+      await testRule(rulesEngine, data, Azure_NIST_800_53_36 as Rule, Result.FAIL)
     })
   })
 

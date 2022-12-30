@@ -7,6 +7,7 @@ import Azure_CIS_131_61 from '../rules/azure-cis-1.3.1-6.1'
 import Azure_CIS_131_62 from '../rules/azure-cis-1.3.1-6.2'
 import Azure_CIS_131_63 from '../rules/azure-cis-1.3.1-6.3'
 import Azure_CIS_131_64 from '../rules/azure-cis-1.3.1-6.4'
+import Azure_CIS_131_65 from '../rules/azure-cis-1.3.1-6.5'
 import Azure_CIS_131_66 from '../rules/azure-cis-1.3.1-6.6'
 import { initRuleEngine } from '../../../utils/test'
 
@@ -38,9 +39,18 @@ export interface QueryazureSqlServer {
   firewallRules?: FirewallRules[]
 }
 
+export interface VirtualNetwork {
+  id: string
+}
+
+export interface QueryazureResourceGroup {
+  id: string
+  virtualNetworks?: VirtualNetwork[]
+}
 export interface CIS6xQueryResponse {
   queryazureNetworkSecurityGroup?: QueryazureNetworkSecurityGroup[]
   queryazureSqlServer?: QueryazureSqlServer[]
+  queryazureResourceGroup?: QueryazureResourceGroup[]
 }
 
 describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
@@ -372,6 +382,56 @@ describe('CIS Microsoft Azure Foundations: 1.3.1', () => {
       await testRule(data, Result.FAIL)
     })
   })
+
+  describe('Azure CIS 6.5 Ensure that Network Watcher is Enabled', () => {
+    const getTestRuleFixture = (
+      enabled: boolean,
+    ): CIS6xQueryResponse => {
+      return {
+        queryazureResourceGroup: [
+          {
+            id: cuid(),
+            virtualNetworks: enabled? [
+              {
+                id: cuid(),
+              },
+            ]: undefined,
+          },
+        ],
+      }
+    }
+
+    const testRule = async (
+      data: CIS6xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Azure_CIS_131_65 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Network Watcher is enabled', async () => {
+      const data: CIS6xQueryResponse = getTestRuleFixture(
+        true,
+      )
+
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when Network Watcher is disabled', async () => {
+      const data: CIS6xQueryResponse = getTestRuleFixture(
+        false,
+      )
+
+      await testRule(data, Result.FAIL)
+    })
+  })
+
 
   describe('Azure CIS 6.6 Ensure that UDP Services are restricted from the Internet', () => {
     const getTestRuleFixture = (
