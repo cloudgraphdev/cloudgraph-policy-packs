@@ -48,6 +48,7 @@ export interface PolicyContent {
 }
 export interface QueryawsIamPolicy {
   id: string
+  name: string
   policyContent: PolicyContent
 }
 
@@ -703,6 +704,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
 
   describe('AWS CIS 1.16 Ensure IAM policies that allow full "*:*" administrative privileges are not attached', () => {
     const getTestRuleFixture = (
+      name: string,
       effect: string,
       action: string[],
       resource: string[]
@@ -711,6 +713,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name,
             policyContent: {
               statement: [
                 {
@@ -741,7 +744,7 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     }
       
     test('No Security Issue when IAM policies not allow full "*:*" administrative privileges', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('Allow',  [
+      const data: CIS1xQueryResponse = getTestRuleFixture('AdministratorAccess-Amplify', 'Allow',  [
         'secretsmanager:DeleteSecret',
         'secretsmanager:GetSecretValue',
         'secretsmanager:UpdateSecret',
@@ -750,12 +753,12 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
     })
 
     test('No Security Issue when IAM policies that have a statement with "Effect": "Allow" with "Action": "*" over restricted "Resource"', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('Allow', ['*'], ['arn:aws:secretsmanager:*:*:secret:A4B*'])
+      const data: CIS1xQueryResponse = getTestRuleFixture('AdministratorAccess-Amplify', 'Allow', ['*'], ['arn:aws:secretsmanager:*:*:secret:A4B*'])
       await testRule(data, Result.PASS)
     })
 
     test('No Security Issue when IAM policies that have a statement with "Effect": "Allow" with restricted "Action" over "Resource": "*"', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('Allow',  [
+      const data: CIS1xQueryResponse = getTestRuleFixture('AdministratorAccess-Amplify', 'Allow',  [
         'secretsmanager:DeleteSecret',
         'secretsmanager:GetSecretValue',
         'secretsmanager:UpdateSecret',
@@ -763,9 +766,14 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       await testRule(data, Result.PASS)
     })
 
-    test('No Security Issue when IAM policies that allow full "*:*" administrative privileges', async () => {
-      const data: CIS1xQueryResponse = getTestRuleFixture('Allow',  ['*'], ['*'])
+    test('Security Issue when IAM policies that allow full "*:*" administrative privileges for non AdministratorAccess policy', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('AdministratorAccess-Amplify', 'Allow',  ['*'], ['*'])
       await testRule(data, Result.FAIL)
+    })
+
+    test('No Security Issue when IAM policies that allow full "*:*" administrative privileges for AdministratorAccess policy', async () => {
+      const data: CIS1xQueryResponse = getTestRuleFixture('AdministratorAccess', 'Allow',  ['*'], ['*'])
+      await testRule(data, Result.PASS)
     })
   })
 
