@@ -65,6 +65,7 @@ export default {
     queryawsIamPolicy {
       id
       arn
+      name
       accountId
        __typename
       policyContent {
@@ -79,24 +80,32 @@ export default {
   resource: 'queryawsIamPolicy[*]',
   severity: 'high',
   conditions: {
-    not: {
-      path: '@.policyContent.statement',
-      array_any: {
-        and: [
-          {
-            path: '[*].effect',
-            equal: 'Allow',
-          },
-          {
-            path: '[*].action',
-            contains: '*',
-          },
-          {
-            path: '[*].resource',
-            contains: '*',
-          },
-        ],
+    or: [
+      {
+        path: '@.name',
+        equal: 'AdministratorAccess',
       },
-    },
+      {
+        not: {
+          path: '@.policyContent.statement',
+          array_any: {
+            and: [
+              {
+                path: '[*].effect',
+                equal: 'Allow',
+              },
+              {
+                path: '[*].action',
+                contains: '*',
+              },
+              {
+                path: '[*].resource',
+                contains: '*',
+              },
+            ],
+          },
+        },
+      },
+    ]
   },
 }

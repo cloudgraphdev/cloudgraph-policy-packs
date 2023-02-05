@@ -19,21 +19,21 @@ plugins:
     - assets:
         - CHANGELOG.md
         - package.json
-  - - "semantic-release-pnpm"
+  - - "@semantic-release/npm"
     - npmPublish: true
   - "@semantic-release/github"
 verifyConditions:
   - "@semantic-release/changelog"
   - "@semantic-release/github"
-  - "semantic-release-pnpm"
+  - "@semantic-release/npm"
 prepare:
   - "@semantic-release/changelog"
-  - "semantic-release-pnpm"
+  - "@semantic-release/npm"
   - - "@semantic-release/git"
     - message: "chore(release): @cloudgraph/policy-pack-gcp-nist-800-53-rev4 ${nextRelease.version} \n\n${nextRelease.notes}"
 publish:
   - "@semantic-release/github"
-  - "semantic-release-pnpm"
+  - "@semantic-release/npm"
 success: false
 fail: false
 tagFormat: "@cloudgraph/policy-pack-gcp-nist-800-53-rev4@${version}"

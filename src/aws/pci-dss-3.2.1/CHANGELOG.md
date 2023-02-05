@@ -1,3 +1,10 @@
+# [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.18.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.18.0...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.18.1-alpha.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **pnpm:** using semantic-release-pnpm ([eb9f3f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/eb9f3f22e85375b79be205c62adc09aa60628343))
+
 # [@cloudgraph/policy-pack-aws-pci-dss-3.2.1-v1.18.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.17.1...@cloudgraph/policy-pack-aws-pci-dss-3.2.1@1.18.0) (2022-08-01)
 
 

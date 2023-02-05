@@ -4,18 +4,17 @@
   "description": "CloudGraph CSPM policy packs monorepo",
   "private": true,
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cloudgraphdev/cloudgraph-policy-packs.git"
+    "url": "github.com:cloudgraphdev/cloudgraph-policy-packs"
   },
   "workspaces": [
     "src/**/*"
   ],
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.1",
-    "semantic-release-pnpm": "^1.0.2",
-    "semantic-release": "^19.0.2",
+    "@semantic-release/github": "^8.0.7",
+    "@semantic-release/npm": "^9.0.1",
+    "semantic-release": "^19.0.5",
     "semantic-release-monorepo": "^7.0.5"
   },
   "resolutions": {
@@ -29,10 +28,10 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- pnpm semantic-release -e semantic-release-monorepo",
-    "install": "pnpm -r --workspace-concurrency=1 exec -- pnpm install",
+    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- npx --no-install semantic-release -e semantic-release-monorepo",
     "clean": "pnpm -r --workspace-concurrency=1 exec -- pnpm clean",
     "lint": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint",
+    "lint:fix": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint:fix",
     "build": "pnpm -r --workspace-concurrency=1 exec -- pnpm build",
     "test": "pnpm -r --workspace-concurrency=1 exec -- pnpm test"
   },
