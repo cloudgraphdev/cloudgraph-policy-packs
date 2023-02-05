@@ -16,7 +16,6 @@ import Gcp_CIS_130_112 from '../rules/gcp-cis-1.3.0-1.12'
 import Gcp_CIS_130_113 from '../rules/gcp-cis-1.3.0-1.13'
 import Gcp_CIS_130_115 from '../rules/gcp-cis-1.3.0-1.15'
 import Gcp_CIS_130_116 from '../rules/gcp-cis-1.3.0-1.16'
-import Gcp_CIS_130_117 from '../rules/gcp-cis-1.3.0-1.17'
 import { initRuleEngine } from '../../../utils/test'
 
 export interface MetricDescriptor {
@@ -112,18 +111,6 @@ export interface QuerygcpIamPolicy {
   bindings: Bindings[]
 }
 
-export interface QuerygcpEssentialContact {
-  id: string
-  notificationCategorySubscriptions: string[]
-  email: string
-}
-export interface DataprocClusterConfig {
-  encryptionConfigGcePdKmsKeyName?: string
-}
-export interface QuerygcpDataprocCluster {
-  id: string
-  config: DataprocClusterConfig
-}
 export interface CIS1xQueryResponse {
   querygcpOrganization?: QuerygcpOrganization[]
   querygcpProject?: QuerygcpProject[]
@@ -131,8 +118,6 @@ export interface CIS1xQueryResponse {
   querygcpServiceAccount?: QuerygcpServiceAccount[]
   querygcpKmsKeyRing?: QuerygcpKmsKeyRing[]
   querygcpIamPolicy?: QuerygcpIamPolicy[]
-  querygcpEssentialContact?: QuerygcpEssentialContact[]
-  querygcpDataprocCluster?: QuerygcpDataprocCluster[]
 }
 
 describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
@@ -998,52 +983,6 @@ describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
         }]
       }
       await testRule(data, Result.FAIL)
-    })
-  })
-
-  describe('GCP CIS 1.17 Ensure that Dataproc Cluster is encrypted using Customer Managed Encryption Key', () => {
-    const getRuleFixture = (): CIS1xQueryResponse => {
-      return {
-        querygcpDataprocCluster: [
-          {
-            id: cuid(),
-            config: {},
-          },
-        ],
-      }
-    }
-
-    const testRule = async (
-      data: CIS1xQueryResponse,
-      expectedResult: Result
-    ): Promise<void> => {
-      // Act
-      const [processedRule] = await rulesEngine.processRule(
-        Gcp_CIS_130_117 as Rule,
-        { ...data }
-      )
-
-      // Asserts
-      expect(processedRule.result).toBe(expectedResult)
-    }
-
-    test('Security Issue when Customer Managed Encryption Key config is missing ', async () => {
-      const data: CIS1xQueryResponse = getRuleFixture()
-      await testRule(data, Result.FAIL)
-    })
-
-    test('Security Issue when Customer Managed Encryption Key config is empty ', async () => {
-      const data: CIS1xQueryResponse = getRuleFixture()
-      const dataprocCluster = data.querygcpDataprocCluster as QuerygcpDataprocCluster[]
-      dataprocCluster[0].config.encryptionConfigGcePdKmsKeyName = ''
-      await testRule(data, Result.FAIL)
-    })
-
-    test('No Security Issue when Customer Managed Encryption Key is configured', async () => {
-      const data: CIS1xQueryResponse = getRuleFixture()
-      const dataprocCluster = data.querygcpDataprocCluster as QuerygcpDataprocCluster[]
-      dataprocCluster[0].config.encryptionConfigGcePdKmsKeyName = 'MyKey'
-      await testRule(data, Result.PASS)
     })
   })
 })
