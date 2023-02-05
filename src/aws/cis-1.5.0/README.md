@@ -114,6 +114,7 @@ Policy Pack based on the [AWS Foundations 1.5.0](https://drive.google.com/file/d
 | AWS CIS 4.13  | Ensure a log metric filter and alarm exist for route table changes                                                          |
 | AWS CIS 4.14  | Ensure a log metric filter and alarm exist for VPC changes                                                                  |
 | AWS CIS 4.15  | Ensure a log metric filter and alarm exists for AWS Organizations changes                                                   |
+| AWS CIS 4.16  | Ensure AWS Security Hub is enabled                                                                                          |
 | AWS CIS 5.1   | Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports                                   |
 | AWS CIS 5.2   | Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports                                |
 | AWS CIS 5.3   | Ensure no security groups allow ingress from ::/0 to remote server administration ports                                     |
