@@ -33,6 +33,11 @@ export interface IamPolicy {
 export interface ApiKey {
   id: string
 }
+export interface EssentialContact {
+  id: string
+  notificationCategorySubscriptions: string[]
+  email: string
+}
 export interface Folder {
   iamPolicies: IamPolicy[]
 }
@@ -83,6 +88,7 @@ export interface QuerygcpProject {
   id: string
   iamPolicies?: IamPolicy[]
   apiKeys?: ApiKey[]
+  essentialContacts?: EssentialContact[]
 }
 
 export interface QuerygcpServiceAccount {
@@ -914,56 +920,84 @@ describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
       expect(processedRule.result).toBe(expectedResult)
     }
 
-    test('Emails subscribed all required categories', async () => {
+    test('No Security Issue when Emails subscribed all required categories', async () => {
       const data: CIS1xQueryResponse = {
-        querygcpEssentialContact: [
+        querygcpProject: [
           {
             id: cuid(),
-            notificationCategorySubscriptions: ['LEGAL', 'TECHNICAL', 'SUSPENSION', 'SECURITY'],
-            email: 'a@gmail.com'
-          },
-          {
-            id: cuid(),
-            notificationCategorySubscriptions: ['TECHNICAL_INCIDENTS', 'SECURITY', 'BILLING'],
-            email: 'b@gmail.com'
+            essentialContacts: [
+              {
+                id: cuid(),
+                notificationCategorySubscriptions: ['LEGAL', 'TECHNICAL', 'SUSPENSION', 'SECURITY'],
+                email: 'a@gmail.com'
+              },
+              {
+                id: cuid(),
+                notificationCategorySubscriptions: ['TECHNICAL_INCIDENTS', 'SECURITY', 'BILLING'],
+                email: 'b@gmail.com'
+              },
+            ],
           },
         ],
       }
       await testRule(data, Result.PASS)
     })
-    test('Emails missed one required subscription category', async () => {
+    test('Security Issue when Emails missed one required subscription category', async () => {
       const data: CIS1xQueryResponse = {
-        querygcpEssentialContact: [
-          {
-            id: cuid(),
-            notificationCategorySubscriptions: ['LEGAL', 'SUSPENSION', 'SECURITY'],
-            email: 'a@gmail.com'
-          },
-          {
-            id: cuid(),
-            notificationCategorySubscriptions: ['TECHNICAL_INCIDENTS', 'SECURITY', 'BILLING'],
-            email: 'b@gmail.com'
-          },
-        ],
+        querygcpProject: [{
+          id: cuid(),
+          essentialContacts: [
+            {
+              id: cuid(),
+              notificationCategorySubscriptions: ['LEGAL', 'SUSPENSION', 'SECURITY'],
+              email: 'a@gmail.com'
+            },
+            {
+              id: cuid(),
+              notificationCategorySubscriptions: ['TECHNICAL_INCIDENTS', 'SECURITY', 'BILLING'],
+              email: 'b@gmail.com'
+            },
+          ],
+        }]
       }
       await testRule(data, Result.FAIL)
     })
-    test('An email subscribed ALL category', async () => {
+    test('No Security Issue when an email subscribed ALL category', async () => {
       const data: CIS1xQueryResponse = {
-        querygcpEssentialContact: [
-          {
-            id: cuid(),
-            notificationCategorySubscriptions: ['LEGAL', 'TECHNICAL', 'SUSPENSION', 'SECURITY'],
-            email: 'a@gmail.com'
-          },
-          {
-            id: cuid(),
-            notificationCategorySubscriptions: ['ALL'],
-            email: 'b@gmail.com'
-          },
-        ],
+        querygcpProject: [{
+          id: cuid(),
+          essentialContacts: [
+            {
+              id: cuid(),
+              notificationCategorySubscriptions: ['LEGAL', 'TECHNICAL', 'SUSPENSION', 'SECURITY'],
+              email: 'a@gmail.com'
+            },
+            {
+              id: cuid(),
+              notificationCategorySubscriptions: ['ALL'],
+              email: 'b@gmail.com'
+            },
+          ],
+        }]
       }
       await testRule(data, Result.PASS)
+    })
+    test('Security Issue when Essential contact API is not enabled', async () => {
+      const data: CIS1xQueryResponse = {
+        querygcpProject: [{
+          id: cuid(),
+        }]
+      }
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when Essential contact is either not configured', async () => {
+      const data: CIS1xQueryResponse = {
+        querygcpProject: [{
+          id: cuid(),
+          essentialContacts: [],
+        }]
+      }
+      await testRule(data, Result.FAIL)
     })
   })
 

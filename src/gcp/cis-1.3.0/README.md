@@ -85,6 +85,9 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 2.10   | Ensure that the log metric filter and alerts exist for Cloud Storage IAM permission changes                                                                         |
 | GCP CIS 2.11   | Ensure that the log metric filter and alerts exist for SQL instance configuration changes                                                                           |
 | GCP CIS 2.12   | Ensure that Cloud DNS logging is enabled for all VPC networks                                                                                                       |
+| GCP CIS 2.13   | Ensure Cloud Asset Inventory Is Enabled                                                                                                                             |
+| GCP CIS 2.14   | Ensure 'Access Transparency' is 'Enabled'                                                                                                                           |
+| GCP CIS 2.15   | Ensure 'Access Approval' is 'Enabled'                                                                                                                         |
 | GCP CIS 3.1    | Ensure that the default network does not exist in a project                                                                                                         |
 | GCP CIS 3.2    | Ensure legacy networks do not exist for a project                                                                                                                   |
 | GCP CIS 3.3    | Ensure that DNSSEC is enabled for Cloud DNS                                                                                                                         |
@@ -94,6 +97,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 3.7    | Ensure that RDP access is restricted from the internet                                                                                                              |
 | GCP CIS 3.8    | Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network                                                                                              |
 | GCP CIS 3.9    | Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites                                                                             |
+| GCP CIS 3.10   | Use Identity Aware Proxy (IAP) to Ensure Only Traffic From Google IP Addresses are 'Allowed'                                                                        |
 | GCP CIS 4.1    | Ensure that instances are not configured to use the default service account                                                                                         |
 | GCP CIS 4.2    | Ensure that instances are not configured to use the default service account with full access to all Cloud APIs                                                      |
 | GCP CIS 4.3    | Ensure "Block Project-wide SSH keys" is enabled for VM instances                                                                                                    |
@@ -105,6 +109,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 4.9    | Ensure that Compute instances do not have public IP addresses                                                                                                       |
 | GCP CIS 4.10   | In order to maintain the highest level of security all connections to an application should be secure by default                                                    |
 | GCP CIS 4.11   | Ensure that Compute instances have Confidential Computing enabled                                                                                                   |
+| GCP CIS 4.12   | Ensure the Latest Operating System Updates Are Installed On Your Virtual Machines in All Projects                                                                   |
 | GCP CIS 5.1    | Ensure that Cloud Storage bucket is not anonymously or publicly accessible                                                                                          |
 | GCP CIS 5.2    | Ensure that Cloud Storage buckets have uniform bucket-level access enabled                                                                                          |
 | GCP CIS 6.1.1  | Ensure that a MySQL database instance does not allow anyone to connect with administrative privileges                                                               |
@@ -118,6 +123,7 @@ Policy Pack based on the GCP Foundations 1.3.0 benchmark provided by the [Center
 | GCP CIS 6.2.6  | Ensure that the 'log_min_messages' database flag for Cloud SQL PostgreSQL instance is set appropriately                                                             |
 | GCP CIS 6.2.7  | Ensure 'log_min_error_statement' database flag for Cloud SQL PostgreSQL instance is set to 'Error' or stricter                                                      |
 | GCP CIS 6.2.8  | Ensure that the 'log_min_duration_statement' database flag for Cloud SQL PostgreSQL instance is set to '-1' (disabled)                                              |
+| GCP CIS 6.2.9  | Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging                                   |
 | GCP CIS 6.3.1  | Ensure 'external scripts enabled' database flag for Cloud SQL SQL Server instance is set to 'off'                                                                   |
 | GCP CIS 6.3.2  | Ensure that the 'cross db ownership chaining' database flag for Cloud SQL SQL Server instance is set to 'off'                                                       |
 | GCP CIS 6.3.3  | Ensure 'user connections' database flag for Cloud SQL SQL Server instance is set as appropriate                                                                     |

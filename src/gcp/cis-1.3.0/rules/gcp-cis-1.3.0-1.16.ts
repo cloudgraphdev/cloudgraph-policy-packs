@@ -78,15 +78,20 @@ export default {
       email
     }
   }`,
-  resource: 'querygcpEssentialContact[1]',
+  resource: 'querygcpProject[*]',
   severity: 'unknown',
 
-  check: ({ data }: any): boolean => {
+  check: ({ resource }: any): boolean => {
+    const { essentialContacts } = resource
+    
+    if (!essentialContacts || essentialContacts.length === 0) {
+      return false
+    }
+
     const requiredCategories = ['LEGAL', 'SECURITY', 'SUSPENSION', 'TECHNICAL', 'TECHNICAL_INCIDENTS']
     const categoryAll = 'ALL'
 
-    const subscribedCategories = data.querygcpEssentialContact
-      .filter((obj: any) => !('@' in obj))
+    const subscribedCategories = essentialContacts
       .flatMap(({notificationCategorySubscriptions}: any) => notificationCategorySubscriptions)
       
     const result = requiredCategories.every((category: any) => subscribedCategories.includes(category))
