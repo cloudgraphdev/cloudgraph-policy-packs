@@ -116,4 +116,73 @@ export default {
   ],
 
   severity: 'medium',
+  gql: `{
+    queryawsS3 {
+      id
+      arn
+      accountId
+      __typename
+      policy {
+        statement {
+          effect
+          action
+          principal {
+            key
+            value
+          }
+          condition {
+            key
+            operator
+            value
+          }
+        }
+      }
+    }
+  }`,
+  resource: 'queryawsS3[*]',
+  conditions: {
+    path: '@.policy.statement',
+    array_any: {
+      and: [
+        {
+          path: '[*].effect',
+          equal: 'Deny',
+        },
+        {
+          path: '[*].principal',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                in: ['', 'AWS'],
+              },
+              {
+                path: '[*].value',
+                contains: '*',
+              },
+            ],
+          },
+        },
+        {
+          path: '[*].action',
+          contains: 's3:*',
+        },
+        {
+          path: '[*].condition',
+          array_any: {
+            and: [
+              {
+                path: '[*].key',
+                equal: 'aws:SecureTransport',
+              },
+              {
+                path: '[*].value',
+                contains: 'false',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
 }
