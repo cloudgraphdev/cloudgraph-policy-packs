@@ -6,6 +6,7 @@ import Aws_CIS_140_211 from '../rules/aws-cis-1.4.0-2.1.1'
 import Aws_CIS_140_212 from '../rules/aws-cis-1.4.0-2.1.2'
 import Aws_CIS_140_213 from '../rules/aws-cis-1.4.0-2.1.3'
 import Aws_CIS_140_215 from '../rules/aws-cis-1.4.0-2.1.5'
+import Aws_CIS_140_221 from '../rules/aws-cis-1.4.0-2.2.1'
 import Aws_CIS_140_231 from '../rules/aws-cis-1.4.0-2.3.1'
 
 export interface Condition {
@@ -49,8 +50,13 @@ export interface QueryawsS3 {
   encrypted?: string
   encryptionRules?: EncryptionRule[]
 }
+export interface QueryawsEbs {
+  id: string
+  encrypted: boolean
+}
 export interface CIS2xQueryResponse {
   queryawsS3?: QueryawsS3[]
+  queryawsEbs?: QueryawsEbs[]
   queryawsRdsDbInstance?: QueryawsRdsDbInstance[]
 }
 
@@ -354,6 +360,44 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
         'Yes',
         'No'
       )
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe('AWS CIS 2.2.1 Ensure EBS volume encryption is enabled', () => {
+    const getTestRuleFixture = (encrypted: boolean): CIS2xQueryResponse => {
+      return {
+        queryawsEbs: [
+          {
+            id: cuid(),
+            encrypted,
+          },
+        ],
+      }
+    }
+
+    // Act
+    const testRule = async (
+      data: CIS2xQueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_140_221 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when EBS volume encryption is enabled', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture(true)
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when EBS volume encryption is not enabled', async () => {
+      const data: CIS2xQueryResponse = getTestRuleFixture(false)
       await testRule(data, Result.FAIL)
     })
   })
