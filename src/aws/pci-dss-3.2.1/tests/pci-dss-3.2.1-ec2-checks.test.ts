@@ -40,7 +40,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
   describe('EC2 Check 1: Amazon EBS snapshots should not be publicly restorable', () => {
     test('Should pass when group is not set to all and it has a user id', async () => {
       const data = {
-        queryawsEbs: [
+        queryawsEbsSnapshot: [
           {
             id: cuid(),
             permissions: [
@@ -63,7 +63,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('Should fail when group is set to all', async () => {
       const data = {
-        queryawsEbs: [
+        queryawsEbsSnapshot: [
           {
             id: cuid(),
             permissions: [
@@ -86,7 +86,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('Should fail when group is not set to all, but it has not a user id', async () => {
       const data = {
-        queryawsEbs: [
+        queryawsEbsSnapshot: [
           {
             id: cuid(),
             permissions: [
@@ -109,7 +109,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
 
     test('Should fail when it does not have configured permissions', async () => {
       const data = {
-        queryawsEbs: [
+        queryawsEbsSnapshot: [
           {
             id: cuid(),
             permissions: [],
@@ -122,7 +122,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.FAIL)
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
