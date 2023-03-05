@@ -10,7 +10,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
     rulesEngine = initRuleEngine('aws', 'PCI')
   })
   describe('Autoscaling Check 1: Auto Scaling groups associated with a load balancer should use health checks', () => {
-    test('Should fail when it contains an invalid health check type and zero load balancers', async () => {
+    test('Should pass when it contains an invalid health check type and zero load balancers', async () => {
       const data = {
         queryawsAsg: [
           {
@@ -26,10 +26,29 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         { ...data } as any
       )
 
+      expect(processedRule.result).toBe(Result.PASS)
+    })
+
+    test('Should fail when it contains an invalid health check type and at least one load balancer', async () => {
+      const data = {
+        queryawsAsg: [
+          {
+            id: cuid(),
+            loadBalancerNames: ['alb_1', 'alb2'],
+            healthCheckType: 'EC2',
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_Autoscaling_1 as Rule,
+        { ...data } as any
+      )
+
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should fail when it contains a valid health check type and zero load balancers', async () => {
+    test('Should pass when it contains a valid health check type and zero load balancers', async () => {
       const data = {
         queryawsAsg: [
           {
@@ -45,7 +64,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         { ...data } as any
       )
 
-      expect(processedRule.result).toBe(Result.FAIL)
+      expect(processedRule.result).toBe(Result.PASS)
     })
 
     test('Should pass when it contains a valid health check type and at least one load balancer', async () => {
