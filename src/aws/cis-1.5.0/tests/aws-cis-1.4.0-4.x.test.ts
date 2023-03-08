@@ -16,6 +16,7 @@ import Aws_CIS_150_412 from '../rules/aws-cis-1.5.0-4.12'
 import Aws_CIS_150_413 from '../rules/aws-cis-1.5.0-4.13'
 import Aws_CIS_150_414 from '../rules/aws-cis-1.5.0-4.14'
 import Aws_CIS_150_415 from '../rules/aws-cis-1.5.0-4.15'
+import Aws_CIS_150_416 from '../rules/aws-cis-1.5.0-4.16'
 import { initRuleEngine } from '../../../utils/test'
 
 const Aws_CIS_150_41_Filter_Pattern =
@@ -91,9 +92,13 @@ export interface QueryawsCloudtrailEntity {
   eventSelectors: EventSelectorsEntity[]
   cloudwatchLog: CloudwatchLogEntity[]
 }
+export interface QueryawsSecurityHub {
+  id: string
+}
 export interface QueryAccount {
   id: string
   cloudtrail: QueryawsCloudtrailEntity[]
+  securityHub?: QueryawsSecurityHub[]
 }
 
 export interface QueryResponse {
@@ -917,6 +922,55 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       const data = get4xValidResponse(Aws_CIS_150_415_Filter_Pattern)
       data.queryawsAccount[0].cloudtrail[0].cloudwatchLog[0].cloudwatch[1].sns[0].subscriptions =
         []
+      await testRule(data, Result.FAIL)
+    })
+  })
+  describe('AWS CIS 4.16 Ensure AWS Security Hub is enabled', () => {
+    const testRule = async (
+      data: QueryResponse,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_CIS_150_416 as Rule,
+        { ...data }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test('No Security Issue when Security Hub is enabled', async () => {
+      const data = {queryawsAccount: [
+        {
+          id: cuid(),
+          cloudtrail: [],
+          securityHub: [
+            {
+              id: 'securityHubID'
+            }
+          ]
+        }
+      ]}
+      await testRule(data, Result.PASS)
+    })
+    test('Security Issue when Security Hub is disabled', async () => {
+      const data = {queryawsAccount: [
+        {
+          id: cuid(),
+          cloudtrail: []
+        }
+      ]}
+      await testRule(data, Result.FAIL)
+    })
+    test('Security Issue when Security Hub is not configured', async () => {
+      const data = {queryawsAccount: [
+        {
+          id: cuid(),
+          cloudtrail: [],
+          securityHub: []
+        }
+      ]}
       await testRule(data, Result.FAIL)
     })
   })

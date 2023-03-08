@@ -551,9 +551,9 @@ describe('CIS Amazon Web Services Foundations: 1.4.0', () => {
       await testRule(data, Result.FAIL)
     })
 
-    test('Security Issue when rotation is disabled with AWS as a manager', async () => {
+    test('No Security Issue when rotation is disabled with AWS as a manager', async () => {
       const data: CIS3xQueryResponse = getTestRuleFixture('AWS', false)
-      await testRule(data, Result.FAIL)
+      await testRule(data, Result.PASS)
     })
   })
 

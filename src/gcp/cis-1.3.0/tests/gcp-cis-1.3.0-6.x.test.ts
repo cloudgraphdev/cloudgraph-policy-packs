@@ -13,6 +13,7 @@ import Gcp_CIS_130_625 from '../rules/gcp-cis-1.3.0-6.2.5'
 import Gcp_CIS_130_626 from '../rules/gcp-cis-1.3.0-6.2.6'
 import Gcp_CIS_130_627 from '../rules/gcp-cis-1.3.0-6.2.7'
 import Gcp_CIS_130_628 from '../rules/gcp-cis-1.3.0-6.2.8'
+import Gcp_CIS_130_629 from '../rules/gcp-cis-1.3.0-6.2.9'
 import Gcp_CIS_130_631 from '../rules/gcp-cis-1.3.0-6.3.1'
 import Gcp_CIS_130_632 from '../rules/gcp-cis-1.3.0-6.3.2'
 import Gcp_CIS_130_633 from '../rules/gcp-cis-1.3.0-6.3.3'
@@ -878,6 +879,97 @@ describe('CIS Google Cloud Platform Foundations: 1.3.0', () => {
     test("Security Issue when the POSTGRES instances do have a 'log_min_duration_statement' database flag set to '100'", async () => {
       const data = getRuleFixture()
       data.settings.databaseFlags[0].value = '100'
+      await testRule(data, Result.FAIL)
+    })
+  })
+
+  describe("GCP CIS 6.2.9 Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging", () => {
+    const getRuleFixture = (): SqlInstances => {
+      return {
+        id: 'db-id',
+        databaseVersion: 'POSTGRES',
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'cloudsql.enable_pgaudit',
+              value: 'on',
+            },
+          ],
+        },
+      }
+    }
+
+    const testRule = async (
+      data: SqlInstances,
+      expectedResult: Result
+    ): Promise<void> => {
+      // Act
+      const [processedRule] = await rulesEngine.processRule(
+        Gcp_CIS_130_629 as Rule,
+        { querygcpSqlInstance: [data] }
+      )
+
+      // Asserts
+      expect(processedRule.result).toBe(expectedResult)
+    }
+
+    test("No Security Issue when all POSTGRES instances have the 'cloudsql.enable_pgaudit' set to 'on'", async () => {
+      const data = {
+        id: 'db-id',
+        databaseVersion: 'POSTGRES',
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'dummy_key',
+              value: 'on',
+            },
+            {
+              name: 'cloudsql.enable_pgaudit',
+              value: 'on',
+            },
+          ],
+        },
+      }
+      await testRule(data, Result.PASS)
+    })
+
+    test('Security Issue when the POSTGRES instances have no database flags', async () => {
+      const data = getRuleFixture()
+      data.settings.databaseFlags = []
+      await testRule(data, Result.FAIL)
+    })
+
+    test("Security Issue when the POSTGRES instances do NOT have a 'cloudsql.enable_pgaudit' database flag", async () => {
+      const data = getRuleFixture()
+      data.settings.databaseFlags = [
+        {
+          name: 'dummy_key',
+          value: '-1',
+        },
+      ]
+      await testRule(data, Result.FAIL)
+    })
+
+    test("Security Issue when the POSTGRES instances do have a 'cloudsql.enable_pgaudit' database flag set to 'off'", async () => {
+      const data = {
+        id: 'db-id',
+        databaseVersion: 'POSTGRES',
+        name: 'test-postgres-instance',
+        settings: {
+          databaseFlags: [
+            {
+              name: 'dummy_key',
+              value: 'on',
+            },
+            {
+              name: 'cloudsql.enable_pgaudit',
+              value: 'off',
+            },
+          ],
+        },
+      }
       await testRule(data, Result.FAIL)
     })
   })
