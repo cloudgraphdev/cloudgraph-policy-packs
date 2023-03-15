@@ -101,6 +101,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -131,6 +132,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -157,6 +159,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -187,6 +190,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -206,6 +210,33 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       )
 
       expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when IAM policies that allow full "*:*" administrative privileges for AdministratorAccess policy', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            name: 'AdministratorAccess',
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_3 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
