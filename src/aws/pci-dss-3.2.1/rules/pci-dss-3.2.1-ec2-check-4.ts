@@ -34,9 +34,7 @@ export default {
       accountId
       __typename
       instanceId
-      ec2Instance {
-        arn
-      }
+      ec2InstanceAssociationId
     }
   }`,
   resource: 'queryawsEip[*]',
@@ -48,8 +46,8 @@ export default {
         notEqual: null,
       },
       {
-        path: '@.ec2Instance',
-        isEmpty: false,
+        path: '@.ec2InstanceAssociationId',
+        notEqual: null,
       },
     ],
   },
