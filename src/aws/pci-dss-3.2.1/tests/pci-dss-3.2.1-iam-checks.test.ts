@@ -18,12 +18,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
   })
 
   describe('IAM Check 1: IAM root user access key should not exist', () => {
-    test('Should fail when it finds a user called root', async () => {
+    test('Should fail when root account has at least one access key active', async () => {
       const data = {
         queryawsIamUser: [
           {
             id: cuid(),
             name: 'root',
+            accessKeysActive: true,
           },
         ],
       }
@@ -36,12 +37,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should pass when it does not find a user called root', async () => {
+    test('Should pass when a root account does not have any access key active', async () => {
       const data = {
         queryawsIamUser: [
           {
             id: cuid(),
-            name: 'user',
+            name: 'root',
+            accessKeysActive: false,
           },
         ],
       }
