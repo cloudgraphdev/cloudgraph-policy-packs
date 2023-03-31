@@ -12,7 +12,7 @@ export default {
   audit: `Via the Management Console:
 
   1. Sign in to the AWS Management Console and open the IAM console at https://console.aws.amazon.com/iam.
-  2. In the left navigation pane, choose E*ncryption Keys*.
+  2. In the left navigation pane, choose *Encryption Keys*.
   3. Select a customer created master key (CMK)
   4. Under the *Key Policy* section, move down to *Key Rotation*.
   5. Ensure the *Rotate this key every year* checkbox is checked.
@@ -52,7 +52,7 @@ export default {
       id
       arn
       accountId
-       __typename
+      __typename
       keyManager
       keyRotationEnabled
     }
@@ -62,16 +62,8 @@ export default {
   conditions: {
     or: [
       {
-        and: [
-          {
-            path: '@.keyManager',
-            equal: 'AWS',
-          },
-          {
-            path: '@.keyRotationEnabled',
-            equal: true,
-          },
-        ],
+        path: '@.keyManager',
+        equal: 'AWS',
       },
       {
         and: [

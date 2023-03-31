@@ -43,15 +43,17 @@ export default {
   resource: 'queryawsAsg[*]',
   severity: 'low',
   conditions: {
-    and: [
-      {
-        path: '@.healthCheckType',
-        equal: 'ELB',
-      },
-      {
-        path: '@.loadBalancerNames',
-        isEmpty: false,
-      },
-    ],
+    not: {
+      and: [
+        {
+          path: '@.healthCheckType',
+          equal: 'EC2',
+        },
+        {
+          path: '@.loadBalancerNames',
+          isEmpty: false,
+        },
+      ]
+    },
   },
 }

@@ -43,7 +43,7 @@ export default {
     'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html',
   ],
   gql: `{
-    queryawsEbs {
+    queryawsEbsSnapshot {
       id
       arn
       accountId
@@ -54,13 +54,13 @@ export default {
       }
     }
   }`,
-  resource: 'queryawsEbs[*]',
+  resource: 'queryawsEbsSnapshot[*]',
   severity: 'low',
   conditions: {
-    and: [
+    or:[
       {
         path: '@.permissions',
-        isEmpty: false,
+          isEmpty: true,
       },
       {
         path: '@.permissions',
@@ -73,7 +73,7 @@ export default {
             },
           ],
         },
-      },
-    ],
+      }
+    ]
   },
 }

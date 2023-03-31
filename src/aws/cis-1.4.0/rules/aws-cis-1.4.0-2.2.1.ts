@@ -54,4 +54,18 @@ export default {
   ],
 
   severity: 'medium',
+  gql: `{
+    queryawsEbs {
+      id
+      arn
+      accountId
+      __typename
+      encrypted
+    }
+  }`,
+  resource: 'queryawsEbs[*]',
+  conditions: {
+    path: '@.encrypted',
+    equal: true,
+  },
 }

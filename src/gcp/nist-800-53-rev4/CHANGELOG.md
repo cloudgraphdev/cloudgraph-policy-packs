@@ -1,3 +1,16 @@
+# [@cloudgraph/policy-pack-gcp-nist-800-53-rev4-v1.2.0-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-nist-800-53-rev4@1.1.1...@cloudgraph/policy-pack-gcp-nist-800-53-rev4@1.2.0-alpha.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **pnpm:** using semantic-release-pnpm ([eb9f3f2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/eb9f3f22e85375b79be205c62adc09aa60628343))
+
+
+### Features
+
+* **CG-1151:** support gcp nist IAM default audit log config check ([b821ecf](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/b821ecfe243ce1df874374834b39193d685ad623))
+* Update rules and sdk package version ([450b676](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/450b676836834634190c792e5a0e311dd41e5551))
+
 # [@cloudgraph/policy-pack-gcp-nist-800-53-rev4-v1.2.0](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-nist-800-53-rev4@1.1.1...@cloudgraph/policy-pack-gcp-nist-800-53-rev4@1.2.0) (2022-08-01)
 
 

@@ -1,14 +1,14 @@
 {
   "name": "@cloudgraph/policy-pack-aws-cis-1.4.0",
   "description": "Policy pack implementing CIS Amazon Web Services Foundations 1.4.0 Benchmark",
-  "version": "0.3.0",
+  "version": "0.3.1-alpha.1",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cloudgraphdev/cloudgraph-policy-packs.git",
+    "url": "git@github.com:cloudgraphdev/cloudgraph-policy-packs.git",
     "directory": "src/aws/cis-1.4.0"
   },
   "bugs": {
@@ -54,10 +54,11 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "pnpm prepack",
+    "build": "npm run prepack",
     "clean": "rm -rf dist",
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "release": "npx semantic-release --no-ci -e semantic-release-monorepo"
   }
 }

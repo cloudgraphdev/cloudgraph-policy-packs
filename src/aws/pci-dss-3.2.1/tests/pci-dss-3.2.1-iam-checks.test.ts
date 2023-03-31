@@ -18,12 +18,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
   })
 
   describe('IAM Check 1: IAM root user access key should not exist', () => {
-    test('Should fail when it finds a user called root', async () => {
+    test('Should fail when root account has at least one access key active', async () => {
       const data = {
         queryawsIamUser: [
           {
             id: cuid(),
             name: 'root',
+            accessKeysActive: true,
           },
         ],
       }
@@ -36,12 +37,13 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       expect(processedRule.result).toBe(Result.FAIL)
     })
 
-    test('Should pass when it does not find a user called root', async () => {
+    test('Should pass when a root account does not have any access key active', async () => {
       const data = {
         queryawsIamUser: [
           {
             id: cuid(),
-            name: 'user',
+            name: 'root',
+            accessKeysActive: false,
           },
         ],
       }
@@ -101,6 +103,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -131,6 +134,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -157,6 +161,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -187,6 +192,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
         queryawsIamPolicy: [
           {
             id: cuid(),
+            name: 'AdministratorAccess-Amplify',
             policyContent: {
               statement: [
                 {
@@ -206,6 +212,33 @@ describe('PCI Data Security Standard: 3.2.1', () => {
       )
 
       expect(processedRule.result).toBe(Result.FAIL)
+    })
+
+    test('Should pass when IAM policies that allow full "*:*" administrative privileges for AdministratorAccess policy', async () => {
+      const data = {
+        queryawsIamPolicy: [
+          {
+            id: cuid(),
+            name: 'AdministratorAccess',
+            policyContent: {
+              statement: [
+                {
+                  effect: 'Allow',
+                  action: ['*'],
+                  resource: ['*'],
+                },
+              ],
+            },
+          },
+        ],
+      }
+
+      const [processedRule] = await rulesEngine.processRule(
+        Aws_PCI_DSS_321_IAM_3 as Rule,
+        { ...data } as any
+      )
+
+      expect(processedRule.result).toBe(Result.PASS)
     })
   })
 
