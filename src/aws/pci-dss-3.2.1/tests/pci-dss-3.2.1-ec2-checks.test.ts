@@ -199,11 +199,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             instanceId: cuid(),
-            ec2Instance: [
-              {
-                arn: cuid(),
-              },
-            ],
+            ec2InstanceAssociationId: cuid(),
           },
         ],
       }
@@ -222,7 +218,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
           {
             id: cuid(),
             instanceId: null,
-            ec2Instance: [],
+            ec2InstanceAssociationId: null,
           },
         ],
       }

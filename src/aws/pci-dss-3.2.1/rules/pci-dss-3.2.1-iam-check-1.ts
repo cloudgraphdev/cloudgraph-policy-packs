@@ -34,18 +34,19 @@ export default {
     'https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-pci-controls.html',
   ],
   gql: `{
-    queryawsIamUser {
+    queryawsIamUser(filter: { name: { eq: "root" } }) {
       id
       arn
       accountId
-      __typename
-      name
+       __typename
+      accessKeysActive
     }
   }`,
+  exclude: { not: { path: '@.name', equal: 'root' } },
   resource: 'queryawsIamUser[*]',
   severity: 'high',
   conditions: {
-    path: '@.name',
-    notEqual: 'root',
+    path: '@.accessKeysActive',
+    equal: false,
   },
 }
