@@ -1,3 +1,0 @@
-packages:
-  # All subdirectories of the src directory
-  - "src/**"

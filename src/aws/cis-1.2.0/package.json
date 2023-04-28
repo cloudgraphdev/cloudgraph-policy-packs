@@ -59,6 +59,6 @@
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
     "test": "jest",
-    "release": "npx semantic-release --no-ci"
+    "release": "npx semantic-release"
   }
 }
