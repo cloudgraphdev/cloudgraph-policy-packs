@@ -27,12 +27,11 @@
     "singleQuote": true
   },
   "scripts": {
-    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN pnpm -r --workspace-concurrency=1 exec -- npx --no-install semantic-release -e semantic-release-monorepo",
-    "clean": "pnpm -r --workspace-concurrency=1 exec -- pnpm clean",
-    "lint": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint",
-    "lint:fix": "pnpm -r --workspace-concurrency=1 exec -- pnpm lint:fix",
-    "build": "pnpm -r --workspace-concurrency=1 exec -- pnpm build",
-    "test": "pnpm -r --workspace-concurrency=1 exec -- pnpm test"
+    "release": "NODE_AUTH_TOKEN=$NPM_TOKEN NPM_CONFIG_IGNORE_SCRIPTS='true' NODE_JQ_SKIP_INSTALL_BINARY='true' npm run release --workspaces --ignore-scripts",
+    "clean": "npm run clean --workspaces",
+    "lint": "npm run lint --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
   },
   "dependencies": {
     "@cloudgraph/sdk": "0.21.1",
