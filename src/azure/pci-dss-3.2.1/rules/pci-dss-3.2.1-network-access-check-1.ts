@@ -1,5 +1,6 @@
 // similar to CIS 6.3
 export default {
+
   id: 'pci-dss-3.2.1-network-access-check-1',  
   title: 'Network Access Check 1: MySQL Database server firewall rules should not permit start and end IP addresses to be 0.0.0.0',
   
