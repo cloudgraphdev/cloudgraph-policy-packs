@@ -1,3 +1,10 @@
+## [0.14.1-alpha.2](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.14.1-alpha.1...@cloudgraph/policy-pack-aws-cis-1.2.0@0.14.1-alpha.2) (2023-05-17)
+
+
+### Bug Fixes
+
+* fix rule publication ([05da425](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/05da4255583ed119a06ca01710e194b62e2d2499))
+
 ## [0.14.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-aws-cis-1.2.0@0.14.0...@cloudgraph/policy-pack-aws-cis-1.2.0@0.14.1-alpha.1) (2023-05-17)
 
 
