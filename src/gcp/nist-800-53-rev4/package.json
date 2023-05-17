@@ -1,7 +1,7 @@
 {
   "name": "@cloudgraph/policy-pack-gcp-nist-800-53-rev4",
   "description": "Policy pack implementing The National Institute of Standards and Technology 800-53 Rev. 4 Benchmark for Google Cloud services",
-  "version": "1.2.0",
+  "version": "1.2.1-alpha.2",
   "author": "AutoCloud",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -58,6 +58,6 @@
     "lint": "eslint",
     "prepack": "rm -rf dist && tsc -b",
     "test": "NODE_ENV=test jest",
-    "release": "npx semantic-release --no-ci"
+    "release": "npx semantic-release"
   }
 }

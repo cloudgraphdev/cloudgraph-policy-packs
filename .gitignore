@@ -1,15 +1,5 @@
 # NPM Cruft
-/package-lock.json
 node_modules
-
-# Yarn 2 Assets
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
 
 # Error logs
 *-debug.log

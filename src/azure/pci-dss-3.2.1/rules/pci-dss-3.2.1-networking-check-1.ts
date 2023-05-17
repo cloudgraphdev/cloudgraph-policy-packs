@@ -81,6 +81,7 @@ export default {
     ]
     return !rules.some((rule: any) => {
       return (
+        rule &&
         rule.direction === 'Inbound' &&
         rule.access === 'Allow' &&
         ['TCP', 'Tcp', '*'].includes(rule.protocol) &&
