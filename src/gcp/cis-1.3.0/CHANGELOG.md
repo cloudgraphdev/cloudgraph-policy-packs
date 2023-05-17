@@ -1,3 +1,10 @@
+## [1.0.1-alpha.1](https://github.com/cloudgraphdev/cloudgraph-policy-packs/compare/@cloudgraph/policy-pack-gcp-cis-1.3.0@1.0.0...@cloudgraph/policy-pack-gcp-cis-1.3.0@1.0.1-alpha.1) (2023-05-17)
+
+
+### Bug Fixes
+
+* **checks:** Cannot read properties of undefined (reading 'direction') ([700a3de](https://github.com/cloudgraphdev/cloudgraph-policy-packs/commit/700a3de4f5a7893aa9cba2238be485dc2254e7a6))
+
 # 1.0.0 (2023-04-28)
 
 
