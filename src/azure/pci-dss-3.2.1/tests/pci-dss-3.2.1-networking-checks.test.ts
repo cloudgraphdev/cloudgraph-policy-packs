@@ -102,6 +102,7 @@ describe('PCI Data Security Standard: 3.2.1', () => {
                         destinationPortRanges:
                           fromPort && toPort ? [`${fromPort}-${toPort}`] : [],
                       },
+                      undefined as unknown as SecurityRule
                     ],
                   },
                 ],
